@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.view.EnergyBank;
+
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -47,6 +49,10 @@ public class Player extends Subject {
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
+
+    private int energyReserve;   //the players own energy reserve
+     
+
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -132,5 +138,31 @@ public class Player extends Subject {
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
+
+
+    /**
+     * @author Petrine
+     * 
+     * 
+     */
+    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort
+        this.energyReserve = 0;  //starter med 0 cubes i robottens reserve
+        
+        if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+            this.energyReserve++;
+            return true;
+        } else {  //hvis banken er tom tilføjes ingen cubes
+            return false;
+        }
+    
+            
+
+        }
+    }
+    
+
+
+
+
 
 }
