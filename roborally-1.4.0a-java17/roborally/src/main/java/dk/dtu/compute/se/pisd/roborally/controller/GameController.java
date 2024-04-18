@@ -113,7 +113,7 @@ public class GameController {
         player.setHeading(playerHeading.prev());
     }
 
-    public void turn180(@NotNull Player player) {
+    public void uTurn(@NotNull Player player) {
         for (int i = 1; i <= 2; i++){
             turnLeft(player);
         }
@@ -255,8 +255,8 @@ public class GameController {
                     this.moveThreeForward(player);
                     break;
 
-                case TURN_180:
-                    this.turn180(player);
+                case U_TURN:
+                    this.uTurn(player);
                     break;
 
                 default:
