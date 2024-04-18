@@ -39,7 +39,12 @@ public class GameController {
     }
 
 
-
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
+    
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
@@ -60,16 +65,31 @@ public class GameController {
 
     // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
-
+        for (int i = 0; i < 5; i++) {
+            moveForward(player);
+        }
     }
 
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     // TODO Assignment A3
     public void turnRight(@NotNull Player player) {
-
+        Heading playerHeading = player.getHeading();
+        player.setHeading(playerHeading.next());
     }
 
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     // TODO Assignment A3
     public void turnLeft(@NotNull Player player) {
+        Heading playerHeading = player.getHeading();
+        player.setHeading(playerHeading.prev());
 
     }
 
