@@ -38,12 +38,6 @@ public class GameController {
         this.board = board;
     }
 
-
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
@@ -63,6 +57,11 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
