@@ -38,6 +38,7 @@ public enum Command {
     FORWARD("Fwd"),
     RIGHT("Turn Right"),
     LEFT("Turn Left"),
+    TURN_180("Turn 180"),
     FAST_FORWARD("Fast Fwd"),
     MOVE_TWO("2x Fwd"),
     MOVE_THREE("3x Fwd"),

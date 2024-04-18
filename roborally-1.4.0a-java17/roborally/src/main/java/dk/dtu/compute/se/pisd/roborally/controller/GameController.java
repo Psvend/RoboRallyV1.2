@@ -111,7 +111,12 @@ public class GameController {
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.prev());
+    }
 
+    public void turn180(@NotNull Player player) {
+        for (int i = 1; i <= 2; i++){
+            turnLeft(player);
+        }
     }
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
@@ -248,6 +253,10 @@ public class GameController {
 
                 case MOVE_THREE:
                     this.moveThreeForward(player);
+                    break;
+
+                case TURN_180:
+                    this.turn180(player);
                     break;
 
                 default:
