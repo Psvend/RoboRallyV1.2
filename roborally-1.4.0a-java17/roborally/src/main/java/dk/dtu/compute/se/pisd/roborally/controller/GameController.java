@@ -56,6 +56,28 @@ public class GameController {
             }
         }
     }
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
+
+    public void moveTwoForward(@NotNull Player player) {
+        for (int i = 0; i < 2; i++) {
+            moveForward(player);
+        }
+    }
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
+
+    public void moveThreeForward(@NotNull Player player) {
+        for (int i = 0; i < 3; i++) {
+            moveForward(player);
+        }
+    }
 
     /**
      * @author Louise
@@ -214,6 +236,20 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                /**
+                 * @author Louise
+                 * @param player
+                 * @return none
+                 */
+
+                case MOVE_TWO:
+                    this.moveTwoForward(player);
+                    break;
+
+                case MOVE_THREE:
+                    this.moveThreeForward(player);
+                    break;
+
                 default:
                     // DO NOTHING (for now)
             }
