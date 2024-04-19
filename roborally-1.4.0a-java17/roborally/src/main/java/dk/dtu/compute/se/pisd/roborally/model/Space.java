@@ -42,7 +42,7 @@ public class Space extends Subject {
 
     public final Board board;
 
-    public final int x;
+    public final static int x;
     public final int y;
 
     public Space(Board board, int x, int y) {
