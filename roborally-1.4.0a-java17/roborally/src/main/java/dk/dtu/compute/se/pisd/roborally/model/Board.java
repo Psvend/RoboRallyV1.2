@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.view.EnergyBank;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -55,9 +57,12 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    public Board(int width, int height) {
+    private EnergyBank energyBank;
+
+    public Board(int width, int height, int initialCubes) {
         this.width = width;
         this.height = height;
+        this.energyBank = new EnergyBank(50);
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -162,6 +167,7 @@ public class Board extends Subject {
         }
     }
 
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
@@ -214,4 +220,14 @@ public class Board extends Subject {
 
         return "";
     }
+
+
+    public EnergyBank getEnergyBank() {
+        return energyBank;
+    }
+
+    
+
+
+
 }

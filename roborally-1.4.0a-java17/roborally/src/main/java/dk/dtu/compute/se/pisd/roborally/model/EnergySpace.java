@@ -1,7 +1,21 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.StackPane;
+
+/**
+ * @author Petrine
+ * 
+ */
+
 
 public class EnergySpace extends Space{
     
@@ -9,24 +23,31 @@ public class EnergySpace extends Space{
 
     public EnergySpace(Board board, int x, int y) {
         super(board, x, y);  //space on the board
+        this.hasEnergyCube = true;  //initialiserer space med cube
+
+
+        //håndterer når en spiller lander på et felt med en energy cube på sig
         FieldAction energyAction = new FieldAction() {
             @Override
-            public void doAction(Player player) {
-                if (hasEnergyCube && player != null) {
+            public boolean doAction(GameController gameController, Space space) {
+                Player player = space.getPlayer();
+
+                //tjekker om der er en spiller og om energy space har en cube
+                if(player != null && hasEnergyCube) {
                     if(player.addEnergyCube(board.getEnergyBank())) {
-                        hasEnergyCube = false;
+                            hasEnergyCube = false; 
+                            notifyChange();   //underretter alle om at der er sket en opdatering, involverer bl.a. player view
+                            return true;
                     }
                 }
+                return false;
             }
-
-            @Override
-            public boolean doAction(GameController gameController, Space space) {
-                // TODO Auto-generated method stub
-                throw new UnsupportedOperationException("Unimplemented method 'doAction'");
-            }
+            
         };
         this.getActions().add(energyAction);
-    }
+        
+        }
+    
 
 
     //kan fylde den op med en cube igen hvis ønsket
@@ -38,5 +59,8 @@ public class EnergySpace extends Space{
     public boolean hasEnergyCube() {
         return this.hasEnergyCube;
     }
+
+
+
 
 }
