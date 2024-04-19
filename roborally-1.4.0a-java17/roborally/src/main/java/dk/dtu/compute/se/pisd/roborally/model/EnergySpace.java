@@ -13,7 +13,8 @@ import javafx.scene.layout.StackPane;
 
 /**
  * @author Petrine
- * 
+ * The design of the energy space. Is connected to a player, by checking if the player is on its field.
+ * If the player is on the field, and the space has a cube, the player will get one added to its energyReserve
  */
 
 
