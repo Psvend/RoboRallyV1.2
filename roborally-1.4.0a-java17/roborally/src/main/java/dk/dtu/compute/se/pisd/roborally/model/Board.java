@@ -59,7 +59,7 @@ public class Board extends Subject {
 
     private EnergyBank energyBank;
 
-    public Board(int width, int height, int initialCubes) {
+    public Board(int width, int height) {
         this.width = width;
         this.height = height;
         this.energyBank = new EnergyBank(50);
