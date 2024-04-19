@@ -45,7 +45,7 @@ public class Board extends Subject {
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
 
@@ -226,8 +226,19 @@ public class Board extends Subject {
         return energyBank;
     }
 
+    private void initEnergySpaces() {
+        int[][] energySpacePositions = {{1, 1}, {3, 6}, {7,8},{2,5}};
+            //for(int[] position : energySpacePositions) {
+                //int x = position[0];
+                //int y = position[1];
+                spaces[1][1] = new EnergySpace(this, 1, 1);
+                spaces[3][6] = new EnergySpace(this, 3, 6);
+                spaces[7][8] = new EnergySpace(this, 7, 8);
+                spaces[2][5] = new EnergySpace(this, 2, 5);
+            }
+    }
     
 
 
 
-}
+//}
