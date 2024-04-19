@@ -30,10 +30,14 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+
+
 
 /**
  * ...
@@ -86,8 +90,12 @@ public class BoardView extends VBox implements ViewObserver {
                 Space space = board.getSpace(x, y);
                 SpaceView spaceView;
                 if(space instanceof EnergySpace) {
-                    spaceView = new SpaceView(space);
-                    //tilføjer billede 
+                    spaceView = new EnergySpaceView(space); //ved ikke om den er korrekt
+
+                    //tilføjer billede (OPDATER)
+                    Image energyImage = new Image("file:graphics\\bolt.png");
+                    ImageView energyView = new ImageView(energyImage);
+                    this.getChildren().add(energyView);  //adds to view
                 } else {
                     spaceView = new SpaceView(space);
                 }
