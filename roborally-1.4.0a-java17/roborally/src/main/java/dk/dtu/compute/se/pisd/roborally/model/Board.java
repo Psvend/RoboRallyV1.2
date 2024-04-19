@@ -227,7 +227,7 @@ public class Board extends Subject {
     }
 
     private void initEnergySpaces() {
-        int[][] energySpacePositions = {{1, 1}, {3, 6}, {7,8},{2,5}};
+        //int[][] energySpacePositions = {{1, 1}, {3, 6}, {7,8},{2,5}};
             //for(int[] position : energySpacePositions) {
                 //int x = position[0];
                 //int y = position[1];
