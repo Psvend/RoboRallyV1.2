@@ -1,24 +1,33 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+
 public class EnergySpace extends Space{
     
     private boolean hasEnergyCube;
 
-    public EnergySpace(Board board) {
-        super(board, x, x);  //space on the board
-        this.hasEnergyCube = true;  //an energy space will contain an energy cube initially
-    }
-
-
-    //When a player ends their fifth register on an energy space
-    @Override
-    public void action(Player player) {
-        if(this.hasEnergyCube && player != null) {
-            if(player.addEnergyCube(board.getEnergyBank())) {  //board has to have an energy bank method!
-                this.hasEnergyCube = false; //cube gets collected, so now empty
+    public EnergySpace(Board board, int x, int y) {
+        super(board, x, y);  //space on the board
+        FieldAction energyAction = new FieldAction() {
+            @Override
+            public void doAction(Player player) {
+                if (hasEnergyCube && player != null) {
+                    if(player.addEnergyCube(board.getEnergyBank())) {
+                        hasEnergyCube = false;
+                    }
+                }
             }
-        }
+
+            @Override
+            public boolean doAction(GameController gameController, Space space) {
+                // TODO Auto-generated method stub
+                throw new UnsupportedOperationException("Unimplemented method 'doAction'");
+            }
+        };
+        this.getActions().add(energyAction);
     }
+
 
     //kan fylde den op med en cube igen hvis ønsket
     public void resetEnergyCube() {
