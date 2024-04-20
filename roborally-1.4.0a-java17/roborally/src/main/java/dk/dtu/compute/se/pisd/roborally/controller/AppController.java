@@ -42,6 +42,7 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,6 +103,21 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("save");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialFileName("gamesave.json");
+        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file =fileChooser.showOpenDialog(null);
+        if(file !=null) {
+            Board board = new Board(8, 8);
+            String save = "save";
+            LoadBoard.saveBoard(board, save);
+            System.out.println("Saving game to: " + file.getAbsolutePath());
+        }
+
         Board board = gameController.board;
         LoadBoard.saveBoard(board, "save");
 
@@ -112,6 +128,21 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load");
+        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file =fileChooser.showOpenDialog(null);
+        if(file !=null) {
+            if (gameController == null) {
+                String save = null;
+                Board defalut = LoadBoard.loadBoard(save);
+                gameController = new GameController(defalut);
+
+
+            }
+        }
         Board defalut = LoadBoard.loadBoard("save");
         gameController = new GameController(defalut);
         gameController.startProgrammingPhase();
