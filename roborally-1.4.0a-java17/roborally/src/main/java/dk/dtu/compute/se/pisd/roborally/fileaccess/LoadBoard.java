@@ -47,10 +47,11 @@ public class LoadBoard {
 
 
     public static Board loadBoard(String boardname) {
+
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
-
+        //File filename = new File(boardname);
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
@@ -64,10 +65,10 @@ public class LoadBoard {
         Gson gson = simpleBuilder.create();
 
 		Board result;
-		// FileReader fileReader = null;
+		//FileReader fileReader = null;
         JsonReader reader = null;
 		try {
-			// fileReader = new FileReader(filename);
+			//fileReader = new FileReader(filename);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
 			BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
 
