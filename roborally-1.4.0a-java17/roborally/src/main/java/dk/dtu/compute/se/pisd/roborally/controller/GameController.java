@@ -55,6 +55,11 @@ public class GameController {
             }
         }
     }
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
 
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
@@ -130,6 +135,11 @@ public class GameController {
         player.setHeading(playerHeading.prev());
     }
 
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     public void uTurn(@NotNull Player player) {
         for (int i = 1; i <= 2; i++){
             turnLeft(player);
