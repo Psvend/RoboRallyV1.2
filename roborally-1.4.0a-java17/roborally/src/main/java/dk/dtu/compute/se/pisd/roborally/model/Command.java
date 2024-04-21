@@ -36,6 +36,7 @@ public enum Command {
     // This is a very simplistic way of realizing different commands.
 
     FORWARD("Fwd"),
+    BACKWARD("Bwd"),
     RIGHT("Turn Right"),
     LEFT("Turn Left"),
     U_TURN("U-turn"),
