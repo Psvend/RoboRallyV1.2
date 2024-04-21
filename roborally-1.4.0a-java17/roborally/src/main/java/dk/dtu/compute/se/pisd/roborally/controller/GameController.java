@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -37,6 +38,7 @@ public class GameController {
     public GameController(Board board) {
         this.board = board;
     }
+
 
     
     public void moveForward(@NotNull Player player) {
@@ -130,6 +132,7 @@ public class GameController {
      * @return none
      */
     // TODO Assignment A3
+
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.prev());
@@ -145,6 +148,33 @@ public class GameController {
             turnLeft(player);
         }
     }
+
+    /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
+    public void again(@NotNull Player player){
+
+        //for (int i = 0; i <= 5; i++ ){ //Should be made with the number of cards the player want to execute in the given turn.
+        //    String card = player.getProgramField(i).getCard().getName();
+        //    if (card == "Prvs command"){
+        //        Command command = player.getProgramField(i-1).getCard().command;
+        //        executeCommand(player, command);
+        //    }
+        //}
+        int step = board.getStep();
+        if (step > 0 ) {
+            CommandCard card = player.getProgramField(step - 1).getCard();
+            if (card != null) {
+                Command command = card.command;
+                executeCommand(player, command);
+            }
+        }
+    }
+
+    
+
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -289,6 +319,11 @@ public class GameController {
                 case BACKWARD:
                     this.moveBackward(player);
                     break;
+
+                case AGAIN:
+                this.again(player);
+                break;
+
 
                 default:
                     // DO NOTHING (for now)

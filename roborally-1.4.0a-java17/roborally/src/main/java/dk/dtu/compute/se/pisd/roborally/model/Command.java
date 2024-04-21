@@ -37,12 +37,13 @@ public enum Command {
 
     FORWARD("Fwd"),
     BACKWARD("Bwd"),
+    MOVE_TWO("2x Fwd"),
+    MOVE_THREE("3x Fwd"),
     RIGHT("Turn Right"),
     LEFT("Turn Left"),
     U_TURN("U-turn"),
     FAST_FORWARD("Fast Fwd"),
-    MOVE_TWO("2x Fwd"),
-    MOVE_THREE("3x Fwd"),
+    AGAIN("Prvs commnd"),
 
 
 
