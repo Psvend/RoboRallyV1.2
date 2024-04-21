@@ -155,14 +155,6 @@ public class GameController {
      * @return none
      */
     public void again(@NotNull Player player){
-
-        //for (int i = 0; i <= 5; i++ ){ //Should be made with the number of cards the player want to execute in the given turn.
-        //    String card = player.getProgramField(i).getCard().getName();
-        //    if (card == "Prvs command"){
-        //        Command command = player.getProgramField(i-1).getCard().command;
-        //        executeCommand(player, command);
-        //    }
-        //}
         int step = board.getStep();
         if (step > 0 ) {
             CommandCard card = player.getProgramField(step - 1).getCard();
