@@ -34,8 +34,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-    private int moves = 0;
-
+    
     public GameController(Board board) {
         this.board = board;
     }
