@@ -25,9 +25,6 @@ public class EnergyBankView extends GridPane implements ViewObserver {
     public void updateView(Subject subject) {
         throw new UnsupportedOperationException("Unimplemented method 'updateView'");
     }
-
-
-
-    
+ 
 }   
 
