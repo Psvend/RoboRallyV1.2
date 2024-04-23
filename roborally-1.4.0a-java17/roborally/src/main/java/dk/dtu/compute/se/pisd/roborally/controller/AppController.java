@@ -108,8 +108,11 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-
-
+        String savePath ="save";
+        Board board = gameController.board;
+        Player player= new Player(board,PLAYER_COLORS.get(2),"s");
+        LoadBoard.saveBoard(board, player ,savePath);
+        /*
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("save");
 
@@ -123,8 +126,8 @@ public class AppController implements Observer {
         if(file !=null) {
             String savePath= file.getAbsolutePath();
             Board board = gameController.board;
-
-            LoadBoard.saveBoard(board, savePath);
+            List<Player> player = new ArrayList<>();
+            LoadBoard.saveBoard(board, player ,savePath);
             System.out.println("Saving game to: " + savePath);
         }
 
@@ -148,7 +151,6 @@ public class AppController implements Observer {
             if (gameController == null) {
                 String LOADpATH= file.getAbsolutePath();
                 Board defalut = LoadBoard.loadBoard(LOADpATH);
-                defalut.setCurrentPlayer(defalut.getPlayer(0));
                 gameController = new GameController(defalut);
                 gameController.startProgrammingPhase();
                 roboRally.createBoardView(gameController);
