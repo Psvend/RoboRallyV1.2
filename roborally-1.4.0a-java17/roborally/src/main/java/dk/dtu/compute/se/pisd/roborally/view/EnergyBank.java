@@ -11,7 +11,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 
 public class EnergyBank {
-    private int energyCubes;  //gemmer antallet af energy cubes 
+    private static int energyCubes;  //gemmer antallet af energy cubes 
 
     public EnergyBank(int initialCubes) {
         this.energyCubes = initialCubes;
@@ -28,7 +28,7 @@ public class EnergyBank {
         }
     }
 
-    public int getBankStatus() {  //tjekker nuværende beholdning i banken
+    public static int getBankStatus() {  //tjekker nuværende beholdning i banken
         return energyCubes;  
     }
 
