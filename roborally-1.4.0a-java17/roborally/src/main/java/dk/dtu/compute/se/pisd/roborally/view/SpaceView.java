@@ -51,8 +51,8 @@ import javafx.scene.layout.BackgroundSize;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 60; // 75;
-    final public static int SPACE_WIDTH = 60; // 75;
+    final public static int SPACE_HEIGHT = 30; // 75;
+    final public static int SPACE_WIDTH = 30; // 75;
 
     public final Space space;
 
@@ -77,13 +77,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         //     this.setStyle("-fx-background-color: black;");
         // }
 
-        //KAN DEN VIRKE VED AT INDSÆTTE DET HER?
-        if(space instanceof EnergySpace) {
-            Image energyImage = new Image("file:graphics\\bolt.png");
-            ImageView energyView = new ImageView(energyImage);
-
-        }
-        
         
 
         // updatePlayer();

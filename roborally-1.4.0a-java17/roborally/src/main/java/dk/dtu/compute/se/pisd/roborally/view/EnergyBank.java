@@ -33,6 +33,13 @@ public class EnergyBank {
     }
 
 
+    //MULIGVIS SLET
+    public void attach(EnergyBankView energyBankView) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'attach'");
+    }
+
+
     //andre metoder tilføjes hernede
 
 
