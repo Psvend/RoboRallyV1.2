@@ -121,7 +121,7 @@ public class LoadBoard {
 		return null;
     }
 
-    public static void saveBoard(Board board, String name) {
+    public static void saveBoard(Board board, Player player, String name) {
         BoardTemplate template = new BoardTemplate();
         template.width = board.width;
         template.height = board.height;
