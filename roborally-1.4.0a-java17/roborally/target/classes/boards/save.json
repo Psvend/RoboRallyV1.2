@@ -1,5 +1,32 @@
 {
   "width": 8,
   "height": 8,
-  "spaces": []
+  "spaces": [],
+  "players": [
+    {
+      "name": "s",
+      "color": "blue",
+      "spaceX": 0,
+      "spaceY": 0,
+      "heading": "SOUTH",
+      "program": [
+        {
+          "visible": false
+        },
+        {
+          "visible": false
+        },
+        {
+          "visible": false
+        },
+        {
+          "visible": false
+        },
+        {
+          "visible": false
+        }
+      ],
+      "cards": []
+    }
+  ]
 }
