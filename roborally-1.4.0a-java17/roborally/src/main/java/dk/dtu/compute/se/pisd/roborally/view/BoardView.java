@@ -73,7 +73,7 @@ public class BoardView extends VBox implements ViewObserver {
 
         spaceEventHandler = new SpaceEventHandler(gameController);
 
-        /*
+        /* TIDLIGERE VERSION
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
                 Space space = board.getSpace(x, y);
@@ -95,7 +95,7 @@ public class BoardView extends VBox implements ViewObserver {
                     //tilføjer billede (OPDATER)
                     Image energyImage = new Image("file:graphics\\bolt.png");
                     ImageView energyView = new ImageView(energyImage);
-                    this.getChildren().add(energyView);  //adds to view
+                    spaceView.getChildren().add(energyView);  //adds to view
                 } else {
                     spaceView = new SpaceView(space);
                 }
