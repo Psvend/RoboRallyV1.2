@@ -191,7 +191,18 @@ public class GameController {
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
+        Player currentPlayer =board.getCurrentPlayer();
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+        int step = board.getStep();
+        space.setPlayer(currentPlayer);
+        step++;
+        if(nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            board.setStep(step);
+        }else{
+            board.setStep(step);
+            board.setCurrentPlayer(board.getPlayer(0));
+        }
     }
 
     private void makeProgramFieldsVisible(int register) {
