@@ -1,0 +1,7 @@
+
+#space-view {
+    -fx-background-image: url('test.jpeg');
+    -fx-background-size: cover; /* Optional: Scale image to cover the entire space */
+    
+}
+

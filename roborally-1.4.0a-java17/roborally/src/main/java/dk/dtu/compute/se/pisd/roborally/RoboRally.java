@@ -40,6 +40,7 @@ import javafx.stage.Stage;
 public class RoboRally extends Application {
 
     private static final int MIN_APP_WIDTH = 600;
+    private static final int MIN_APP_HEIGHT = 800;
 
     private Stage stage;
     private BorderPane boardRoot;
@@ -52,24 +53,25 @@ public class RoboRally extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-
+    
+        // Load the CSS stylesheet
+        Scene primaryScene = new Scene(new VBox(), MIN_APP_WIDTH, MIN_APP_HEIGHT);
+        primaryScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+    
         AppController appController = new AppController(this);
-
-        // create the primary scene with the a menu bar and a pane for
-        // the board view (which initially is empty); it will be filled
-        // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
         boardRoot = new BorderPane();
         VBox vbox = new VBox(menuBar, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
-        Scene primaryScene = new Scene(vbox);
-
+        primaryScene.setRoot(vbox);
+    
         stage.setScene(primaryScene);
         stage.setTitle("RoboRally");
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
-                    appController.exit();} );
+                    appController.exit();
+                });
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
