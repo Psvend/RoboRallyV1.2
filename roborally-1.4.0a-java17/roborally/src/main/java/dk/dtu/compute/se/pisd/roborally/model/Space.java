@@ -87,4 +87,10 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    
+
+
+
+
+
 }
