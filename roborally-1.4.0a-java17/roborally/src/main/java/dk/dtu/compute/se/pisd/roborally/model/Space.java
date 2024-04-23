@@ -76,6 +76,7 @@ public class Space extends Subject {
         return walls;
     }
 
+
     public List<FieldAction> getActions() {
         return actions;
     }
