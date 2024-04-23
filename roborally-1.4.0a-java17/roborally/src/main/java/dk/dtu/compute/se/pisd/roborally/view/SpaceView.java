@@ -22,16 +22,26 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+
 
 /**
  * ...
@@ -67,6 +77,15 @@ public class SpaceView extends StackPane implements ViewObserver {
         //     this.setStyle("-fx-background-color: black;");
         // }
 
+        //KAN DEN VIRKE VED AT INDSÆTTE DET HER?
+        if(space instanceof EnergySpace) {
+            Image energyImage = new Image("file:graphics\\bolt.png");
+            ImageView energyView = new ImageView(energyImage);
+
+        }
+        
+        
+
         // updatePlayer();
 
         // This space view should listen to changes of the space
@@ -101,3 +120,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 }
+
+
+

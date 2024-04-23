@@ -22,6 +22,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.view.EnergyBank;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class Board extends Subject {
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
 
@@ -55,9 +57,12 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private EnergyBank energyBank;
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
+        this.energyBank = new EnergyBank(50);
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -162,6 +167,7 @@ public class Board extends Subject {
         }
     }
 
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
@@ -214,4 +220,24 @@ public class Board extends Subject {
 
         return "";
     }
-}
+
+
+    public EnergyBank getEnergyBank() {
+        return energyBank;
+    }
+
+    private void initEnergySpaces() {
+        //int[][] energySpacePositions = {{1, 1}, {3, 6}, {7,8},{2,5}};
+            //for(int[] position : energySpacePositions) {
+                //int x = position[0];
+                //int y = position[1];
+                spaces[1][1] = new EnergySpace(this, 1, 1);
+                spaces[3][6] = new EnergySpace(this, 3, 6);
+                spaces[7][8] = new EnergySpace(this, 7, 8);
+                spaces[2][5] = new EnergySpace(this, 2, 5);
+            }
+    }
+    
+
+
+

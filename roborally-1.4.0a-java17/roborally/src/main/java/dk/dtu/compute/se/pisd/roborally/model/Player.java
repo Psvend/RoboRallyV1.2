@@ -58,8 +58,8 @@ public class Player extends Subject {
         this.board = board;
         this.name = name;
         this.color = color;
-
         this.space = null;
+        this.energyReserve = 0;
 
         program = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < program.length; i++) {
@@ -142,20 +142,19 @@ public class Player extends Subject {
 
     /**
      * @author Petrine
-     * 
+     * Allows a player to have its own energyreserve, that will get updated every time 
+     * a cube gets added to it. 
      * 
      */
     public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort
-        this.energyReserve = 0;  //starter med 0 cubes i robottens reserve
-        
-        if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+        if(bank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
             this.energyReserve++;
+            notifyChange();
             return true;
         } else {  //hvis banken er tom tilføjes ingen cubes
             return false;
         }
-    
-            
 
         }
+    }
     }
