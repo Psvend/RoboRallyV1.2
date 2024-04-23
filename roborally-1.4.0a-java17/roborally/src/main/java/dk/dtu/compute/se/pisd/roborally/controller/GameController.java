@@ -34,6 +34,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    private int moves = 0;
     
     public GameController(Board board) {
         this.board = board;
@@ -291,15 +292,23 @@ public class GameController {
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case RIGHT:
                     this.turnRight(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case LEFT:
                     this.turnLeft(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case FAST_FORWARD:
                     this.fastForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 /**
                  * @author Louise
@@ -309,23 +318,33 @@ public class GameController {
 
                 case MOVE_TWO:
                     this.moveTwoForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case MOVE_THREE:
                     this.moveThreeForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case U_TURN:
                     this.uTurn(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case BACKWARD:
                     this.moveBackward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case AGAIN:
-                this.again(player);
-                break;
+                    this.again(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
+                    break;
 
 
                 default:
