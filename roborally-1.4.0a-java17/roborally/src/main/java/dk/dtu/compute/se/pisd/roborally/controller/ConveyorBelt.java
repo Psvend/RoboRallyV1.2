@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
+    private GameController gameController;
 
     public Heading getHeading() {
         return heading;
@@ -47,8 +48,15 @@ public class ConveyorBelt extends FieldAction {
 
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
-        return false;
+        this.gameController = gameController;
+        this.space = space;
+        int x;
+        int y;
+        if(){
+
+        } else {
+            return false;
+        }
     }
 
 }
