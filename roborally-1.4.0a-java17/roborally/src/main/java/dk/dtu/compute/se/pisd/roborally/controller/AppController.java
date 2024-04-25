@@ -140,6 +140,11 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
+        Board defalut = LoadBoard.loadBoard("save");
+        gameController = new GameController(defalut);
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
+        /*
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
