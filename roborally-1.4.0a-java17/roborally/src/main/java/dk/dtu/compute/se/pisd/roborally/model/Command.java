@@ -36,12 +36,8 @@ public enum Command {
     // This is a very simplistic way of realizing different commands.
 
     FORWARD("Fwd"),
-    BACKWARD("Bwd"),
-    MOVE_TWO("2x Fwd"),
-    MOVE_THREE("3x Fwd"),
     RIGHT("Turn Right"),
     LEFT("Turn Left"),
-    U_TURN("U-turn"),
     FAST_FORWARD("Fast Fwd"),
     AGAIN("Prvs commnd"),
     OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT),

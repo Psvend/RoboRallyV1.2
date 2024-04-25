@@ -58,8 +58,6 @@ public class Board extends Subject {
 
     private int step = 0;
 
-    private int moves = 0;
-
     private boolean stepMode;
 
     private EnergyBank energyBank;
@@ -146,17 +144,6 @@ public class Board extends Subject {
         }
     }
 
-    public int getMoves() {
-        return moves;
-    }
-
-    public void setMoves(int moves) {
-        if (moves != this.moves) {
-            this.moves = moves;
-            notifyChange();
-        }
-    }
-
     public int getStep() {
         return step;
     }
@@ -235,10 +222,7 @@ public class Board extends Subject {
 
     public String getStatusMessage() {
 
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep() +
-                ", Moves: " + getMoves();
+        return "";
     }
 
 

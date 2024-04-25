@@ -187,29 +187,15 @@ public class GameController {
      */
     // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
-        for (int i = 0; i < 5; i++) {
-            moveForward(player);
-        }
+
     }
 
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     // TODO Assignment A3
     public void turnRight(@NotNull Player player) {
-        Heading playerHeading = player.getHeading();
-        player.setHeading(playerHeading.next());
+
     }
 
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     // TODO Assignment A3
-
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.prev());
@@ -496,13 +482,9 @@ public class GameController {
                     break;
                 case RIGHT:
                     this.turnRight(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
                 case LEFT:
                     this.turnLeft(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
                 case FAST_FORWARD:
                     this.fastForward(player);
