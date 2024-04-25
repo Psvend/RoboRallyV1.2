@@ -4,85 +4,10 @@
   "spaces": [],
   "players": [
     {
-      "name": "Player 1",
-      "color": "red",
+      "name": "s",
+      "color": "blue",
       "spaceX": 0,
       "spaceY": 0,
-      "heading": "SOUTH",
-      "program": [
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        }
-      ],
-      "cards": []
-    },
-    {
-      "name": "Player 2",
-      "color": "green",
-      "spaceX": 1,
-      "spaceY": 1,
-      "heading": "SOUTH",
-      "program": [
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        }
-      ],
-      "cards": []
-    },
-    {
-      "name": "Player 3",
-      "color": "blue",
-      "spaceX": 2,
-      "spaceY": 2,
-      "heading": "SOUTH",
-      "program": [
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        },
-        {
-          "visible": false
-        }
-      ],
-      "cards": []
-    },
-    {
-      "name": "Player 4",
-      "color": "orange",
-      "spaceX": 3,
-      "spaceY": 3,
       "heading": "SOUTH",
       "program": [
         {
