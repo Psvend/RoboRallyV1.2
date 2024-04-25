@@ -34,8 +34,9 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+
     private int moves = 0;
-    
+
     public GameController(Board board) {
         this.board = board;
     }
@@ -192,18 +193,7 @@ public class GameController {
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        Player currentPlayer =board.getCurrentPlayer();
-        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        int step = board.getStep();
-        space.setPlayer(currentPlayer);
-        step++;
-        if(nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            board.setStep(step);
-        }else{
-            board.setStep(step);
-            board.setCurrentPlayer(board.getPlayer(0));
-        }
+        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -341,10 +331,10 @@ public class GameController {
                     break;
 
                 case AGAIN:
-                    this.again(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
+                this.again(player);
+                moves = moves +1;
+                board.setMoves(moves);
+                break;
 
 
                 default:

@@ -37,6 +37,7 @@ public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
     private GameController gameController;
+    private Space space;
 
     public Heading getHeading() {
         return heading;
@@ -52,7 +53,7 @@ public class ConveyorBelt extends FieldAction {
         this.space = space;
         int x;
         int y;
-        if(){
+        if(this){
 
         } else {
             return false;
