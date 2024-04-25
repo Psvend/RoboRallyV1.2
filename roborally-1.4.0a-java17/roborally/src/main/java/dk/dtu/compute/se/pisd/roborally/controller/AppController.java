@@ -103,9 +103,10 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
-        String savePath = "save";
+        String savePath ="save";
         Board board = gameController.board;
-       LoadBoard.saveBoard(board, savePath);
+        Player player= new Player(board,PLAYER_COLORS.get(2),"s");
+        LoadBoard.saveBoard(board, player ,savePath);
         /*
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("save");
