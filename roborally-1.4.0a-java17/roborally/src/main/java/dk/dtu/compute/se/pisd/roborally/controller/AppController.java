@@ -109,25 +109,7 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         Board board = gameController.board;
         LoadBoard.saveBoard(board, "save");
-        /*
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("save");
 
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setInitialFileName("gamesave.json");
-
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file =fileChooser.showSaveDialog(null);
-        if(file !=null) {
-            String savePath= file.getAbsolutePath();
-            Board board = gameController.board;
-            List<Player> player = new ArrayList<>();
-            LoadBoard.saveBoard(board, player ,savePath);
-            System.out.println("Saving game to: " + savePath);
-        }
-        */
 
 
     }
@@ -139,25 +121,7 @@ public class AppController implements Observer {
         gameController = new GameController(defalut);
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
-        /*
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file =fileChooser.showOpenDialog(null);
-        if(file !=null) {
-            if (gameController == null) {
-                String LOADpATH= file.getAbsolutePath();
-                Board defalut = LoadBoard.loadBoard(LOADpATH);
-                gameController = new GameController(defalut);
-                gameController.startProgrammingPhase();
-                roboRally.createBoardView(gameController);
 
-
-            }
-        }
-        */
 
     }
 
