@@ -231,5 +231,7 @@ public class Board extends Subject {
                 ", Moves: " + getMoves();
     }
 
-    public List<ArrayList> Belt()
+    public void Belt() {
+        
+    }
 }
