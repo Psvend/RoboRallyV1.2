@@ -41,5 +41,6 @@ public class BoardTemplate {
 
     public List<SpaceTemplate> spaces = new ArrayList<>();
     public List<PlayerTemplate> players =new ArrayList<>();
+    public List<PhaseTemplate> phases = new ArrayList<>();
 
 }
