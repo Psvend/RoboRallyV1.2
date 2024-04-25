@@ -30,10 +30,7 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.model.CommandCardFieldTemplat
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.CommandCardField;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import javax.print.DocFlavor;
 import java.io.*;
@@ -87,19 +84,20 @@ public class LoadBoard {
                 }
             }
             PlayerTemplate playerTemplate = gson.fromJson(reader, PlayerTemplate.class);
-            for (PlayerTemplate player: template.players) {
-                Player newPlayer = new Player(result, player.getName(), player.getColor());
-                if (player.getSpaceX() >= 0 && player.getSpaceX() < template.width && player.getSpaceY() >= 0 && player.getSpaceY() < template.height) {
-                    Space space = result.getSpace(player.getSpaceX(), player.getSpaceY());
+            if (playerTemplate != null) {
+                Player newPlayer = new Player(result, playerTemplate.getName(), playerTemplate.getColor());
+                if (playerTemplate.getSpaceX() >= 0 && playerTemplate.getSpaceX() < template.width && playerTemplate.getSpaceY() >= 0 && playerTemplate.getSpaceY() < template.height) {
+                    Space space = result.getSpace(playerTemplate.getSpaceX(), playerTemplate.getSpaceY());
                     if (space != null) {
                         newPlayer.setSpace(space);
+                        result.addPlayer(newPlayer);
                     }
                 }
-                newPlayer.setHeading(Player.Heading.valueOf(player.getHeading()));
+                newPlayer.setHeading(Heading.valueOf(playerTemplate.getHeading()));
                 // Assuming CommandCardFieldTemplate is similar to CommandCardField
                 for (int i = 0; i < Player.NO_REGISTERS; i++) {
                     CommandCardField field = newPlayer.getProgramField(i);
-                    CommandCardFieldTemplate fieldTemplate = player.getProgram().get(i);
+                    CommandCardFieldTemplate fieldTemplate = playerTemplate.getProgram().get(i);
                     // Populate field with relevant data
                 }
                 // Similarly for cards
@@ -122,7 +120,7 @@ public class LoadBoard {
 		return null;
     }
 
-    public static void saveBoard(Board board, Player player, String name) {
+    public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
         template.width = board.width;
         template.height = board.height;
@@ -130,7 +128,7 @@ public class LoadBoard {
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
-                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                if (!space.getWalls().isEmpty() || space.getActions().isEmpty()) {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
@@ -140,28 +138,41 @@ public class LoadBoard {
                 }
             }
         }
-        // Save player templates
-        PlayerTemplate playerTemplate = new PlayerTemplate();
-        playerTemplate.setName(player.getName());
-        playerTemplate.setColor(player.getColor());
-        if (player.getSpace() != null) {
-            playerTemplate.setSpaceX(player.getSpace().x);
-            playerTemplate.setSpaceY(player.getSpace().y);
-        }
-        playerTemplate.setHeading(player.getHeading().toString());
-        // Assuming CommandCardFieldTemplate is similar to CommandCardField
-        List<CommandCardFieldTemplate> programTemplates = new ArrayList<>();
+        // Save all players
+        int numberOfPlayers = board.getPlayersNumber();
+        for(int i = 0; i < numberOfPlayers; i++) {
+            Player player = board.getPlayer(i);
+            PlayerTemplate playerTemplate = new PlayerTemplate();
+            playerTemplate.setName(player.getName());
+            playerTemplate.setColor(player.getColor());
+            if (player.getSpace() != null) {
+                playerTemplate.setSpaceX(player.getSpace().x);
+                playerTemplate.setSpaceY(player.getSpace().y);
+            }
+            playerTemplate.setHeading(player.getHeading().toString());
 
-        for (int i = 0; i < Player.NO_REGISTERS; i++) {
-            CommandCardField field = player.getProgramField(i);
-            CommandCardFieldTemplate fieldTemplate = new CommandCardFieldTemplate();
-            // Populate fieldTemplate with relevant data
-            programTemplates.add(fieldTemplate);
-        }
-        playerTemplate.setProgram(programTemplates);
-        // Similarly for cards
+            // Assuming CommandCardFieldTemplate is similar to CommandCardField
+            List<CommandCardFieldTemplate> cardTemplates = new ArrayList<>();
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+                CommandCardFieldTemplate fieldTemplate = new CommandCardFieldTemplate();
+                // Populate fieldTemplate with relevant data
 
-        template.players.add(playerTemplate);
+                CommandCard card = field.getCard(); // Get the CommandCard in this field
+
+                boolean isVisible = field.isVisible(); // Check if the field is visible
+
+                // Assuming CommandCardFieldTemplate has setCard and setVisible methods
+                fieldTemplate.setCard(card); // Set a new CommandCard to this field
+                fieldTemplate.setVisible(isVisible); // Set the visibility of this field
+
+                cardTemplates.add(fieldTemplate);
+            }
+            playerTemplate.setCards(cardTemplates);
+            // Similarly for cards
+
+            template.players.add(playerTemplate);
+        }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
