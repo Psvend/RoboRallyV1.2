@@ -11,6 +11,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
 
+
+
+/*TROR DER ER NOGET GALT. MANGLER EN CONNECTION TIL NÅR RESERVEN PRINTES (L. 108 PLAYERVIEW), OPDATERER IKKE
+*NÅR EN SPILLER LANDER PÅ ET ENERGYSPACE....
+*/
+
+
+
 /**
  * @author Petrine
  * The design of the energy space. Is connected to a player, by checking if the player is on its field.
@@ -29,19 +37,22 @@ public class EnergySpace extends Space{
 
         //håndterer når en spiller lander på et felt med en energy cube på sig
         FieldAction energyAction = new FieldAction() {
+
             @Override
             public boolean doAction(GameController gameController, Space space) {
                 Player player = space.getPlayer();
 
+
                 //tjekker om der er en spiller og om energy space har en cube
-                if(player != null && hasEnergyCube) {
-                    if(player.addEnergyCube(board.getEnergyBank())) {
+                if(player != null && hasEnergyCube()) {
+                    if(player.addEnergyCube(board.getEnergyBank()) == true) {
                             hasEnergyCube = false; 
                             notifyChange();   //underretter alle om at der er sket en opdatering, involverer bl.a. player view
                             return true;
                     }
                 }
                 return false;
+                
             }
             
         };
@@ -56,11 +67,11 @@ public class EnergySpace extends Space{
         this.hasEnergyCube = true;
     }
 
+
     //kan tjekke om den er fuld el. tom
     public boolean hasEnergyCube() {
         return this.hasEnergyCube;
     }
-
 
 
 

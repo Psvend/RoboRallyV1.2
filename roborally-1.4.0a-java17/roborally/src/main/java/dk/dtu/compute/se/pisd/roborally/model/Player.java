@@ -146,8 +146,8 @@ public class Player extends Subject {
      * a cube gets added to it. 
      * 
      */
-    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort
-        if(bank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
+    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
+        if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
             this.energyReserve++;
             notifyChange();
             return true;
@@ -157,10 +157,10 @@ public class Player extends Subject {
 
         }
 
-        
-    //public int getEnergyReserve(energyReserve) {
-
-    //}
+    //has to be non-static as we want each player to have their own reserve
+    public int getEnergyReserve() {
+        return this.energyReserve;
+    }
 
     }
     

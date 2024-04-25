@@ -54,10 +54,12 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private VBox buttonPanel;
 
+    //add label or button to vbox
     private Button finishButton;
     private Button executeButton;
     private Button stepButton;
     private Label bankLabel;
+    private Label reserveLabel;
 
     private VBox playerInteractionPanel;
 
@@ -103,11 +105,12 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + EnergyBank.getBankStatus());
         //button to show players energy status
-        //reserveLabel = new Label("Player " + Player.getCurrentPlayer + "has " Player.get)
+        reserveLabel = new Label(player.getName() + " Reserve: " + gameController.board.getCurrentPlayer().getEnergyReserve());
+           // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());
 
-    
-
-        buttonPanel = new VBox(finishButton, executeButton, stepButton);//, bankLabel);
+        
+        //add button to vbox to print
+        buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
         // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
