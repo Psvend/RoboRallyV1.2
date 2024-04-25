@@ -159,7 +159,6 @@ public class LoadBoard {
                 // Populate fieldTemplate with relevant data
 
                 CommandCard card = field.getCard(); // Get the CommandCard in this field
-
                 boolean isVisible = field.isVisible(); // Check if the field is visible
 
                 // Assuming CommandCardFieldTemplate has setCard and setVisible methods
