@@ -138,20 +138,6 @@ public class AppController implements Observer {
         gameController = new GameController(defalut);
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
-        /*
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file =fileChooser.showOpenDialog(null);
-        if(file !=null) {
-            if (gameController == null) {
-                String LOADpATH= file.getAbsolutePath();
-                Board defalut = LoadBoard.loadBoard(LOADpATH);
-                gameController = new GameController(defalut);
-                gameController.startProgrammingPhase();
-                roboRally.createBoardView(gameController);
 
 
             }
