@@ -230,4 +230,6 @@ public class Board extends Subject {
                 ", Step: " + getStep() +
                 ", Moves: " + getMoves();
     }
+
+    public List<ArrayList> Belt()
 }

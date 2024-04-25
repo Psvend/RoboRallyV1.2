@@ -36,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public class ConveyorBelt extends FieldAction {
 
     private Heading heading;
+    private speed speed;
 
 
     public Heading getHeading() {
