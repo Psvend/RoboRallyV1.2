@@ -22,7 +22,6 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
-
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,18 +33,18 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-    private int moves = 0;
-    
+
     public GameController(Board board) {
         this.board = board;
     }
 
 
-    
+
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
             Heading heading = player.getHeading();
+
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 try {
@@ -58,116 +57,21 @@ public class GameController {
             }
         }
     }
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
 
-    public void moveBackward(@NotNull Player player) {
-        if (player.board == board) {
-            Space space = player.getSpace();
-            Heading heading = player.getHeading().next().next();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
-                }
-            }
-        }
-    }
-    
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
-
-    public void moveTwoForward(@NotNull Player player) {
-        for (int i = 0; i < 2; i++) {
-            moveForward(player);
-        }
-    }
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
-
-    public void moveThreeForward(@NotNull Player player) {
-        for (int i = 0; i < 3; i++) {
-            moveForward(player);
-        }
-    }
-
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
-        for (int i = 0; i < 5; i++) {
-            moveForward(player);
-        }
+
     }
 
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     // TODO Assignment A3
     public void turnRight(@NotNull Player player) {
-        Heading playerHeading = player.getHeading();
-        player.setHeading(playerHeading.next());
+
     }
 
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
     // TODO Assignment A3
-
     public void turnLeft(@NotNull Player player) {
-        Heading playerHeading = player.getHeading();
-        player.setHeading(playerHeading.prev());
+
     }
-
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
-    public void uTurn(@NotNull Player player) {
-        for (int i = 1; i <= 2; i++){
-            turnLeft(player);
-        }
-    }
-
-    /**
-     * @author Louise
-     * @param player
-     * @return none
-     */
-    public void again(@NotNull Player player){
-        int step = board.getStep();
-        if (step > 0 ) {
-            CommandCard card = player.getProgramField(step - 1).getCard();
-            if (card != null) {
-                Command command = card.command;
-                executeCommand(player, command);
-            }
-        }
-    }
-
-    
-
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -192,18 +96,7 @@ public class GameController {
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        Player currentPlayer =board.getCurrentPlayer();
-        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        int step = board.getStep();
-        space.setPlayer(currentPlayer);
-        step++;
-        if(nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            board.setStep(step);
-        }else{
-            board.setStep(step);
-            board.setCurrentPlayer(board.getPlayer(0));
-        }
+        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -292,61 +185,16 @@ public class GameController {
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
                 case RIGHT:
                     this.turnRight(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
                 case LEFT:
                     this.turnLeft(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
                 case FAST_FORWARD:
                     this.fastForward(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
                     break;
-                /**
-                 * @author Louise
-                 * @param player
-                 * @return none
-                 */
-
-                case MOVE_TWO:
-                    this.moveTwoForward(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
-
-                case MOVE_THREE:
-                    this.moveThreeForward(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
-
-                case U_TURN:
-                    this.uTurn(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
-
-                case BACKWARD:
-                    this.moveBackward(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
-
-                case AGAIN:
-                    this.again(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
-
-
                 default:
                     // DO NOTHING (for now)
             }
