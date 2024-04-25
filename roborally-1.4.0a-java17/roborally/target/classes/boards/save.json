@@ -389,8 +389,8 @@
   ],
   "players": [
     {
-      "name": "Player 1",
-      "color": "red",
+      "name": "s",
+      "color": "blue",
       "spaceX": 0,
       "spaceY": 0,
       "heading": "SOUTH",
