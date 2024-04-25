@@ -78,6 +78,13 @@ public class SpaceView extends StackPane implements ViewObserver {
         // }
 
         
+        //Hvis et space er et EnergySpace
+        if(space instanceof EnergySpace) {
+            this.setId("energyspace-view");
+        } else {
+            this.setId("space-view");
+        }
+
 
         // updatePlayer();
 

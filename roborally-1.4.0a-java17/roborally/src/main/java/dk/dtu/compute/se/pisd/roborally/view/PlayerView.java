@@ -46,7 +46,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private Label programLabel;
     private GridPane programPane;
-    private Label cardsLabel;
+    public Label cardsLabel;
     private GridPane cardsPane;
 
     private CardFieldView[] programCardViews;
@@ -57,6 +57,7 @@ public class PlayerView extends Tab implements ViewObserver {
     private Button finishButton;
     private Button executeButton;
     private Button stepButton;
+    private Label bankLabel;
 
     private VBox playerInteractionPanel;
 
@@ -99,7 +100,14 @@ public class PlayerView extends Tab implements ViewObserver {
         stepButton = new Button("Execute Current Register");
         stepButton.setOnAction( e-> gameController.executeStep());
 
-        buttonPanel = new VBox(finishButton, executeButton, stepButton);
+        //button to show energy bank status 
+        bankLabel = new Label("Energy Bank Status: " + EnergyBank.getBankStatus());
+        //button to show players energy status
+        //reserveLabel = new Label("Player " + Player.getCurrentPlayer + "has " Player.get)
+
+    
+
+        buttonPanel = new VBox(finishButton, executeButton, stepButton);//, bankLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
         // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now

@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.view.EnergyBank;
 
 import org.jetbrains.annotations.NotNull;
@@ -70,7 +71,9 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        initEnergySpaces();
         this.stepMode = false;
+        
     }
 
     public Integer getGameId() {
@@ -233,8 +236,9 @@ public class Board extends Subject {
                 //int y = position[1];
                 spaces[1][1] = new EnergySpace(this, 1, 1);
                 spaces[3][6] = new EnergySpace(this, 3, 6);
-                spaces[7][8] = new EnergySpace(this, 7, 8);
+                spaces[7][5] = new EnergySpace(this, 7, 7);
                 spaces[2][5] = new EnergySpace(this, 2, 5);
+            
             }
     }
     

@@ -1,10 +1,12 @@
 
 #space-view {
-    -fx-background-image: url('test.jpeg');
-    -fx-background-size: cover; /* Optional: Scale image to cover the entire space */
-    
+    -fx-background-color: lightgray;
+    -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
 }
 
 
-
+#energyspace-view {
+    -fx-background-image: url('bolt.png');
+    -fx-background-size: 100% 100%;
+}
 

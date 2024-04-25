@@ -156,5 +156,11 @@ public class Player extends Subject {
         }
 
         }
+
+        
+    //public int getEnergyReserve(energyReserve) {
+
+    //}
+
     }
     
