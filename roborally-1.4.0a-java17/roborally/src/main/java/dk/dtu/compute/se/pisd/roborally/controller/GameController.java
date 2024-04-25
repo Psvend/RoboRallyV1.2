@@ -37,6 +37,7 @@ public class GameController {
 
     public GameController(Board board) {
         this.board = board;
+        
     }
 
 

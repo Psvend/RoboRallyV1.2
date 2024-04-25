@@ -1,11 +1,29 @@
-/**
+/* *
  * @author Louise
  * Added the CSS file
  */
 
-#space-view {
-    -fx-background-image: url('test.jpeg');
-    -fx-background-size: cover; /* Optional: Scale image to cover the entire space */
-    
+/* #space-view {
+    -fx-background-color:lightgray;
 }
 
+#menuBar {
+    -fx-background-color: black;
+}
+
+#controlMenu {
+    -fx-background-color: yellow;
+    -fx-spacing: 10px; /* Tilføj lidt mellemrum mellem hvert menuelement */
+
+/* } */
+
+/* #menuItem {
+    -fx-background-color: yellow;
+    -fx-content-display: block;
+}
+
+#menuItem:hover{
+    -fx-background-color: orange;
+}
+
+ */

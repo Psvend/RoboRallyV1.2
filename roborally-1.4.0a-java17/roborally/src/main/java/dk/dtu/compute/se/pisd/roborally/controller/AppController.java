@@ -95,6 +95,9 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        if (gameController == null) {
+            newGame();
+        }
     }
 
     public void loadGame() {

@@ -51,8 +51,8 @@ import javafx.scene.layout.BackgroundSize;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 60; // 75;
-    final public static int SPACE_WIDTH = 60; // 75;
+    final public static int SPACE_HEIGHT = 50; // 75;
+    final public static int SPACE_WIDTH = 50; // 75;
 
     public final Space space;
 
@@ -71,11 +71,11 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         this.setId("space-view");
 
-        // if ((space.x + space.y) % 2 == 0) {
-        //     this.setStyle("-fx-background-color: white;");
-        // } else {
-        //     this.setStyle("-fx-background-color: black;");
-        // }
+        if ((space.x + space.y) % 2 == 0) {
+            this.setStyle("-fx-background-color: white;");
+        } else {
+            this.setStyle("-fx-background-color: black;");
+        }
 
         //KAN DEN VIRKE VED AT INDSÆTTE DET HER?
         if(space instanceof EnergySpace) {

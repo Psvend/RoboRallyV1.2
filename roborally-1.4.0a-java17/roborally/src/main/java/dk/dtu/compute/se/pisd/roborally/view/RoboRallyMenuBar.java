@@ -38,46 +38,55 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private Menu controlMenu;
 
-    private MenuItem saveGame;
-
     private MenuItem newGame;
 
     private MenuItem loadGame;
 
     private MenuItem stopGame;
 
+    private MenuItem saveGame;
+
     private MenuItem exitApp;
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
+        this.setId("menuBar");
 
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
+        this.controlMenu.setId("controlMenu");
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction( e -> this.appController.newGame());
         controlMenu.getItems().add(newGame);
+        this.newGame.setId("1");
 
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
         controlMenu.getItems().add(stopGame);
+        this.stopGame.setId("2");
 
         saveGame = new MenuItem("Save Game");
         saveGame.setOnAction( e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
+        this.saveGame.setId("3");
 
         loadGame = new MenuItem("Load Game");
         loadGame.setOnAction( e -> this.appController.loadGame());
         controlMenu.getItems().add(loadGame);
+        this.loadGame.setId("4");
 
         exitApp = new MenuItem("Exit");
         exitApp.setOnAction( e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
+        this.exitApp.setId("5");
 
         controlMenu.setOnShowing(e -> update());
         controlMenu.setOnShown(e -> this.updateBounds());
         update();
+
     }
+    
 
     public void update() {
         if (appController.isGameRunning()) {
@@ -92,5 +101,6 @@ public class RoboRallyMenuBar extends MenuBar {
             loadGame.setVisible(true);
         }
     }
+
 
 }
