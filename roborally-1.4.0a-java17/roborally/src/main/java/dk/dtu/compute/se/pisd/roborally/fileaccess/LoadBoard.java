@@ -86,6 +86,24 @@ public class LoadBoard {
                     space.getWalls().addAll(spaceTemplate.walls);
                 }
             }
+            PlayerTemplate playerTemplate = gson.fromJson(reader, PlayerTemplate.class);
+            for (PlayerTemplate player: template.players) {
+                Player newPlayer = new Player(result, player.getName(), player.getColor());
+                if (player.getSpaceX() >= 0 && player.getSpaceX() < template.width && player.getSpaceY() >= 0 && player.getSpaceY() < template.height) {
+                    Space space = result.getSpace(player.getSpaceX(), player.getSpaceY());
+                    if (space != null) {
+                        newPlayer.setSpace(space);
+                    }
+                }
+                newPlayer.setHeading(Player.Heading.valueOf(player.getHeading()));
+                // Assuming CommandCardFieldTemplate is similar to CommandCardField
+                for (int i = 0; i < Player.NO_REGISTERS; i++) {
+                    CommandCardField field = newPlayer.getProgramField(i);
+                    CommandCardFieldTemplate fieldTemplate = player.getProgram().get(i);
+                    // Populate field with relevant data
+                }
+                // Similarly for cards
+            }
 			reader.close();
 			return result;
 		} catch (IOException e1) {
