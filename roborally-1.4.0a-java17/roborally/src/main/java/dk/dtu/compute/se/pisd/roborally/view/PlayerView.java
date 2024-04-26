@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -103,7 +104,7 @@ public class PlayerView extends Tab implements ViewObserver {
         stepButton.setOnAction( e-> gameController.executeStep());
 
         //button to show energy bank status 
-        bankLabel = new Label("Energy Bank Status: " + EnergyBank.getBankStatus());
+        bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
         reserveLabel = new Label(player.getName() + " Reserve: " + gameController.board.getCurrentPlayer().getEnergyReserve());
            // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());

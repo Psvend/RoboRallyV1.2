@@ -26,14 +26,37 @@ import javafx.scene.layout.StackPane;
  */
 
 
-public class EnergySpace extends Space{
+public class EnergySpace extends Space {
     
-    private boolean hasEnergyCube;
+    public boolean hasEnergyCube;
 
     public EnergySpace(Board board, int x, int y) {
         super(board, x, y);  //space on the board
         this.hasEnergyCube = true;  //initialiserer space med cube
+        
+    }
 
+    //skal tjekke om en spiller er landet på et energySpace
+    public boolean isPlayerOnEnergySpace(Player player, EnergyBank EnergyBank) {
+        Space currentSpace = player.getSpace();
+
+        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
+            if(EnergyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+            player.addEnergyCube(EnergyBank);      //tilføjer en cube til en spillers reserve
+            notifyAll();    //opdaterer det hele om ændringen
+            return true;
+           } else {
+            return true;
+           }
+        }
+        return false;
+    }
+
+
+
+}
+
+        /*
 
         //håndterer når en spiller lander på et felt med en energy cube på sig
         FieldAction energyAction = new FieldAction() {
@@ -44,9 +67,9 @@ public class EnergySpace extends Space{
 
 
                 //tjekker om der er en spiller og om energy space har en cube
-                if(player != null && hasEnergyCube()) {
+                if(player != null && hasEnergyCube() == true) {
                     if(player.addEnergyCube(board.getEnergyBank()) == true) {
-                            hasEnergyCube = false; 
+                            hasEnergyCube = false;  //feltet er nu tømt
                             notifyChange();   //underretter alle om at der er sket en opdatering, involverer bl.a. player view
                             return true;
                     }
@@ -76,3 +99,4 @@ public class EnergySpace extends Space{
 
 
 }
+*/

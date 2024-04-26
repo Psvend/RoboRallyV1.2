@@ -20,7 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +34,14 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    public EnergyBank energyBank;
+    public EnergySpace energySpace;
 
     public GameController(Board board) {
         this.board = board;
+        this.energyBank = new EnergyBank(1);
+        this.energySpace = new EnergySpace(board, 1, 1);
+        
     }
 
 
@@ -188,6 +193,11 @@ public class GameController {
             }
         }
         player.setSpace(space);
+
+        //tester om doAction er kaldet i gameControlleren 
+        for(FieldAction action : space.getActions()) {
+            action.doAction(this, space);
+        }
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
@@ -387,5 +397,11 @@ public class GameController {
             this.heading = heading;
         }
     }
+
+
+
+
+
+
 
 }
