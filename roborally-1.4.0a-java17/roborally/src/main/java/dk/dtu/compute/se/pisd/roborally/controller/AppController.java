@@ -105,30 +105,6 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         Board board = gameController.board;
         LoadBoard.saveBoard(board, "save");
-        /*
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("save");
-
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setInitialFileName("gamesave.json");
-
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file =fileChooser.showSaveDialog(null);
-        if(file !=null) {
-            String savePath= file.getAbsolutePath();
-            Board board = gameController.board;
-            List<Player> player = new ArrayList<>();
-            LoadBoard.saveBoard(board, player ,savePath);
-            System.out.println("Saving game to: " + savePath);
-        }
-
-        Board board = gameController.board;
-        LoadBoard.saveBoard(board, "save");
-
-
-
     }
 
     public void loadGame() {
@@ -138,17 +114,9 @@ public class AppController implements Observer {
         gameController = new GameController(defalut);
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
-
-
-            }
-        }
-        Board defalut = LoadBoard.loadBoard("save");
-        gameController = new GameController(defalut);
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
-
-
     }
+
+
 
     /**
      * Stop playing the current game, giving the user the option to save
