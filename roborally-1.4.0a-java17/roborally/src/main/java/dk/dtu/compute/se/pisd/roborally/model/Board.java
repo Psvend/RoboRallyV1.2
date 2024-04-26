@@ -234,11 +234,24 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        spaces[1][1] = new ConveyorBelt(this, 1, 1);
-        spaces[1][2] = new ConveyorBelt(this, 1, 2);
-        spaces[1][3] = new ConveyorBelt(this, 1, 3);
-        spaces[1][4] = new ConveyorBelt(this, 1, 4);
+        ConveyorBelt conveyorBelt1 = new ConveyorBelt(this, 1, 1);
+        ConveyorBelt conveyorBelt2 = new ConveyorBelt(this, 1, 2);
+        ConveyorBelt conveyorBelt3 = new ConveyorBelt(this, 1, 3);
+        ConveyorBelt conveyorBelt4 = new ConveyorBelt(this, 1, 4);
 
-        spaces[1][1].setHeading(SOUTH);
+        conveyorBelt1.setHeading(SOUTH);
+        conveyorBelt2.setHeading(SOUTH);
+        conveyorBelt3.setHeading(SOUTH);
+        conveyorBelt4.setHeading(SOUTH);
+    
+        conveyorBelt1.setBeltType(1);
+        conveyorBelt2.setBeltType(1);
+        conveyorBelt3.setBeltType(1);
+        conveyorBelt4.setBeltType(1);
+
+        spaces[1][1] = conveyorBelt1;
+        spaces[1][2] = conveyorBelt2;
+        spaces[1][3] = conveyorBelt3;
+        spaces[1][4] = conveyorBelt4;
     }
 }
