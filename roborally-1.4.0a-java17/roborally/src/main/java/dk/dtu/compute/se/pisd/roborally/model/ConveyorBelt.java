@@ -1,5 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+
 public class ConveyorBelt extends Space{
 
     private Heading heading;
@@ -28,9 +31,18 @@ public class ConveyorBelt extends Space{
         super(board, x, y);
         
         FieldAction ConveyorBelt = new FieldAction() {
-        
-        }
+            
+            Player player = player.getSpace();
 
+            @Override
+            public boolean doAction(GameController gameController, Space space) {
+                if(player != null){
+                    
+                }
+            }
+        
+        };
+        this.getActions.add(ConveyorBelt);
     }
      
 }
