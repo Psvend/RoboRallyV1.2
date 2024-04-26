@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-    public EnergyBank energyBank;
+    final public EnergyBank energyBank;
     public EnergySpace energySpace;
 
     public GameController(Board board) {
