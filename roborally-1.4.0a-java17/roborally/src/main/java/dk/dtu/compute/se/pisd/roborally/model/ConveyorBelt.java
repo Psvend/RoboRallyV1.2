@@ -39,7 +39,10 @@ public class ConveyorBelt extends Space{
                 
                 if(player != null){
 
-                }
+                    return true;
+                } else (
+                    return false;
+                )
             }
         
         };
