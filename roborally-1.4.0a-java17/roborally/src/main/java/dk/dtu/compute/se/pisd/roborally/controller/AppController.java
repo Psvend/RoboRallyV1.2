@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.PlayerTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -41,6 +42,7 @@ import javafx.stage.FileChooser;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -100,49 +102,22 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        Board board = gameController.board;
+        LoadBoard.saveBoard(board, "save");
 
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("save");
-
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setInitialFileName("gamesave.json");
-
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File file =fileChooser.showSaveDialog(null);
-        if(file !=null) {
-            String savePath= file.getAbsolutePath();
-            Board board = gameController.board;
-
-            LoadBoard.saveBoard(board, savePath);
-            System.out.println("Saving game to: " + savePath);
-        }
 
     }
 
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Load");
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        FileChooser.ExtensionFilter extFilter =new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file =fileChooser.showOpenDialog(null);
-        if(file !=null) {
-            if (gameController == null) {
-                String LOADpATH= file.getAbsolutePath();
-                Board defalut = LoadBoard.loadBoard(LOADpATH);
-                defalut.setCurrentPlayer(defalut.getPlayer(0));
-                gameController = new GameController(defalut);
-                gameController.startProgrammingPhase();
-                roboRally.createBoardView(gameController);
+        Board defalut = LoadBoard.loadBoard("save");
+        gameController = new GameController(defalut);
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
 
 
-            }
-        }
     }
 
     /**
