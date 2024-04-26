@@ -38,7 +38,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -102,9 +104,16 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // XXX needs to be implemented eventually
-        Board board = gameController.board;
-        LoadBoard.saveBoard(board, "save");
+        TextInputDialog dialog = new TextInputDialog("default");
+        dialog.setTitle("Save Game");
+        dialog.setHeaderText("Enter the name of the save file:");
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            String fileName = result.get();
+            Board board = gameController.board;
+            LoadBoard.saveBoard(board, fileName);
+        }
     }
 
     public void loadGame() {
