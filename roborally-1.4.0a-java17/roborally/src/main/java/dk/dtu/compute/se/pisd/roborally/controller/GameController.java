@@ -201,7 +201,18 @@ public class GameController {
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
+        Player currentPlayer =board.getCurrentPlayer();
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+        int step = board.getStep();
+        space.setPlayer(currentPlayer);
+        step++;
+        if(nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            board.setStep(step);
+        }else{
+            board.setStep(step);
+            board.setCurrentPlayer(board.getPlayer(0));
+        }
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -290,15 +301,23 @@ public class GameController {
             switch (command) {
                 case FORWARD:
                     this.moveForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case RIGHT:
                     this.turnRight(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case LEFT:
                     this.turnLeft(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 case FAST_FORWARD:
                     this.fastForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
                 /**
                  * @author Louise
@@ -308,23 +327,33 @@ public class GameController {
 
                 case MOVE_TWO:
                     this.moveTwoForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case MOVE_THREE:
                     this.moveThreeForward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case U_TURN:
                     this.uTurn(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case BACKWARD:
                     this.moveBackward(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
                     break;
 
                 case AGAIN:
-                this.again(player);
-                break;
+                    this.again(player);
+                    moves = moves +1;
+                    board.setMoves(moves);
+                    break;
 
 
                 default:
