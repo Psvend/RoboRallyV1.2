@@ -234,8 +234,8 @@ public class Board extends Subject {
 
     public void initBelt() {
         spaces[1][1] = new ConveyorBelt(this, 1, 1);
-        spaces[3][6] = new ConveyorBelt(this, 1, 2);
-        spaces[7][5] = new ConveyorBelt(this, 1, 3);
-        spaces[2][5] = new ConveyorBelt(this, 1, 4);
+        spaces[1][2] = new ConveyorBelt(this, 1, 2);
+        spaces[1][3] = new ConveyorBelt(this, 1, 3);
+        spaces[1][4] = new ConveyorBelt(this, 1, 4);
     }
 }
