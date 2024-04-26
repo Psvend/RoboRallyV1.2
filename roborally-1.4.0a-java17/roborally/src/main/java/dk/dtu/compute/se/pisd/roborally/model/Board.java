@@ -28,6 +28,7 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
@@ -237,5 +238,7 @@ public class Board extends Subject {
         spaces[1][2] = new ConveyorBelt(this, 1, 2);
         spaces[1][3] = new ConveyorBelt(this, 1, 3);
         spaces[1][4] = new ConveyorBelt(this, 1, 4);
+
+        spaces[1][1].setHeading(SOUTH);
     }
 }
