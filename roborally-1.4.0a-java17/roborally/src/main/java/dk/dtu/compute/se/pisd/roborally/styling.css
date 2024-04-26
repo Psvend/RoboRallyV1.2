@@ -1,0 +1,15 @@
+#space-view {
+    -fx-background-color: lightgray;
+    -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
+}
+
+
+#ConveyorBelt1-view {
+    -fx-background-image: url('ConveyorBelt\ 1.jpg');
+    -fx-background-size: 100% 100%;
+}
+
+#ConveyorBelt2-view {
+    -fx-background-image: url('ConveyorBelt\ 2.jpg');
+    -fx-background-size: 100% 100%;
+}
