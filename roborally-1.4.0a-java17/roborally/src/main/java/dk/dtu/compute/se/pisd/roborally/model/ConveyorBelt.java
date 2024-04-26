@@ -38,8 +38,11 @@ public class ConveyorBelt extends Space{
                 Player player = space.getPlayer();
                 
                 if(player != null){
-
-                    return true;
+                    if(getBeltType()==1) {
+                        return true;
+                    } else if (getBeltType() == 2) {
+                        return true;
+                    } else return false;
                 } else {
                     return false;
                 }
