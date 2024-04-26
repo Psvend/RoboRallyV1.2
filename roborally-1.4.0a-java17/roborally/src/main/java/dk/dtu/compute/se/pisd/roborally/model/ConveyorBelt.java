@@ -32,7 +32,7 @@ public class ConveyorBelt extends Space{
         
         FieldAction ConveyorBelt = new FieldAction() {
             
-            Player player = player.getSpace();
+            Player player = space.getPlayer();
 
             @Override
             public boolean doAction(GameController gameController, Space space) {
