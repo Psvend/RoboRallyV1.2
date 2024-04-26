@@ -39,6 +39,7 @@ public class ConveyorBelt extends Space{
                 
                 if(player != null){
                     if(getBeltType()==1) {
+                        
                         return true;
                     } else if (getBeltType() == 2) {
                         return true;
