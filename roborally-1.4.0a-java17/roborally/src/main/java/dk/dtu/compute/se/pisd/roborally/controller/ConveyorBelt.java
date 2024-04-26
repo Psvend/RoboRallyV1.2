@@ -33,21 +33,21 @@ import org.jetbrains.annotations.NotNull;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class ConveyorBelt extends FieldAction {
+//public class ConveyorBelt extends FieldAction {
 
-    private Heading heading;
+    //private Heading heading;
 
-    public Heading getHeading() {
-        return heading;
-    }
+    //public Heading getHeading() {
+      //  return heading;
+    //}
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
+    //public void setHeading(Heading heading) {
+      //  this.heading = heading;
+    //}
 
-    @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+    //@Override
+    //public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+//
+  //  }
 
-    }
-
-}
+//}
