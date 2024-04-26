@@ -68,7 +68,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
 
         if(space instanceof ConveyorBelt) {
-            this.setId("ConveyorBelt1-view");
+            this.setId("-fx-background-color: red;");
         } else {
             this.setId("space-view");
         }
