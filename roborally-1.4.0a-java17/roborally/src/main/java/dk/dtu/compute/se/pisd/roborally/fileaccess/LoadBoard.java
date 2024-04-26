@@ -171,6 +171,24 @@ public class LoadBoard {
             }
             playerTemplate.setCards(cardTemplates);
             // Similarly for cards
+            // Save program
+            List<CommandCardFieldTemplate> programTemplates = new ArrayList<>();
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                CommandCardField field = player.getProgramField(j);
+                CommandCardFieldTemplate fieldTemplate = new CommandCardFieldTemplate();
+                // Populate fieldTemplate with relevant data
+
+                CommandCard card = field.getCard(); // Get the CommandCard in this field
+                boolean isVisible = field.isVisible(); // Check if the field is visible
+
+                // Assuming CommandCardFieldTemplate has setCard and setVisible methods
+                fieldTemplate.setCard(card); // Set a new CommandCard to this field
+                fieldTemplate.setVisible(isVisible); // Set the visibility of this field
+
+                programTemplates.add(fieldTemplate);
+            }
+            playerTemplate.setProgram(programTemplates);
+
 
             template.players.add(playerTemplate);
         }
