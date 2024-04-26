@@ -12,10 +12,12 @@ public class ConveyorBelt extends Space{
         this.heading = heading;
     }
 
+    public String setBeltType()
+
     public ConveyorBelt(Board board, int x, int y) {
         super(board, x, y);
 
-        
+
     }
      
 }
