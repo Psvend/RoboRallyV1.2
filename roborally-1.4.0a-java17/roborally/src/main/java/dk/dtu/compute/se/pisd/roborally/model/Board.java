@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,7 +232,10 @@ public class Board extends Subject {
                 ", Moves: " + getMoves();
     }
 
-    public void Belt() {
-        
+    public void initBelt() {
+        spaces[1][1] = new ConveyorBelt(this, 1, 1);
+        spaces[3][6] = new ConveyorBelt(this, 1, 2);
+        spaces[7][5] = new ConveyorBelt(this, 1, 3);
+        spaces[2][5] = new ConveyorBelt(this, 1, 4);
     }
 }
