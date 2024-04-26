@@ -37,12 +37,12 @@ public class ConveyorBelt extends Space{
             @Override
             public boolean doAction(GameController gameController, Space space) {
                 if(player != null){
-                    
+
                 }
             }
         
         };
-        this.getActions.add(ConveyorBelt);
+        this.getActions().add(ConveyorBelt);
     }
      
 }
