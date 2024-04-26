@@ -68,6 +68,7 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        initBelt();
         this.stepMode = false;
     }
 
