@@ -36,6 +36,7 @@ public class GameController {
     final public Board board;
     final public EnergyBank energyBank;
     public EnergySpace energySpace;
+    public int moves = 0;
 
     public GameController(Board board) {
         this.board = board;
