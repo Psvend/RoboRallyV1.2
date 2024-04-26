@@ -148,6 +148,7 @@ public class Player extends Subject {
     public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
         if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
             this.energyReserve++;
+            //bank.takeEnergyCube();
             notifyChange();
             return true;
         } else {  //hvis banken er tom tilføjes ingen cubes
