@@ -30,6 +30,8 @@ public class ConveyorBelt extends Space{
     public ConveyorBelt(Board board, int x, int y) {
         
         super(board, x, y);
+    }
+
         FieldAction ConveyorBelt = new FieldAction() {
 
             @Override
@@ -48,9 +50,7 @@ public class ConveyorBelt extends Space{
                     return false;
                 }
             }
+            this.getActions().add(ConveyorBelt);
         
-        };
-        this.getActions().add(ConveyorBelt);
-    }
-     
-}
+        }
+        }
