@@ -8,6 +8,10 @@ public class ConveyorBelt extends Space{
     private Heading heading;
     private int beltType;
 
+    public ConveyorBelt(Board board, int x, int y) {
+        super(board, x, y);
+    }
+
     public Heading getHeading() {
         return heading;
     }
@@ -27,27 +31,22 @@ public class ConveyorBelt extends Space{
         }
     }
 
-    public ConveyorBelt(Board board, int x, int y) {
+    //@Override
+    //public boolean doAction(GameController gameController, Space space) {
         
-        super(board, x, y);
-    }
-
-    @Override
-    public boolean doAction(GameController gameController, Space space) {
+        //Player player = space.getPlayer();
         
-        Player player = space.getPlayer();
-        
-        if(player != null){
-            if(getBeltType()==1) {
+        //if(player != null){
+            //if(getBeltType()==1) {
                 
-                return true;
-            } else if (getBeltType() == 2) {
-                return true;
-            } else return false;
-        } else {
-            return false;
-        }
-    }
+                //return true;
+            //} else if (getBeltType() == 2) {
+                //return true;
+            //} else return false;
+        //} else {
+          //  return false;
+        //}
+    //}
         
         
 }

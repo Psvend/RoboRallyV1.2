@@ -239,7 +239,7 @@ public class Board extends Subject {
         ConveyorBelt conveyorBelt2 = new ConveyorBelt(this, 1, 2);
         ConveyorBelt conveyorBelt3 = new ConveyorBelt(this, 1, 3);
         ConveyorBelt conveyorBelt4 = new ConveyorBelt(this, 1, 4);
-
+       
         conveyorBelt1.setHeading(SOUTH);
         conveyorBelt2.setHeading(SOUTH);
         conveyorBelt3.setHeading(SOUTH);
