@@ -32,25 +32,22 @@ public class ConveyorBelt extends Space{
         super(board, x, y);
     }
 
-        FieldAction ConveyorBelt = new FieldAction() {
-
-            @Override
-            public boolean doAction(GameController gameController, Space space) {
-                
-                Player player = space.getPlayer();
-                
-                if(player != null){
-                    if(getBeltType()==1) {
-                        
-                        return true;
-                    } else if (getBeltType() == 2) {
-                        return true;
-                    } else return false;
-                } else {
-                    return false;
-                }
-            }
-            this.getActions().add(ConveyorBelt);
+    @Override
+    public boolean doAction(GameController gameController, Space space) {
         
+        Player player = space.getPlayer();
+        
+        if(player != null){
+            if(getBeltType()==1) {
+                
+                return true;
+            } else if (getBeltType() == 2) {
+                return true;
+            } else return false;
+        } else {
+            return false;
         }
-        }
+    }
+        
+        
+}
