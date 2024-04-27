@@ -61,8 +61,8 @@ public class ConveyorBelt extends FieldAction {
     this.space = space;
     this.gameController = gameController;
     if (space.getPlayer() != null) {
-      if(space.getActions().getBeltType()==1){
-
+      if(getBeltType()==1){
+        this.space.y = space.y +1;
       }
       return true;
     } else {
