@@ -143,7 +143,12 @@ public class CardFieldView extends GridPane implements ViewObserver {
 
 
 
-//test
+/**
+ * @author Petrine, s235064
+ * @param updateView 
+ * handles how the cards are shown in the panel on the view. 
+ * The png's are specified in the css file
+ */
 @Override
 public void updateView(Subject subject) {
     if (subject == field && subject != null) {
