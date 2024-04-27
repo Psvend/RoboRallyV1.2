@@ -52,6 +52,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private CardFieldView[] programCardViews;
     private CardFieldView[] cardViews;
+    
 
     private VBox buttonPanel;
 
@@ -62,6 +63,7 @@ public class PlayerView extends Tab implements ViewObserver {
     private Label bankLabel;
     private Label reserveLabel;
 
+    //the vbox labels or buttons get added to
     private VBox playerInteractionPanel;
 
     private GameController gameController;
@@ -125,6 +127,7 @@ public class PlayerView extends Tab implements ViewObserver {
         cardsPane.setVgap(2.0);
         cardsPane.setHgap(2.0);
         cardViews = new CardFieldView[Player.NO_CARDS];
+
         for (int i = 0; i < Player.NO_CARDS; i++) {
             CommandCardField cardField = player.getCardField(i);
             if (cardField != null) {
@@ -132,6 +135,9 @@ public class PlayerView extends Tab implements ViewObserver {
                 cardsPane.add(cardViews[i], i, 0);
             }
         }
+        
+        
+
 
         top.getChildren().add(programLabel);
         top.getChildren().add(programPane);
@@ -146,6 +152,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     @Override
     public void updateView(Subject subject) {
+
         if (subject == player.board) {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];

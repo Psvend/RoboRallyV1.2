@@ -26,7 +26,9 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import javafx.scene.Scene;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.StackPane;
 
 /**
  * ...

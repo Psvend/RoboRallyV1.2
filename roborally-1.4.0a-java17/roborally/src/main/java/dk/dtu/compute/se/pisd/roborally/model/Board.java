@@ -252,7 +252,7 @@ public class Board extends Subject {
                 spaces[1][1] = new EnergySpace(this, 1, 1);
                 spaces[3][6] = new EnergySpace(this, 3, 6);
                 spaces[7][5] = new EnergySpace(this, 7, 7);
-                spaces[2][5] = new EnergySpace(this, 2, 5);
+                spaces[6][2] = new EnergySpace(this, 6, 2);
             
             }
     }

@@ -13,12 +13,12 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 
 public class EnergyBank {
-    private int energyCubesAmount;  //gemmer antallet af energy cubes, værdien ændrer sig derfor non-static
-    private int energyCube;  //en energyCube har altid værdien 1, derfor static 
+    private static int energyCube;  //gemmer antallet af energy cubes, værdien ændrer sig derfor non-static
+    private int energyCubesAmount;
 
     public EnergyBank(int energyCube) {
         this.energyCubesAmount = 50*energyCube;  //banken har 50 energyCubes i starten
-        this.energyCube = 1;
+        energyCube = 1;
         //initialCubes = 50;  //sætter den til altid at starte med at have 50 cubes
     }
 
