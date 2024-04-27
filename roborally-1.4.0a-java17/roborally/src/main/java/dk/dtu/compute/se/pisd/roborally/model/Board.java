@@ -44,7 +44,7 @@ public class Board extends Subject {
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
 

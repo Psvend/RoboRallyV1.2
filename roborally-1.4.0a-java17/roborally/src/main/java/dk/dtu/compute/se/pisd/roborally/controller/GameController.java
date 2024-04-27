@@ -34,11 +34,12 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-
+    public ConveyorBelt ConveyorBelt;
     private int moves = 0;
 
     public GameController(Board board) {
         this.board = board;
+        this.ConveyorBelt = new ConveyorBelt(board, 1, 1);
     }
 
 
