@@ -23,7 +23,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -60,9 +59,8 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
-        if(space instanceof ConveyorBelt) {
-            this.setId("-fx-background-color: black;");
-        } else if ((space.x + space.y) % 2 == 0) {
+        
+        if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         }
             else {
