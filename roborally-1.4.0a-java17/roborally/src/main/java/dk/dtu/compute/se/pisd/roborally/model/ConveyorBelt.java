@@ -8,10 +8,6 @@ public class ConveyorBelt extends Space{
     private Heading heading;
     private int beltType;
 
-    public ConveyorBelt(Board board, int x, int y) {
-        super(board, x, y);
-    }
-
     public Heading getHeading() {
         return heading;
     }
@@ -29,6 +25,9 @@ public class ConveyorBelt extends Space{
             this.beltType = beltType;
             notifyChange();
         }
+    }
+    public ConveyorBelt(Board board, int x, int y) {
+        super(board, x, y);
     }
 
     //@Override
