@@ -5,6 +5,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 /**
  * 
  * @author: Petrine
+ * @param EnergyBank
  * Creates an energy bank that fills up the energySpaces when necessary
  * and whenever a fifth register is evoked with the energy card. 
  * 

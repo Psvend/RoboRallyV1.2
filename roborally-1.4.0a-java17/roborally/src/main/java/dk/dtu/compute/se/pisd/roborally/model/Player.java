@@ -141,6 +141,7 @@ public class Player extends Subject {
 
     /**
      * @author Petrine
+     * @param addEnergyCube 
      * Allows a player to have its own energyreserve, that will get updated every time 
      * a cube gets added to it. 
      * 
