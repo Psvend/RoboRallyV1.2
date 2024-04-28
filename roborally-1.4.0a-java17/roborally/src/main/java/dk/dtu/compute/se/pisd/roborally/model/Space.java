@@ -81,6 +81,10 @@ public class Space extends Subject {
         return actions;
     }
 
+    public void setAction(FieldAction actions) {
+        actions.add(ConveyorBelt);
+    }
+
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can

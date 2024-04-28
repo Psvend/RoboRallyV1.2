@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +51,8 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
 
+    private List<FieldAction> actions = new ArrayList<>();
+
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -68,7 +71,6 @@ public class Board extends Subject {
             for(int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
-                spaces[x][y].getActions();
             }
         }
         this.stepMode = false;
@@ -236,7 +238,7 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        
+        spaces[1][1].getActions();
     
     }
 }
