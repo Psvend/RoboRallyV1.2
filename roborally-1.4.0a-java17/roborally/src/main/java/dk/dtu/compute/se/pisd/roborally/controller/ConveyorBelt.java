@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.controller.GameController.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -60,15 +61,29 @@ public class ConveyorBelt extends FieldAction {
   public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
     this.space = space;
     this.gameController = gameController;
+    
+    Space target = this.gameController.board.getNeighbour(this.space, getHeading());
+    
     if (space.getPlayer() != null) {
       if(getBeltType()==1){
-        this.space.y = space.y +1;
+        try {
+          gameController.moveToSpace(this.space.getPlayer(), this.space, this.getHeading());
+        } catch (ImpossibleMoveException e) {
+          e.printStackTrace();
+        };
+        return true;
+      } else if (getBeltType()==2){
+          try {
+            gameController.moveToSpace(this.space.getPlayer(), target, this.getHeading());
+          } catch (ImpossibleMoveException e) {
+            e.printStackTrace();
+          }
+        return true;
+      } else {
+        return false;
       }
-      return true;
     } else {
       return false;
     }
-
   }
-
 }
