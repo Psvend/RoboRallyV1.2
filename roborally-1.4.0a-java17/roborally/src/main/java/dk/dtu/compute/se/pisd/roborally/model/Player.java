@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import javafx.beans.property.IntegerProperty;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -145,22 +146,35 @@ public class Player extends Subject {
      * a cube gets added to it. 
      * 
      */
-    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
-        if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
-            this.energyReserve++;
-            //bank.takeEnergyCube();
-            notifyChange();
-            return true;
-        } else {  //hvis banken er tom tilføjes ingen cubes
-            return false;
-        }
+    // public void addEnergyCube() {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
+    //     if(energyBank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
+    //         // TILFØJET AF LOUISE
+    //         this.energyReserve++;
+    //         energyBank.takeEnergyCube();
+    //         notifyChange();
 
-        }
+    //         // if (board != null && board.getPlayerView() != null) {
+    //         //     board.getPlayerView().updateEnergyReserveLabel(this.energyReserve);
+    //         // }
+    // }
+            //return true;
+           //else {  //hvis banken er tom tilføjes ingen cubes
+            //return false;
+            //}
 
+       // }
+    
+
+            
+    
     //has to be non-static as we want each player to have their own reserve
     public int getEnergyReserve() {
         return this.energyReserve;
+    }    
+
+    public void setEnergyReserve(Integer i) {
+        this.energyReserve = i;
     }
 
-    }
-    
+}
+

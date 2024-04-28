@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 /**
@@ -12,30 +13,36 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
  */
 
 
-public class EnergyBank {
-    private int energyCubesAmount;  //gemmer antallet af energy cubes, værdien ændrer sig derfor non-static
+public class EnergyBank{
+    
+        //     private int energyCubesAmount;  //gemmer antallet af energy cubes, værdien ændrer sig derfor non-static
     private int energyCube;  //en energyCube har altid værdien 1, derfor static 
 
     public EnergyBank(int energyCube) {
-        this.energyCubesAmount = 50*energyCube;  //banken har 50 energyCubes i starten
-        this.energyCube = 1;
+        //  this.energyCubesAmount = 50*energyCube;  //banken har 50 energyCubes i starten
+        this.energyCube = 50;
         //initialCubes = 50;  //sætter den til altid at starte med at have 50 cubes
     }
 
     public boolean takeEnergyCube() {  //metode til at opdatere når en energy cubes tages fra beholdningen i banken
-        if(energyCubesAmount > 0 && energyCubesAmount <=50) {   //hvis beholdningen er fuld
-            energyCubesAmount--;      //beholdningen falder med en hvis true
-            notifyAll();
+        //ÆNDRET AF LOUISE
+        if(this.energyCube > 0 && this.energyCube <=50) {   //hvis beholdningen er fuld
+            this.energyCube--;      //beholdningen falder med en hvis true
             return true;  
         } else {   //hvis beholdningen er tom
-            energyCubesAmount = 0;  //sætter beholdningen til 0
-            notifyAll();
+            energyCube = 0;  //sætter beholdningen til 0
             return false;
         }
     }
 
     public int getBankStatus() {  //tjekker nuværende beholdning i banken
-        return energyCubesAmount;
+        // ÆNDRET AF LOUISE
+        return this.energyCube;
+    }
+
+    // TILFØJET AF LOUISE
+    public void setEnergyBank(int i){
+        this.energyCube = i;
     }
 
 
