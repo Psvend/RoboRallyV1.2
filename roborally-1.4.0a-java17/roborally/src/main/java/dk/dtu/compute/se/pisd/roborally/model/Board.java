@@ -73,6 +73,7 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        initBelt();
         this.stepMode = false;
     }
 
@@ -238,7 +239,9 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        ConveyorBelt ConveyorBelt = null;
+        ConveyorBelt ConveyorBelt = new ConveyorBelt();
+        ConveyorBelt.setBeltType(1);
+        ConveyorBelt.setHeading(SOUTH);
         spaces[1][1].getActions().add(ConveyorBelt);
     
     }
