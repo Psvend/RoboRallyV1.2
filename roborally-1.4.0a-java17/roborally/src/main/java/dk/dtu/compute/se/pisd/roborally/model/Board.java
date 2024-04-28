@@ -68,9 +68,9 @@ public class Board extends Subject {
             for(int y = 0; y < height; y++) {
                 Space space = new Space(this, x, y);
                 spaces[x][y] = space;
+                spaces[x][y].getActions();
             }
         }
-        initBelt();
         this.stepMode = false;
     }
 
@@ -236,5 +236,7 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
+        
+    
     }
 }
