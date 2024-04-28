@@ -9,7 +9,9 @@ public class Activator {
         this.board = board;
         for(int x = 0; x < board.width; x++){
             for(int y = 0; y < board.height; y++) {
-                
+                if(this.board.getSpace(x, y).getConveyorBelt() != null){
+
+                }
             }
         }
     }
