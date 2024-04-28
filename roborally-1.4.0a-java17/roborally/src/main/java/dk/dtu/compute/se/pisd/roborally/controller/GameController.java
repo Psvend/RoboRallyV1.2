@@ -35,6 +35,7 @@ public class GameController {
 
     final public Board board;
     private int moves = 0;
+    private Activator activator;
 
     public GameController(Board board) {
         this.board = board;
@@ -253,6 +254,7 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
+                    activator.activateConveyorBelt(this.board, this);
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
