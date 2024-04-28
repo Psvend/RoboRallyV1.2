@@ -305,10 +305,9 @@ public class GameController {
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
             isPlayerOnEnergySpace(player, energyBank);
-            // notifyAll();
         }
+        // LOOP MADE BY LOUISE FOR TESTING
         Integer j = board.getPlayersNumber();
-        // LOOP LAVET AF LOUISE
         for (int i = 0; i < j; i++ )  {
             System.out.println(board.getPlayer(i));
             System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
@@ -351,6 +350,12 @@ public class GameController {
         }
     }
 
+
+        /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -378,12 +383,7 @@ public class GameController {
                     moves = moves +1;
                     board.setMoves(moves);
                     break;
-                /**
-                 * @author Louise
-                 * @param player
-                 * @return none
-                 */
-
+                    
                 case MOVE_TWO:
                     this.moveTwoForward(player);
                     moves = moves +1;
