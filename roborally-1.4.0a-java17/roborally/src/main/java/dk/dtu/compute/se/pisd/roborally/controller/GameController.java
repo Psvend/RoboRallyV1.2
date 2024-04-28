@@ -171,7 +171,8 @@ public class GameController {
         }
     }
 
-    
+
+
 
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
@@ -293,6 +294,19 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Natali
+     * @param command
+     * @return none
+     */
+    public void handlePlayerChoice(Command command) {
+        Player currentPlayer = board.getCurrentPlayer();
+        if (currentPlayer != null) {
+            board.setPhase(Phase.ACTIVATION);
+        }
+
+    }
+
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -300,6 +314,12 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
+                case OPTION_LEFT_RIGHT:
+
+                board.setPhase(Phase.PLAYER_INTERACTION);
+
+                break;
+
                 case FORWARD:
                     this.moveForward(player);
                     moves = moves +1;

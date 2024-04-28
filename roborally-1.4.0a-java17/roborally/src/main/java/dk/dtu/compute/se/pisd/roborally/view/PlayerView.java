@@ -33,6 +33,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * ...
  *
@@ -157,7 +159,7 @@ public class PlayerView extends Tab implements ViewObserver {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
-                    if (player.board.getPhase() == Phase.PROGRAMMING ) {
+                    if (player.board.getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
                         if (i < player.board.getStep()) {
@@ -210,7 +212,7 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
 
 
-            } else {
+            } else if (player.board.getPhase() == Phase.PLAYER_INTERACTION) {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
                     programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
@@ -222,18 +224,38 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      an interactive command card, and the buttons should represent
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
-                    Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
 
-                    optionButton = new Button("Option 2");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
-                    optionButton.setDisable(false);
-                    playerInteractionPanel.getChildren().add(optionButton);
+                    int step = player.board.getStep();
+                    if (step >= 0 && step < Player.NO_REGISTERS) {
+
+                            Button optionButton = new Button(step + " Option 1");
+                            //optionButton.setOnAction(e -> gameController.handlePlayerChoice(command.getOptions().get(0)));
+                            optionButton.setDisable(false);
+                            playerInteractionPanel.getChildren().add(optionButton);
+                        }
+
+                        Button optionButton = new Button("OPTION 2");
+                        optionButton.setOnAction(e -> gameController.notImplemented());
+                        optionButton.setDisable(false);
+                        playerInteractionPanel.getChildren().add(optionButton);
+
+                    /*if (cardField != null) {
+                        CommandCard card = cardField.getCard();
+                        if (card != null) {
+                            Command command = card.command;
+
+                                List<Command> options = command.getOptions();
+                                for (Command option : options) {
+                                    Button optionButton = new Button(option.displayName);
+
+                                    playerInteractionPanel.getChildren().add(optionButton);
+                                }
+
+                        }
+                    }*/
+                    }
                 }
             }
         }
     }
 
-}
