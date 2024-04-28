@@ -54,7 +54,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private CardFieldView[] programCardViews;
     private CardFieldView[] cardViews;
-    
+
 
     private VBox buttonPanel;
 
@@ -99,21 +99,21 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
         executeButton = new Button("Execute Program");
-        executeButton.setOnAction( e-> gameController.executePrograms());
+        executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
-        stepButton.setOnAction( e-> gameController.executeStep());
+        stepButton.setOnAction(e -> gameController.executeStep());
 
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
         reserveLabel = new Label(player.getName() + " Reserve: " + gameController.board.getCurrentPlayer().getEnergyReserve());
-           // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());
+        // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());
 
-        
+
         //add button to vbox to print
         buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -137,8 +137,6 @@ public class PlayerView extends Tab implements ViewObserver {
                 cardsPane.add(cardViews[i], i, 0);
             }
         }
-        
-        
 
 
         top.getChildren().add(programLabel);
@@ -224,38 +222,25 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      an interactive command card, and the buttons should represent
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
+                    /**
+                     * @author Natali
+                     *
+                     */
 
-                    int step = player.board.getStep();
-                    if (step >= 0 && step < Player.NO_REGISTERS) {
 
-                            Button optionButton = new Button(step + " Option 1");
-                            //optionButton.setOnAction(e -> gameController.handlePlayerChoice(command.getOptions().get(0)));
+                    if (gameController.command != null) {
+
+                        for (Command option : gameController.command.getOptions()) {
+                            Button optionButton = new Button(option.displayName);
+                            optionButton.setOnAction(e -> gameController.leftOrRight(player, option));
                             optionButton.setDisable(false);
                             playerInteractionPanel.getChildren().add(optionButton);
                         }
 
-                        Button optionButton = new Button("OPTION 2");
-                        optionButton.setOnAction(e -> gameController.notImplemented());
-                        optionButton.setDisable(false);
-                        playerInteractionPanel.getChildren().add(optionButton);
-
-                    /*if (cardField != null) {
-                        CommandCard card = cardField.getCard();
-                        if (card != null) {
-                            Command command = card.command;
-
-                                List<Command> options = command.getOptions();
-                                for (Command option : options) {
-                                    Button optionButton = new Button(option.displayName);
-
-                                    playerInteractionPanel.getChildren().add(optionButton);
-                                }
-
-                        }
-                    }*/
                     }
                 }
             }
         }
     }
+}
 
