@@ -16,34 +16,30 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 
 public class EnergyBank{
     
-        //     private int energyCubesAmount;  //gemmer antallet af energy cubes, værdien ændrer sig derfor non-static
-    private int energyCube;  //en energyCube har altid værdien 1, derfor static 
+    private int energyCubes;
 
     public EnergyBank(int energyCube) {
-        //  this.energyCubesAmount = 50*energyCube;  //banken har 50 energyCubes i starten
-        this.energyCube = 50;
-        //initialCubes = 50;  //sætter den til altid at starte med at have 50 cubes
+        this.energyCubes = 50; //sætter den til altid at starte med at have 50 cubes
     }
 
+    //ÆNDRET AF LOUISE
     public boolean takeEnergyCube() {  //metode til at opdatere når en energy cubes tages fra beholdningen i banken
-        //ÆNDRET AF LOUISE
-        if(this.energyCube > 0 && this.energyCube <=50) {   //hvis beholdningen er fuld
-            this.energyCube--;      //beholdningen falder med en hvis true
+        if (this.energyCubes > 0 && this.energyCubes <=50) {   //hvis beholdningen er fuld
             return true;  
-        } else {   //hvis beholdningen er tom
-            energyCube = 0;  //sætter beholdningen til 0
+        } else {    //hvis beholdningen er tom
+            energyCubes = 0;  //sætter beholdningen til 0
             return false;
         }
     }
 
     public int getBankStatus() {  //tjekker nuværende beholdning i banken
         // ÆNDRET AF LOUISE
-        return this.energyCube;
+        return this.energyCubes;
     }
 
     // TILFØJET AF LOUISE
     public void setEnergyBank(int i){
-        this.energyCube = i;
+        this.energyCubes = i;
     }
 
 

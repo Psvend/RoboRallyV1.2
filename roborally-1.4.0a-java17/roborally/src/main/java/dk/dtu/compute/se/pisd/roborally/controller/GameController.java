@@ -262,6 +262,14 @@ public class GameController {
            } 
         }
     }
+
+
+    /**
+     * @author Petrine 
+     * Allows a player to have its own energyreserve, that will get updated every time 
+     * a cube gets added to it. 
+     * 
+     */
     // ÆNDRET AF LOUISE og ÆNNDRET TIL VOID - FLYTTET FRA PLAYER
     public void addEnergyCube(Player player, EnergyBank energyBank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
         Integer playerBank = player.getEnergyReserve();

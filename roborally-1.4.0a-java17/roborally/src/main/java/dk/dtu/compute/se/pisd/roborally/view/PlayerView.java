@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerView extends Tab implements ViewObserver {
 
     private Player player;
-    
+
     private VBox top;
 
     private Label programLabel;
@@ -77,7 +77,7 @@ public class PlayerView extends Tab implements ViewObserver {
         this.gameController = gameController;
         this.player = player;
 
-        // NYT
+        // TILFØJET AF LOUISE
         gameController.setPlayerView(player, this);
 
 
@@ -111,18 +111,15 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
+        //ÆNDRET AF LOUISE
         reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
-        
-
-           // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());
-        // reserveLabel.textProperty().bind(Bindings.concat(player.getName(), " Reserve: ").concat(gameController.board.getCurrentPlayer().getEnergyReserve()));
+    
         
         //add button to vbox to print
         buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
-        // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
@@ -159,12 +156,10 @@ public class PlayerView extends Tab implements ViewObserver {
 
     public void updateEnergyReserveLabel(int newReserve) {
         reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
-        System.out.println("JEG HAR OPDATERET NU");
     }
 
     public void updateBankLabel(int newBank) {
         bankLabel.setText("Energy Bank Status: " + newBank);
-        System.out.println("JEG HAR OPDATERET BANKEN NU");
     }
     
 
@@ -210,15 +205,12 @@ public class PlayerView extends Tab implements ViewObserver {
                         break;
 
                     case PROGRAMMING:
-                        System.out.println("DU er I PROGRAMMINGFASEN NU");
-                        updateEnergyReserveLabel(player.getEnergyReserve());
                         finishButton.setDisable(false);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         break;
 
                     case ACTIVATION:
-                        System.out.println("NU PRØVER JEG BARE NOET");
                         finishButton.setDisable(true);
                         executeButton.setDisable(false);
                         stepButton.setDisable(false);
@@ -229,8 +221,6 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                 }
-
-                System.out.println("HVAD SKER DERRRRRRR");
 
             } else {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
