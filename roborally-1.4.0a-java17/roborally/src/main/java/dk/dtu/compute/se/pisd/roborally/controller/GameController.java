@@ -185,8 +185,6 @@ public class GameController {
         }
     }
 
-    
-
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -315,12 +313,12 @@ public class GameController {
             isPlayerOnEnergySpace(player, energyBank);
         }
         // LOOP MADE BY LOUISE FOR TESTING
-        Integer j = board.getPlayersNumber();
-        for (int i = 0; i < j; i++ )  {
-            System.out.println(board.getPlayer(i));
-            System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
-            System.out.println("BANKEN HAR " + energyBank.getBankStatus());
-        }
+        // Integer j = board.getPlayersNumber();
+        // for (int i = 0; i < j; i++ )  {
+        //     System.out.println(board.getPlayer(i));
+        //     System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
+        //     System.out.println("BANKEN HAR " + energyBank.getBankStatus());
+        // }
     }
 
 
