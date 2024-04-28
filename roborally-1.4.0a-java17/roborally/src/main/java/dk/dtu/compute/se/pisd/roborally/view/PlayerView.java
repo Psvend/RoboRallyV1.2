@@ -44,7 +44,7 @@ import org.jetbrains.annotations.NotNull;
 public class PlayerView extends Tab implements ViewObserver {
 
     private Player player;
-
+    
     private VBox top;
 
     private Label programLabel;
@@ -209,12 +209,15 @@ public class PlayerView extends Tab implements ViewObserver {
                         break;
 
                     case PROGRAMMING:
+                        System.out.println("DU er I PROGRAMMINGFASEN NU");
+                        updateEnergyReserveLabel(player.getEnergyReserve());
                         finishButton.setDisable(false);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         break;
 
                     case ACTIVATION:
+                        System.out.println("NU PRØVER JEG BARE NOET");
                         finishButton.setDisable(true);
                         executeButton.setDisable(false);
                         stepButton.setDisable(false);
