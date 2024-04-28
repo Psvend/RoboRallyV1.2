@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class Space extends Subject {
 
+    private ConveyorBelt ConveyorBelt;
+
     private Player player;
 
     private List<Heading> walls = new ArrayList<>();
@@ -86,11 +88,19 @@ public class Space extends Subject {
         this.actions = actions;
     }
 
+    public ConveyorBelt getConveyorBelt(){
+        return ConveyorBelt;
+    }
+
+    public void setConveyorBelt(ConveyorBelt conveyorBelt) {
+        this.ConveyorBelt = conveyorBelt;
+    }
+
     public List<ConveyorBelt> getConveyorBelts() {
         return belt;
     }
 
-    public void setBelt(){
+    public void setBelt(List<ConveyorBelt> belt){
         this.belt = belt;
     }
 

@@ -53,6 +53,8 @@ public class Board extends Subject {
 
     private List<FieldAction> actions = new ArrayList<>();
 
+    private List<ConveyorBelt> belts = new ArrayList<>();
+
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -239,10 +241,12 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        ConveyorBelt ConveyorBelt = new ConveyorBelt();
+        ConveyorBelt ConveyorBelt = new ConveyorBelt();;
         ConveyorBelt.setBeltType(1);
         ConveyorBelt.setHeading(SOUTH);
-        spaces[1][1].getActions().add(ConveyorBelt);
-    
+        spaces[1][1].setConveyorBelt(ConveyorBelt);
+        spaces[1][2].setConveyorBelt(ConveyorBelt);
+        spaces[1][3].setConveyorBelt(ConveyorBelt);
+        spaces[1][4].setConveyorBelt(ConveyorBelt);    
     }
 }
