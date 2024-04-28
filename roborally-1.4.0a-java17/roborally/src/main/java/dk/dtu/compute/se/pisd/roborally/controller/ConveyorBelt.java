@@ -67,14 +67,14 @@ public class ConveyorBelt extends FieldAction {
     if (space.getPlayer() != null) {
       if(getBeltType()==1){
         try {
-          gameController.moveToSpace(this.space.getPlayer(), this.space, this.getHeading());
+          this.gameController.moveToSpace(this.space.getPlayer(), this.space, this.getHeading());
         } catch (ImpossibleMoveException e) {
           e.printStackTrace();
         };
         return true;
       } else if (getBeltType()==2){
           try {
-            gameController.moveToSpace(this.space.getPlayer(), target, this.getHeading());
+            this.gameController.moveToSpace(this.space.getPlayer(), target, this.getHeading());
           } catch (ImpossibleMoveException e) {
             e.printStackTrace();
           }
