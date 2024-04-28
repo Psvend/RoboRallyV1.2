@@ -70,6 +70,8 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        // initEnergySpaces();
+        initGearSpaces();
         this.stepMode = false;
     }
 
@@ -236,7 +238,19 @@ public class Board extends Subject {
                 spaces[7][8] = new EnergySpace(this, 7, 8);
                 spaces[2][5] = new EnergySpace(this, 2, 5);
             }
+    
+
+    private void initGearSpaces() {
+        spaces[0][0] = new GearSpace(this, 0, 0);
+        spaces[1][0] = new GearSpace(this, 1, 0);
+        spaces[2][0] = new GearSpace(this, 2, 0);
+        spaces[3][0] = new GearSpace(this, 3, 0);
+        spaces[4][0] = new GearSpace(this, 4, 0);
+        spaces[5][0] = new GearSpace(this, 5, 0);
+
     }
+
+}
     
 
 

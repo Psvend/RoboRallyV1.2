@@ -3,8 +3,13 @@
  * Added the CSS file
  */
 
-/* #space-view {
+#space-view {
     -fx-background-color:lightgray;
+    -fx-border-style: solid;
+}
+
+#gearspace-view{
+    -fx-background-color: green;
 }
 
 #menuBar {
@@ -15,9 +20,9 @@
     -fx-background-color: yellow;
     -fx-spacing: 10px; /* Tilføj lidt mellemrum mellem hvert menuelement */
 
-/* } */
+}
 
-/* #menuItem {
+#menuItem {
     -fx-background-color: yellow;
     -fx-content-display: block;
 }
@@ -26,4 +31,3 @@
     -fx-background-color: orange;
 }
 
- */

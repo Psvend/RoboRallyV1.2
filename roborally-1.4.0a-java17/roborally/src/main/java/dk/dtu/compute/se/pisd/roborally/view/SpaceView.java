@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
+import dk.dtu.compute.se.pisd.roborally.model.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -71,18 +72,20 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         this.setId("space-view");
 
-        if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
-        } else {
-            this.setStyle("-fx-background-color: black;");
-        }
+        // if ((space.x + space.y) % 2 == 0) {
+        //     this.setStyle("-fx-background-color: white;");
+        // } else {
+        //     this.setStyle("-fx-background-color: black;");
+        // }
 
-        //KAN DEN VIRKE VED AT INDSÆTTE DET HER?
         if(space instanceof EnergySpace) {
-            Image energyImage = new Image("file:graphics\\bolt.png");
-            ImageView energyView = new ImageView(energyImage);
-
+            this.setId("energyspace-view");
         }
+
+        if(space instanceof GearSpace) {
+            this.setId("gearspace-view");
+        }
+
         
         
 
