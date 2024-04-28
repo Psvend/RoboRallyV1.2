@@ -40,6 +40,7 @@ public class Space extends Subject {
 
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
+    private List<ConveyorBelt> belt = new ArrayList<>();
 
     public final Board board;
 
@@ -81,8 +82,16 @@ public class Space extends Subject {
         return actions;
     }
 
-    public void setAction(FieldAction actions) {
-        actions.add(ConveyorBelt);
+    public void setAction(List<FieldAction> actions) {
+        this.actions = actions;
+    }
+
+    public List<ConveyorBelt> getConveyorBelts() {
+        return belt;
+    }
+
+    public void setBelt(){
+        this.belt = belt;
     }
 
     void playerChanged() {

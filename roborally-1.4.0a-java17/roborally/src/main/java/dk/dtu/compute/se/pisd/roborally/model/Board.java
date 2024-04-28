@@ -238,7 +238,8 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        spaces[1][1].getActions();
+        ConveyorBelt ConveyorBelt = null;
+        spaces[1][1].getActions().add(ConveyorBelt);
     
     }
 }
