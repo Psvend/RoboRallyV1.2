@@ -37,6 +37,7 @@ public class GameController {
     final public EnergyBank energyBank;
     public EnergySpace energySpace;
     public int moves = 0;
+    public Command command;
 
     public GameController(Board board) {
         this.board = board;
@@ -171,10 +172,6 @@ public class GameController {
         }
     }
 
-
-
-
-
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
@@ -270,20 +267,28 @@ public class GameController {
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
-                }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    step++;
-                    if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
-                        board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
-                        startProgrammingPhase();
+
+                    if(command.isInteractive()){
+                        board.setPhase(Phase.PLAYER_INTERACTION);
                     }
                 }
+
+                    int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+
+                    if (nextPlayerNumber < board.getPlayersNumber()) {
+                        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                    } else {
+                        step++;
+                        if (step < Player.NO_REGISTERS) {
+                            makeProgramFieldsVisible(step);
+                            board.setStep(step);
+                            board.setCurrentPlayer(board.getPlayer(0));
+                        } else {
+                            startProgrammingPhase();
+                        }
+                    }
+
+
             } else {
                 // this should not happen
                 assert false;
@@ -296,28 +301,28 @@ public class GameController {
 
     /**
      * @author Natali
-     * @param command
+     * @param player,
      * @return none
      */
-    public void handlePlayerChoice(Command command) {
-        Player currentPlayer = board.getCurrentPlayer();
-        if (currentPlayer != null) {
-            board.setPhase(Phase.ACTIVATION);
-        }
 
+    // TODO Assignment A3
+        public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            board.setPhase(Phase.ACTIVATION);
+            executeCommand(player, command);
+        }
     }
+
+
 
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
+
 
             switch (command) {
                 case OPTION_LEFT_RIGHT:
-
                 board.setPhase(Phase.PLAYER_INTERACTION);
-
+                this.command = command;
                 break;
 
                 case FORWARD:
@@ -447,11 +452,5 @@ public class GameController {
             this.heading = heading;
         }
     }
-
-
-
-
-
-
 
 }
