@@ -118,8 +118,8 @@ public class CardFieldView extends GridPane implements ViewObserver {
                 }
             }
         }
+        
         return null;
-
     }
 
     private CommandCardField cardFieldFromRepresentation(String rep) {

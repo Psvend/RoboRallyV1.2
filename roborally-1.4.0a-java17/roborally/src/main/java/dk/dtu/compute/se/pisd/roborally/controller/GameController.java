@@ -340,8 +340,6 @@ public class GameController {
         // }
     }
 
-
-
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
