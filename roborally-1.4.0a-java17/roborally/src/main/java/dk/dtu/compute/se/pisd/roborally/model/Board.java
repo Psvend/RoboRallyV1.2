@@ -240,21 +240,26 @@ public class Board extends Subject {
     }
 
 
+
+
     public EnergyBank getEnergyBank() {
         return energyBank;
     }
 
+
+    /**
+     * @author Petrine
+     * @param initEnergySpaces()
+     * Here are the four energy spaces defined. The functionalities can 
+     * be found in EnergySpaces.java
+     */
     private void initEnergySpaces() {
-        //int[][] energySpacePositions = {{1, 1}, {3, 6}, {7,8},{2,5}};
-            //for(int[] position : energySpacePositions) {
-                //int x = position[0];
-                //int y = position[1];
-                spaces[1][1] = new EnergySpace(this, 1, 1);
-                spaces[3][6] = new EnergySpace(this, 3, 6);
-                spaces[7][5] = new EnergySpace(this, 7, 7);
-                spaces[2][5] = new EnergySpace(this, 2, 5);
+        spaces[1][1] = new EnergySpace(this, 1, 1);
+        spaces[3][6] = new EnergySpace(this, 3, 6);
+        spaces[7][5] = new EnergySpace(this, 7, 7);
+        spaces[6][2] = new EnergySpace(this, 6, 2);
             
-            }
+        }
     }
     
 

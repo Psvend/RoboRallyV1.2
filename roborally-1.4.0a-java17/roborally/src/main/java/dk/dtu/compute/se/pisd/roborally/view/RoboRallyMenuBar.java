@@ -22,9 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  * ...
@@ -50,7 +55,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
-
+        
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
@@ -78,6 +83,8 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.setOnShown(e -> this.updateBounds());
         update();
     }
+
+
 
     public void update() {
         if (appController.isGameRunning()) {

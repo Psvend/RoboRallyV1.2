@@ -84,7 +84,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
         this.setMinHeight(CARDFIELD_HEIGHT);
         this.setMaxHeight(CARDFIELD_HEIGHT);
 
-        label = new Label("This is a slightly longer text");
+        label = new Label("missing"); //"This is a slightly longer text");
         label.setWrapText(true);
         label.setMouseTransparent(true);
         this.add(label, 0, 0);
@@ -101,6 +101,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
     }
 
     private String cardFieldRepresentation(CommandCardField cardField) {
+        
         if (cardField.player != null) {
 
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
@@ -140,6 +141,41 @@ public class CardFieldView extends GridPane implements ViewObserver {
         return null;
     }
 
+
+
+/**
+ * @author Petrine, s235064
+ * @param updateView 
+ * handles how the cards are shown in the panel on the view. 
+ * The png's are specified in the css file
+ */
+@Override
+public void updateView(Subject subject) {
+    if (subject == field && subject != null) {
+        CommandCard card = field.getCard();
+        if (card != null && field.isVisible()) {
+            label.setText(card.getName());
+            
+            // Use the card name to set a unique CSS ID for the card view
+            // Assuming the card name is suitable to be used as an ID
+            // You might need to ensure the name has no spaces or special characters
+            this.setId("card-" + card.getName().replace(" ", "").replace("-",""));
+            
+            // Now, the CSS file can target this specific card using #card-cardname
+        } else {
+            label.setText("");
+            
+            // Clear the ID if there's no card
+            this.setId(null);
+        }
+    }
+}
+
+
+
+
+
+    /* THE OLD GIVEN VERSION, DONT DELETE BEFORE WE ARE SURE THE NEW ONE WORKS
     @Override
     public void updateView(Subject subject) {
         if (subject == field && subject != null) {
@@ -151,7 +187,7 @@ public class CardFieldView extends GridPane implements ViewObserver {
             }
         }
     }
-
+*/
     private class OnDragDetectedHandler implements EventHandler<MouseEvent> {
 
         @Override
