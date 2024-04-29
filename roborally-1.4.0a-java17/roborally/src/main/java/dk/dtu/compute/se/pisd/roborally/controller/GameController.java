@@ -60,23 +60,44 @@ public class GameController {
     }
 
 
-    
+
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
-            Space space = player.getSpace();
+            Space currSpace = player.getSpace();
             Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
+
+            // Check if there's a wall in front of the player (either on the current space or the neighboring space)
+            if (currSpace != null && currSpace.hasWall(heading)) {
+                System.out.println("Cannot move forward: Wall detected in the way.");
+                return;
+            }
+
+            // Get the space in the forward direction using getNeighbour method
+            Space forwardSpace = board.getNeighbour(currSpace, heading);
+
+            // Check if the forward space is valid and if there's a wall facing the space the player came from
+            if (forwardSpace != null) {
+                // Get the backward space (the space the player came from)
+                Heading backwardHeading = heading.opposite();
+                Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
+
+                // Check if there's a wall facing the backward space in the forward space
+                if (backwardSpace != null && forwardSpace.hasWall(backwardHeading)) {
+                    return;
                 }
+
+                try {
+                    // Move the player to the forward space
+                    moveToSpace(player, forwardSpace, heading);
+                } catch (ImpossibleMoveException e) {
+                    // Handle the exception if necessary
+                    System.out.println("Cannot move forward: " + e.getMessage());
+                }
+
             }
         }
     }
+
     /**
      * @author Louise
      * @param player

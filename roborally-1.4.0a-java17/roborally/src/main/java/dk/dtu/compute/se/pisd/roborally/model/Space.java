@@ -87,7 +87,10 @@ public class Space extends Subject {
         notifyChange();
     }
 
-    
+
+    public boolean hasWall(Heading heading) {
+        return walls.contains(heading);
+    }
 
 
 
