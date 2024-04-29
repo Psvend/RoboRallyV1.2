@@ -264,17 +264,19 @@ public class Board extends Subject {
         }
     private void initWallSpaces() {
         // Create WallSpace objects and set them at specific coordinates
-        spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
+        spaces[0][1] = new WallSpace(this, 0, 1, Heading.EAST);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
-        spaces[5][5] = new WallSpace(this, 5, 5, Heading.SOUTH);
-        spaces[7][2] = new WallSpace(this, 7, 2, Heading.SOUTH);
+        spaces[5][5] = new WallSpace(this, 5, 5, Heading.WEST);
+        spaces[7][2] = new WallSpace(this, 7, 2, Heading.NORTH);
     }
+
 
     //Louise
     private void initCheckpointSpaces () {
         spaces[7][7] = new CheckpointSpace(this, 0, 1);
     }
 }
+
 
     
 
