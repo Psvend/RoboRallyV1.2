@@ -27,6 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ...
@@ -68,13 +71,30 @@ public class GameController {
         return distance;
     }
 
-   /* public ArrayList<Player> determiningPriority(@NotNull Player player){
+    public ArrayList<Player> determiningPriority(){
         ArrayList<Player> playersTurn = new ArrayList<>();
-        int playerNumber = board.getPlayersNumber();
+        HashMap<Player, Integer> playerDistances = new HashMap<>();
 
-        int playerIndex = board.getPlayerNumber(player);
-        return ;
-    }*/
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player currentPlayer = board.getPlayer(i);
+            int distance = distanceToPriorityAntenna(currentPlayer);
+            playerDistances.put(currentPlayer, distance);
+        }
+
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerDistances.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Player, Integer> entry : list) {
+            playersTurn.add(entry.getKey());
+        }
+
+        return playersTurn;
+    }
+
+    public String movePlayerToPriorityAntenna(Player player){
+        player.board.setCurrentPlayer(determiningPriority().get(0));
+        return player.board.getCurrentPlayer().getName();
+    }
 
 
     
