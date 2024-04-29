@@ -73,6 +73,7 @@ public class Board extends Subject {
             }
         }
         initEnergySpaces();
+        setPriorityAntenna();
         this.stepMode = false;
         
     }
@@ -249,7 +250,7 @@ public class Board extends Subject {
 
     /**
      * @author Petrine
-     * @param initEnergySpaces()
+     *
      * Here are the four energy spaces defined. The functionalities can 
      * be found in EnergySpaces.java
      */
@@ -259,8 +260,12 @@ public class Board extends Subject {
         spaces[7][5] = new EnergySpace(this, 7, 7);
         spaces[6][2] = new EnergySpace(this, 6, 2);
             
-        }
     }
+
+    private void setPriorityAntenna() {
+        spaces[4][7] = new PriorityAntenna(this, 2, 2);
+    }
+}
     
 
 
