@@ -25,6 +25,9 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 /**
  * ...
  *
@@ -45,6 +48,33 @@ public class GameController {
         this.energySpace = new EnergySpace(board, 1, 1);
         
     }
+
+    public int distanceToPriorityAntenna(@NotNull Player player){
+        int spaceX = player.getSpace().x;
+        int spaceY = player.getSpace().y;
+        int antennaX = board.getPriorityAntenna().x;
+        int antennaY = board.getPriorityAntenna().y;
+        int distance = 0;
+        if(spaceX < antennaX){
+            distance = antennaX - spaceX;
+            } else {
+            distance = spaceX - antennaX;
+        }
+        if(spaceY < antennaY){
+            distance = distance + (antennaY - spaceY);
+        } else {
+            distance = distance + (spaceY - antennaY);
+        }
+        return distance;
+    }
+
+   /* public ArrayList<Player> determiningPriority(@NotNull Player player){
+        ArrayList<Player> playersTurn = new ArrayList<>();
+        int playerNumber = board.getPlayersNumber();
+
+        int playerIndex = board.getPlayerNumber(player);
+        return ;
+    }*/
 
 
     
