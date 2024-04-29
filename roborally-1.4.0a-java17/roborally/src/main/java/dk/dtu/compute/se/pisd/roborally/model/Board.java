@@ -73,6 +73,7 @@ public class Board extends Subject {
             }
         }
         initEnergySpaces();
+        initWallSpaces();
         this.stepMode = false;
         
     }
