@@ -20,7 +20,6 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import org.jetbrains.annotations.NotNull;
@@ -163,11 +162,30 @@ public class GameController {
     public void again(@NotNull Player player){
         int step = board.getStep();
         if (step > 0 ) {
-            CommandCard card = player.getProgramField(step - 1).getCard();
-            if (card != null) {
-                Command command = card.command;
-                executeCommand(player, command);
+            // CommandCard card = player.getProgramField(step).getCard();
+            // String cardDisplayName = card.command.getDisplayName();
+            // if (card != null && cardDisplayName == "Prvs commnd") {
+
+            //     card = player.getProgramField(step - 2).getCard();
+            //     Command command = card.command;
+            //     executeCommand(player, command);
+            // }
+            // else if (card != null && cardDisplayName != "Prvs commnd") {
+
+            //     Command command = card.command;
+            //     executeCommand(player, command);
+            // }
+
+            for (int i = step ; i >=0; i-- ) {
+                CommandCard card = player.getProgramField(i).getCard();
+                String cardDisplayName = card.command.getDisplayName();
+                if (cardDisplayName != "Prvs commnd") {
+                    Command command = card.command;
+                    executeCommand(player, command);
+                    break;
+                }
             }
+
         }
     }
 

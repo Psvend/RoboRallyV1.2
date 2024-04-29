@@ -63,6 +63,11 @@ public enum Command {
         return !options.isEmpty();
     }
 
+    // LOUISE
+    public String getDisplayName(){
+        return this.displayName;
+    }
+
     public List<Command> getOptions() {
         return options;
     }
