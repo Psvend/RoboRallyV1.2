@@ -88,6 +88,9 @@ public class Space extends Subject {
     }
 
 
+    public boolean hasWall(Heading heading) {
+        return walls.contains(heading);
+    }
 
 
 

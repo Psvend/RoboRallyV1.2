@@ -80,10 +80,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("energyspace-view");
         }
 
-        //Hvis et space har en væg
-        if(space instanceof WallSpace) {
-            this.setId("wall-view");
-        }
+
 
         if(space instanceof CheckpointSpace) {
             this.setId("checkpoint-view");
