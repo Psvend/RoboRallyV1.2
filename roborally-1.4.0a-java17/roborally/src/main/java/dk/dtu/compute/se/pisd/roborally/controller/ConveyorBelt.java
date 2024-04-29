@@ -71,7 +71,7 @@ public class ConveyorBelt extends FieldAction {
           return true;
         } catch (ImpossibleMoveException e) {
           e.printStackTrace();
-          return false;
+         return false;
         }
       } else if (getBeltType()==2){
           try {
