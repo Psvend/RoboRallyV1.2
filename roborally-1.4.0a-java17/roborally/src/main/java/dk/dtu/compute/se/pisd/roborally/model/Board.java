@@ -260,7 +260,17 @@ public class Board extends Subject {
         spaces[6][2] = new EnergySpace(this, 6, 2);
             
         }
+    private void initWallSpaces() {
+        // Create WallSpace objects and set them at specific coordinates
+        spaces[0][1] = new WallSpace(this, 0, 1, Heading.EAST);
+        spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
+        spaces[5][5] = new WallSpace(this, 5, 5, Heading.WEST);
+        spaces[7][2] = new WallSpace(this, 7, 2, Heading.NORTH);
     }
+
+
+    }
+
     
 
 
