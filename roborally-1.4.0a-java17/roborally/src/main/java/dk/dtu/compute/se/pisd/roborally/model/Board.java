@@ -73,7 +73,7 @@ public class Board extends Subject {
             }
         }
         initEnergySpaces();
-        setPriorityAntenna();
+        initPriorityAntenna();
         this.stepMode = false;
         
     }
@@ -262,8 +262,14 @@ public class Board extends Subject {
             
     }
 
-    private void setPriorityAntenna() {
-        spaces[4][7] = new PriorityAntenna(this, 2, 2);
+    private void initPriorityAntenna() {
+
+        spaces[4][7] = new PriorityAntenna(this, 4, 7);
+
+    }
+
+    public Space getPriorityAntenna() {
+        return spaces[4][7];
     }
 }
     

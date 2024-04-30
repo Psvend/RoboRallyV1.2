@@ -25,6 +25,12 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ...
  *
@@ -38,16 +44,73 @@ public class GameController {
     public EnergySpace energySpace;
     public int moves = 0;
     public Command command;
+    public ArrayList<Player> priorityPlayers = new ArrayList<>();
+    public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
+    public Player interactivePlayer;
 
     public GameController(Board board) {
         this.board = board;
         this.energyBank = new EnergyBank(1);
         this.energySpace = new EnergySpace(board, 1, 1);
+
         
     }
 
+    /**
+     * @author Natali
+     * @param player
+     * @return distance
+     */
 
-    
+    // TODO Assignment A3
+
+    public int distanceToPriorityAntenna(@NotNull Player player){
+        int spaceX = player.getSpace().x;
+        int spaceY = player.getSpace().y;
+        int antennaX = board.getPriorityAntenna().x;
+        int antennaY = board.getPriorityAntenna().y;
+        int distance = 0;
+        if(spaceX < antennaX){
+            distance = antennaX - spaceX;
+            } else {
+            distance = spaceX - antennaX;
+        }
+        if(spaceY < antennaY){
+            distance = distance + (antennaY - spaceY);
+        } else {
+            distance = distance + (spaceY - antennaY);
+        }
+        return distance;
+    }
+
+    /**
+     * @author Natali
+     *
+     * @return playersTurn
+     */
+
+    // TODO Assignment A3
+    public ArrayList<Player> determiningPriority(){
+        ArrayList<Player> playersTurn = new ArrayList<>();
+        HashMap<Player, Integer> playerDistances = new HashMap<>();
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player currentPlayer = board.getPlayer(i);
+            int distance = distanceToPriorityAntenna(currentPlayer);
+            playerDistances.put(currentPlayer, distance);
+        }
+
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerDistances.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Player, Integer> entry : list) {
+            playersTurn.add(entry.getKey());
+        }
+
+        return playersTurn;
+    }
+
+
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
@@ -172,6 +235,20 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
+
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
+        }
+    }
+
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
@@ -234,11 +311,14 @@ public class GameController {
         }
     }
 
+
+
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
     }
 
@@ -253,41 +333,49 @@ public class GameController {
     }
 
     private void continuePrograms() {
-        do {
-            executeNextStep();
-        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        if(board.getPhase() == Phase.PLAYER_INTERACTION) {
+
+        } else {
+            do {
+                executeNextStep();
+            } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        }
     }
 
     private void executeNextStep() {
-        Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
+
+
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
 
-                    if(command.isInteractive()){
+                    if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
+                        interactivePlayer = priorityPlayers.get(0);
+
+
                     }
                 }
 
-                    int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                    priorityPlayers.remove(0); // remove the current player from the priority list
 
-                    if (nextPlayerNumber < board.getPlayersNumber()) {
-                        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                    step++; // go to the next card
+                    if (step < Player.NO_REGISTERS) {
+                        makeProgramFieldsVisible(step); // make the next card visible
+                        board.setStep(step);
                     } else {
-                        step++;
-                        if (step < Player.NO_REGISTERS) {
-                            makeProgramFieldsVisible(step);
-                            board.setStep(step);
-                            board.setCurrentPlayer(board.getPlayer(0));
-                        } else {
-                            startProgrammingPhase();
-                        }
+                        startProgrammingPhase();
                     }
-
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                }
+                board.setCurrentPlayer(priorityPlayers.get(0));
 
             } else {
                 // this should not happen
@@ -299,29 +387,13 @@ public class GameController {
         }
     }
 
-    /**
-     * @author Natali
-     * @param player,
-     * @return none
-     */
-
-    // TODO Assignment A3
-        public void leftOrRight(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
-            board.setPhase(Phase.ACTIVATION);
-            executeCommand(player, command);
-        }
-    }
-
-
-
-    private void executeCommand(@NotNull Player player, Command command) {
+       private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
 
 
             switch (command) {
                 case OPTION_LEFT_RIGHT:
-                board.setPhase(Phase.PLAYER_INTERACTION);
+                //board.setPhase(Phase.PLAYER_INTERACTION);
                 this.command = command;
                 break;
 
@@ -402,8 +474,10 @@ public class GameController {
 
 
     public void startProgrammingPhase() {
+        priorityPlayers= determiningPriority();
+        copyOfpriorityPlayers.addAll(priorityPlayers);
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
