@@ -44,11 +44,13 @@ public class GameController {
     public EnergySpace energySpace;
     public int moves = 0;
     public Command command;
+    public ArrayList<Player> priorityPlayers = new ArrayList<>();
 
     public GameController(Board board) {
         this.board = board;
         this.energyBank = new EnergyBank(1);
         this.energySpace = new EnergySpace(board, 1, 1);
+
         
     }
 
@@ -91,13 +93,7 @@ public class GameController {
         return playersTurn;
     }
 
-    public String movePlayerToPriorityAntenna(Player player){
-        player.board.setCurrentPlayer(determiningPriority().get(0));
-        return player.board.getCurrentPlayer().getName();
-    }
 
-
-    
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
@@ -288,7 +284,7 @@ public class GameController {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
     }
 
@@ -309,10 +305,10 @@ public class GameController {
     }
 
     private void executeNextStep() {
-        Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
@@ -323,22 +319,21 @@ public class GameController {
                     }
                 }
 
-                    int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                priorityPlayers.remove(0); // remove the current player from the priority list
 
-                    if (nextPlayerNumber < board.getPlayersNumber()) {
-                        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                    step++;
+                    if (step < Player.NO_REGISTERS) {
+                        makeProgramFieldsVisible(step);
+                        board.setStep(step);
+                        priorityPlayers = determiningPriority(); // determine the priority for the next step
+                        board.setCurrentPlayer(priorityPlayers.get(0));
                     } else {
-                        step++;
-                        if (step < Player.NO_REGISTERS) {
-                            makeProgramFieldsVisible(step);
-                            board.setStep(step);
-                            board.setCurrentPlayer(board.getPlayer(0));
-                        } else {
-                            startProgrammingPhase();
-                        }
+                        startProgrammingPhase();
                     }
-
-
+                } else {
+                    board.setCurrentPlayer(priorityPlayers.get(0)); // set the next player from the priority list
+                }
             } else {
                 // this should not happen
                 assert false;
@@ -452,8 +447,9 @@ public class GameController {
 
 
     public void startProgrammingPhase() {
+        priorityPlayers= determiningPriority();
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
