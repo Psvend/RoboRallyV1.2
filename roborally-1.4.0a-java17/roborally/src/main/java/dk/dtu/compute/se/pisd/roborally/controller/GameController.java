@@ -45,6 +45,7 @@ public class GameController {
     public int moves = 0;
     public Command command;
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
+    public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
 
     public GameController(Board board) {
         this.board = board;
@@ -280,6 +281,9 @@ public class GameController {
         }
     }
 
+
+
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -307,9 +311,12 @@ public class GameController {
     private void executeNextStep() {
         if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
+
+
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
@@ -322,18 +329,17 @@ public class GameController {
                 priorityPlayers.remove(0); // remove the current player from the priority list
 
                 if (priorityPlayers.isEmpty()) { // if the priority list is empty
-                    step++;
+                    step++; // go to the next card
                     if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
+                        makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
-                        priorityPlayers = determiningPriority(); // determine the priority for the next step
-                        board.setCurrentPlayer(priorityPlayers.get(0));
                     } else {
                         startProgrammingPhase();
                     }
-                } else {
-                    board.setCurrentPlayer(priorityPlayers.get(0)); // set the next player from the priority list
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
                 }
+                board.setCurrentPlayer(priorityPlayers.get(0));
+
             } else {
                 // this should not happen
                 assert false;
@@ -448,6 +454,7 @@ public class GameController {
 
     public void startProgrammingPhase() {
         priorityPlayers= determiningPriority();
+        copyOfpriorityPlayers.addAll(priorityPlayers);
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
