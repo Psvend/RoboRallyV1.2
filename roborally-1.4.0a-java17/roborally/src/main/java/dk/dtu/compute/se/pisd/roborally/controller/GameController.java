@@ -433,7 +433,7 @@ public class GameController {
                             case NORTH:
                                 target = player.setSpace(board, );
                                 break;
-                        
+                            
                             case SOUTH:
                         
                                 break;
@@ -445,16 +445,39 @@ public class GameController {
                             case EAST:
 
                                 break;
-                        
-                            default:
-
-                                break;
                         }
                     }
                 }
             }
         }
 
+    }
+
+    public Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+        Space space = null;
+            switch (heading) {
+                case NORTH:
+                    if (OFFSET < 0 && y < board.height -1) {
+                        space = board.getSpace(x, y + Math.abs(OFFSET));
+                    } else if (OFFSET >= y && y >= board.height){
+
+                    }
+                break;
+
+                case SOUTH:
+
+                break;
+
+                case EAST:
+
+                break;
+
+                case WEST:
+
+                break;
+
+            }
+        return space;
     }
 
 }
