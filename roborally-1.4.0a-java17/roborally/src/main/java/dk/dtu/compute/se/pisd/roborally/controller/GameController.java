@@ -46,6 +46,7 @@ public class GameController {
     public Command command;
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
     public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
+    public Player interactivePlayer;
 
     public GameController(Board board) {
         this.board = board;
@@ -321,12 +322,15 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
 
-                    if(command.isInteractive()){
+                    if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
+                        interactivePlayer = priorityPlayers.get(0);
+
+
                     }
                 }
 
-                priorityPlayers.remove(0); // remove the current player from the priority list
+                    priorityPlayers.remove(0); // remove the current player from the priority list
 
                 if (priorityPlayers.isEmpty()) { // if the priority list is empty
                     step++; // go to the next card
@@ -372,7 +376,7 @@ public class GameController {
 
             switch (command) {
                 case OPTION_LEFT_RIGHT:
-                board.setPhase(Phase.PLAYER_INTERACTION);
+                //board.setPhase(Phase.PLAYER_INTERACTION);
                 this.command = command;
                 break;
 
