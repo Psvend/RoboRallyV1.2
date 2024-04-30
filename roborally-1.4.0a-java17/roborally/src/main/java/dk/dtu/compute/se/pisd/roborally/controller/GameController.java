@@ -70,7 +70,7 @@ public class GameController {
             if (currentSpace != null && currentSpace instanceof WallSpace) {
                 WallSpace wallSpace = (WallSpace) currentSpace;
                 if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                    return;
+                    return; // Cannot move forward: Wall detected in the way
                 }
             }
 
@@ -86,18 +86,17 @@ public class GameController {
                 // Check if there's a wall facing the backward space in the forward space
                 if (backwardSpace != null && backwardSpace instanceof WallSpace) {
                     WallSpace backwardWallSpace = (WallSpace) backwardSpace;
-                    if (backwardWallSpace.getHeading() == heading && backwardWallSpace.hasWall()) {
-                        return;
+                    if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                        return; // Cannot move forward: Wall detected in the opposite direction
                     }
                 }
 
                 // Move the player to the forward space
                 player.setSpace(forwardSpace);
-            } else {
-                System.out.println("Cannot move forward: No space available in the forward direction.");
             }
         }
     }
+
 
 
 
