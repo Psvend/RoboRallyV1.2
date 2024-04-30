@@ -56,6 +56,14 @@ public class GameController {
         
     }
 
+    /**
+     * @author Natali
+     * @param player
+     * @return distance
+     */
+
+    // TODO Assignment A3
+
     public int distanceToPriorityAntenna(@NotNull Player player){
         int spaceX = player.getSpace().x;
         int spaceY = player.getSpace().y;
@@ -75,6 +83,13 @@ public class GameController {
         return distance;
     }
 
+    /**
+     * @author Natali
+     *
+     * @return playersTurn
+     */
+
+    // TODO Assignment A3
     public ArrayList<Player> determiningPriority(){
         ArrayList<Player> playersTurn = new ArrayList<>();
         HashMap<Player, Integer> playerDistances = new HashMap<>();
@@ -220,6 +235,20 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
+
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
+        }
+    }
+
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
@@ -304,9 +333,13 @@ public class GameController {
     }
 
     private void continuePrograms() {
-        do {
-            executeNextStep();
-        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        if(board.getPhase() == Phase.PLAYER_INTERACTION) {
+
+        } else {
+            do {
+                executeNextStep();
+            } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+        }
     }
 
     private void executeNextStep() {
@@ -354,23 +387,7 @@ public class GameController {
         }
     }
 
-    /**
-     * @author Natali
-     * @param player,
-     * @return none
-     */
-
-    // TODO Assignment A3
-        public void leftOrRight(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
-            board.setPhase(Phase.ACTIVATION);
-            executeCommand(player, command);
-        }
-    }
-
-
-
-    private void executeCommand(@NotNull Player player, Command command) {
+       private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
 
 
