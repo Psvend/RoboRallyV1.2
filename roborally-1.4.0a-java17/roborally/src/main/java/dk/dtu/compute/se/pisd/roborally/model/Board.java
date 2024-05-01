@@ -241,7 +241,7 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        ConveyorBelt ConveyorBelt = new ConveyorBelt();;
+        ConveyorBelt ConveyorBelt = new ConveyorBelt();
         ConveyorBelt.setBeltType(1);
         ConveyorBelt.setHeading(SOUTH);
         spaces[1][1].setConveyorBelt(ConveyorBelt);
