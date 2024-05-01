@@ -254,7 +254,7 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
-                    Activator.getInstance().activateConveyorBelt(board, this);
+                    Activator.getInstance().activateBoardElements(board, this);
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);

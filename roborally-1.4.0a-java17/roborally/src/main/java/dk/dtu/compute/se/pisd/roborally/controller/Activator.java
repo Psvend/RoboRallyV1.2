@@ -2,6 +2,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import org.jetbrains.annotations.NotNull;
 
+import dk.dtu.compute.se.pisd.roborally.controller.GameController.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
@@ -18,16 +19,17 @@ public class Activator {
         return activator;
     }
 
-    public void activateConveyorBelt(@NotNull Board board, @NotNull GameController gameController){
+    public void activateBoardElements(Board board, GameController gameController) {
         this.board = board;
         this.gameController = gameController;
-        for(int x = 0; x < this.board.width; x++){
-            for(int y = 0; y < this.board.height; y++) {
-                if(this.board.getSpace(x, y).getConveyorBelt() != null ){
-                    this.board.getSpace(x, y).getConveyorBelt().doAction(this.gameController, this.board.getSpace(x, y));
-                } else {
-                }
-            }
+        activateConveyorBelts();
+    }
+
+    private void activateConveyorBelts(){
+        try{
+            gameController.activateConveyorBelt();
+        } catch (ImpossibleMoveException e) {
+
         }
     }
 }
