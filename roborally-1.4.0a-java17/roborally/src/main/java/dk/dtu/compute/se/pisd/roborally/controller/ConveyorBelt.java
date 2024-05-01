@@ -40,6 +40,7 @@ public class ConveyorBelt extends FieldAction {
   private int beltType;
   private Space space;
   private GameController gameController;
+  private Player player;
 
   public Heading getHeading() {
     return heading;
@@ -59,33 +60,8 @@ public class ConveyorBelt extends FieldAction {
 
   @Override
   public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-    this.space = space;
-    this.gameController = gameController;
-    
-    Space target = this.gameController.board.getNeighbour(this.space, getHeading());
-    
-    if (space.getPlayer() != null) {
-      if(getBeltType()==1){
-        try {
-          this.gameController.moveToSpace(this.space.getPlayer(), this.space, this.getHeading());
-          return true;
-        } catch (ImpossibleMoveException e) {
-          e.printStackTrace();
-         return false;
-        }
-      } else if (getBeltType()==2){
-          try {
-            this.gameController.moveToSpace(this.space.getPlayer(), target, this.getHeading());
-            return true;
-          } catch (ImpossibleMoveException e) {
-            e.printStackTrace();
-            return false;
-          }
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    return true;
   }
+    
+    
 }

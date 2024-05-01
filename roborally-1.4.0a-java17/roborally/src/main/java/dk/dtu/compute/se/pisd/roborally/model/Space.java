@@ -96,13 +96,6 @@ public class Space extends Subject {
         this.ConveyorBelt = conveyorBelt;
     }
 
-    public List<ConveyorBelt> getConveyorBelts() {
-        return belt;
-    }
-
-    public void setBelt(List<ConveyorBelt> belt){
-        this.belt = belt;
-    }
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space

@@ -35,7 +35,6 @@ public class GameController {
 
     final public Board board;
     private int moves = 0;
-    private Activator activator;
 
     public GameController(Board board) {
         this.board = board;
@@ -254,12 +253,12 @@ public class GameController {
                 if (nextPlayerNumber < board.getPlayersNumber()) {
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
                 } else {
-                    Activator.getInstance().activateBoardElements(board, this);
                     step++;
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
+                        Activator.getInstance().activateBoardElements(board, this);
                     } else {
                         startProgrammingPhase();
                     }
@@ -425,7 +424,7 @@ public class GameController {
                         moveAmount = 0;
                     }
                     
-                    for(int c = 0; c < moveAmount; c++){
+                    for(int c = moveAmount; c > 0; c--){
                         Heading heading = player.getSpace().getConveyorBelt().getHeading();  
                         Space target = null;
 
