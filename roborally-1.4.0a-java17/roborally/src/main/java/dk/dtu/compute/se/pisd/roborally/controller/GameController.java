@@ -431,21 +431,28 @@ public class GameController {
 
                         switch (heading) {
                             case NORTH:
-                                target = player.setSpace(board, );
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y-1);
                                 break;
                             
                             case SOUTH:
-                        
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y+1);
                                 break;
 
                             case WEST:
-
+                                target = manipulateSpace(1, heading, player.getSpace().x-1, player.getSpace().y);
                                 break;
                         
                             case EAST:
-
+                                target = manipulateSpace(1, heading, player.getSpace().x+1, player.getSpace().y-1);
                                 break;
+                            default:
+                                throw new ImpossibleMoveException(player, playerSpace, heading);
                         }
+                        if (target == null) return;
+                        if (target.getConveyorBelt().getBeltType() !=1 && target.getConveyorBelt().getBeltType() != 2) {
+                            moveToSpace(player, manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y), heading);
+                            moveAmount = 0;
+                        } else {}
                     }
                 }
             }
