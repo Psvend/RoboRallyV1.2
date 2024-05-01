@@ -247,7 +247,6 @@ public class Board extends Subject {
         spaces[1][1].setConveyorBelt(ConveyorBelt);
         spaces[1][2].setConveyorBelt(ConveyorBelt);
         spaces[1][3].setConveyorBelt(ConveyorBelt);
-        spaces[1][4].setConveyorBelt(ConveyorBelt);
-        System.out.println(spaces[1][1].getConveyorBelt());    
+        spaces[1][4].setConveyorBelt(ConveyorBelt);   
     }
 }
