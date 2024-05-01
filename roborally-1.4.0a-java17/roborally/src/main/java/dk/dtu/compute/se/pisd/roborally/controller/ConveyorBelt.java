@@ -38,10 +38,7 @@ public class ConveyorBelt extends FieldAction {
 
   private Heading heading;
   private int beltType;
-  private Space space;
-  private GameController gameController;
-  private Player player;
-
+  
   public Heading getHeading() {
     return heading;
   }

@@ -42,7 +42,6 @@ public class Space extends Subject {
 
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
-    private List<ConveyorBelt> belt = new ArrayList<>();
 
     public final Board board;
 
