@@ -265,6 +265,8 @@ public class GameController {
     }
 
 
+
+
     /**
      * @author Petrine 
      * Allows a player to have its own energyreserve, that will get updated every time 
@@ -446,7 +448,6 @@ public class GameController {
                     board.setMoves(moves);
                     break;
                 
-               
                 case POWERUP:
                     this.powerUp(player);
                     moves = moves + 1;   

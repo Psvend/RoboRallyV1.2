@@ -33,6 +33,7 @@ public class EnergySpace extends Space {
         
     }
 
+
     // DEN Er FLYTTET TIL GAMECONTROLLER
     //skal tjekke om en spiller er landet på et energySpace
     // public boolean isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
@@ -54,47 +55,4 @@ public class EnergySpace extends Space {
 
 }
 
-        /*
-
-        //håndterer når en spiller lander på et felt med en energy cube på sig
-        FieldAction energyAction = new FieldAction() {
-
-            @Override
-            public boolean doAction(GameController gameController, Space space) {
-                Player player = space.getPlayer();
-
-
-                //tjekker om der er en spiller og om energy space har en cube
-                if(player != null && hasEnergyCube() == true) {
-                    if(player.addEnergyCube(board.getEnergyBank()) == true) {
-                            hasEnergyCube = false;  //feltet er nu tømt
-                            notifyChange();   //underretter alle om at der er sket en opdatering, involverer bl.a. player view
-                            return true;
-                    }
-                }
-                return false;
-                
-            }
-            
-        };
-        this.getActions().add(energyAction);
-        
-        }
-    
-
-
-    //kan fylde den op med en cube igen hvis ønsket
-    public void resetEnergyCube() {
-        this.hasEnergyCube = true;
-    }
-
-
-    //kan tjekke om den er fuld el. tom
-    public boolean hasEnergyCube() {
-        return this.hasEnergyCube;
-    }
-
-
-
-}
-*/
+     

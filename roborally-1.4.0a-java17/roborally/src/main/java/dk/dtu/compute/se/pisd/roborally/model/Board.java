@@ -259,8 +259,21 @@ public class Board extends Subject {
         spaces[7][5] = new EnergySpace(this, 7, 7);
         spaces[6][2] = new EnergySpace(this, 6, 2);
             
-        }
     }
+
+/*
+    private void initWallSpaces() {
+        spaces[3][4] = new WallSpace(this, 3,4);
+        spaces[6][3] = new WallSpace(this,6,3);
+    }
+*/
+
+
+
+
+
+    
+}
     
 
 
