@@ -475,9 +475,9 @@ public class GameController {
 
                 case SOUTH:
                     if (OFFSET < 0 && y > 0) {
-                        space = board.getSpace(x, y- Math.abs(OFFSET));
-                    } else if (y < board.height -OFFSET && OFFSET >= 0) {
-                        space = board.getSpace(x, y+ OFFSET);
+                        space = board.getSpace(x, y - Math.abs(OFFSET));
+                    } else if (y < board.height - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x, y + OFFSET);
                     } else {
                         throw new ImpossibleMoveException(null, space, heading);
                     }
@@ -491,7 +491,6 @@ public class GameController {
                     } else {
                         throw new ImpossibleMoveException(null, space, heading);
                     }
-
                 break;
 
                 case WEST:
@@ -502,9 +501,11 @@ public class GameController {
                     } else {
                         throw new ImpossibleMoveException(null, space, heading);
                     }
-
                 break;
 
+            }
+            if(space == null) {
+                throw new ImpossibleMoveException(null, space, heading);
             }
         return space;
     }
