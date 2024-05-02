@@ -452,7 +452,7 @@ public class GameController {
                         } else if (target.getConveyorBelt() == null) {
                             moveToSpace(player, manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y), heading);
                             moveAmount = 0;
-                        }
+                        } else {}
                     }
                 }
             }
