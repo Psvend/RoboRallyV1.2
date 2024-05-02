@@ -134,6 +134,18 @@ public class GameController {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
         }
+
+
+    /**
+     * @author Petrine
+     * 
+     * 
+     */
+    public void powerUp(@NotNull Player player) {
+        EnergyBank.getBankStatus
+    }
+
+
     }
     /**
      * @author Louise
