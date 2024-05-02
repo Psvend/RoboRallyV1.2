@@ -45,7 +45,7 @@ public enum Command {
     FAST_FORWARD("Fast Fwd"),
     AGAIN("Prvs commnd"),
     OPTION_LEFT_RIGHT("Left OR Right", LEFT, RIGHT),
-    POWER("Power");
+    POWERUP("Power Up");
 
     
     final public String displayName;

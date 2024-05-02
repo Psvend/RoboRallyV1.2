@@ -98,3 +98,9 @@
     -fx-background-image: url('img/leftright.png');
     -fx-background-size: 100% 100%;
 }
+
+#card-PowerUp {
+    -fx-background-image: url('img/PowerUp.png');
+    -fx-background-size: 100% 100%;
+}
+

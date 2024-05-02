@@ -134,19 +134,29 @@ public class GameController {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
         }
+    }
 
 
     /**
      * @author Petrine
+     * @param powerUp
+     * @return none
      * 
+     * Allows a player when power up card gets executed to add an energy cube to its reserve
      * 
-     */
+     */  
     public void powerUp(@NotNull Player player) {
-        EnergyBank.getBankStatus
+        addEnergyCube(player, energyBank);
+
+        //her opdateres label views for energy reserve og banken
+        getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
+                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+                }
     }
 
 
-    }
+    
     /**
      * @author Louise
      * @param player
@@ -395,6 +405,10 @@ public class GameController {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+                //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt?
+                
+                
+                
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
@@ -483,6 +497,13 @@ public class GameController {
                 case AGAIN:
                     this.again(player);
                     moves = moves +1;
+                    board.setMoves(moves);
+                    break;
+                
+               
+                case POWERUP:
+                    this.powerUp(player);
+                    moves = moves + 1;   
                     board.setMoves(moves);
                     break;
 
