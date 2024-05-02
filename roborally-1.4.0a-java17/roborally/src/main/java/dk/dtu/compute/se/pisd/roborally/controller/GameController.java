@@ -333,13 +333,11 @@ public class GameController {
     }
 
     private void continuePrograms() {
-        if(board.getPhase() == Phase.PLAYER_INTERACTION) {
+           while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode()){
+               executeNextStep();
+           }
 
-        } else {
-            do {
-                executeNextStep();
-            } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-        }
+
     }
 
     private void executeNextStep() {
@@ -356,9 +354,7 @@ public class GameController {
                     executeCommand(currentPlayer, command);
 
                     if (command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
                         interactivePlayer = priorityPlayers.get(0);
-
 
                     }
                 }
@@ -393,7 +389,7 @@ public class GameController {
 
             switch (command) {
                 case OPTION_LEFT_RIGHT:
-                //board.setPhase(Phase.PLAYER_INTERACTION);
+                board.setPhase(Phase.PLAYER_INTERACTION);
                 this.command = command;
                 break;
 

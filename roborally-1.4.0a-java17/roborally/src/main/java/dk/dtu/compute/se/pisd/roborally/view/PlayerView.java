@@ -238,6 +238,7 @@ public class PlayerView extends Tab implements ViewObserver {
                             Button optionButton = new Button(option.displayName);
                             optionButton.setOnAction(e -> {gameController.leftOrRight(player, option);
                                                         player.board.setCurrentPlayer(gameController.priorityPlayers.get(0));
+
                            // player.board.setStep(step);
                             });
                             optionButton.setDisable(false);
