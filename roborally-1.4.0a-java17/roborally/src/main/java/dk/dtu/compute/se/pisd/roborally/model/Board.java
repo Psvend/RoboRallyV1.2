@@ -30,6 +30,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
@@ -246,14 +247,29 @@ public class Board extends Subject {
         spaces[1][3].setConveyorBelt(new ConveyorBelt());
         spaces[1][4].setConveyorBelt(new ConveyorBelt());
 
+        spaces[3][1].setConveyorBelt(new ConveyorBelt());
+        spaces[3][2].setConveyorBelt(new ConveyorBelt());
+        spaces[3][3].setConveyorBelt(new ConveyorBelt());
+        spaces[3][4].setConveyorBelt(new ConveyorBelt());
+
         spaces[1][1].getConveyorBelt().setBeltType(1);
         spaces[1][2].getConveyorBelt().setBeltType(1);
         spaces[1][3].getConveyorBelt().setBeltType(1);
         spaces[1][4].getConveyorBelt().setBeltType(1);
 
+        spaces[3][1].getConveyorBelt().setBeltType(2);
+        spaces[3][2].getConveyorBelt().setBeltType(2);
+        spaces[3][3].getConveyorBelt().setBeltType(2);
+        spaces[3][4].getConveyorBelt().setBeltType(2);
+
         spaces[1][1].getConveyorBelt().setHeading(SOUTH);
         spaces[1][2].getConveyorBelt().setHeading(SOUTH);
         spaces[1][3].getConveyorBelt().setHeading(SOUTH);
         spaces[1][4].getConveyorBelt().setHeading(SOUTH);
+
+        spaces[3][1].getConveyorBelt().setHeading(NORTH);
+        spaces[3][2].getConveyorBelt().setHeading(NORTH);
+        spaces[3][3].getConveyorBelt().setHeading(NORTH);
+        spaces[3][4].getConveyorBelt().setHeading(NORTH);
     }
 }

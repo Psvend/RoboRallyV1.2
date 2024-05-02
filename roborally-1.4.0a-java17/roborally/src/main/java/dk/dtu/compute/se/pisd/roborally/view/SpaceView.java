@@ -62,7 +62,11 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMaxHeight(SPACE_HEIGHT);
         
         if(space.getConveyorBelt() instanceof ConveyorBelt) {
-            this.setStyle("-fx-background-color: cyan;");
+            if(space.getConveyorBelt().getBeltType()==1){
+                this.setStyle("-fx-background-color: cyan;");
+            } else if (space.getConveyorBelt().getBeltType()==2){
+                this.setStyle("-fx-background-color: lime;");
+            }
         }
         else if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
