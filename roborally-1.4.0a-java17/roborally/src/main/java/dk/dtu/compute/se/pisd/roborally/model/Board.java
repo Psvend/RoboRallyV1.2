@@ -74,6 +74,9 @@ public class Board extends Subject {
         }
         initEnergySpaces();
         this.stepMode = false;
+
+        initWallSpaces();  //test
+        this.stepMode = false;
         
     }
 
@@ -261,12 +264,14 @@ public class Board extends Subject {
             
     }
 
-/*
+
     private void initWallSpaces() {
-        spaces[3][4] = new WallSpace(this, 3,4);
-        spaces[6][3] = new WallSpace(this,6,3);
+        spaces[0][1] = new WallSpace(this, 0, 1, Heading.SOUTH);
+        spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
+        spaces[5][5] = new WallSpace(this, 5, 5, Heading.SOUTH);
+        spaces[7][2] = new WallSpace(this, 7, 2, Heading.SOUTH);
     }
-*/
+
 
 
 

@@ -1,7 +1,7 @@
 
 #space-view {
     -fx-background-color: lightgray;
-    -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
+    -fx-effect: innershadow(gaussian, gray, 10, 0, 0, 0);
 }
 
 
@@ -20,7 +20,7 @@
 
 #main-window {
     -fx-background-image: url('img/startpage.png');
-    -fx-effect: shadow( gaussian, gray, 10, 0, 0, 0);
+    -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
     -fx-background-size: 100% 100%;
 }
 

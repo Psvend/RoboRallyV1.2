@@ -60,7 +60,7 @@ public class GameController {
     }
 
 
-    
+    /*  ORIGINAL
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
@@ -77,6 +77,50 @@ public class GameController {
             }
         }
     }
+
+    */
+
+    //TEST
+    public void moveForward(@NotNull Player player) {
+        if (player.board == board) {
+            Space currentSpace = player.getSpace();
+            Heading heading = player.getHeading();
+
+            // Check if there's a wall in front of the player (either on the current space or the neighboring space)
+            if (currentSpace != null && currentSpace instanceof WallSpace) {
+                WallSpace wallSpace = (WallSpace) currentSpace;
+                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                    return; // Cannot move forward: Wall detected in the way
+                }
+            }
+
+            // Get the space in the forward direction using getNeighbour method
+            Space forwardSpace = board.getNeighbour(currentSpace, heading);
+
+            // Check if the forward space is valid
+            if (forwardSpace != null) {
+                // Check if there's a wall facing the space the player came from
+                Heading backwardHeading = heading.opposite();
+                Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
+
+                // Check if there's a wall facing the backward space in the forward space
+                if (backwardSpace != null && backwardSpace instanceof WallSpace) {
+                    WallSpace backwardWallSpace = (WallSpace) backwardSpace;
+                    if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                        return; // Cannot move forward: Wall detected in the opposite direction
+                    }
+                }
+
+                // Move the player to the forward space
+                player.setSpace(forwardSpace);
+            }
+        }
+    }
+
+
+
+
+
     /**
      * @author Louise
      * @param player
@@ -249,6 +293,8 @@ public class GameController {
             board.setCurrentPlayer(board.getPlayer(0));
         }
     }
+
+
     //  FLYTTET FRA EnergySpace.java AF LOUISE OG ÆNDRET TIL VOID
         public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
         Space currentSpace = player.getSpace();
@@ -268,7 +314,7 @@ public class GameController {
 
 
     /**
-     * @author Petrine 
+     * @author Petrine & Louise
      * Allows a player to have its own energyreserve, that will get updated every time 
      * a cube gets added to it. 
      * 
@@ -398,8 +444,10 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
+                    System.out.println(player.getSpace().toString());
                     this.moveForward(player);
-                    moves = moves +1;
+                    System.out.println(player.getSpace().toString());
+                    moves += +1;
                     board.setMoves(moves);
                     break;
                 case RIGHT:
