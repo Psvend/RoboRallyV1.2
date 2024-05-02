@@ -448,7 +448,7 @@ public class GameController {
                         }
                         if (target == null) return;
                         if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
-                            moveToSpace(player, manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y), heading);
+                            moveToSpace(player, target, heading);
                         } else if (target.getConveyorBelt() == null) {
                             moveToSpace(player, manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y), heading);
                             moveAmount = 0;
