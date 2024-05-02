@@ -24,7 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -78,6 +77,10 @@ public class PlayerView extends Tab implements ViewObserver {
         this.gameController = gameController;
         this.player = player;
 
+        // TILFØJET AF LOUISE
+        gameController.setPlayerView(player, this);
+
+
         programLabel = new Label("Program");
 
         programPane = new GridPane();
@@ -108,15 +111,15 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
-        reserveLabel = new Label(player.getName() + " Reserve: " + gameController.board.getCurrentPlayer().getEnergyReserve());
-           // reserveLabel = new Label("Player " + gameController.board.getPlayer(i) + "has " + gameController.board.getPlayer(i).getEnergyReserve());
+        //ÆNDRET AF LOUISE
+        reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
+    
         
         //add button to vbox to print
         buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
-        // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
@@ -147,8 +150,18 @@ public class PlayerView extends Tab implements ViewObserver {
         if (player.board != null) {
             player.board.attach(this);
             update(player.board);
+            
         }
     }
+
+    public void updateEnergyReserveLabel(int newReserve) {
+        reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
+    }
+
+    public void updateBankLabel(int newBank) {
+        bankLabel.setText("Energy Bank Status: " + newBank);
+    }
+    
 
     @Override
     public void updateView(Subject subject) {
@@ -209,7 +222,6 @@ public class PlayerView extends Tab implements ViewObserver {
                         stepButton.setDisable(true);
                 }
 
-
             } else {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
@@ -235,5 +247,7 @@ public class PlayerView extends Tab implements ViewObserver {
             }
         }
     }
+
+
 
 }

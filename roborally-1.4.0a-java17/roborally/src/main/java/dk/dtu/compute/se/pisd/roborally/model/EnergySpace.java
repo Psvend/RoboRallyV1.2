@@ -37,21 +37,22 @@ public class EnergySpace extends Space {
         
     }
 
+    // DEN Er FLYTTET TIL GAMECONTROLLER
     //skal tjekke om en spiller er landet på et energySpace
-    public boolean isPlayerOnEnergySpace(Player player, EnergyBank EnergyBank) {
-        Space currentSpace = player.getSpace();
+    // public boolean isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
+    //     Space currentSpace = player.getSpace();
 
-        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
-            if(EnergyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
-            player.addEnergyCube(EnergyBank);      //tilføjer en cube til en spillers reserve
-            notifyAll();    //opdaterer det hele om ændringen
-            return true;
-           } else {
-            return true;
-           }
-        }
-        return false;
-    }
+    //     if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
+    //         if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+    //         player.addEnergyCube(energyBank);      //tilføjer en cube til en spillers reserve
+    //         notifyAll();    //opdaterer det hele om ændringen
+    //         return true;
+    //        } else {
+    //         return true;
+    //        }
+    //     }
+    //     return false;
+    // }
 
 
 

@@ -20,10 +20,14 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
+
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ...
@@ -37,12 +41,22 @@ public class GameController {
     final public EnergyBank energyBank;
     public EnergySpace energySpace;
     public int moves = 0;
+    private Map<Player, PlayerView> playerViews;
 
     public GameController(Board board) {
         this.board = board;
-        this.energyBank = new EnergyBank(1);
-        this.energySpace = new EnergySpace(board, 1, 1);
-        
+        this.energyBank = board.getEnergyBank();
+        this.playerViews = new HashMap<>();
+    }
+
+    // Method to store PlayerView references
+    public void setPlayerView(Player player, PlayerView playerView) {
+        playerViews.put(player, playerView);
+    }
+
+    // Method to retrieve PlayerView for a given player
+    public PlayerView getPlayerView(Player player) {
+        return playerViews.get(player);
     }
 
 
@@ -183,8 +197,6 @@ public class GameController {
         }
     }
 
-    
-
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -226,6 +238,41 @@ public class GameController {
             board.setStep(step);
             board.setCurrentPlayer(board.getPlayer(0));
         }
+    }
+    //  FLYTTET FRA EnergySpace.java AF LOUISE OG ÆNDRET TIL VOID
+        public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
+        Space currentSpace = player.getSpace();
+        energyBank = this.energyBank;
+        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
+            if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+                addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
+                getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
+                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+                }
+           } 
+        }
+    }
+
+
+    /**
+     * @author Petrine 
+     * Allows a player to have its own energyreserve, that will get updated every time 
+     * a cube gets added to it. 
+     * 
+     */
+    // ÆNDRET AF LOUISE og ÆNNDRET TIL VOID - FLYTTET FRA PLAYER
+    public void addEnergyCube(Player player, EnergyBank energyBank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
+        Integer playerBank = player.getEnergyReserve();
+        energyBank = board.getEnergyBank();
+        Integer energyBankStatus = energyBank.getBankStatus();
+        if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+            // TILFØJET AF LOUISE
+            playerBank++;
+            player.setEnergyReserve(playerBank);
+            energyBankStatus--;
+            energyBank.setEnergyBank(energyBankStatus);
+            }
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -270,7 +317,23 @@ public class GameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+
+        Integer playerNo = board.getPlayersNumber();
+        EnergyBank energyBank = board.getEnergyBank();
+        for (int i = 0; i < playerNo; i++ )  {
+            Player player = board.getPlayer(i);
+            isPlayerOnEnergySpace(player, energyBank);
+        }
+        // LOOP MADE BY LOUISE FOR TESTING
+        // Integer j = board.getPlayersNumber();
+        // for (int i = 0; i < j; i++ )  {
+        //     System.out.println(board.getPlayer(i));
+        //     System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
+        //     System.out.println("BANKEN HAR " + energyBank.getBankStatus());
+        // }
     }
+
+
 
     private void executeNextStep() {
         Player currentPlayer = board.getCurrentPlayer();
@@ -305,6 +368,12 @@ public class GameController {
         }
     }
 
+
+        /**
+     * @author Louise
+     * @param player
+     * @return none
+     */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -332,12 +401,7 @@ public class GameController {
                     moves = moves +1;
                     board.setMoves(moves);
                     break;
-                /**
-                 * @author Louise
-                 * @param player
-                 * @return none
-                 */
-
+                    
                 case MOVE_TWO:
                     this.moveTwoForward(player);
                     moves = moves +1;
@@ -389,6 +453,7 @@ public class GameController {
 
 
     public void startProgrammingPhase() {
+        
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
