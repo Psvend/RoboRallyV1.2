@@ -19,13 +19,6 @@ public class WallSpace extends Space {
         return hasWall;
     }
 
-    // Optionally, you can override methods from the Space class if needed
-    // For example, you may want to override getPlayer() to return null always
-    // @Override
-    // public Player getPlayer() {
-    //     return null;
-    // }
-
     // Add any additional methods or fields specific to WallSpace if needed
 }
 
