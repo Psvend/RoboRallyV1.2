@@ -85,9 +85,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         
 
         //Hvis et space er en wall
-        if (space instanceof WallSpace) {
-            this.setId("wallspace-view");
-        }
+        //if (space instanceof WallSpace) {
+           // this.setId("wallspace-view");
+       // }
 
 
         // This space view should listen to changes of the space
