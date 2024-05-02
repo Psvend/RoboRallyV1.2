@@ -77,7 +77,6 @@ public class Board extends Subject {
             }
         }
         initBelt();
-        notifyAll();
         this.stepMode = false;
     }
 
