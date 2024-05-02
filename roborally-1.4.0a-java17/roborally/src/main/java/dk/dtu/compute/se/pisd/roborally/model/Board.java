@@ -242,34 +242,23 @@ public class Board extends Subject {
     }
 
     public void initBelt() {
-        spaces[1][1].setConveyorBelt(new ConveyorBelt());
-        spaces[1][2].setConveyorBelt(new ConveyorBelt());
-        spaces[1][3].setConveyorBelt(new ConveyorBelt());
-        spaces[1][4].setConveyorBelt(new ConveyorBelt());
+        ConveyorBelt conveyorBelt1 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt2 = new ConveyorBelt();
 
-        spaces[3][1].setConveyorBelt(new ConveyorBelt());
-        spaces[3][2].setConveyorBelt(new ConveyorBelt());
-        spaces[3][3].setConveyorBelt(new ConveyorBelt());
-        spaces[3][4].setConveyorBelt(new ConveyorBelt());
+        conveyorBelt1.setBeltType(1);
+        conveyorBelt2.setBeltType(2);
 
-        spaces[1][1].getConveyorBelt().setBeltType(1);
-        spaces[1][2].getConveyorBelt().setBeltType(1);
-        spaces[1][3].getConveyorBelt().setBeltType(1);
-        spaces[1][4].getConveyorBelt().setBeltType(1);
+        conveyorBelt1.setHeading(SOUTH);
+        conveyorBelt2.setHeading(NORTH);
 
-        spaces[3][1].getConveyorBelt().setBeltType(2);
-        spaces[3][2].getConveyorBelt().setBeltType(2);
-        spaces[3][3].getConveyorBelt().setBeltType(2);
-        spaces[3][4].getConveyorBelt().setBeltType(2);
+        spaces[1][1].setConveyorBelt(conveyorBelt1);
+        spaces[1][2].setConveyorBelt(conveyorBelt1);
+        spaces[1][3].setConveyorBelt(conveyorBelt1);
+        spaces[1][4].setConveyorBelt(conveyorBelt1);
 
-        spaces[1][1].getConveyorBelt().setHeading(SOUTH);
-        spaces[1][2].getConveyorBelt().setHeading(SOUTH);
-        spaces[1][3].getConveyorBelt().setHeading(SOUTH);
-        spaces[1][4].getConveyorBelt().setHeading(SOUTH);
-
-        spaces[3][1].getConveyorBelt().setHeading(NORTH);
-        spaces[3][2].getConveyorBelt().setHeading(NORTH);
-        spaces[3][3].getConveyorBelt().setHeading(NORTH);
-        spaces[3][4].getConveyorBelt().setHeading(NORTH);
+        spaces[3][1].setConveyorBelt(conveyorBelt2);
+        spaces[3][2].setConveyorBelt(conveyorBelt2);
+        spaces[3][3].setConveyorBelt(conveyorBelt2);
+        spaces[3][4].setConveyorBelt(conveyorBelt2);
     }
 }
