@@ -81,6 +81,13 @@ public class GameController {
     */
 
     //TEST
+
+    /**
+     * @author Daniel
+     * @param moveForward
+     * 
+     * 
+     */
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
             Space currentSpace = player.getSpace();
