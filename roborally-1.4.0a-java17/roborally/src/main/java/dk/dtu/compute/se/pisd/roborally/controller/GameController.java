@@ -441,7 +441,7 @@ public class GameController {
                                 break;
                         
                             case EAST:
-                                target = manipulateSpace(1, heading, player.getSpace().x+1, player.getSpace().y-1);
+                                target = manipulateSpace(1, heading, player.getSpace().x+1, player.getSpace().y);
                                 break;
                             default:
                                 throw new ImpossibleMoveException(player, player.getSpace(), heading);
@@ -460,13 +460,13 @@ public class GameController {
 
     }
 
-    public Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
         Space space = null;
             switch (heading) {
                 case NORTH:
-                    if (OFFSET < 0 && y < board.height -1) {
+                    if (OFFSET < 0 && y < board.height - 1) {
                         space = board.getSpace(x, y + Math.abs(OFFSET));
-                    } else if (OFFSET >= y && OFFSET > 0){
+                    } else if (y >=  OFFSET && OFFSET > 0){
                         space = board.getSpace(x, y - OFFSET);
                     } else {
                         throw new ImpossibleMoveException(null, space, heading);
@@ -502,8 +502,7 @@ public class GameController {
                         throw new ImpossibleMoveException(null, space, heading);
                     }
                 break;
-
-            }
+        }
             if(space == null) {
                 throw new ImpossibleMoveException(null, space, heading);
             }
