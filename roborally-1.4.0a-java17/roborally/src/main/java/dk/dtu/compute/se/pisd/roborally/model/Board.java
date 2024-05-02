@@ -254,7 +254,7 @@ public class Board extends Subject {
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {
-        spaces[1][1] = new EnergySpace(this, 1, 1);
+        spaces[1][4] = new EnergySpace(this, 1, 4);
         spaces[3][6] = new EnergySpace(this, 3, 6);
         spaces[7][5] = new EnergySpace(this, 7, 7);
         spaces[6][2] = new EnergySpace(this, 6, 2);
