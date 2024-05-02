@@ -154,7 +154,8 @@ public void updateView(Subject subject) {
     if (subject == field && subject != null) {
         CommandCard card = field.getCard();
         if (card != null && field.isVisible()) {
-            label.setText(card.getName());
+            //label.setText(card.getName());
+            label.setText("");
             
             // Use the card name to set a unique CSS ID for the card view
             // Assuming the card name is suitable to be used as an ID

@@ -50,6 +50,13 @@
     -fx-background-size: 100% 100%;
 }
 
+#card-FastFwd {
+    -fx-background-image: url('img/fastforward.png');
+    -fx-background-size: 100% 100%;
+}
+
+
+
 #card-TurnLeft {
     -fx-background-image: url('img/TurnLeft.png');
     -fx-background-size: 100% 100%;
@@ -75,8 +82,6 @@
     -fx-background-image: url('img/prvscommnd.png');
     -fx-background-size: 100% 100%;
 }
-
-
 
 
 #card-LeftORRight {
