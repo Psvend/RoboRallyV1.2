@@ -448,9 +448,9 @@ public class GameController {
                         }
                         if (target == null) return;
                         if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
-                            moveToSpace(player, target, heading);
+                            moveToSpace(player, player.getSpace(), heading);
                         } else if (target.getConveyorBelt() == null) {
-                            moveToSpace(player, target, heading);
+                            moveToSpace(player, player.getSpace(), heading);
                             moveAmount = 0;
                         } else {}
                     }
