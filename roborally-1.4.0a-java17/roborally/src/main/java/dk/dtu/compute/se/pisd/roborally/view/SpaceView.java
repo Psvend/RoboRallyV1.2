@@ -77,6 +77,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         
         //Hvis et space er et EnergySpace
         if(space instanceof EnergySpace) {
+            this.getChildren().clear();
             this.setId("energyspace-view");
         }
 
@@ -90,9 +91,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         
 
         //Hvis et space er en wall
-        //if (space instanceof WallSpace) {
-           // this.setId("wallspace-view");
-       // }
+        if (space instanceof WallSpace) {
+           this.getChildren().clear();
+           this.setId("wallspace-view");
+        }
 
 
         // This space view should listen to changes of the space
@@ -113,6 +115,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
+                arrow.toFront();
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }

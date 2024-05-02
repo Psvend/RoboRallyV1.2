@@ -295,6 +295,8 @@ public class GameController {
             board.setCurrentPlayer(board.getPlayer(0));
         }
     }
+
+
     //  FLYTTET FRA EnergySpace.java AF LOUISE OG ÆNDRET TIL VOID
         public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
         Space currentSpace = player.getSpace();
@@ -329,7 +331,7 @@ public class GameController {
 
 
     /**
-     * @author Petrine 
+     * @author Petrine & Louise
      * Allows a player to have its own energyreserve, that will get updated every time 
      * a cube gets added to it. 
      * 
@@ -453,8 +455,10 @@ public class GameController {
 
             switch (command) {
                 case FORWARD:
+                    System.out.println(player.getSpace().toString());
                     this.moveForward(player);
-                    moves = moves +1;
+                    System.out.println(player.getSpace().toString());
+                    moves += +1;
                     board.setMoves(moves);
                     break;
                 case RIGHT:
