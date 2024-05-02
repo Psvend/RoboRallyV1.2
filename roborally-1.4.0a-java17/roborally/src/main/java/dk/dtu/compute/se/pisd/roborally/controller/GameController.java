@@ -449,7 +449,7 @@ public class GameController {
                         if (target == null) return;
                         if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
                             player.setSpace(target);
-                        } else if (target.getConveyorBelt() == null) {
+                        } else if (target.getConveyorBelt().getBeltType() != 1 && target.getConveyorBelt().getBeltType() != 2) {
                             player.setSpace(target);
                             moveAmount = 0;
                         } else {}
