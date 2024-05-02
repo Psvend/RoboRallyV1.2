@@ -88,7 +88,7 @@ public class Space extends Subject {
     }
 
     public ConveyorBelt getConveyorBelt(){
-        return ConveyorBelt;
+            return ConveyorBelt;
     }
 
     public void setConveyorBelt(ConveyorBelt conveyorBelt) {

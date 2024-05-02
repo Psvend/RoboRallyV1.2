@@ -409,16 +409,15 @@ public class GameController {
     }
 
     public void activateConveyorBelt() throws ImpossibleMoveException{
-        for(int i = 0; i<board.getPlayersNumber(); i++) {
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             int moveAmount;
-            Space playerSpace = player.getSpace();
-            if(playerSpace != null){
-                if (playerSpace.getConveyorBelt()!=null){
+            if(player.getSpace() != null){
+                if (player.getSpace().getConveyorBelt()!=null){
                     
-                    if (playerSpace.getConveyorBelt().getBeltType()==1){
+                    if (player.getSpace().getConveyorBelt().getBeltType()==1){
                         moveAmount = 1;
-                    } else if(playerSpace.getConveyorBelt().getBeltType()==2){
+                    } else if(player.getSpace().getConveyorBelt().getBeltType()==2){
                         moveAmount = 2;
                     } else{
                         moveAmount = 0;
@@ -445,11 +444,11 @@ public class GameController {
                                 target = manipulateSpace(1, heading, player.getSpace().x+1, player.getSpace().y-1);
                                 break;
                             default:
-                                throw new ImpossibleMoveException(player, playerSpace, heading);
+                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
                         }
                         if (target == null) return;
                         if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
-                            player.setSpace(target);
+                            moveToSpace(player, manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y), heading);
                             moveAmount = 0;
                         } else {}
                     }
