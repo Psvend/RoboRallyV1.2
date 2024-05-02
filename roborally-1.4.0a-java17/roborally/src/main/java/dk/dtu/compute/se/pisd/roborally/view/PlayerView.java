@@ -229,17 +229,10 @@ public class PlayerView extends Tab implements ViewObserver {
 
 
                     if (gameController.command != null) {
-                        player.board.setCurrentPlayer(gameController.interactivePlayer);
-                        int step=player.board.getStep()+1;
-
-
 
                         for (Command option : gameController.command.getOptions()) {
                             Button optionButton = new Button(option.displayName);
-                            optionButton.setOnAction(e -> {gameController.leftOrRight(player, option);
-                                                        player.board.setCurrentPlayer(gameController.priorityPlayers.get(0));
-                           // player.board.setStep(step);
-                            });
+                            optionButton.setOnAction(e -> {gameController.leftOrRight(player.board.getCurrentPlayer(), option);});
                             optionButton.setDisable(false);
                             playerInteractionPanel.getChildren().add(optionButton);
                         }

@@ -246,6 +246,21 @@ public class GameController {
         if (player != null && player.board == board && command != null) {
             executeCommand(player, command);
             board.setPhase(Phase.ACTIVATION);
+
+            priorityPlayers.remove(0); // remove the current player from the priority list
+
+            if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                int step = board.getStep();
+                step++; // go to the next card
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step); // make the next card visible
+                    board.setStep(step);
+                } else {
+                    startProgrammingPhase();
+                }
+                priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+            }
+            board.setCurrentPlayer(priorityPlayers.get(0));
         }
     }
 
@@ -357,8 +372,7 @@ public class GameController {
 
                     if (command.isInteractive()) {
                         board.setPhase(Phase.PLAYER_INTERACTION);
-                        interactivePlayer = priorityPlayers.get(0);
-
+                        return;
 
                     }
                 }
