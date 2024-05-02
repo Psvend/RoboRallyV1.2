@@ -447,7 +447,7 @@ public class GameController {
                                 throw new ImpossibleMoveException(player, player.getSpace(), heading);
                         }
                         if (target == null) return;
-                        if (target.getConveyorBelt().getBeltType() != 1 && target.getConveyorBelt().getBeltType() != 2) {
+                        if (target.getConveyorBelt() == null) {
                             player.setSpace(target);
                             moveAmount = 0;
                         } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
