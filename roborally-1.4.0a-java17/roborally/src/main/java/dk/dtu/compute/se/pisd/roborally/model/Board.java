@@ -272,6 +272,5 @@ public class Board extends Subject {
         spaces[3][2].getConveyorBelt().setHeading(NORTH);
         spaces[3][3].getConveyorBelt().setHeading(NORTH);
         spaces[3][4].getConveyorBelt().setHeading(NORTH);
-        notifyAll();
     }
 }
