@@ -57,8 +57,6 @@ public class Board extends Subject {
 
     private List<FieldAction> actions = new ArrayList<>();
 
-    private List<ConveyorBelt> belts = new ArrayList<>();
-
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -266,8 +264,8 @@ public class Board extends Subject {
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {
-        spaces[1][1] = new EnergySpace(this, 1, 1);
-        spaces[3][6] = new EnergySpace(this, 3, 6);
+        spaces[2][1] = new EnergySpace(this, 2, 1);
+        spaces[5][7] = new EnergySpace(this, 5, 7);
         spaces[7][5] = new EnergySpace(this, 7, 7);
         spaces[6][2] = new EnergySpace(this, 6, 2);
             
