@@ -87,10 +87,20 @@ public class Space extends Subject {
         this.actions = actions;
     }
 
+    /**
+     * @author Nikolaj
+     * @return
+     * gets the ConveyorBelt for the given space. ConveyorBelt is null, if a value is not explicitly attached.
+     */
     public ConveyorBelt getConveyorBelt(){
             return ConveyorBelt;
     }
 
+    /**
+     * @author Nikolaj
+     * @param conveyorBelt
+     * sets ConveyorBelt.
+     */
     public void setConveyorBelt(ConveyorBelt conveyorBelt) {
         this.ConveyorBelt = conveyorBelt;
     }

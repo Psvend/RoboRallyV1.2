@@ -280,6 +280,12 @@ public class Board extends Subject {
     public Space getPriorityAntenna() {
         return spaces[4][7];
     }
+
+    /**
+     * @author Nikolaj
+     * 
+     * attaches ConveyorBelt to spaces and adds attributes. In future iterations this should be done through JSON files.
+     */
     public void initBelt() {
         ConveyorBelt conveyorBelt1 = new ConveyorBelt();
         ConveyorBelt conveyorBelt2 = new ConveyorBelt();
