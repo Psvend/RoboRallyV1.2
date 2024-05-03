@@ -63,9 +63,17 @@ public class SpaceView extends StackPane implements ViewObserver {
         
         if(space.getConveyorBelt() instanceof ConveyorBelt) {
             if(space.getConveyorBelt().getBeltType()==1){
-                this.setStyle("-fx-background-color: cyan;");
+                if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
+                    this.setStyle("-fx-background-color: rebeccapurple;");
+                } else {
+                    this.setStyle("-fx-background-color: cyan;");
+                }
             } else if (space.getConveyorBelt().getBeltType()==2){
-                this.setStyle("-fx-background-color: lime;");
+                if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
+                    this.setStyle("-fx-background-color: sienna;");
+                } else {
+                    this.setStyle("-fx-background-color: lime;");
+                }
             }
         }
         else if ((space.x + space.y) % 2 == 0) {
