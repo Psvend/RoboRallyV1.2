@@ -38,6 +38,7 @@ public class ConveyorBelt extends FieldAction {
 
   private Heading heading;
   private int beltType;
+  private String turnBelt = "";
   
   public Heading getHeading() {
     return heading;
@@ -53,6 +54,14 @@ public class ConveyorBelt extends FieldAction {
 
   public void setBeltType(int beltType) {
       this.beltType = beltType;
+  }
+
+  public String getTurnBelt() {
+    return turnBelt;
+  }
+
+  public void setTurnBelt(String turnBelt) {
+    this.turnBelt = turnBelt;
   }
 
   @Override
