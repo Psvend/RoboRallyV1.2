@@ -12,8 +12,8 @@
 
 
 #wall-view {
--fx-background-color: black;
--fx-background-size: 100% 100%;
+    -fx-background-color: black;
+    -fx-background-size: 100% 100%;
 }
 
 
