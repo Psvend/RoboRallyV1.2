@@ -64,7 +64,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         if(space.getConveyorBelt() instanceof ConveyorBelt) {
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
-                    this.setStyle("-fx-background-color: rebeccapurple;");
+                    this.setStyle("-fx-background-color: plum;");
                 } else {
                     this.setStyle("-fx-background-color: cyan;");
                 }
