@@ -305,6 +305,8 @@ public class Board extends Subject {
         conveyorBelt2.setHeading(NORTH);
         conveyorBelt3.setHeading(EAST);
         conveyorBelt4.setHeading(WEST);
+        conveyorBelt5.setHeading(NORTH);
+        conveyorBelt6.setHeading(SOUTH);
 
         spaces[1][1].setConveyorBelt(conveyorBelt1);
         spaces[1][2].setConveyorBelt(conveyorBelt1);
