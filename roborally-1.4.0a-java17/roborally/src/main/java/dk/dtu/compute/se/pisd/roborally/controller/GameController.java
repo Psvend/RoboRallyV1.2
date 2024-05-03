@@ -246,6 +246,7 @@ public class GameController {
         if (player != null && player.board == board && command != null) {
             executeCommand(player, command);
             board.setPhase(Phase.ACTIVATION);
+
             int step = board.getStep();
 
             priorityPlayers.remove(0); // remove the current player from the priority list
@@ -263,6 +264,9 @@ public class GameController {
 
             }
             board.setCurrentPlayer(priorityPlayers.get(0));
+            if(!board.isStepMode()){
+                executePrograms();
+            }
         }
     }
 
@@ -331,7 +335,7 @@ public class GameController {
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
-    }
+        }
 
     public void executeStep() {
         board.setStepMode(true);
@@ -339,8 +343,7 @@ public class GameController {
     }
 
     private void continuePrograms() {
-
-            do {
+      do {
                 executeNextStep();
             } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
 
