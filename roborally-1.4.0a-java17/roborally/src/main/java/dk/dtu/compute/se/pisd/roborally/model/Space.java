@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import java.util.List;
  *
  */
 public class Space extends Subject {
+
+    private ConveyorBelt ConveyorBelt;
 
     private Player player;
 
@@ -79,6 +82,19 @@ public class Space extends Subject {
     public List<FieldAction> getActions() {
         return actions;
     }
+
+    public void setAction(List<FieldAction> actions) {
+        this.actions = actions;
+    }
+
+    public ConveyorBelt getConveyorBelt(){
+            return ConveyorBelt;
+    }
+
+    public void setConveyorBelt(ConveyorBelt conveyorBelt) {
+        this.ConveyorBelt = conveyorBelt;
+    }
+
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space

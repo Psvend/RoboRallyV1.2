@@ -294,18 +294,7 @@ public class GameController {
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        Player currentPlayer =board.getCurrentPlayer();
-        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        int step = board.getStep();
-        space.setPlayer(currentPlayer);
-        step++;
-        if(nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            board.setStep(step);
-        }else{
-            board.setStep(step);
-            board.setCurrentPlayer(board.getPlayer(0));
-        }
+        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -385,6 +374,8 @@ public class GameController {
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                        board.setCurrentPlayer(board.getPlayer(0));
+                        Activator.getInstance().activateBoardElements(board, this);
                     } else {
                         startProgrammingPhase();
                     }
@@ -463,10 +454,10 @@ public class GameController {
                     break;
 
                 case AGAIN:
-                    this.again(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
+                this.again(player);
+                moves = moves +1;
+                board.setMoves(moves);
+                break;
 
 
                 default:
@@ -542,6 +533,107 @@ public class GameController {
             this.space = space;
             this.heading = heading;
         }
+    }
+
+    public void activateConveyorBelt() throws ImpossibleMoveException{
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            int moveAmount;
+            if(player.getSpace() != null){
+                if (player.getSpace().getConveyorBelt()!=null){
+                    
+                    if (player.getSpace().getConveyorBelt().getBeltType()==1){
+                        moveAmount = 1;
+                    } else if(player.getSpace().getConveyorBelt().getBeltType()==2){
+                        moveAmount = 2;
+                    } else{
+                        moveAmount = 0;
+                    }
+                    
+                    for(int c = moveAmount; c > 0; c--){
+                        Heading heading = player.getSpace().getConveyorBelt().getHeading();  
+                        Space target = null;
+
+                        switch (heading) {
+                            case NORTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                            
+                            case SOUTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+
+                            case WEST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                        
+                            case EAST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                            default:
+                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
+                        }
+                        if (target == null) return;
+                        if (target.getConveyorBelt() == null) {
+                            player.setSpace(target);
+                            moveAmount = 0;
+                        } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
+                            player.setSpace(target);
+                        } else {}
+                    }
+                }
+            }
+        }
+
+    }
+
+    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+        Space space = null;
+            switch (heading) {
+                case NORTH:
+                    if (OFFSET < 0 && y < board.height - 1) {
+                        space = board.getSpace(x, y + Math.abs(OFFSET));
+                    } else if (y >=  OFFSET && OFFSET > 0){
+                        space = board.getSpace(x, y - OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case SOUTH:
+                    if (OFFSET < 0 && y > 0) {
+                        space = board.getSpace(x, y - Math.abs(OFFSET));
+                    } else if (y < board.height - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x, y + OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case EAST:
+                    if (OFFSET < 0 && x > 0) {
+                        space = board.getSpace(x - Math.abs(OFFSET), y);
+                    } else if (x < board.width - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x + OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case WEST:
+                    if (OFFSET < 0 && x < board.width -1) {
+                        space = board.getSpace(x + Math.abs(OFFSET), y);
+                    } else if (x >= OFFSET && OFFSET > 0) {
+                        space = board.getSpace(x - OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+        }
+            if(space == null) {
+                throw new ImpossibleMoveException(null, space, heading);
+            }
+        return space;
     }
 
 }
