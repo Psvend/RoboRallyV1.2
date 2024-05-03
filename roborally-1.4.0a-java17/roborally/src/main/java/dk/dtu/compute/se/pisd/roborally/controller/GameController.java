@@ -26,7 +26,10 @@ import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,13 +44,19 @@ public class GameController {
     final public EnergyBank energyBank;
     public EnergySpace energySpace;
     public int moves = 0;
+    public Command command;
+    public ArrayList<Player> priorityPlayers = new ArrayList<>();
+    public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
+    public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
 
     public GameController(Board board) {
         this.board = board;
+        this.energySpace = new EnergySpace(board, 1, 1);
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
+    
 
     // Method to store PlayerView references
     public void setPlayerView(Player player, PlayerView playerView) {
@@ -60,66 +69,40 @@ public class GameController {
     }
 
 
-    /*  ORIGINAL
+
+
     public void moveForward(@NotNull Player player) {
-        if (player.board == board) {
-            Space space = player.getSpace();
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
-                }
+    if (player.board == board) {
+        Space currentSpace = player.getSpace();
+        Heading heading = player.getHeading();
+
+        // Check if there's a wall in front of the player (either on the current space or the neighboring space)
+        if (currentSpace != null && currentSpace instanceof WallSpace) {
+        WallSpace wallSpace = (WallSpace) currentSpace;
+            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                return; // Cannot move forward: Wall detected in the way
             }
         }
-    }
 
-    */
+        // Get the space in the forward direction using getNeighbour method
+        Space forwardSpace = board.getNeighbour(currentSpace, heading);
 
-    //TEST
+        // Check if the forward space is valid
+        if (forwardSpace != null) {
+        // Check if there's a wall facing the space the player came from
+            Heading backwardHeading = heading.opposite();
+            Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
 
-    /**
-     * @author Daniel
-     * @param moveForward
-     * 
-     * 
-     */
-    public void moveForward(@NotNull Player player) {
-        if (player.board == board) {
-            Space currentSpace = player.getSpace();
-            Heading heading = player.getHeading();
-
-            // Check if there's a wall in front of the player (either on the current space or the neighboring space)
-            if (currentSpace != null && currentSpace instanceof WallSpace) {
-                WallSpace wallSpace = (WallSpace) currentSpace;
-                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                    return; // Cannot move forward: Wall detected in the way
-                }
-            }
-
-            // Get the space in the forward direction using getNeighbour method
-            Space forwardSpace = board.getNeighbour(currentSpace, heading);
-
-            // Check if the forward space is valid
-            if (forwardSpace != null) {
-                // Check if there's a wall facing the space the player came from
-                Heading backwardHeading = heading.opposite();
-                Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
-
-                // Check if there's a wall facing the backward space in the forward space
-                if (backwardSpace != null && backwardSpace instanceof WallSpace) {
-                    WallSpace backwardWallSpace = (WallSpace) backwardSpace;
-                    if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
-                        return; // Cannot move forward: Wall detected in the opposite direction
+                    // Check if there's a wall facing the backward space in the forward space
+                    if (backwardSpace != null && backwardSpace instanceof WallSpace) {
+                        WallSpace backwardWallSpace = (WallSpace) backwardSpace;
+                        if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                            return; // Cannot move forward: Wall detected in the opposite direction
+                        }
                     }
-                }
 
-                // Move the player to the forward space
-                player.setSpace(forwardSpace);
+                    // Move the player to the forward space
+                    player.setSpace(forwardSpace);
             }
         }
     }
@@ -302,8 +285,17 @@ public class GameController {
     }
 
 
-    //  FLYTTET FRA EnergySpace.java AF LOUISE OG ÆNDRET TIL VOID
-        public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
+    /**
+     * @author Petrine & Louise
+     * @param energyBank
+     * 
+     * 
+     * Checks if a player is on an energy space. 
+     * If the that is the case, a cube is added to the players reserve by addEnergyCube(), 
+     * and the labels showing the reserve and bank 
+     * 
+     */
+    public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
         Space currentSpace = player.getSpace();
         energyBank = this.energyBank;
         if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
@@ -360,11 +352,14 @@ public class GameController {
         }
     }
 
+
+
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
     }
 
@@ -401,32 +396,40 @@ public class GameController {
 
 
     private void executeNextStep() {
-        Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
+
+
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt?
-                
-                
-                
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+
+                    if (command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return;
+
+                    }
                 }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    step++;
+
+                    priorityPlayers.remove(0); // remove the current player from the priority list
+
+                if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                    step++; // go to the next card
                     if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
+                        makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                        priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
                     } else {
                         startProgrammingPhase();
                     }
+
                 }
+                board.setCurrentPlayer(priorityPlayers.get(0));
+
             } else {
                 // this should not happen
                 assert false;
@@ -445,11 +448,14 @@ public class GameController {
      */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
+
 
             switch (command) {
+                case OPTION_LEFT_RIGHT:
+                //board.setPhase(Phase.PLAYER_INTERACTION);
+                this.command = command;
+                break;
+
                 case FORWARD:
                     System.out.println(player.getSpace().toString());
                     this.moveForward(player);
@@ -530,9 +536,12 @@ public class GameController {
 
 
     public void startProgrammingPhase() {
-        
+        priorityPlayers.clear(); // Clear the list before recalculating
+        priorityPlayers = determiningPriority();
+        copyOfpriorityPlayers.clear(); // Clear the list before recalculating
+        copyOfpriorityPlayers.addAll(priorityPlayers);
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -584,8 +593,103 @@ public class GameController {
 
 
 
+    
+    /**
+     * @author Natali
+     *
+     * @return playersTurn
+     */
+
+    // TODO Assignment A3
+    public ArrayList<Player> determiningPriority(){
+        ArrayList<Player> playersTurn = new ArrayList<>();
+        HashMap<Player, Integer> playerDistances = new HashMap<>();
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player currentPlayer = board.getPlayer(i);
+            int distance = distanceToPriorityAntenna(currentPlayer);
+            playerDistances.put(currentPlayer, distance);
+        }
+
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerDistances.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Player, Integer> entry : list) {
+            playersTurn.add(entry.getKey());
+        }
+
+        return playersTurn;
+    }
+
+
+    
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
+
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
+            int step = board.getStep();
+
+            priorityPlayers.remove(0); // remove the current player from the priority list
+
+            if (priorityPlayers.isEmpty()) { // if the priority list is empty
+
+                step++; // go to the next card
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step); // make the next card visible
+                    board.setStep(step);
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                } else {
+                    startProgrammingPhase();
+                }
+
+            }
+            board.setCurrentPlayer(priorityPlayers.get(0));
+        }
+    }
 
 
 
+    
+ /**
+  * @author Natali
+  * @param player
+  * @return distance
+*/
 
+    // TODO Assignment A3
+    public int distanceToPriorityAntenna(@NotNull Player player){
+        int spaceX = player.getSpace().x;
+        int spaceY = player.getSpace().y;
+        int antennaX = board.getPriorityAntenna().x;
+        int antennaY = board.getPriorityAntenna().y;
+        int distance = 0;
+        if(spaceX < antennaX){
+            distance = antennaX - spaceX;
+            } else {
+            distance = spaceX - antennaX;
+        }
+        if(spaceY < antennaY){
+            distance = distance + (antennaY - spaceY);
+        } else {
+            distance = distance + (spaceY - antennaY);
+        }
+        return distance;
+    }
+
+    
 }
+
+
+
+
+
+
+
+

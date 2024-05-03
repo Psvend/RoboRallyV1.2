@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -51,16 +52,17 @@ import javafx.scene.layout.BackgroundSize;
  *
  */
 
- /*
+
+
 public class SpaceView extends StackPane implements ViewObserver {
 
+    public final Space space;
     final public static int SPACE_HEIGHT = 30; // 75;
     final public static int SPACE_WIDTH = 30; // 75;
 
-    public final Space space;
-
 
     public SpaceView(@NotNull Space space) {
+        
         this.space = space;
 
         // XXX the following styling should better be done with styles
@@ -81,71 +83,18 @@ public class SpaceView extends StackPane implements ViewObserver {
         // }
 
         
-        //Hvis et space er et EnergySpace eller WallSpace
+        //Hvis et space er et EnergySpace
         if(space instanceof EnergySpace) {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             this.setId("wallspace-view");
+        }else if(space instanceof PriorityAntenna){
+            this.setId("priorityantenna-view");
+        } else {
+            this.setId("space-view");
         }
         
         // This space view should listen to changes of the space
-        space.attach(this);
-        update(space);
-    }
-
-    //printer trekanten for en spiller
-    private void updatePlayer() {
-        this.getChildren().clear();
-
-        Player player = space.getPlayer();
-
-        if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0 );
-            
-            try {
-                arrow.setFill(Color.valueOf(player.getColor()));
-                arrow.toFront();
-            } catch (Exception e) {
-                arrow.setFill(Color.MEDIUMPURPLE);
-            }
-
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
-            this.getChildren().add(arrow);
-            this.toFront();
-        }
-    }
-
-    
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == this.space) {
-            updatePlayer();
-        }
-    }
-
-}
-
-
-
-
-*/
-
-
-public class SpaceView extends StackPane implements ViewObserver {
-
-    public final Space space;
-    final public static int SPACE_HEIGHT = 30; // 75;
-    final public static int SPACE_WIDTH = 30; // 75;
-
-
-    public SpaceView(@NotNull Space space) {
-        
-        this.space = space;
-        this.setPrefSize(SPACE_WIDTH, SPACE_HEIGHT);
-        setupBackground();
-
         space.attach(this);
         update(space);
     }
@@ -155,6 +104,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             setId("wallspace-view");
+        } else if (space instanceof PriorityAntenna) {
+            setId("priorityantenna-view");
         } else {
             setId("space-view");
         }
