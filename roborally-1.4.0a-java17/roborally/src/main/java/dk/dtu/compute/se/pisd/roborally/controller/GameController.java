@@ -256,7 +256,7 @@ public class GameController {
                     makeProgramFieldsVisible(step); // make the next card visible
                     board.setStep(step);
                     priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
-                    Activator.getInstance().activateBoardElements(board, this);
+                    Activator.getInstance().activateElements(board, this);
                 } else {
                     startProgrammingPhase();
                 }
@@ -376,7 +376,7 @@ public class GameController {
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
-                        Activator.getInstance().activateBoardElements(board, this);
+                        Activator.getInstance().activateElements(board, this); //initializes the boardElements
                     } else {
                         startProgrammingPhase();
                     }
@@ -536,6 +536,11 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Nikolaj
+     * @throws ImpossibleMoveException
+     * Void-method for moving the player on a conveyor. Utilizes manipulateSpace to compute the targeted space.
+     */
     public void activateConveyorBelt() throws ImpossibleMoveException{
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -588,6 +593,16 @@ public class GameController {
 
     }
 
+    /**
+     * @author Nikolaj
+     * @param OFFSET
+     * @param heading
+     * @param x
+     * @param y
+     * @return
+     * @throws ImpossibleMoveException
+     * manipulates a space with a heading that doesnt have to be the players, really useful for computing movement with boardElements like Conveyorbelt
+     */
     protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
         Space space = null;
             switch (heading) {
