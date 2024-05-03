@@ -21,9 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
+import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -75,8 +78,8 @@ public class Board extends Subject {
         initEnergySpaces();
         initWallSpaces();
         initCheckpointSpaces();
+        initPriorityAntenna();
         this.stepMode = false;
-        
     }
 
     public Integer getGameId() {
@@ -204,9 +207,6 @@ public class Board extends Subject {
         //      just calculates the next space in the respective
         //      direction in a cyclic way.
 
-        // XXX an other option (not for now) would be that null represents a hole
-        //     or the edge of the board in which the players can fall
-
         int x = space.x;
         int y = space.y;
         switch (heading) {
@@ -251,7 +251,7 @@ public class Board extends Subject {
 
     /**
      * @author Petrine
-     * @param initEnergySpaces()
+     *
      * Here are the four energy spaces defined. The functionalities can 
      * be found in EnergySpaces.java
      */
@@ -266,8 +266,8 @@ public class Board extends Subject {
         // Create WallSpace objects and set them at specific coordinates
         spaces[0][1] = new WallSpace(this, 0, 1, Heading.SOUTH);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
-        spaces[5][5] = new WallSpace(this, 5, 5, Heading.SOUTH);
-        spaces[7][2] = new WallSpace(this, 7, 2, Heading.SOUTH);
+        spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
+        spaces[7][7] = new WallSpace(this, 7, 7, Heading.SOUTH);
     }
 
 
@@ -275,9 +275,18 @@ public class Board extends Subject {
     private void initCheckpointSpaces () {
         spaces[7][7] = new CheckpointSpace(this, 0, 1);
     }
+
+
+    private void initPriorityAntenna() {
+
+        spaces[4][7] = new PriorityAntenna(this, 4, 7);
+
+    }
+
+    public Space getPriorityAntenna() {
+        return spaces[4][7];
+    }
 }
-
-
     
 
 
