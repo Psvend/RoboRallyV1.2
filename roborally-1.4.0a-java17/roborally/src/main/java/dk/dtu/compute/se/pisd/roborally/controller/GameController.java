@@ -60,27 +60,6 @@ public class GameController {
     }
 
 
-    /*  ORIGINAL
-    public void moveForward(@NotNull Player player) {
-        if (player.board == board) {
-            Space space = player.getSpace();
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
-                }
-            }
-        }
-    }
-
-    */
-
-    //TEST
 
     /**
      * @author Daniel
@@ -302,8 +281,17 @@ public class GameController {
     }
 
 
-    //  FLYTTET FRA EnergySpace.java AF LOUISE OG ÆNDRET TIL VOID
-        public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
+    /**
+     * @author Petrine & Louise
+     * @param energyBank
+     * 
+     * 
+     * Checks if a player is on an energy space. 
+     * If the that is the case, a cube is added to the players reserve by addEnergyCube(), 
+     * and the labels showing the reserve and bank 
+     * 
+     */
+    public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
         Space currentSpace = player.getSpace();
         energyBank = this.energyBank;
         if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
