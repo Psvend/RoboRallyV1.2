@@ -51,9 +51,7 @@ public class GameController {
     public GameController(Board board) {
         this.board = board;
         this.energyBank = new EnergyBank(1);
-        this.energySpace = new EnergySpace(board, 1, 1);
-
-        
+        this.energySpace = new EnergySpace(board, 1, 1); 
     }
 
     /**
@@ -258,6 +256,7 @@ public class GameController {
                     makeProgramFieldsVisible(step); // make the next card visible
                     board.setStep(step);
                     priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                    Activator.getInstance().activateBoardElements(board, this);
                 } else {
                     startProgrammingPhase();
                 }
@@ -377,7 +376,6 @@ public class GameController {
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
-                        board.setCurrentPlayer(board.getPlayer(0));
                         Activator.getInstance().activateBoardElements(board, this);
                     } else {
                         startProgrammingPhase();
