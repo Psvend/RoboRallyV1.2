@@ -28,6 +28,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -51,15 +53,18 @@ import javafx.scene.layout.BackgroundSize;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+
+
 public class SpaceView extends StackPane implements ViewObserver {
 
+    public final Space space;
     final public static int SPACE_HEIGHT = 30; // 75;
     final public static int SPACE_WIDTH = 30; // 75;
 
-    public final Space space;
-
 
     public SpaceView(@NotNull Space space) {
+
         this.space = space;
 
         // XXX the following styling should better be done with styles
@@ -99,6 +104,10 @@ public class SpaceView extends StackPane implements ViewObserver {
                     this.setStyle("-fx-background-color: lime;");
                 }
             }
+        } else if (space instanceof WallSpace) {
+            this.setId("wallspace-view");
+        }else if(space instanceof PriorityAntenna){
+            this.setId("priorityantenna-view");
         } else {
             this.setId("space-view");
         }
@@ -110,8 +119,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         update(space);
     }
 
-
-
     //printer trekanten for en spiller
     private void updatePlayer() {
         this.getChildren().clear();
@@ -122,20 +129,87 @@ public class SpaceView extends StackPane implements ViewObserver {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
                     20.0, 0.0 );
+            
             try {
                 arrow.setFill(Color.valueOf(player.getColor()));
+                arrow.toFront();
             } catch (Exception e) {
                 arrow.setFill(Color.MEDIUMPURPLE);
             }
 
             arrow.setRotate((90*player.getHeading().ordinal())%360);
             this.getChildren().add(arrow);
+            this.toFront();
         }
     }
 
-
-
     
+    @Override
+    public void updateView(Subject subject) {
+        if (subject == this.space) {
+            updatePlayer();
+        }
+    }
+
+}
+
+
+
+
+*/
+
+
+public class SpaceView extends StackPane implements ViewObserver {
+
+    public final Space space;
+    final public static int SPACE_HEIGHT = 30; // 75;
+    final public static int SPACE_WIDTH = 30; // 75;
+
+
+    public SpaceView(@NotNull Space space) {
+        
+        this.space = space;
+        this.setPrefSize(SPACE_WIDTH, SPACE_HEIGHT);
+        setupBackground();
+
+        space.attach(this);
+        update(space);
+    }
+
+    private void setupBackground() {
+        if (space instanceof EnergySpace) {
+            setId("energyspace-view");
+        } else if (space instanceof WallSpace) {
+            setId("wallspace-view");
+        } else if (space instanceof PriorityAntenna) {
+            setId("priorityantenna-view");
+        } else {
+            setId("space-view");
+        }
+    }
+
+    private void updatePlayer() {
+        // Clear only previous player icons, leave the background intact
+        this.getChildren().removeIf(child -> child instanceof Polygon);
+
+        Player player = space.getPlayer();
+        if (player != null) {
+            Polygon arrow = createPlayerIcon(player);
+            this.getChildren().add(arrow); // Add player icon last to ensure it is on top
+        }
+    }
+
+    private Polygon createPlayerIcon(Player player) {
+        Polygon arrow = new Polygon(0.0, 0.0, 10.0, 20.0, 20.0, 0.0);
+        try {
+            arrow.setFill(Color.valueOf(player.getColor()));
+        } catch (Exception e) {
+            arrow.setFill(Color.MEDIUMPURPLE); // Default color in case of an error
+        }
+        arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
+        return arrow;
+    }
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {

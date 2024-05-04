@@ -21,8 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
+import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
@@ -83,8 +87,8 @@ public class Board extends Subject {
         initEnergySpaces();
         initPriorityAntenna();
         initBelt();
+        initWallSpaces();  //test
         this.stepMode = false;
-
     }
 
     public Integer getGameId() {
@@ -212,9 +216,6 @@ public class Board extends Subject {
         //      just calculates the next space in the respective
         //      direction in a cyclic way.
 
-        // XXX an other option (not for now) would be that null represents a hole
-        //     or the edge of the board in which the players can fall
-
         int x = space.x;
         int y = space.y;
         switch (heading) {
@@ -259,8 +260,8 @@ public class Board extends Subject {
 
     /**
      * @author Petrine
-     *
-     * Here are the four energy spaces defined. The functionalities can
+     * @param initEnergySpaces()
+     * Here are the four energy spaces defined. The functionalities can 
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {
@@ -270,7 +271,6 @@ public class Board extends Subject {
         spaces[6][2] = new EnergySpace(this, 6, 2);
 
     }
-
     private void initPriorityAntenna() {
 
         spaces[4][7] = new PriorityAntenna(this, 4, 7);
@@ -279,6 +279,11 @@ public class Board extends Subject {
 
     public Space getPriorityAntenna() {
         return spaces[4][7];
+    }
+    private void initWallSpaces() {
+        spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
+        spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
+        spaces[7][7] = new WallSpace(this, 7, 7, Heading.SOUTH);
     }
 
     /**
