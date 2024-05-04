@@ -55,30 +55,55 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "SOUTH",
+        "beltType": 2,
+        "turnBelt": "LEFT"
+      },
       "x": 1,
       "y": 0
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "SOUTH",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 1,
       "y": 1
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "SOUTH",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 1,
       "y": 2
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "SOUTH",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 1,
       "y": 3
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "SOUTH",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 1,
       "y": 4
     },
@@ -103,6 +128,11 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "WEST",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 2,
       "y": 0
     },
@@ -151,30 +181,55 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "WEST",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 3,
       "y": 0
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "NORTH",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 3,
       "y": 1
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "NORTH",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 3,
       "y": 2
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "NORTH",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 3,
       "y": 3
     },
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "NORTH",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 3,
       "y": 4
     },
@@ -187,6 +242,11 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "NORTH",
+        "beltType": 1,
+        "turnBelt": "RIGHT"
+      },
       "x": 3,
       "y": 6
     },
@@ -199,6 +259,11 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "WEST",
+        "beltType": 2,
+        "turnBelt": ""
+      },
       "x": 4,
       "y": 0
     },
@@ -235,6 +300,11 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "EAST",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 4,
       "y": 6
     },
@@ -331,6 +401,11 @@
     {
       "walls": [],
       "actions": [],
+      "conveyorBelt": {
+        "heading": "EAST",
+        "beltType": 1,
+        "turnBelt": ""
+      },
       "x": 6,
       "y": 6
     },
@@ -418,35 +493,7 @@
         {
           "visible": true,
           "card": {
-            "command": "FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "LEFT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FAST_FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FAST_FORWARD",
+            "command": "MOVE_TWO",
             "observers": []
           }
         },
@@ -460,14 +507,42 @@
         {
           "visible": true,
           "card": {
-            "command": "LEFT",
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_TWO",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
             "observers": []
           }
         }
@@ -501,34 +576,6 @@
         {
           "visible": true,
           "card": {
-            "command": "FAST_FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "U_TURN",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "U_TURN",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
             "command": "MOVE_THREE",
             "observers": []
           }
@@ -536,6 +583,20 @@
         {
           "visible": true,
           "card": {
+            "command": "MOVE_TWO",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
             "command": "FORWARD",
             "observers": []
           }
@@ -543,14 +604,28 @@
         {
           "visible": true,
           "card": {
-            "command": "BACKWARD",
+            "command": "FORWARD",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "BACKWARD",
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_TWO",
             "observers": []
           }
         }

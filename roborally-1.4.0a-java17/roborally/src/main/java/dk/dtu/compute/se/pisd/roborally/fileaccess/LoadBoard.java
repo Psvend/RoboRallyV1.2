@@ -138,6 +138,7 @@ public class LoadBoard {
                     spaceTemplate.y = space.y;
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
+                    spaceTemplate.conveyorBelt= space.getConveyorBelt();
                     template.spaces.add(spaceTemplate);
                 }
             }
