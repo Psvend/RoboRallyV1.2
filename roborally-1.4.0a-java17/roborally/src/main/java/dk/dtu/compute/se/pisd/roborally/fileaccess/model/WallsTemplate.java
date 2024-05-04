@@ -4,6 +4,7 @@ public class WallsTemplate {
     public int x;
     public int y;
     public String heading;
+    public boolean hasWall;
 
     public int getX() {
         return x;
@@ -22,5 +23,12 @@ public class WallsTemplate {
     }
     public void setHeading(String heading) {
         this.heading = heading;
+    }
+    public boolean getHasWall() {
+        return hasWall;
+    }
+
+    public void setHasWall(boolean hasWall) {
+        this.hasWall = hasWall;
     }
 }

@@ -155,6 +155,12 @@
     },
     {
       "walls": [],
+      "wallsTemplate": {
+        "x": 2,
+        "y": 3,
+        "heading": "SOUTH",
+        "hasWall": true
+      },
       "actions": [],
       "x": 2,
       "y": 3
@@ -362,6 +368,12 @@
     },
     {
       "walls": [],
+      "wallsTemplate": {
+        "x": 5,
+        "y": 6,
+        "heading": "SOUTH",
+        "hasWall": true
+      },
       "actions": [],
       "x": 5,
       "y": 6
@@ -484,6 +496,12 @@
     },
     {
       "walls": [],
+      "wallsTemplate": {
+        "x": 7,
+        "y": 7,
+        "heading": "SOUTH",
+        "hasWall": true
+      },
       "actions": [],
       "x": 7,
       "y": 7
@@ -518,42 +536,28 @@
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
+            "command": "FORWARD",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "FAST_FORWARD",
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
+            "command": "MOVE_TWO",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FAST_FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "BACKWARD",
+            "command": "U_TURN",
             "observers": []
           }
         },
@@ -568,6 +572,20 @@
           "visible": true,
           "card": {
             "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
             "observers": []
           }
         }
@@ -601,21 +619,42 @@
         {
           "visible": true,
           "card": {
-            "command": "MOVE_THREE",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "LEFT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
             "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_TWO",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
             "observers": []
           }
         },
@@ -629,7 +668,131 @@
         {
           "visible": true,
           "card": {
-            "command": "LEFT",
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 3",
+      "color": "blue",
+      "spaceX": 2,
+      "spaceY": 2,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 4",
+      "color": "orange",
+      "spaceX": 3,
+      "spaceY": 3,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
             "observers": []
           }
         },
@@ -650,7 +813,28 @@
         {
           "visible": true,
           "card": {
-            "command": "FORWARD",
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
             "observers": []
           }
         }
