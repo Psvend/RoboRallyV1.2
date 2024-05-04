@@ -42,6 +42,7 @@ public class SpaceTemplate {
     public List<FieldAction> actions = new ArrayList<>();
     public ConveyorBelt conveyorBelt;
     public EnergySpaceTemplate energySpace;
+    public PriorityAntennaTemplate priorityAntenna;
 
 
     public int x;

@@ -151,6 +151,16 @@ public class LoadBoard {
                         // Assign the EnergySpaceTemplate to the energySpace field of the SpaceTemplate
                         spaceTemplate.energySpace = energySpaceTemplate;
                     }
+                    if (space instanceof PriorityAntenna) {
+                        PriorityAntenna priorityAntenna = (PriorityAntenna) space;
+                        PriorityAntennaTemplate priorityAntennaTemplate = new PriorityAntennaTemplate();
+                        priorityAntennaTemplate.setX(priorityAntenna.x);
+                        priorityAntennaTemplate.setY(priorityAntenna.y);
+                        priorityAntennaTemplate.setIsPriorityAntenna(priorityAntenna.isPriorityAntenna);
+
+                        // Assign the PriorityAntennaTemplate to the priorityAntenna field of the SpaceTemplate
+                        spaceTemplate.priorityAntenna = priorityAntennaTemplate;
+                    }
                     template.spaces.add(spaceTemplate);
                 }
             }
