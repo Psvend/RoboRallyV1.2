@@ -22,11 +22,19 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
@@ -37,15 +45,17 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  */
 public class Board extends Subject {
 
-    public final int width;
+    public int width;
 
-    public final int height;
+    public int height;
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
+
+    private List<FieldAction> actions = new ArrayList<>();
 
     private Player current;
 
@@ -57,9 +67,12 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    private EnergyBank energyBank;
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
+        this.energyBank = new EnergyBank(50);
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -67,7 +80,11 @@ public class Board extends Subject {
                 spaces[x][y] = space;
             }
         }
+        initEnergySpaces();
+        initPriorityAntenna();
+        initBelt();
         this.stepMode = false;
+
     }
 
     public Integer getGameId() {
@@ -175,6 +192,7 @@ public class Board extends Subject {
         }
     }
 
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
@@ -230,4 +248,92 @@ public class Board extends Subject {
                 ", Step: " + getStep() +
                 ", Moves: " + getMoves();
     }
+
+
+
+
+    public EnergyBank getEnergyBank() {
+        return energyBank;
+    }
+
+
+    /**
+     * @author Petrine
+     *
+     * Here are the four energy spaces defined. The functionalities can
+     * be found in EnergySpaces.java
+     */
+    private void initEnergySpaces() {
+        spaces[2][1] = new EnergySpace(this, 2, 1);
+        spaces[5][7] = new EnergySpace(this, 5, 7);
+        spaces[7][5] = new EnergySpace(this, 7, 7);
+        spaces[6][2] = new EnergySpace(this, 6, 2);
+
+    }
+
+    private void initPriorityAntenna() {
+
+        spaces[4][7] = new PriorityAntenna(this, 4, 7);
+
+    }
+
+    public Space getPriorityAntenna() {
+        return spaces[4][7];
+    }
+
+    /**
+     * @author Nikolaj
+     *
+     * attaches ConveyorBelt to spaces and adds attributes. In future iterations this should be done through JSON files.
+     */
+    public void initBelt() {
+        ConveyorBelt conveyorBelt1 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt2 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt3 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt4 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt5 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt6 = new ConveyorBelt();
+
+        conveyorBelt1.setBeltType(1);
+        conveyorBelt2.setBeltType(2);
+        conveyorBelt3.setBeltType(1);
+        conveyorBelt4.setBeltType(2);
+        conveyorBelt5.setBeltType(1);
+        conveyorBelt6.setBeltType(2);
+
+        conveyorBelt1.setHeading(SOUTH);
+        conveyorBelt2.setHeading(NORTH);
+        conveyorBelt3.setHeading(EAST);
+        conveyorBelt4.setHeading(WEST);
+        conveyorBelt5.setHeading(NORTH);
+        conveyorBelt6.setHeading(SOUTH);
+
+        spaces[1][1].setConveyorBelt(conveyorBelt1);
+        spaces[1][2].setConveyorBelt(conveyorBelt1);
+        spaces[1][3].setConveyorBelt(conveyorBelt1);
+        spaces[1][4].setConveyorBelt(conveyorBelt1);
+
+        spaces[3][1].setConveyorBelt(conveyorBelt2);
+        spaces[3][2].setConveyorBelt(conveyorBelt2);
+        spaces[3][3].setConveyorBelt(conveyorBelt2);
+        spaces[3][4].setConveyorBelt(conveyorBelt2);
+
+        spaces[3][6].setConveyorBelt(conveyorBelt5);
+        spaces[4][6].setConveyorBelt(conveyorBelt3);
+        spaces[5][6].setConveyorBelt(conveyorBelt3);
+        spaces[6][6].setConveyorBelt(conveyorBelt3);
+
+        spaces[1][0].setConveyorBelt(conveyorBelt6);
+        spaces[2][0].setConveyorBelt(conveyorBelt4);
+        spaces[3][0].setConveyorBelt(conveyorBelt4);
+        spaces[4][0].setConveyorBelt(conveyorBelt4);
+
+        spaces[1][0].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[3][6].getConveyorBelt().setTurnBelt("RIGHT");
+
+    }
 }
+
+
+
+

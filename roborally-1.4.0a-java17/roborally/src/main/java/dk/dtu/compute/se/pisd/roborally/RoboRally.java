@@ -31,6 +31,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
+//Det er det meste layout er defineret da det er her Stage og Pane defineres 
+
 /**
  * ...
  *
@@ -40,9 +43,11 @@ import javafx.stage.Stage;
 public class RoboRally extends Application {
 
     private static final int MIN_APP_WIDTH = 600;
+    private static final int MIN_APP_HEIGHT = 600;
 
     private Stage stage;
     private BorderPane boardRoot;
+    
 
     @Override
     public void init() throws Exception {
@@ -52,24 +57,31 @@ public class RoboRally extends Application {
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-
+            
+        // Load the CSS stylesheet
+        Scene primaryScene = new Scene(new VBox(), MIN_APP_WIDTH, MIN_APP_HEIGHT);
+        primaryScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+        
+    
         AppController appController = new AppController(this);
-
-        // create the primary scene with the a menu bar and a pane for
-        // the board view (which initially is empty); it will be filled
-        // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
+        menuBar.setId("menuBar-view");  //styrer baggrund på første pop up 
         boardRoot = new BorderPane();
+                
+        //test 1
         VBox vbox = new VBox(menuBar, boardRoot);
-        vbox.setMinWidth(MIN_APP_WIDTH);
-        Scene primaryScene = new Scene(vbox);
+        vbox.setId("main-window");  //styrer baggrund på spillepladen
 
+
+        vbox.setMinWidth(MIN_APP_WIDTH);
+        primaryScene.setRoot(vbox);    
         stage.setScene(primaryScene);
         stage.setTitle("RoboRally");
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
-                    appController.exit();} );
+                    appController.exit();
+                });
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
@@ -78,11 +90,14 @@ public class RoboRally extends Application {
     public void createBoardView(GameController gameController) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
+        
 
         if (gameController != null) {
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
+            boardRoot.setId("board-view");
+            
         }
 
         stage.sizeToScene();
@@ -99,6 +114,7 @@ public class RoboRally extends Application {
     }
 
     public static void main(String[] args) {
+        
         launch(args);
     }
 

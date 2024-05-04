@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -48,12 +49,16 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+    private int energyReserve;   //the players own energy reserve
+     
+
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
         this.color = color;
-
         this.space = null;
+        this.energyReserve = 0;
 
         program = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < program.length; i++) {
@@ -133,4 +138,30 @@ public class Player extends Subject {
         return cards[i];
     }
 
-}
+
+    /**
+     * @author Petrine
+     * @param addEnergyCube 
+     * Allows a player to have its own energyreserve, that will get updated every time 
+     * a cube gets added to it. 
+     * 
+     */
+    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
+        if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+            this.energyReserve++;
+            //bank.takeEnergyCube();
+            notifyChange();
+            return true;
+        } else {  //hvis banken er tom tilføjes ingen cubes
+            return false;
+        }
+
+        }
+
+    //has to be non-static as we want each player to have their own reserve
+    public int getEnergyReserve() {
+        return this.energyReserve;
+    }
+
+    }
+    

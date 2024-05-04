@@ -20,9 +20,15 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ...
@@ -33,12 +39,73 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-    private int moves = 0;
+    final public EnergyBank energyBank;
+    public EnergySpace energySpace;
+    public int moves = 0;
+    public Command command;
+    public ArrayList<Player> priorityPlayers = new ArrayList<>();
+    public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
+    public Player interactivePlayer;
 
     public GameController(Board board) {
         this.board = board;
+        this.energyBank = new EnergyBank(1);
+        this.energySpace = new EnergySpace(board, 1, 1);
     }
 
+    /**
+     * @author Natali
+     * @param player
+     * @return distance
+     */
+
+    // TODO Assignment A3
+
+    public int distanceToPriorityAntenna(@NotNull Player player){
+        int spaceX = player.getSpace().x;
+        int spaceY = player.getSpace().y;
+        int antennaX = board.getPriorityAntenna().x;
+        int antennaY = board.getPriorityAntenna().y;
+        int distance = 0;
+        if(spaceX < antennaX){
+            distance = antennaX - spaceX;
+            } else {
+            distance = spaceX - antennaX;
+        }
+        if(spaceY < antennaY){
+            distance = distance + (antennaY - spaceY);
+        } else {
+            distance = distance + (spaceY - antennaY);
+        }
+        return distance;
+    }
+
+    /**
+     * @author Natali
+     *
+     * @return playersTurn
+     */
+
+    // TODO Assignment A3
+    public ArrayList<Player> determiningPriority(){
+        ArrayList<Player> playersTurn = new ArrayList<>();
+        HashMap<Player, Integer> playerDistances = new HashMap<>();
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player currentPlayer = board.getPlayer(i);
+            int distance = distanceToPriorityAntenna(currentPlayer);
+            playerDistances.put(currentPlayer, distance);
+        }
+
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerDistances.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Player, Integer> entry : list) {
+            playersTurn.add(entry.getKey());
+        }
+
+        return playersTurn;
+    }
 
 
     public void moveForward(@NotNull Player player) {
@@ -165,8 +232,41 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
 
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
 
+            int step = board.getStep();
+
+            priorityPlayers.remove(0); // remove the current player from the priority list
+
+            if (priorityPlayers.isEmpty()) { // if the priority list is empty
+
+                step++; // go to the next card
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step); // make the next card visible
+                    board.setStep(step);
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                    Activator.getInstance().activateElements(board, this);
+                } else {
+                    startProgrammingPhase();
+                }
+
+            }
+            board.setCurrentPlayer(priorityPlayers.get(0));
+            if(!board.isStepMode()){
+                executePrograms();
+            }
+        }
+    }
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -188,21 +288,15 @@ public class GameController {
             }
         }
         player.setSpace(space);
+
+        //tester om doAction er kaldet i gameControlleren
+        for(FieldAction action : space.getActions()) {
+            action.doAction(this, space);
+        }
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        Player currentPlayer =board.getCurrentPlayer();
-        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-        int step = board.getStep();
-        space.setPlayer(currentPlayer);
-        step++;
-        if(nextPlayerNumber < board.getPlayersNumber()) {
-            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-            board.setStep(step);
-        }else{
-            board.setStep(step);
-            board.setCurrentPlayer(board.getPlayer(0));
-        }
+        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -225,18 +319,21 @@ public class GameController {
         }
     }
 
+
+
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
     }
 
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
-    }
+        }
 
     public void executeStep() {
         board.setStepMode(true);
@@ -244,34 +341,48 @@ public class GameController {
     }
 
     private void continuePrograms() {
-        do {
-            executeNextStep();
-        } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+      do {
+                executeNextStep();
+            } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+
     }
 
     private void executeNextStep() {
-        Player currentPlayer = board.getCurrentPlayer();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
+        if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
+
+
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+
+                    if (command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return;
+
+                    }
                 }
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
-                    step++;
+
+                    priorityPlayers.remove(0); // remove the current player from the priority list
+
+                if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                    step++; // go to the next card
                     if (step < Player.NO_REGISTERS) {
-                        makeProgramFieldsVisible(step);
+                        makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                        priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                        Activator.getInstance().activateElements(board, this); //initializes the boardElements
                     } else {
                         startProgrammingPhase();
                     }
+
                 }
+                board.setCurrentPlayer(priorityPlayers.get(0));
+
             } else {
                 // this should not happen
                 assert false;
@@ -282,13 +393,16 @@ public class GameController {
         }
     }
 
-    private void executeCommand(@NotNull Player player, Command command) {
+       private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
+
 
             switch (command) {
+                case OPTION_LEFT_RIGHT:
+                //board.setPhase(Phase.PLAYER_INTERACTION);
+                this.command = command;
+                break;
+
                 case FORWARD:
                     this.moveForward(player);
                     moves = moves +1;
@@ -340,10 +454,10 @@ public class GameController {
                     break;
 
                 case AGAIN:
-                    this.again(player);
-                    moves = moves +1;
-                    board.setMoves(moves);
-                    break;
+                this.again(player);
+                moves = moves +1;
+                board.setMoves(moves);
+                break;
 
 
                 default:
@@ -366,8 +480,12 @@ public class GameController {
 
 
     public void startProgrammingPhase() {
+        priorityPlayers.clear(); // Clear the list before recalculating
+        priorityPlayers = determiningPriority();
+        copyOfpriorityPlayers.clear(); // Clear the list before recalculating
+        copyOfpriorityPlayers.addAll(priorityPlayers);
         board.setPhase(Phase.PROGRAMMING);
-        board.setCurrentPlayer(board.getPlayer(0));
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 
         for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -415,6 +533,122 @@ public class GameController {
             this.space = space;
             this.heading = heading;
         }
+    }
+
+    /**
+     * @author Nikolaj
+     * @throws ImpossibleMoveException
+     * Void-method for moving the player on a conveyor. Utilizes manipulateSpace to compute the targeted space.
+     */
+    public void activateConveyorBelt() throws ImpossibleMoveException{
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            int moveAmount;
+            if(player.getSpace() != null){
+                if (player.getSpace().getConveyorBelt()!=null){
+
+                    if (player.getSpace().getConveyorBelt().getBeltType()==1){
+                        moveAmount = 1;
+                    } else if(player.getSpace().getConveyorBelt().getBeltType()==2){
+                        moveAmount = 2;
+                    } else{
+                        moveAmount = 0;
+                    }
+
+                    for(int c = moveAmount; c > 0; c--){
+                        Heading heading = player.getSpace().getConveyorBelt().getHeading();
+                        Space target = null;
+
+                        switch (heading) {
+                            case NORTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+
+                            case SOUTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+
+                            case WEST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+
+                            case EAST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                            default:
+                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
+                        }
+                        if (target == null) return;
+                        if (target.getConveyorBelt() == null) {
+                            player.setSpace(target);
+                            moveAmount = 0;
+                        } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
+                            player.setSpace(target);
+                        } else {}
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * @author Nikolaj
+     * @param OFFSET
+     * @param heading
+     * @param x
+     * @param y
+     * @return
+     * @throws ImpossibleMoveException
+     * manipulates a space with a heading that doesnt have to be the players, really useful for computing movement with boardElements like Conveyorbelt
+     */
+    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+        Space space = null;
+            switch (heading) {
+                case NORTH:
+                    if (OFFSET < 0 && y < board.height - 1) {
+                        space = board.getSpace(x, y + Math.abs(OFFSET));
+                    } else if (y >=  OFFSET && OFFSET > 0){
+                        space = board.getSpace(x, y - OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case SOUTH:
+                    if (OFFSET < 0 && y > 0) {
+                        space = board.getSpace(x, y - Math.abs(OFFSET));
+                    } else if (y < board.height - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x, y + OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case EAST:
+                    if (OFFSET < 0 && x > 0) {
+                        space = board.getSpace(x - Math.abs(OFFSET), y);
+                    } else if (x < board.width - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x + OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case WEST:
+                    if (OFFSET < 0 && x < board.width -1) {
+                        space = board.getSpace(x + Math.abs(OFFSET), y);
+                    } else if (x >= OFFSET && OFFSET > 0) {
+                        space = board.getSpace(x - OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+        }
+            if(space == null) {
+                throw new ImpossibleMoveException(null, space, heading);
+            }
+        return space;
     }
 
 }

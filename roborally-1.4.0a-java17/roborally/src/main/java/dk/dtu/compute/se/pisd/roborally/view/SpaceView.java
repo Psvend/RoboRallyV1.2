@@ -22,16 +22,28 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+
 
 /**
  * ...
@@ -41,8 +53,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 60; // 75;
-    final public static int SPACE_WIDTH = 60; // 75;
+    final public static int SPACE_HEIGHT = 30; // 75;
+    final public static int SPACE_WIDTH = 30; // 75;
 
     public final Space space;
 
@@ -59,23 +71,53 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-        if ((space.x + space.y) % 2 == 0) {
-            this.setStyle("-fx-background-color: white;");
+        this.setId("space-view");
+
+        // if ((space.x + space.y) % 2 == 0) {
+        //     this.setStyle("-fx-background-color: white;");
+        // } else {
+        //     this.setStyle("-fx-background-color: black;");
+        // }
+
+        
+        //Hvis et space er et EnergySpace
+        if(space instanceof EnergySpace) {
+            this.setId("energyspace-view");
+        } else if(space instanceof PriorityAntenna){
+            this.setId("priorityantenna-view");
+        } else if(space.getConveyorBelt() instanceof ConveyorBelt) {
+            if(space.getConveyorBelt().getBeltType()==1){
+                if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
+                    this.setStyle("-fx-background-color: plum;");
+                } else {
+                    this.setStyle("-fx-background-color: cyan;");
+                }
+            } else if (space.getConveyorBelt().getBeltType()==2){
+                if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
+                    this.setStyle("-fx-background-color: sienna;");
+                } else {
+                    this.setStyle("-fx-background-color: lime;");
+                }
+            }
         } else {
-            this.setStyle("-fx-background-color: black;");
+            this.setId("space-view");
         }
 
-        // updatePlayer();
+       // updatePlayer();
 
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
     }
 
+
+
+    //printer trekanten for en spiller
     private void updatePlayer() {
         this.getChildren().clear();
 
         Player player = space.getPlayer();
+
         if (player != null) {
             Polygon arrow = new Polygon(0.0, 0.0,
                     10.0, 20.0,
@@ -91,6 +133,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+
+
+    
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
@@ -99,3 +144,6 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 }
+
+
+

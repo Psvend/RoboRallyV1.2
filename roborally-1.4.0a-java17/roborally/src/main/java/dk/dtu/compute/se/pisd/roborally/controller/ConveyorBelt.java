@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.controller.GameController.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -35,20 +36,59 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConveyorBelt extends FieldAction {
 
-    private Heading heading;
+  private Heading heading;
+  private int beltType;
+  private String turnBelt = "";
+  
+  public Heading getHeading() {
+    return heading;
+  }
 
-    public Heading getHeading() {
-        return heading;
-    }
+  public void setHeading(Heading heading) {
+    this.heading = heading;
+  }
 
-    public void setHeading(Heading heading) {
-        this.heading = heading;
-    }
+  /**
+   * @author Nikolaj
+   * @return Int beltType
+   * gets beltType. beltType defines whether the player moves one or two spaces, if they're standing on a ConveyorBelt.
+   */
+  public int getBeltType(){
+    return beltType;
+  }
 
-    @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-        // TODO needs to be implemented
-        return false;
-    }
+  /**
+   * @author Nikolaj
+   * @param beltType
+   * sets the beltType.
+   */
+  public void setBeltType(int beltType) {
+      this.beltType = beltType;
+  }
 
+  /**
+   * @author Nikolaj
+   * @return String turnBelt
+   * gets turnBelt. Mainly used in Spaceview to define a situation, where a different png for the ConveyorBelt is needed. (if the belt turns onto another)
+   */
+  public String getTurnBelt() {
+    return turnBelt;
+  }
+
+  /**
+   * @author Nikolaj
+   * @param turnBelt
+   * sets the String turnBelt.
+   */
+  public void setTurnBelt(String turnBelt) {
+    this.turnBelt = turnBelt;
+  }
+
+  //not used
+  @Override
+  public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
+    return true;
+  }
+    
+    
 }

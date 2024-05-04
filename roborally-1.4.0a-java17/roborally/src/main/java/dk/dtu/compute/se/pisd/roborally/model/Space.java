@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import java.util.List;
  *
  */
 public class Space extends Subject {
+
+    private ConveyorBelt ConveyorBelt;
 
     private Player player;
 
@@ -81,11 +84,40 @@ public class Space extends Subject {
         return actions;
     }
 
+    public void setAction(List<FieldAction> actions) {
+        this.actions = actions;
+    }
+
+    /**
+     * @author Nikolaj
+     * @return
+     * gets the ConveyorBelt for the given space. ConveyorBelt is null, if a value is not explicitly attached.
+     */
+    public ConveyorBelt getConveyorBelt(){
+            return ConveyorBelt;
+    }
+
+    /**
+     * @author Nikolaj
+     * @param conveyorBelt
+     * sets ConveyorBelt.
+     */
+    public void setConveyorBelt(ConveyorBelt conveyorBelt) {
+        this.ConveyorBelt = conveyorBelt;
+    }
+
+
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
         notifyChange();
     }
+
+    
+
+
+
+
 
 }
