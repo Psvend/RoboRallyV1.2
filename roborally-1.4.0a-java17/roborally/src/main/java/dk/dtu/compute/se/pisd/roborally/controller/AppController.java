@@ -121,6 +121,7 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
+
         Board defalut = LoadBoard.loadBoard("default");
         gameController = new GameController(defalut);
 
@@ -150,7 +151,9 @@ public class AppController implements Observer {
 
             if (!result.isPresent() || result.get() == ButtonType.OK) {
                 saveGame();
-                return false; // return without exiting the application
+                gameController= null;
+                roboRally.createBoardView(null);
+                return true; // return without exiting the application
             }
             // here we save the game (without asking the user).
 
