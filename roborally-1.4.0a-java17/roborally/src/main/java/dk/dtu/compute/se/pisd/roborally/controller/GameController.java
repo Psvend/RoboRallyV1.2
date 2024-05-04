@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
+import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -47,11 +48,13 @@ public class GameController {
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
     public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
     public Player interactivePlayer;
+    private Map<Player, PlayerView> playerViews;
 
     public GameController(Board board) {
         this.board = board;
-        this.energyBank = new EnergyBank(1);
         this.energySpace = new EnergySpace(board, 1, 1);
+        this.energyBank = board.getEnergyBank();
+        this.playerViews = new HashMap<>();
     }
 
     /**
@@ -61,7 +64,14 @@ public class GameController {
      */
 
     // TODO Assignment A3
+    public void setPlayerView(Player player, PlayerView playerView) {
+        playerViews.put(player, playerView);
+    }
 
+    // Method to retrieve PlayerView for a given player
+    public PlayerView getPlayerView(Player player) {
+        return playerViews.get(player);
+    }
     public int distanceToPriorityAntenna(@NotNull Player player){
         int spaceX = player.getSpace().x;
         int spaceY = player.getSpace().y;
@@ -109,19 +119,44 @@ public class GameController {
     }
 
 
+    /**
+     * @author Daniel
+     * @param moveForward
+     *
+     *
+     */
     public void moveForward(@NotNull Player player) {
         if (player.board == board) {
-            Space space = player.getSpace();
+            Space currentSpace = player.getSpace();
             Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
+
+            // Check if there's a wall in front of the player (either on the current space or the neighboring space)
+            if (currentSpace != null && currentSpace instanceof WallSpace) {
+                WallSpace wallSpace = (WallSpace) currentSpace;
+                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                    return; // Cannot move forward: Wall detected in the way
                 }
+            }
+
+            // Get the space in the forward direction using getNeighbour method
+            Space forwardSpace = board.getNeighbour(currentSpace, heading);
+
+            // Check if the forward space is valid
+            if (forwardSpace != null) {
+                // Check if there's a wall facing the space the player came from
+                Heading backwardHeading = heading.opposite();
+                Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
+
+                // Check if there's a wall facing the backward space in the forward space
+                if (backwardSpace != null && backwardSpace instanceof WallSpace) {
+                    WallSpace backwardWallSpace = (WallSpace) backwardSpace;
+                    if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                        return; // Cannot move forward: Wall detected in the opposite direction
+                    }
+                }
+
+                // Move the player to the forward space
+                player.setSpace(forwardSpace);
             }
         }
     }
@@ -159,6 +194,26 @@ public class GameController {
             moveForward(player);
         }
     }
+
+    /**
+     * @author Petrine
+     * @param powerUp
+     * @return none
+     *
+     * Allows a player when power up card gets executed to add an energy cube to its reserve
+     *
+     */
+    public void powerUp(@NotNull Player player) {
+        addEnergyCube(player, energyBank);
+
+        //her opdateres label views for energy reserve og banken
+        getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+        for (int i = 0; i < board.getPlayersNumber(); i++ ) {
+            getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+        }
+    }
+
+
     /**
      * @author Louise
      * @param player
@@ -298,7 +353,67 @@ public class GameController {
 
     public void moveCurrentPlayerToSpace(Space space) {
         // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
+        Player currentPlayer =board.getCurrentPlayer();
+        int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+        int step = board.getStep();
+        space.setPlayer(currentPlayer);
+        step++;
+        if(nextPlayerNumber < board.getPlayersNumber()) {
+            board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+            board.setStep(step);
+        }else{
+            board.setStep(step);
+            board.setCurrentPlayer(board.getPlayer(0));
+        }
     }
+
+    /**
+     * @author Petrine & Louise
+     * @param energyBank
+     *
+     *
+     * Checks if a player is on an energy space.
+     * If the that is the case, a cube is added to the players reserve by addEnergyCube(),
+     * and the labels showing the reserve and bank
+     *
+     */
+    public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
+        Space currentSpace = player.getSpace();
+        energyBank = this.energyBank;
+        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace
+            if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+                addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
+                getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
+                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+                }
+            }
+        }
+    }
+
+
+
+
+    /**
+     * @author Petrine & Louise
+     * Allows a player to have its own energyreserve, that will get updated every time
+     * a cube gets added to it.
+     *
+     */
+    // ÆNDRET AF LOUISE og ÆNNDRET TIL VOID - FLYTTET FRA PLAYER
+    public void addEnergyCube(Player player, EnergyBank energyBank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort
+        Integer playerBank = player.getEnergyReserve();
+        energyBank = board.getEnergyBank();
+        Integer energyBankStatus = energyBank.getBankStatus();
+        if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+            // TILFØJET AF LOUISE
+            playerBank++;
+            player.setEnergyReserve(playerBank);
+            energyBankStatus--;
+            energyBank.setEnergyBank(energyBankStatus);
+        }
+    }
+
 
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {

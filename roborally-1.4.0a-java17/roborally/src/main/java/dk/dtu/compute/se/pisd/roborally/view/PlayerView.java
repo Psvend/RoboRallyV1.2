@@ -79,7 +79,8 @@ public class PlayerView extends Tab implements ViewObserver {
 
         this.gameController = gameController;
         this.player = player;
-
+        // TILFØJET AF LOUISE
+        gameController.setPlayerView(player, this);
         programLabel = new Label("Program");
 
         programPane = new GridPane();
@@ -106,6 +107,12 @@ public class PlayerView extends Tab implements ViewObserver {
 
         stepButton = new Button("Execute Current Register");
         stepButton.setOnAction(e -> gameController.executeStep());
+
+        //button to show energy bank status
+        bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
+        //button to show players energy status
+        //ÆNDRET AF LOUISE
+        reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
@@ -148,6 +155,14 @@ public class PlayerView extends Tab implements ViewObserver {
             player.board.attach(this);
             update(player.board);
         }
+    }
+
+    public void updateEnergyReserveLabel(int newReserve) {
+        reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
+    }
+
+    public void updateBankLabel(int newBank) {
+        bankLabel.setText("Energy Bank Status: " + newBank);
     }
 
     @Override

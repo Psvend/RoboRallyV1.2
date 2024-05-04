@@ -19,22 +19,17 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  */
+
+
 package dk.dtu.compute.se.pisd.roborally.model;
+
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
-
-/**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
- */
-public class Player extends Subject {
-
+public class Player extends Subject{
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
@@ -50,7 +45,7 @@ public class Player extends Subject {
     private CommandCardField[] cards;
 
     private int energyReserve;   //the players own energy reserve
-     
+
 
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -141,12 +136,12 @@ public class Player extends Subject {
 
     /**
      * @author Petrine
-     * @param addEnergyCube 
-     * Allows a player to have its own energyreserve, that will get updated every time 
-     * a cube gets added to it. 
-     * 
+     * @param addEnergyCube
+     * Allows a player to have its own energyreserve, that will get updated every time
+     * a cube gets added to it.
+     *
      */
-    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
+    public boolean addEnergyCube(EnergyBank bank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort
         if(bank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
             this.energyReserve++;
             //bank.takeEnergyCube();
@@ -156,12 +151,15 @@ public class Player extends Subject {
             return false;
         }
 
-        }
+    }
 
     //has to be non-static as we want each player to have their own reserve
     public int getEnergyReserve() {
         return this.energyReserve;
     }
-
+    public void setEnergyReserve(Integer i) {
+        this.energyReserve = i;
     }
-    
+
+}
+

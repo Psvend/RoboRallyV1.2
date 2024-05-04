@@ -38,4 +38,18 @@ public enum Heading {
     public Heading prev() {
         return values()[(this.ordinal() + values().length - 1) % values().length];
     }
+    public Heading opposite() {
+        return switch (this) {
+            case NORTH -> SOUTH;
+            case EAST -> WEST;
+            case SOUTH -> NORTH;
+            case WEST -> EAST;
+            default -> throw new IllegalStateException("Unexpected value: " + this);
+        };
+    }
+
+    public Heading backward(Heading currentHeading) {
+        // Calculate the opposite heading and return it
+        return currentHeading.opposite();
+    }
 }
