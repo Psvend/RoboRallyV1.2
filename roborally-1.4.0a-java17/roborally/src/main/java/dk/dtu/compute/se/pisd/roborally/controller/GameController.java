@@ -190,6 +190,8 @@ public class GameController {
         for (int i = 1; i <= 2; i++){
             turnLeft(player);
         }
+
+       // player.setHeading(player.getHeading().opposite()); <-- Test om det her virker
     }
 
     /**

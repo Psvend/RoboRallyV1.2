@@ -74,6 +74,7 @@ public class Board extends Subject {
         }
         initEnergySpaces();
         initWallSpaces();
+        initCheckpointSpaces();
         this.stepMode = false;
         
     }
@@ -257,7 +258,7 @@ public class Board extends Subject {
     private void initEnergySpaces() {
         spaces[1][1] = new EnergySpace(this, 1, 1);
         spaces[3][6] = new EnergySpace(this, 3, 6);
-        spaces[7][5] = new EnergySpace(this, 7, 7);
+        spaces[7][5] = new EnergySpace(this, 7, 5);
         spaces[6][2] = new EnergySpace(this, 6, 2);
             
         }
@@ -269,8 +270,11 @@ public class Board extends Subject {
         spaces[7][2] = new WallSpace(this, 7, 2, Heading.SOUTH);
     }
 
-
+    //Louise
+    private void initCheckpointSpaces () {
+        spaces[0][1] = new CheckpointSpace(this, 0, 1);
     }
+}
 
     
 
