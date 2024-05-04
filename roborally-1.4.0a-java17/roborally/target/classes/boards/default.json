@@ -139,6 +139,11 @@
     {
       "walls": [],
       "actions": [],
+      "energySpace": {
+        "x": 2,
+        "y": 1,
+        "hasEnergyCube": true
+      },
       "x": 2,
       "y": 1
     },
@@ -359,6 +364,11 @@
     {
       "walls": [],
       "actions": [],
+      "energySpace": {
+        "x": 5,
+        "y": 7,
+        "hasEnergyCube": true
+      },
       "x": 5,
       "y": 7
     },
@@ -377,6 +387,11 @@
     {
       "walls": [],
       "actions": [],
+      "energySpace": {
+        "x": 6,
+        "y": 2,
+        "hasEnergyCube": true
+      },
       "x": 6,
       "y": 2
     },
@@ -448,6 +463,11 @@
     {
       "walls": [],
       "actions": [],
+      "energySpace": {
+        "x": 7,
+        "y": 7,
+        "hasEnergyCube": true
+      },
       "x": 7,
       "y": 7
     },
@@ -493,6 +513,41 @@
         {
           "visible": true,
           "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
             "command": "MOVE_TWO",
             "observers": []
           }
@@ -500,42 +555,7 @@
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "OPTION_LEFT_RIGHT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "U_TURN",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "MOVE_TWO",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "BACKWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "MOVE_THREE",
+            "command": "LEFT",
             "observers": []
           }
         },
@@ -576,14 +596,14 @@
         {
           "visible": true,
           "card": {
-            "command": "MOVE_THREE",
+            "command": "RIGHT",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "MOVE_TWO",
+            "command": "RIGHT",
             "observers": []
           }
         },
@@ -597,21 +617,7 @@
         {
           "visible": true,
           "card": {
-            "command": "FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "FORWARD",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "LEFT",
+            "command": "OPTION_LEFT_RIGHT",
             "observers": []
           }
         },
@@ -625,7 +631,104 @@
         {
           "visible": true,
           "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
             "command": "MOVE_TWO",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 3",
+      "color": "blue",
+      "spaceX": 2,
+      "spaceY": 2,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
             "observers": []
           }
         }

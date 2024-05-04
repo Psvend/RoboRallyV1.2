@@ -23,7 +23,9 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,8 @@ public class SpaceTemplate {
     public List<Heading> walls = new ArrayList<>();
     public List<FieldAction> actions = new ArrayList<>();
     public ConveyorBelt conveyorBelt;
+    public EnergySpaceTemplate energySpace;
+
 
     public int x;
     public int y;

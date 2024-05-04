@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 
 import java.util.ArrayList;
 import java.util.List;

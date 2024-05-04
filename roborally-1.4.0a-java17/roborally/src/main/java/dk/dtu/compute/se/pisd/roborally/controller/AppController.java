@@ -121,8 +121,9 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
-        Board defalut = LoadBoard.loadBoard("save");
+        Board defalut = LoadBoard.loadBoard("default");
         gameController = new GameController(defalut);
+
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
     }

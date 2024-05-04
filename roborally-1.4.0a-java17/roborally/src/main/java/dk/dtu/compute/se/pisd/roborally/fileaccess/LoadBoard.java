@@ -129,6 +129,8 @@ public class LoadBoard {
         template.moves= board.getMoves();
         template.step = board.getStep();
 
+
+
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
@@ -139,6 +141,16 @@ public class LoadBoard {
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
                     spaceTemplate.conveyorBelt= space.getConveyorBelt();
+                    if (space instanceof EnergySpace) {
+                        EnergySpace energySpace = (EnergySpace) space;
+                        EnergySpaceTemplate energySpaceTemplate = new EnergySpaceTemplate();
+                        energySpaceTemplate.setX(energySpace.x);
+                        energySpaceTemplate.setY(energySpace.y);
+                        energySpaceTemplate.setHasEnergyCube(energySpace.hasEnergyCube);
+
+                        // Assign the EnergySpaceTemplate to the energySpace field of the SpaceTemplate
+                        spaceTemplate.energySpace = energySpaceTemplate;
+                    }
                     template.spaces.add(spaceTemplate);
                 }
             }

@@ -38,6 +38,8 @@ public class Space extends Subject {
 
     private ConveyorBelt ConveyorBelt;
 
+    private EnergySpace energySpace;
+
     private Player player;
 
     private List<Heading> walls = new ArrayList<>();
@@ -86,6 +88,9 @@ public class Space extends Subject {
 
     public void setAction(List<FieldAction> actions) {
         this.actions = actions;
+    }
+    public EnergySpace getEnergySpace() {
+        return energySpace;
     }
 
     /**
