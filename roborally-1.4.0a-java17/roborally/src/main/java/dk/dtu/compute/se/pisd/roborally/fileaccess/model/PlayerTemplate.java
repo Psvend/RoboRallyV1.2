@@ -12,6 +12,8 @@ public class PlayerTemplate {
     public int spaceX;
     public int spaceY;
     private String heading;
+
+    public int energyReserve;
     private List<CommandCardFieldTemplate> program= new ArrayList<>();
     private List<CommandCardFieldTemplate> cards =new ArrayList<>();
 
@@ -69,6 +71,12 @@ public class PlayerTemplate {
 
     public void setCards(List<CommandCardFieldTemplate> cards) {
         this.cards = cards;
+    }
+    public int getEnergyReserve() {
+        return energyReserve;
+    }
+    public void setEnergyReserve(int energyReserve) {
+        this.energyReserve = energyReserve;
     }
 
     public PlayerTemplate(){

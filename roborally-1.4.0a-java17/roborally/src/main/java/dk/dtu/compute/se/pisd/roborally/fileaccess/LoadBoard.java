@@ -149,6 +149,7 @@ public class LoadBoard {
             PlayerTemplate playerTemplate = new PlayerTemplate();
             playerTemplate.setName(player.getName());
             playerTemplate.setColor(player.getColor());
+            playerTemplate.setEnergyReserve(player.getEnergyReserve());
             if (player.getSpace() != null) {
                 playerTemplate.setSpaceX(player.getSpace().x);
                 playerTemplate.setSpaceY(player.getSpace().y);
