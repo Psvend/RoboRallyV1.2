@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 
-public class WinnerView extends VBox implements ViewObserver {
+public class WinnerView extends VBox {
 
     private CheckpointSpace checkPointSpace;
 
@@ -25,23 +25,14 @@ public class WinnerView extends VBox implements ViewObserver {
 
     private AppController appController;
 
-    public WinnerView (@NotNull AppController appController, @NotNull Player player) {
+    private GameController gameController;
+
+    public WinnerView (@NotNull AppController appController) {
         this.appController = appController;
+        //this.gameController = gameController;
+        //getWinner.
 
         winnerBoardPane = new GridPane();
-        winnerLabel = new Label("THE WINNER IS: " + player.getName());
-    }
-
-
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == player.getSpace()) {
-            if (player.getSpace() instanceof CheckpointSpace) {
-                
-            }
-        }
-    }
-
-
-    
+        winnerLabel = new Label("THE WINNER IS YOU IDIOT");
+    }    
 }

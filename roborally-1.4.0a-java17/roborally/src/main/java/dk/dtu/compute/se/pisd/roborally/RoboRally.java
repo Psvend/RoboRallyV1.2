@@ -23,8 +23,11 @@ package dk.dtu.compute.se.pisd.roborally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.view.WinnerView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -101,6 +104,15 @@ public class RoboRally extends Application {
         }
 
         stage.sizeToScene();
+    }
+
+    public void createWinnerView(GameController gameController) {
+            boardRoot.getChildren().clear();
+            AppController appController = new AppController(this);
+            WinnerView winnerView = new WinnerView(appController);
+            boardRoot.setCenter(winnerView);
+            boardRoot.setId("winner-view");
+            System.out.println("JEG ER VED AT BLIVE SKØR");
     }
 
     @Override

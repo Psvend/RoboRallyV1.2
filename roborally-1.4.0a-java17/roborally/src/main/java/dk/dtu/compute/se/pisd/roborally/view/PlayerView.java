@@ -61,9 +61,6 @@ public class PlayerView extends Tab implements ViewObserver {
     private Button stepButton;
     private Label bankLabel;
     private Label reserveLabel;
-    private Label winnerLabel;
-
-    private VBox winnerPanel;
 
     //the vbox labels or buttons get added to
     private VBox playerInteractionPanel;
@@ -128,9 +125,6 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
 
-        winnerPanel = new VBox();
-        winnerPanel.setAlignment(Pos.CENTER_LEFT);
-        winnerPanel.setSpacing(3.0);
 
         cardsLabel = new Label("Command Cards");
         cardsPane = new GridPane();
@@ -194,27 +188,6 @@ public class PlayerView extends Tab implements ViewObserver {
                             cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                         }
                     }
-                }
-            }
-
-            if (player.board.getCurrentPlayer().getSpace() instanceof CheckpointSpace) {
-                programPane.getChildren().remove(buttonPanel);
-                programPane.add(winnerPanel, Player.NO_REGISTERS, 0);
-
-                winnerPanel.getChildren().clear();
-
-                if (player.board.getCurrentPlayer() == player) {
-                    // Display the winner's name
-                    winnerLabel = new Label("And the winner is: " + player.getName());
-                    winnerPanel.getChildren().add(winnerLabel);
-                    
-                    // You can optionally provide buttons for further actions, like playing again or exiting the game
-                    Button playAgain = new Button("Play again");
-                    Button exitGame = new Button("Exit game");
-                    // Add event handlers for these buttons if needed
-                    winnerPanel.getChildren().add(playAgain);
-                    winnerPanel.getChildren().add(exitGame);
-                    System.out.println("JEG ER TRÆT MANNER");
                 }
             }
 

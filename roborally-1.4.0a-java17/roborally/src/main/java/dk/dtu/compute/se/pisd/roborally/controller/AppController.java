@@ -27,6 +27,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
+import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -92,6 +94,12 @@ public class AppController implements Observer {
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
+
+            Player player = gameController.board.getCurrentPlayer();
+            if (player.getSpace() instanceof CheckpointSpace) {
+                roboRally.createWinnerView(gameController);
+            }
+
         }
     }
 

@@ -355,14 +355,10 @@ public class GameController {
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
             isPlayerOnEnergySpace(player, energyBank);
+            isPlayerOn
         }
-        // LOOP MADE BY LOUISE FOR TESTING
-        // Integer j = board.getPlayersNumber();
-        // for (int i = 0; i < j; i++ )  {
-        //     System.out.println(board.getPlayer(i));
-        //     System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
-        //     System.out.println("BANKEN HAR " + energyBank.getBankStatus());
-        // }
+
+
     }
 
     private void executeNextStep() {
