@@ -418,21 +418,7 @@
         {
           "visible": true,
           "card": {
-            "command": "LEFT",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "MOVE_TWO",
-            "observers": []
-          }
-        },
-        {
-          "visible": true,
-          "card": {
-            "command": "RIGHT",
+            "command": "BACKWARD",
             "observers": []
           }
         },
@@ -446,7 +432,14 @@
         {
           "visible": true,
           "card": {
-            "command": "OPTION_LEFT_RIGHT",
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
             "observers": []
           }
         },
@@ -460,7 +453,14 @@
         {
           "visible": true,
           "card": {
-            "command": "AGAIN",
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_TWO",
             "observers": []
           }
         },
@@ -501,28 +501,28 @@
         {
           "visible": true,
           "card": {
-            "command": "LEFT",
+            "command": "MOVE_TWO",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "MOVE_THREE",
+            "command": "BACKWARD",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "U_TURN",
+            "command": "BACKWARD",
             "observers": []
           }
         },
         {
           "visible": true,
           "card": {
-            "command": "RIGHT",
+            "command": "MOVE_TWO",
             "observers": []
           }
         },
@@ -550,7 +550,7 @@
         {
           "visible": true,
           "card": {
-            "command": "FORWARD",
+            "command": "BACKWARD",
             "observers": []
           }
         }
