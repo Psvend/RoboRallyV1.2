@@ -105,6 +105,14 @@ public class Space extends Subject {
         this.ConveyorBelt = conveyorBelt;
     }
 
+    /**
+     * @author Benjamin
+     * @return Boolean
+     */
+    public boolean isFree(){
+        return player==null;
+        }
+
 
     void playerChanged() {
         // This is a minor hack; since some views that are registered with the space
