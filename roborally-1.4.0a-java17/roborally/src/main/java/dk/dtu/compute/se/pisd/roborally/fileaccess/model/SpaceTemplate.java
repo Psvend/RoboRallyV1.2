@@ -39,8 +39,8 @@ import java.util.List;
 public class SpaceTemplate {
 
     public WallsTemplate wallsTemplate;
-    public List<FieldAction> actions = new ArrayList<>();
-    public ConveyorBelt conveyorBelt;
+    public List<FieldActionTemplate> actions = new ArrayList<>();
+
     public EnergySpaceTemplate energySpace;
     public PriorityAntennaTemplate priorityAntenna;
 

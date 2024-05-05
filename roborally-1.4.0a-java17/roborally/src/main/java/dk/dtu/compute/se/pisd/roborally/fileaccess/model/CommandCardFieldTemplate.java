@@ -15,6 +15,9 @@ public class CommandCardFieldTemplate {
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
+    public void getVisible(boolean visible) {
+        this.visible = visible;
+    }
 
     public CommandCard getCard() {
         return card;

@@ -161,5 +161,18 @@ public class Player extends Subject{
         this.energyReserve = i;
     }
 
+    public void setCards(CommandCardField[] cards) {
+        this.cards = cards;
+    }
+    public void setProgram(CommandCardField[] program) {
+        this.program = program;
+    }
+    public CommandCardField[] getProgram() {
+        return program;
+    }
+    public CommandCardField[] getCards() {
+        return cards;
+    }
+
 }
 

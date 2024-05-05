@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.model.*;
@@ -80,6 +81,7 @@ public class LoadBoard {
 			result = new Board(template.width, template.height);
 			for (SpaceTemplate spaceTemplate: template.spaces) {
 			    Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
+
 			    if (space != null) {
 
                     if (spaceTemplate.wallsTemplate != null) {
@@ -111,9 +113,14 @@ public class LoadBoard {
                     }
                 }
             }
+            for(PhaseTemplate phaseTemplate: template.phases){
+                Phase phase = Phase.valueOf(phaseTemplate.getPhase());
+                result.setPhase(phase);
+            }
             PlayerTemplate playerTemplate = gson.fromJson(reader, PlayerTemplate.class);
             if (playerTemplate != null) {
                 Player newPlayer = new Player(result, playerTemplate.getName(), playerTemplate.getColor());
+                newPlayer.setEnergyReserve(playerTemplate.getEnergyReserve());
                 if (playerTemplate.getSpaceX() >= 0 && playerTemplate.getSpaceX() < template.width && playerTemplate.getSpaceY() >= 0 && playerTemplate.getSpaceY() < template.height) {
                     Space space = result.getSpace(playerTemplate.getSpaceX(), playerTemplate.getSpaceY());
                     if (space != null) {
@@ -122,13 +129,25 @@ public class LoadBoard {
                     }
                 }
                 newPlayer.setHeading(Heading.valueOf(playerTemplate.getHeading()));
-                // Assuming CommandCardFieldTemplate is similar to CommandCardField
                 for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                    CommandCardField field = newPlayer.getProgramField(i);
                     CommandCardFieldTemplate fieldTemplate = playerTemplate.getProgram().get(i);
-                    // Populate field with relevant data
+
+                    // Create a new CommandCardField from the template
+                    CommandCardField field = new CommandCardField(newPlayer);
+
+                    // Assuming CommandCardField has a setCard method and CommandCardFieldTemplate has a getCard method
+                    CommandCard card = fieldTemplate.getCard(); // Get the CommandCard from the template
+                    field.setCard(card); // Set the CommandCard to the field
+
+                    // Assuming CommandCardField has a setVisible method and CommandCardFieldTemplate has a getVisible method
+                    boolean isVisible = fieldTemplate.isVisible(); // Get the visibility from the template
+                    field.setVisible(isVisible); // Set the visibility to the field
+
+                    // Set the field to the player's program
+                    newPlayer.getProgram()[i] = field;
+                    newPlayer.getCards()[i] = field;
                 }
-                // Similarly for cards
+
             }
 			reader.close();
 			return result;
@@ -164,8 +183,6 @@ public class LoadBoard {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
-                    spaceTemplate.actions.addAll(space.getActions());
-                    spaceTemplate.conveyorBelt= space.getConveyorBelt();
                     if (space instanceof EnergySpace) {
                         EnergySpace energySpace = (EnergySpace) space;
                         EnergySpaceTemplate energySpaceTemplate = new EnergySpaceTemplate();
@@ -196,6 +213,19 @@ public class LoadBoard {
 
                         // Assign the WallSpaceTemplate to the wallSpace field of the SpaceTemplate
                         spaceTemplate.wallsTemplate = wallSpaceTemplate;
+                    }
+                    if(space.getConveyorBelt() instanceof ConveyorBelt){ConveyorBelt conveyorBelt = (ConveyorBelt) space.getConveyorBelt();
+                        ConveyorBeltTemplate conveyorBeltTemplate = new ConveyorBeltTemplate();
+                        conveyorBeltTemplate.setHeading(conveyorBelt.getHeading().toString());
+                        conveyorBeltTemplate.setBeltType(conveyorBelt.getBeltType());
+                        conveyorBeltTemplate.setTurnBelt(conveyorBelt.getTurnBelt().toString());
+
+                        // Assign the ConveyorBeltTemplate to the conveyorBelt field of the FieldActionTemplate
+                        FieldActionTemplate fieldActionTemplate = new FieldActionTemplate();
+                        fieldActionTemplate.conveyorBelt = conveyorBeltTemplate;
+
+                        // Assign the FieldActionTemplate to the actions field of the SpaceTemplate
+                        spaceTemplate.actions.add(fieldActionTemplate);
                     }
                     template.spaces.add(spaceTemplate);
                 }
