@@ -33,6 +33,7 @@ public class Activator {
         this.board = board;
         this.gameController = gameController;
         activateConveyorBelts();
+        activateGearSpaces();
     }
 
     /**
@@ -46,5 +47,9 @@ public class Activator {
         } catch (ImpossibleMoveException e) {
 
         }
+    }
+
+    private void activateGearSpaces(){
+        gameController.activateGearSpaces();
     }
 }
