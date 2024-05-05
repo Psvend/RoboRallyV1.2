@@ -386,7 +386,7 @@ public class GameController {
                     executeCommand(currentPlayer, command);
 
                     if (command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
+
                         return;
 
                     }
@@ -425,7 +425,7 @@ public class GameController {
 
             switch (command) {
                 case OPTION_LEFT_RIGHT:
-                //board.setPhase(Phase.PLAYER_INTERACTION);
+                board.setPhase(Phase.PLAYER_INTERACTION);
                 this.command = command;
                 break;
 
