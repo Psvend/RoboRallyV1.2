@@ -402,6 +402,7 @@ public class GameController {
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
                         Activator.getInstance().activateElements(board, this); //initializes the boardElements
                     } else {
+                        Activator.getInstance().activateElements(board, this);
                         startProgrammingPhase();
                     }
 
