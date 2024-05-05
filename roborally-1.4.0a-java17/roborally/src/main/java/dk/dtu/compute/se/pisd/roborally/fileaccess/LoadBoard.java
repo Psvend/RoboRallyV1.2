@@ -81,8 +81,34 @@ public class LoadBoard {
 			for (SpaceTemplate spaceTemplate: template.spaces) {
 			    Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
 			    if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
-                    space.getWalls().addAll(spaceTemplate.walls);
+
+                    if (spaceTemplate.wallsTemplate != null) {
+                        Heading heading = Heading.valueOf(spaceTemplate.wallsTemplate.getHeading());
+
+                        // Create a new WallSpace object
+                        WallSpace wallSpace = new WallSpace(result, spaceTemplate.wallsTemplate.getX(), spaceTemplate.wallsTemplate.getY(), heading);
+
+                        // Set the properties of the WallSpace object
+                        wallSpace.setHeading(Heading.valueOf(spaceTemplate.wallsTemplate.getHeading()));
+                        wallSpace.setHasWall(spaceTemplate.wallsTemplate.getHasWall());
+
+                        // Add the WallSpace object to the board
+                        result.addWallSpace(wallSpace);
+                    }
+                    if (spaceTemplate.energySpace != null) {
+                        EnergySpace energySpace = new EnergySpace(result, spaceTemplate.energySpace.getX(), spaceTemplate.energySpace.getY());
+                        energySpace.setHasEnergyCube(spaceTemplate.energySpace.hasEnergyCube);
+
+                        // Add the EnergySpace object to the board
+                        result.addEnergySpace(energySpace);
+                    }
+                    if (spaceTemplate.priorityAntenna != null) {
+                        PriorityAntenna priorityAntenna = new PriorityAntenna(result, spaceTemplate.priorityAntenna.getX(), spaceTemplate.priorityAntenna.getY());
+                        priorityAntenna.setPriorityAntenna(spaceTemplate.priorityAntenna.isPriorityAntenna);
+
+                        // Add the PriorityAntenna object to the board
+                        result.addPriorityAntenna(priorityAntenna);
+                    }
                 }
             }
             PlayerTemplate playerTemplate = gson.fromJson(reader, PlayerTemplate.class);
@@ -139,7 +165,6 @@ public class LoadBoard {
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
                     spaceTemplate.actions.addAll(space.getActions());
-                    spaceTemplate.walls.addAll(space.getWalls());
                     spaceTemplate.conveyorBelt= space.getConveyorBelt();
                     if (space instanceof EnergySpace) {
                         EnergySpace energySpace = (EnergySpace) space;

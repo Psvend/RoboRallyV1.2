@@ -54,8 +54,12 @@ public class EnergySpace extends Space {
     }
 
 
+    public void setHasEnergyCube(boolean hasEnergyCube) {
+        this.hasEnergyCube = hasEnergyCube;
 
+    }
 }
+
 
         /*
 

@@ -9,4 +9,7 @@ public class PriorityAntenna extends Space {
         this.isPriorityAntenna = true;
 
     }
+    public void setPriorityAntenna(boolean isPriorityAntenna) {
+        this.isPriorityAntenna = isPriorityAntenna;
+    }
 }

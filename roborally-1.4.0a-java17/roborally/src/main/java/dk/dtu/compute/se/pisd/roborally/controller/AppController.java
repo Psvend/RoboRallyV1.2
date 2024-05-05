@@ -121,12 +121,18 @@ public class AppController implements Observer {
     public void loadGame() {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File file = fileChooser.showOpenDialog(new Stage());
+        if (file != null) {
+            Board defalut = LoadBoard.loadBoard(file.getName());
+            gameController = new GameController(defalut);
 
-        Board defalut = LoadBoard.loadBoard("default");
-        gameController = new GameController(defalut);
+            gameController.startProgrammingPhase();
+            roboRally.createBoardView(gameController);
+        }
 
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
+
     }
 
 

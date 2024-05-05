@@ -38,7 +38,6 @@ import java.util.List;
  */
 public class SpaceTemplate {
 
-    public List<Heading> walls = new ArrayList<>();
     public WallsTemplate wallsTemplate;
     public List<FieldAction> actions = new ArrayList<>();
     public ConveyorBelt conveyorBelt;

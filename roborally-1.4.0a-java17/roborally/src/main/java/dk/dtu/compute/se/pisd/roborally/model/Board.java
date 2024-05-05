@@ -250,7 +250,18 @@ public class Board extends Subject {
                 ", Moves: " + getMoves();
     }
 
-
+    public void addWallSpace(WallSpace wallSpace) {
+        // Assuming spaces is a 2D array of Space objects
+        spaces[wallSpace.x][wallSpace.y] = wallSpace;
+    }
+    public void addEnergySpace(EnergySpace energySpace) {
+        // Assuming spaces is a 2D array of Space objects
+        spaces[energySpace.x][energySpace.y] = energySpace;
+    }
+    public void addPriorityAntenna(PriorityAntenna priorityAntenna) {
+        // Assuming spaces is a 2D array of Space objects
+        spaces[priorityAntenna.x][priorityAntenna.y] = priorityAntenna;
+    }
 
 
     public EnergyBank getEnergyBank() {

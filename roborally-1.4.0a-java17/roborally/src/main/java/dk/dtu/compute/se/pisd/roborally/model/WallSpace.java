@@ -14,10 +14,17 @@ public class WallSpace extends Space {
     public Heading getHeading() {
         return heading;
     }
+    public Heading setHeading(Heading heading) {
+        return heading = heading;
+    }
 
     public boolean hasWall() {
         return hasWall;
     }
+    public boolean setHasWall(boolean hasWall) {
+        return hasWall = hasWall;
+    }
+
 
     // Add any additional methods or fields specific to WallSpace if needed
 }
