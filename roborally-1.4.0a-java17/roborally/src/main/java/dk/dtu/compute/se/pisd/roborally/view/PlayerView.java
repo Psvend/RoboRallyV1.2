@@ -124,6 +124,11 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
 
+
+
+
+
+
         cardsLabel = new Label("Command Cards");
         cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
@@ -149,6 +154,7 @@ public class PlayerView extends Tab implements ViewObserver {
             update(player.board);
         }
     }
+
 
     @Override
     public void updateView(Subject subject) {
@@ -241,6 +247,16 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
             }
         }
+    }
+    /**
+     * @author Natali
+     *method created for testing purposes
+     */
+    public VBox getPlayerInteractionPanel() {
+        updateView(player.board);
+
+        return playerInteractionPanel;
+
     }
 }
 
