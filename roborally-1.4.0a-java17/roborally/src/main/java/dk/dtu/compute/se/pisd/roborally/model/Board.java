@@ -349,11 +349,11 @@ public class Board extends Subject {
         GearSpace gearSpace1 = new GearSpace();
         GearSpace gearSpace2 = new GearSpace();
 
-        gearSpace1.setGearType("LEFT");
-        gearSpace2.setGearType("RIGHT");
-
         spaces[7][0].setGearSpace(gearSpace1);
         spaces[7][5].setGearSpace(gearSpace2);
+
+        gearSpace1.setGearType("LEFT");
+        gearSpace2.setGearType("RIGHT");
     }
 }
     
