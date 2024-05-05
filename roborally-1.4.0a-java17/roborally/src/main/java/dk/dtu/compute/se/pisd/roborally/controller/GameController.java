@@ -263,6 +263,9 @@ public class GameController {
 
             }
             board.setCurrentPlayer(priorityPlayers.get(0));
+            if(!board.isStepMode()){
+                executePrograms();
+            }
         }
     }
 
