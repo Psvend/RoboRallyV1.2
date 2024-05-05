@@ -20,7 +20,6 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import org.jetbrains.annotations.NotNull;
@@ -296,8 +295,33 @@ public class GameController {
         }
     }
 
+    /**
+     * @author Benjamin
+     * @param space
+     * moves the given player to the space clicked
+     */
     public void moveCurrentPlayerToSpace(Space space) {
-        // TODO: Import or Implement this method. This method is only for debugging purposes. Not useful for the game.
+        // TODO Task1: method should be implemented by the students:
+        //   - the current player should be moved to the given space
+        //     (if it is free())
+        //   - and the current player should be set to the player
+        //     following the current player
+        //   - the counter of moves in the game should be increased by one
+        //     if the player is moved
+                Player currentPlayer =board.getCurrentPlayer();
+                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                int step = board.getStep();
+                if(space.isFree()){
+                    space.setPlayer(currentPlayer);
+                    step++;
+                    if(nextPlayerNumber < board.getPlayersNumber()) {
+                        board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                        board.setStep(step);
+                    }else{
+                        board.setStep(step);
+                        board.setCurrentPlayer(board.getPlayer(0));
+                    }
+                }
     }
 
     private void makeProgramFieldsVisible(int register) {
