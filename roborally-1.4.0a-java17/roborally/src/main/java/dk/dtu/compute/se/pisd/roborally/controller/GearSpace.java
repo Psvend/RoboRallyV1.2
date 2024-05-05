@@ -15,11 +15,11 @@ public class GearSpace extends FieldAction{
         this.heading = heading;
     }
 
-    public String gearType(){
+    public String getGearType(){
         return gearType;
     }
 
-    public void gearType(String gearType){
+    public void setGearType(String gearType){
         this.gearType = gearType;
     }
     @Override
