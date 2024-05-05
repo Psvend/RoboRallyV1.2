@@ -94,7 +94,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else if (space.getGearSpace() instanceof GearSpace){
             if(space.getGearSpace().getGearType().equals("LEFT")){
                 this.setStyle("-fx-background-color: crimson;");
-            } else if(space.getGearSpace().getGearType().equals("Right")){
+            } else if(space.getGearSpace().getGearType().equals("RIGHT")){
                 this.setStyle("-fx-background-color: chocolate;");
             }
         } else if(space.getConveyorBelt() instanceof ConveyorBelt) {
