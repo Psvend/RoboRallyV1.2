@@ -128,8 +128,6 @@ public class AppController implements Observer {
             Board defalut = LoadBoard.loadBoard(file.getName());
             gameController = new GameController(defalut);
 
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
         }
 
 

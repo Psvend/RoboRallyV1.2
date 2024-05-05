@@ -111,6 +111,19 @@ public class LoadBoard {
                         // Add the PriorityAntenna object to the board
                         result.addPriorityAntenna(priorityAntenna);
                     }
+                    if(spaceTemplate.actions != null){
+                        for(FieldActionTemplate fieldActionTemplate: spaceTemplate.actions){
+                            if(fieldActionTemplate.conveyorBelt != null){
+                                ConveyorBelt conveyorBelt = new ConveyorBelt();
+                                conveyorBelt.setHeading(Heading.valueOf(fieldActionTemplate.conveyorBelt.getHeading()));
+                                conveyorBelt.setBeltType(fieldActionTemplate.conveyorBelt.getBeltType());
+                                conveyorBelt.setTurnBelt(fieldActionTemplate.conveyorBelt.getTurnBelt());
+
+                                // Set the ConveyorBelt object to the space
+                                space.setConveyorBelt(conveyorBelt);
+                            }
+                        }
+                    }
                 }
             }
             for(PhaseTemplate phaseTemplate: template.phases){
