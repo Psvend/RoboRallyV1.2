@@ -114,7 +114,7 @@ public class PlayerView extends Tab implements ViewObserver {
         //ÆNDRET AF LOUISE
         reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
-        //button to show energy bank status 
+        //button to show energy bank status
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
         reserveLabel = new Label(player.getName() + " Reserve: " + gameController.board.getCurrentPlayer().getEnergyReserve());
@@ -130,6 +130,11 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
+
+
+
+
+
 
         cardsLabel = new Label("Command Cards");
         cardsPane = new GridPane();
@@ -256,6 +261,15 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
             }
         }
+    }
+    /**
+     * @author Natali
+     *method created for testing purposes
+     */
+    public VBox getPlayerInteractionPanel() {
+        updateView(player.board);
+        return playerInteractionPanel;
+
     }
 }
 

@@ -309,6 +309,8 @@ public class Board extends Subject {
         ConveyorBelt conveyorBelt4 = new ConveyorBelt();
         ConveyorBelt conveyorBelt5 = new ConveyorBelt();
         ConveyorBelt conveyorBelt6 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt7 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt8 = new ConveyorBelt();
 
         conveyorBelt1.setBeltType(1);
         conveyorBelt2.setBeltType(2);
@@ -316,36 +318,44 @@ public class Board extends Subject {
         conveyorBelt4.setBeltType(2);
         conveyorBelt5.setBeltType(1);
         conveyorBelt6.setBeltType(2);
+        conveyorBelt7.setBeltType(1);
+        conveyorBelt8.setBeltType(2);
 
         conveyorBelt1.setHeading(SOUTH);
         conveyorBelt2.setHeading(NORTH);
         conveyorBelt3.setHeading(EAST);
         conveyorBelt4.setHeading(WEST);
-        conveyorBelt5.setHeading(NORTH);
+        conveyorBelt5.setHeading(EAST);
         conveyorBelt6.setHeading(SOUTH);
+        conveyorBelt7.setHeading(NORTH);
+        conveyorBelt8.setHeading(WEST);
 
         spaces[1][1].setConveyorBelt(conveyorBelt1);
         spaces[1][2].setConveyorBelt(conveyorBelt1);
         spaces[1][3].setConveyorBelt(conveyorBelt1);
         spaces[1][4].setConveyorBelt(conveyorBelt1);
 
-        spaces[3][1].setConveyorBelt(conveyorBelt2);
-        spaces[3][2].setConveyorBelt(conveyorBelt2);
-        spaces[3][3].setConveyorBelt(conveyorBelt2);
-        spaces[3][4].setConveyorBelt(conveyorBelt2);
+        spaces[4][1].setConveyorBelt(conveyorBelt2);
+        spaces[4][2].setConveyorBelt(conveyorBelt2);
+        spaces[4][3].setConveyorBelt(conveyorBelt2);
+        spaces[4][4].setConveyorBelt(conveyorBelt2);
 
-        spaces[3][6].setConveyorBelt(conveyorBelt5);
-        spaces[4][6].setConveyorBelt(conveyorBelt3);
-        spaces[5][6].setConveyorBelt(conveyorBelt3);
-        spaces[6][6].setConveyorBelt(conveyorBelt3);
+        spaces[1][5].setConveyorBelt(conveyorBelt5);
+        spaces[2][5].setConveyorBelt(conveyorBelt3);
+        spaces[3][5].setConveyorBelt(conveyorBelt3);
+        spaces[4][5].setConveyorBelt(conveyorBelt7);
 
         spaces[1][0].setConveyorBelt(conveyorBelt6);
         spaces[2][0].setConveyorBelt(conveyorBelt4);
         spaces[3][0].setConveyorBelt(conveyorBelt4);
-        spaces[4][0].setConveyorBelt(conveyorBelt4);
+        spaces[4][0].setConveyorBelt(conveyorBelt8);
 
         spaces[1][0].getConveyorBelt().setTurnBelt("LEFT");
-        spaces[3][6].getConveyorBelt().setTurnBelt("RIGHT");
+        spaces[1][5].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[4][0].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[4][5].getConveyorBelt().setTurnBelt("LEFT");
+
+
 
     }
 }
