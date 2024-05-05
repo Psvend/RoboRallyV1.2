@@ -104,6 +104,11 @@ public class AppController implements Observer {
             roboRally.createBoardView(gameController);
         }
     }
+    /**
+     * @author Benjamin
+     * @return
+     * Save board and it attributes and players with their attributes to a json file. where you can name the file name
+     */
 
     public void saveGame() {
         TextInputDialog dialog = new TextInputDialog("default");

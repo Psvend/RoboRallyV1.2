@@ -49,7 +49,11 @@ public class LoadBoard {
     private static final int DEFAULT_BOARD_HEIGHT = 8;
 
 
-
+    /**
+     * @author Benjamin
+     * @return
+     * load board and it attributes and players with their attributes to a json file.
+     */
 
 
     public static Board loadBoard(String boardname) {
@@ -179,6 +183,11 @@ public class LoadBoard {
 		}
 		return null;
     }
+    /**
+     * @author Benjamin
+     * @return
+     * Save board and it attributes and players with their attributes to a json file.
+     */
 
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
@@ -258,7 +267,7 @@ public class LoadBoard {
             }
             playerTemplate.setHeading(player.getHeading().toString());
 
-            // Assuming CommandCardFieldTemplate is similar to CommandCardField
+
             List<CommandCardFieldTemplate> cardTemplates = new ArrayList<>();
             for (int j = 0; j < Player.NO_CARDS; j++) {
                 CommandCardField field = player.getCardField(j);
@@ -275,7 +284,6 @@ public class LoadBoard {
                 cardTemplates.add(fieldTemplate);
             }
             playerTemplate.setCards(cardTemplates);
-            // Similarly for cards
             // Save program
             List<CommandCardFieldTemplate> programTemplates = new ArrayList<>();
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
