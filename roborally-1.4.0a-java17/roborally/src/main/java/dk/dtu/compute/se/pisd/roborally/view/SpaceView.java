@@ -36,6 +36,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
+
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+
 import org.jetbrains.annotations.NotNull;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -88,18 +93,50 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else if(space.getConveyorBelt() instanceof ConveyorBelt) {
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
-                    this.setStyle("-fx-background-color: maroon;");     
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: maroon;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: green;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: yellow;");
+                    } else {
+                        this.setStyle("-fx-background-color: teal;");
+                    }     
                 }
                 else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
-                    this.setStyle("-fx-background-color: plum;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: plum;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: turquoise;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: violet;");
+                    } else {
+                        this.setStyle("-fx-background-color: tan;");
+                    } 
                 } else {
                     this.setStyle("-fx-background-color: cyan;");
                 }
             } else if (space.getConveyorBelt().getBeltType()==2){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
-                    this.setStyle("-fx-background-color: sienna;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: sienna;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: red;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: pink;");
+                    } else {
+                        this.setStyle("-fx-background-color: olive;");
+                    } 
                 } else if (space.getConveyorBelt().getTurnBelt().equals("RIGHT")) {
-                    this.setStyle("-fx-background-color: coral;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: coral;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: magenta;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: blue;");
+                    } else {
+                        this.setStyle("-fx-background-color: aqua;");
+                    } 
                 } else {
                     this.setStyle("-fx-background-color: lime;");
                 }
