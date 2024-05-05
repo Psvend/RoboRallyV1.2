@@ -685,13 +685,15 @@ public class GameController {
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
-            if(player.getSpace() != null) {
-                if(space.getGearSpace().getGearType().equals("LEFT")){
-                    turnLeft(player);
-                } else if(space.getGearSpace().getGearType().equals("RIGHT")){
-                    turnRight(player);
-                }
-            } else {}
+            if(space != null) {
+                if(space.getGearSpace() != null){
+                    if(space.getGearSpace().getGearType().equals("LEFT")){
+                        turnLeft(player);
+                    } else if(space.getGearSpace().getGearType().equals("RIGHT")){
+                        turnRight(player);
+                    }
+                } else {}
+            }
         }
     }
 
