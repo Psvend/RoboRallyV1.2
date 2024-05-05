@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
@@ -83,6 +84,7 @@ public class Board extends Subject {
         initEnergySpaces();
         initPriorityAntenna();
         initBelt();
+        initGear();
         this.stepMode = false;
         
     }
@@ -341,6 +343,17 @@ public class Board extends Subject {
 
 
 
+    }
+
+    private void initGear() {
+        GearSpace gearSpace1 = new GearSpace();
+        GearSpace gearSpace2 = new GearSpace();
+
+        gearSpace1.setGearType("LEFT");
+        gearSpace2.setGearType("RIGHT");
+
+        spaces[7][0].setGearSpace(gearSpace1);
+        spaces[7][5].setGearSpace(gearSpace2);
     }
 }
     
