@@ -272,7 +272,7 @@ public class Board extends Subject {
 
     //Louise
     private void initCheckpointSpaces () {
-        spaces[0][1] = new CheckpointSpace(this, 0, 1);
+        spaces[7][7] = new CheckpointSpace(this, 0, 1);
     }
 }
 
