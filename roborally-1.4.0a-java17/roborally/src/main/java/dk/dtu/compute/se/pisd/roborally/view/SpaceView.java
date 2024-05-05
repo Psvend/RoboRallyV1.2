@@ -87,7 +87,10 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("priorityantenna-view");
         } else if(space.getConveyorBelt() instanceof ConveyorBelt) {
             if(space.getConveyorBelt().getBeltType()==1){
-                if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
+                if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
+                    this.setStyle("-fx-background-color: maroon;");     
+                }
+                else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
                     this.setStyle("-fx-background-color: plum;");
                 } else {
                     this.setStyle("-fx-background-color: cyan;");
@@ -95,6 +98,8 @@ public class SpaceView extends StackPane implements ViewObserver {
             } else if (space.getConveyorBelt().getBeltType()==2){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     this.setStyle("-fx-background-color: sienna;");
+                } else if (space.getConveyorBelt().getTurnBelt().equals("RIGHT")) {
+                    this.setStyle("-fx-background-color: coral;");
                 } else {
                     this.setStyle("-fx-background-color: lime;");
                 }
