@@ -30,6 +30,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
+import static dk.dtu.compute.se.pisd.roborally.model.Phase.RESULT;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -246,6 +249,11 @@ public class PlayerView extends Tab implements ViewObserver {
                     playerInteractionPanel.getChildren().add(optionButton);
                 }
             }
+            //Louise
+            //TILFØJET
+            // if (player.board.getPhase() == RESULT) {
+            //     gameController = null;
+            // }
         }
         // if (player.board.getCurrentPlayer().getSpace() instanceof CheckpointSpace){
         //     playerInteractionPanel.getChildren().clear();

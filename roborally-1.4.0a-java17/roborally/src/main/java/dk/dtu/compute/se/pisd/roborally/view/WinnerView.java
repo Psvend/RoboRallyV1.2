@@ -13,7 +13,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 
-public class WinnerView extends VBox {
+public class WinnerView extends BoardView {
 
     private CheckpointSpace checkPointSpace;
 
@@ -21,18 +21,43 @@ public class WinnerView extends VBox {
 
     private Label winnerLabel;
 
+    private Board board;
+
+
     private Player player;
 
     private AppController appController;
 
     private GameController gameController;
 
-    public WinnerView (@NotNull AppController appController) {
-        this.appController = appController;
+
+    //@NotNull AppController appController
+    public WinnerView (@NotNull GameController gameController) {
+        super(gameController);
+        board = gameController.board;
+        //this.appController = appController;
         //this.gameController = gameController;
         //getWinner.
 
         winnerBoardPane = new GridPane();
-        winnerLabel = new Label("THE WINNER IS YOU IDIOT");
-    }    
+        winnerLabel = new Label();
+
+        this.getChildren().add(winnerBoardPane);
+        this.getChildren().add(winnerLabel);
+        System.out.println("MIWMIW");
+
+        board.attach(this);
+        update(board);
+    }
+
+
+    @Override
+    public void updateView(Subject subject) {
+        if (subject == board && board.getPhase() == Phase.RESULT) {
+            // Update GUI to display winning player's name
+            Player winner = board.getCurrentPlayer(); // Get the winning player from the Board
+            winnerLabel.setText("THE WINNER IS " + winner.getName());
+        }
+    }
+     
 }

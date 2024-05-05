@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 
 import org.jetbrains.annotations.NotNull;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -286,6 +287,21 @@ public class GameController {
         }
     }
 
+    public void isPlayerOnCheckpointSpace(Player player) {
+        Space currentSpace = player.getSpace();
+        if(currentSpace instanceof CheckpointSpace) {
+            board.setPhase(Phase.RESULT);
+        }
+    }
+
+    public boolean hasWinner() {
+        if (board.getPhase() == Phase.RESULT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     /**
      * @author Petrine 
@@ -355,7 +371,7 @@ public class GameController {
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
             isPlayerOnEnergySpace(player, energyBank);
-            isPlayerOn
+            isPlayerOnCheckpointSpace(player);
         }
 
 

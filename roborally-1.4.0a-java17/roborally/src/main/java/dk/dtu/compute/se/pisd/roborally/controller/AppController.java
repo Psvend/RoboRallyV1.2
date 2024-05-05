@@ -29,6 +29,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
+import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -37,6 +38,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
+
+import static dk.dtu.compute.se.pisd.roborally.model.Phase.RESULT;
 
 import java.util.Arrays;
 import java.util.List;
@@ -92,14 +95,8 @@ public class AppController implements Observer {
             // XXX: V2
             // board.setCurrentPlayer(board.getPlayer(0));
             gameController.startProgrammingPhase();
-
             roboRally.createBoardView(gameController);
-
-            Player player = gameController.board.getCurrentPlayer();
-            if (player.getSpace() instanceof CheckpointSpace) {
-                roboRally.createWinnerView(gameController);
-            }
-
+            //roboRally.createResultView(gameController);
         }
     }
 

@@ -49,6 +49,7 @@ public class RoboRally extends Application {
     private static final int MIN_APP_HEIGHT = 600;
 
     private Stage stage;
+    private Stage winnerStage;
     private BorderPane boardRoot;
     
 
@@ -65,7 +66,7 @@ public class RoboRally extends Application {
         Scene primaryScene = new Scene(new VBox(), MIN_APP_WIDTH, MIN_APP_HEIGHT);
         primaryScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         
-    
+        
         AppController appController = new AppController(this);
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
         menuBar.setId("menuBar-view");  //styrer baggrund på første pop up 
@@ -100,20 +101,22 @@ public class RoboRally extends Application {
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
             boardRoot.setId("board-view");
-            
         }
 
         stage.sizeToScene();
     }
 
-    public void createWinnerView(GameController gameController) {
-            boardRoot.getChildren().clear();
-            AppController appController = new AppController(this);
-            WinnerView winnerView = new WinnerView(appController);
-            boardRoot.setCenter(winnerView);
-            boardRoot.setId("winner-view");
-            System.out.println("JEG ER VED AT BLIVE SKØR");
+    public void createResultView(GameController gameController) {
+        boardRoot.getChildren().clear();
+        WinnerView winnerView = new WinnerView(gameController); // Pass GameController instance
+        boardRoot.setCenter(winnerView);
+        boardRoot.setId("result-view");
+        System.out.println("Creating Result View");
+    
+        stage.sizeToScene();
     }
+
+    
 
     @Override
     public void stop() throws Exception {
