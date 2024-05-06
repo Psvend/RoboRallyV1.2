@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -65,8 +66,8 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 public class SpaceView extends StackPane implements ViewObserver {
 
     public final Space space;
-    final public static int SPACE_HEIGHT = 30; // 75;
-    final public static int SPACE_WIDTH = 30; // 75;
+    final public static int SPACE_HEIGHT = 50; // 75;
+    final public static int SPACE_WIDTH = 50; // 75;
 
 
     public SpaceView(@NotNull Space space) {
@@ -95,11 +96,13 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("priorityantenna-view");
         }else if (space.getGearSpace() instanceof GearSpace){
             if(space.getGearSpace().getGearType().equals("LEFT")){
-                this.setStyle("-fx-background-color: crimson;");
+                this.setId("gearspaceleft-view");
             } else if(space.getGearSpace().getGearType().equals("RIGHT")){
-                this.setStyle("-fx-background-color: chocolate;");
+                this.setId("gearspaceright-view");
             }
-        } 
+        } else if(space instanceof CheckpointSpace) {
+            this.setId("checkpoint-view");
+        }
         else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){

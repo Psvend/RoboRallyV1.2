@@ -20,6 +20,20 @@
     -fx-background-size: 100% 100%;
 }
 
+#gearspaceleft-view {
+    -fx-background-image: url('img/gearleft.png');
+    -fx-background-size: 100% 100%;
+}
+
+#gearspaceright-view {
+    -fx-background-image: url('img/gearright.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint-view {
+    -fx-background-image: url('img/checkpoint.png');
+    -fx-background-size: 100% 100%;
+}
 
 #main-window {
     -fx-background-image: url('img/startpage.png');
@@ -30,6 +44,17 @@
 
 #menuBar-view {
     -fx-background-color: lightgray;
+}
+
+#winner-view {
+    -fx-background-color: lightgray;
+    -fx-background-size:100% 100%;
+    -fx-min-height:400px;
+    -fx-min-width:400px;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-font-size: 40;
 }
 
 

@@ -353,6 +353,14 @@ public class GameController {
     }
 
 
+    public void isPlayerOnCheckpointSpace(Player player) {
+        Space currentSpace = player.getSpace();
+        if(currentSpace instanceof CheckpointSpace) {
+            board.setPhase(Phase.RESULT);
+        }
+    }
+
+
 
 
     /**
@@ -395,12 +403,6 @@ public class GameController {
         }
     }
 
-
-
-
-
-
-
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -429,6 +431,8 @@ public class GameController {
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
             isPlayerOnEnergySpace(player, energyBank);
+            isPlayerOnCheckpointSpace(player);
+
         }
         // LOOP MADE BY LOUISE FOR TESTING
         // Integer j = board.getPlayersNumber();

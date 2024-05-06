@@ -96,6 +96,7 @@ public class Board extends Subject {
         initWallSpaces();  
         initBelt(); //nikolaj
         initGear();
+        initCheckpointSpaces();
         this.stepMode = false;
     }
 
@@ -363,6 +364,11 @@ public class Board extends Subject {
 
         gearSpace1.setGearType("LEFT");
         gearSpace2.setGearType("RIGHT");
+    }
+
+     //Louise
+     private void initCheckpointSpaces () {
+        spaces[6][6] = new CheckpointSpace(this, 6, 6);
     }
 }
     

@@ -23,9 +23,12 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -52,6 +55,9 @@ public class BoardView extends VBox implements ViewObserver {
     private Label statusLabel;
 
     private SpaceEventHandler spaceEventHandler;
+
+    private VBox winnerBox;
+    private Label winnerLabel;
 
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
@@ -81,6 +87,7 @@ public class BoardView extends VBox implements ViewObserver {
     
 
         board.attach(this);
+
         update(board);
     }
 
@@ -89,9 +96,26 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
+            if (board.getCurrentPlayer().getSpace() instanceof CheckpointSpace) {
+                // Clear the mainBoardPane
+                mainBoardPane.getChildren().clear();
+                // Optionally, you can also clear the spaces array
+                for (int x = 0; x < board.width; x++) {
+                    for (int y = 0; y < board.height; y++) {
+                        spaces[x][y] = null;
+                    }
+                }
+
+                winnerLabel = new Label(board.getCurrentPlayer().getName() + " WINS!");
+                winnerBox =  new VBox(winnerLabel);
+                winnerBox.setAlignment(Pos.CENTER_LEFT);
+                winnerBox.setSpacing(3.0);
+                mainBoardPane.getChildren().add(winnerLabel);
+                statusLabel.setText("CONTRATZ!");
+                this.setId("winner-view");
+            }
         }
     }
-
     // XXX this handler and its uses should eventually be deleted! This is just to help test the
     //     behaviour of the game by being able to explicitly move the players on the board!
     private class SpaceEventHandler implements EventHandler<MouseEvent> {
