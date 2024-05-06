@@ -705,9 +705,11 @@ public class GameController {
         return distance;
     }
 
-    
-
-    //nikolaj
+    /**
+     * @author Nikolaj
+     * @throws ImpossibleMoveException
+     * activates conveyor belts and moves players standing on them. Uses manipulateSpace() to determine next space to move the player to. Uses setSpace() to move the player.
+     */
     public void activateConveyorBelt() throws ImpossibleMoveException{
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -765,7 +767,16 @@ public class GameController {
     }
 
 
-    //Nikolaj
+    /**
+     * @author Nikolaj
+     * @param OFFSET
+     * @param heading
+     * @param x
+     * @param y
+     * @return
+     * @throws ImpossibleMoveException
+     * Used for manipulating spaces without using the players heading. Which is a big advantage in many cases.
+     */
     protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
         Space space = null;
             switch (heading) {
@@ -815,6 +826,10 @@ public class GameController {
         return space;
     }
 
+/**
+ * @author Nikolaj
+ * activates gear spaces and turns every player standing on them.
+ */
     public void activateGearSpaces() {
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);

@@ -21,7 +21,6 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.controller.GameController.ImpossibleMoveException;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import org.jetbrains.annotations.NotNull;
@@ -81,6 +80,9 @@ public class ConveyorBelt extends FieldAction {
       this.turnBelt = turnBelt;
     }
   
+    /**
+     * currently not used. Will be in future iterations.
+     */
     @Override
     public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
       return true;
