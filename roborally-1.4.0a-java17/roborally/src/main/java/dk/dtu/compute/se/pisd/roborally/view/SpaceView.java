@@ -133,12 +133,14 @@ public class SpaceView extends StackPane implements ViewObserver {
                     } else {
                         this.setStyle("-fx-background-color: aqua;");
                     }
+                }
+            }
         
         } else {
-            setId("space-view");
+          setId("space-view");
         }
     }
-}
+
 
     private void updatePlayer() {
         // Clear only previous player icons, leave the background intact
@@ -168,5 +170,5 @@ public class SpaceView extends StackPane implements ViewObserver {
             updatePlayer();
         }
     }
-}
+
 }

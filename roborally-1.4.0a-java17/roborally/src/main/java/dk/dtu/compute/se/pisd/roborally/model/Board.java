@@ -86,8 +86,6 @@ public class Board extends Subject {
         initEnergySpaces();
         initPriorityAntenna();
         initBelt();
-        this.stepMode = false;
-
         initWallSpaces();  //test
         this.stepMode = false;
     }

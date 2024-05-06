@@ -13,12 +13,6 @@ import javafx.scene.layout.StackPane;
 
 
 
-/*TROR DER ER NOGET GALT. MANGLER EN CONNECTION TIL NÅR RESERVEN PRINTES (L. 108 PLAYERVIEW), OPDATERER IKKE
-*NÅR EN SPILLER LANDER PÅ ET ENERGYSPACE....
-*/
-
-
-
 /**
  * @author Petrine
  * @param EnergySpace
@@ -36,26 +30,6 @@ public class EnergySpace extends Space {
         this.hasEnergyCube = true;  //initialiserer space med cube
         
     }
-
-
-    // DEN Er FLYTTET TIL GAMECONTROLLER
-    //skal tjekke om en spiller er landet på et energySpace
-    // public boolean isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
-    //     Space currentSpace = player.getSpace();
-
-    //     if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
-    //         if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
-    //         player.addEnergyCube(energyBank);      //tilføjer en cube til en spillers reserve
-    //         notifyAll();    //opdaterer det hele om ændringen
-    //         return true;
-    //        } else {
-    //         return true;
-    //        }
-    //     }
-    //     return false;
-    // }
-
-
 
 }
 
