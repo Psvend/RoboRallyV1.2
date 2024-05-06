@@ -71,7 +71,12 @@ public class ConveyorBelt extends FieldAction {
     public String getTurnBelt() {
       return turnBelt;
     }
-  
+
+   /**
+    * @author Nikoaj
+    * @param turnBelt
+    * Sets the turnBelt string. Only 'RIGHT' and 'LEFT' is usable.
+    */
     public void setTurnBelt(String turnBelt) {
       this.turnBelt = turnBelt;
     }
