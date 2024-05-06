@@ -35,7 +35,11 @@ public class BoardTemplate {
 
     public int width;
     public int height;
+    public int step;
+    public int moves;
 
     public List<SpaceTemplate> spaces = new ArrayList<>();
+    public List<PlayerTemplate> players =new ArrayList<>();
+    public List<PhaseTemplate> phases = new ArrayList<>();
 
 }

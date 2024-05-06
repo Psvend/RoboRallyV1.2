@@ -11,4 +11,7 @@ public class CheckpointSpace extends Space {
 
         
     }
+    public boolean isPlayerOnCheckpointSpace() {
+        return isPlayerOnCheckpointSpace;
+    }
 }

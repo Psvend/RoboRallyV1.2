@@ -25,13 +25,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -73,8 +75,8 @@ public class LoadBoard {
 			for (SpaceTemplate spaceTemplate: template.spaces) {
 			    Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
 			    if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
-                    space.getWalls().addAll(spaceTemplate.walls);
+                    //space.getActions().addAll(spaceTemplate.actions);
+                    //space.getWalls().addAll(spaceTemplate.walls);
                 }
             }
 			reader.close();
@@ -100,19 +102,144 @@ public class LoadBoard {
         template.width = board.width;
         template.height = board.height;
 
+        template.moves= board.getMoves();
+        template.step = board.getStep();
+
+
+
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
-                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+                if (!space.getWalls().isEmpty() || space.getActions().isEmpty()) {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
-                    spaceTemplate.actions.addAll(space.getActions());
-                    spaceTemplate.walls.addAll(space.getWalls());
+                    if (space instanceof EnergySpace) {
+                        EnergySpace energySpace = (EnergySpace) space;
+                        EnergySpaceTemplate energySpaceTemplate = new EnergySpaceTemplate();
+                        energySpaceTemplate.setX(energySpace.x);
+                        energySpaceTemplate.setY(energySpace.y);
+                        energySpaceTemplate.setHasEnergyCube(energySpace.hasEnergyCube);
+
+                        // Assign the EnergySpaceTemplate to the energySpace field of the SpaceTemplate
+                        spaceTemplate.energySpace = energySpaceTemplate;
+                    }
+                    if (space instanceof PriorityAntenna) {
+                        PriorityAntenna priorityAntenna = (PriorityAntenna) space;
+                        PriorityAntennaTemplate priorityAntennaTemplate = new PriorityAntennaTemplate();
+                        priorityAntennaTemplate.setX(priorityAntenna.x);
+                        priorityAntennaTemplate.setY(priorityAntenna.y);
+                        priorityAntennaTemplate.setIsPriorityAntenna(priorityAntenna.isPriorityAntenna);
+
+                        // Assign the PriorityAntennaTemplate to the priorityAntenna field of the SpaceTemplate
+                        spaceTemplate.priorityAntenna = priorityAntennaTemplate;
+                    }
+                    if(space instanceof WallSpace){
+                        WallSpace wallSpace = (WallSpace) space;
+                        WallsTemplate wallSpaceTemplate = new WallsTemplate();
+                        wallSpaceTemplate.setX(wallSpace.x);
+                        wallSpaceTemplate.setY(wallSpace.y);
+                        wallSpaceTemplate.setHeading(wallSpace.getHeading().toString());
+                        wallSpaceTemplate.setHasWall(wallSpace.hasWall());
+
+                        // Assign the WallSpaceTemplate to the wallSpace field of the SpaceTemplate
+                        spaceTemplate.wallsTemplate = wallSpaceTemplate;
+                    }
+                    if(space instanceof CheckpointSpace){
+                        CheckpointSpace checkpointSpace = (CheckpointSpace) space;
+                        CheckPointSpaceTemplate checkpointSpaceTemplate = new CheckPointSpaceTemplate();
+                        checkpointSpaceTemplate.setX(checkpointSpace.x);
+                        checkpointSpaceTemplate.setY(checkpointSpace.y);
+                        checkpointSpaceTemplate.setIsPlayerOnCheckpointSpace(checkpointSpace.isPlayerOnCheckpointSpace());
+
+                        // Assign the CheckpointSpaceTemplate to the checkpointSpace field of the SpaceTemplate
+                        spaceTemplate.checkpoint = checkpointSpaceTemplate;
+                    }
+                    if(space.getConveyorBelt() instanceof ConveyorBelt){ConveyorBelt conveyorBelt = (ConveyorBelt) space.getConveyorBelt();
+                        ConveyorBeltTemplate conveyorBeltTemplate = new ConveyorBeltTemplate();
+                        conveyorBeltTemplate.setHeading(conveyorBelt.getHeading().toString());
+                        conveyorBeltTemplate.setBeltType(conveyorBelt.getBeltType());
+                        conveyorBeltTemplate.setTurnBelt(conveyorBelt.getTurnBelt().toString());
+
+                        // Assign the ConveyorBeltTemplate to the conveyorBelt field of the FieldActionTemplate
+                        FieldActionTemplate fieldActionTemplate = new FieldActionTemplate();
+                        fieldActionTemplate.conveyorBelt = conveyorBeltTemplate;
+
+                        // Assign the FieldActionTemplate to the actions field of the SpaceTemplate
+                        spaceTemplate.actions.add(fieldActionTemplate);
+                    }
+                    if(space.getGearSpace() instanceof GearSpace){
+                        GearSpace gearSpace = (GearSpace) space.getGearSpace();
+                        GearSpaceTemplate gearSpaceTemplate = new GearSpaceTemplate();
+                        gearSpaceTemplate.setGearType(gearSpace.getGearType());
+
+                        // Assign the GearSpaceTemplate to the gearSpace field of the FieldActionTemplate
+                        FieldActionTemplate fieldActionTemplate = new FieldActionTemplate();
+                        fieldActionTemplate.gearSpace = gearSpaceTemplate;
+
+                        // Assign the FieldActionTemplate to the actions field of the SpaceTemplate
+                        spaceTemplate.actions.add(fieldActionTemplate);
+                    }
                     template.spaces.add(spaceTemplate);
                 }
             }
         }
+        // Save all players
+        int numberOfPlayers = board.getPlayersNumber();
+        for(int i = 0; i < numberOfPlayers; i++) {
+            Player player = board.getPlayer(i);
+            PlayerTemplate playerTemplate = new PlayerTemplate();
+            playerTemplate.setName(player.getName());
+            playerTemplate.setColor(player.getColor());
+            playerTemplate.setEnergyReserve(player.getEnergyReserve());
+            if (player.getSpace() != null) {
+                playerTemplate.setSpaceX(player.getSpace().x);
+                playerTemplate.setSpaceY(player.getSpace().y);
+            }
+            playerTemplate.setHeading(player.getHeading().toString());
+
+
+            List<CommandCardFieldTemplate> cardTemplates = new ArrayList<>();
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+                CommandCardFieldTemplate fieldTemplate = new CommandCardFieldTemplate();
+                // Populate fieldTemplate with relevant data
+
+                CommandCard card = field.getCard(); // Get the CommandCard in this field
+                boolean isVisible = field.isVisible(); // Check if the field is visible
+
+                // Assuming CommandCardFieldTemplate has setCard and setVisible methods
+                fieldTemplate.setCard(card); // Set a new CommandCard to this field
+                fieldTemplate.setVisible(isVisible); // Set the visibility of this field
+
+                cardTemplates.add(fieldTemplate);
+            }
+            playerTemplate.setCards(cardTemplates);
+            // Save program
+            List<CommandCardFieldTemplate> programTemplates = new ArrayList<>();
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                CommandCardField field = player.getProgramField(j);
+                CommandCardFieldTemplate fieldTemplate = new CommandCardFieldTemplate();
+                // Populate fieldTemplate with relevant data
+
+                CommandCard card = field.getCard(); // Get the CommandCard in this field
+                boolean isVisible = field.isVisible(); // Check if the field is visible
+
+                // Assuming CommandCardFieldTemplate has setCard and setVisible methods
+                fieldTemplate.setCard(card); // Set a new CommandCard to this field
+                fieldTemplate.setVisible(isVisible); // Set the visibility of this field
+
+                programTemplates.add(fieldTemplate);
+            }
+            playerTemplate.setProgram(programTemplates);
+
+
+            template.players.add(playerTemplate);
+        }
+        Phase currentPhase = board.getPhase();
+        PhaseTemplate phaseTemplate = new PhaseTemplate();
+        phaseTemplate.setPhase(currentPhase.name());
+        template.phases.add(phaseTemplate);
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException

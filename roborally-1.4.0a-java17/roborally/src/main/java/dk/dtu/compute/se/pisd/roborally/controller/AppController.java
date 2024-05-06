@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -34,6 +35,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -97,6 +99,16 @@ public class AppController implements Observer {
 
     public void saveGame() {
         // XXX needs to be implemented eventually
+        TextInputDialog dialog = new TextInputDialog("default");
+        dialog.setTitle("Save Game");
+        dialog.setHeaderText("Enter the name of the save file:");
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            String fileName = result.get();
+            Board board = gameController.board;
+            LoadBoard.saveBoard(board, fileName);
+        }
     }
 
     public void loadGame() {
@@ -119,8 +131,20 @@ public class AppController implements Observer {
     public boolean stopGame() {
         if (gameController != null) {
 
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("wanna save?");
+            alert.setContentText("want to save?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+
+            if (!result.isPresent() || result.get() == ButtonType.OK) {
+                saveGame();
+                gameController= null;
+                roboRally.createBoardView(null);
+                return true; // return without exiting the application
+            }
             // here we save the game (without asking the user).
-            saveGame();
+
 
             gameController = null;
             roboRally.createBoardView(null);
