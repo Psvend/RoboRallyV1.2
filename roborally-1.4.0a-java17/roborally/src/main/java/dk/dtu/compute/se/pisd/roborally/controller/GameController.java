@@ -68,11 +68,6 @@ public class GameController {
         return playerViews.get(player);
     }
 
-
-
-
-
-
     public void moveForward(@NotNull Player player) {
     if (player.board == board) {
         Space currentSpace = player.getSpace();
@@ -477,8 +472,8 @@ public class GameController {
                     System.out.println(player.getSpace().toString());
                     this.moveForward(player);
                     System.out.println(player.getSpace().toString());
-                    moves += +1;
-                    board.setMoves(moves);
+                    moves += 1;
+                    //this.board.setMoves(moves);
                     break;
                 case RIGHT:
                     this.turnRight(player);
@@ -489,43 +484,43 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                    //board.setMoves(moves);
                     break;
                     
                 case MOVE_TWO:
                     this.moveTwoForward(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                    //board.setMoves(moves);
                     break;
 
                 case MOVE_THREE:
                     this.moveThreeForward(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                    //board.setMoves(moves);
                     break;
 
                 case U_TURN:
                     this.uTurn(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                   // board.setMoves(moves);
                     break;
 
                 case BACKWARD:
                     this.moveBackward(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                    //board.setMoves(moves);
                     break;
 
                 case AGAIN:
                     this.again(player);
                     moves = moves +1;
-                    board.setMoves(moves);
+                   // board.setMoves(moves);
                     break;
                 
                 case POWERUP:
                     this.powerUp(player);
                     moves = moves + 1;   
-                    board.setMoves(moves);
+                   // board.setMoves(moves);
                     break;
 
 

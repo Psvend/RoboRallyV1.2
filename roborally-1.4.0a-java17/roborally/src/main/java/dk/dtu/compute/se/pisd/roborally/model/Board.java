@@ -221,7 +221,6 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-
         return "";
     }
 
