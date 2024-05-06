@@ -461,18 +461,6 @@ public class GameController {
 
                 if (priorityPlayers.isEmpty()) { // if the priority list is empty
                     step++; // go to the next card
-
-                    if (command.isInteractive()) {
-                        board.setPhase(Phase.PLAYER_INTERACTION);
-                        return;
-
-                    }
-                }
-
-                    priorityPlayers.remove(0); // remove the current player from the priority list
-
-                if (priorityPlayers.isEmpty()) { // if the priority list is empty
-                    step++; // go to the next card
                     if (step < Player.NO_REGISTERS) {
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);

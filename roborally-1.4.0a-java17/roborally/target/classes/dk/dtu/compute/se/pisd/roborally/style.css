@@ -4,7 +4,6 @@
     -fx-effect: innershadow(gaussian, gray, 10, 0, 0, 0);
 }
 
-
 #energyspace-view {
     -fx-background-image: url('img/bolt.png');
     -fx-background-size: 100% 100%;

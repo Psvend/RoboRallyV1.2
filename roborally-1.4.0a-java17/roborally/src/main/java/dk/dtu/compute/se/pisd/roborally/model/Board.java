@@ -375,7 +375,12 @@ public class Board extends Subject {
         gearSpace2.setGearType("RIGHT");
     }
 
-     //Louise
+         /**
+     * @author Louise
+     * @param none
+     *
+     * Initialize the checkpointspace
+     */
      private void initCheckpointSpaces () {
         spaces[6][6] = new CheckpointSpace(this, 6, 6);
     }

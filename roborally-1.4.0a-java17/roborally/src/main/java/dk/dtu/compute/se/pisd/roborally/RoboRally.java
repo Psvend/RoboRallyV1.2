@@ -53,12 +53,17 @@ public class RoboRally extends Application {
     public void init() throws Exception {
         super.init();
     }
-
+    /**
+     * @author Louise
+     * @param Stage
+     * Added implementation of stylesheet (style.css)
+     */
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
             
         // Load the CSS stylesheet
+
         Scene primaryScene = new Scene(new VBox(), MIN_APP_WIDTH, MIN_APP_HEIGHT);
         primaryScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
         

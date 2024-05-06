@@ -1,5 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
+
+    /**
+     * @author Louise
+     * @param None
+     *
+     */
+
 public class CheckpointSpace extends Space {
 
     private final boolean isPlayerOnCheckpointSpace;

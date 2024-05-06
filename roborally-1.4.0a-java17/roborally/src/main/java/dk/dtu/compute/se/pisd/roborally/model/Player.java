@@ -150,7 +150,7 @@ public class Player extends Subject {
 
 
      /**
-     * @author Petrine
+     * @author Petrine & Louise
      * @return the set energy reserve of a player
      */
     public void setEnergyReserve(Integer i) {

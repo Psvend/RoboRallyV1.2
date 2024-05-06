@@ -90,15 +90,18 @@ public class BoardView extends VBox implements ViewObserver {
         update(board);
     }
 
+    /**
+     * @author Louise
+     * @param Subject
+     * Changes the board, when a player gets to the winning space (CheckpointSpace)
+     */
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
             if (board.getCurrentPlayer().getSpace() instanceof CheckpointSpace) {
-                // Clear the mainBoardPane
                 mainBoardPane.getChildren().clear();
-                // Optionally, you can also clear the spaces array
                 for (int x = 0; x < board.width; x++) {
                     for (int y = 0; y < board.height; y++) {
                         spaces[x][y] = null;
@@ -110,7 +113,6 @@ public class BoardView extends VBox implements ViewObserver {
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);
                 mainBoardPane.getChildren().add(winnerLabel);
-                statusLabel.setText("CONTRATZ!");
                 this.setId("winner-view");
             }
         }

@@ -132,10 +132,6 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel.setSpacing(3.0);
 
 
-
-
-
-
         cardsLabel = new Label("Command Cards");
         cardsPane = new GridPane();
         cardsPane.setVgap(2.0);
@@ -164,10 +160,21 @@ public class PlayerView extends Tab implements ViewObserver {
     }
 
 
+    /**
+     * @author Louise
+     * @param Integer newReserve
+     * @return none
+     */
     
     public void updateEnergyReserveLabel(int newReserve) {
         reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
     }
+
+        /**
+     * @author Louise
+     * @param Integer newBank
+     * @return none
+     */
 
     public void updateBankLabel(int newBank) {
         bankLabel.setText("Energy Bank Status: " + newBank);
@@ -271,11 +278,11 @@ public class PlayerView extends Tab implements ViewObserver {
     /**
      * @author Natali
      *method created for testing purposes
-     */
-public VBox getPlayerInteractionPanel() {
-    updateView(player.board);
+    */
+    public VBox getPlayerInteractionPanel() {
+        updateView(player.board);
 
-    return playerInteractionPanel;
+        return playerInteractionPanel;
 
-}
+    }
 }

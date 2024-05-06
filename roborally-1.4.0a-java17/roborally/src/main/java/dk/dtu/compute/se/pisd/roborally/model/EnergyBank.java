@@ -32,12 +32,18 @@ public class EnergyBank{
         }
     }
 
-    public int getBankStatus() {  //tjekker nuværende beholdning i banken
-        // ÆNDRET AF LOUISE
+    /**
+     * @author Louise
+     * @param none
+     */
+    public int getBankStatus() { 
         return this.energyCubes;
     }
 
-    // TILFØJET AF LOUISE
+    /**
+     * @author Louise
+     * @param none
+     */
     public void setEnergyBank(int i){
         this.energyCubes = i;
     }
