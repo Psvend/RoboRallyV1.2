@@ -134,37 +134,38 @@ public class LoadBoard {
                 Phase phase = Phase.valueOf(phaseTemplate.getPhase());
                 result.setPhase(phase);
             }
-            PlayerTemplate playerTemplate = gson.fromJson(reader, PlayerTemplate.class);
-            if (playerTemplate != null) {
-                Player newPlayer = new Player(result, playerTemplate.getName(), playerTemplate.getColor());
-                newPlayer.setEnergyReserve(playerTemplate.getEnergyReserve());
-                if (playerTemplate.getSpaceX() >= 0 && playerTemplate.getSpaceX() < template.width && playerTemplate.getSpaceY() >= 0 && playerTemplate.getSpaceY() < template.height) {
-                    Space space = result.getSpace(playerTemplate.getSpaceX(), playerTemplate.getSpaceY());
-                    if (space != null) {
-                        newPlayer.setSpace(space);
-                        result.addPlayer(newPlayer);
+            List<PlayerTemplate> playerTemplates = template.players;
+            if (playerTemplates != null) {
+                for (PlayerTemplate playerTemplate : playerTemplates) {
+                    Player newPlayer = new Player(result, playerTemplate.getName(), playerTemplate.getColor());
+                    newPlayer.setEnergyReserve(playerTemplate.getEnergyReserve());
+                    if (playerTemplate.getSpaceX() >= 0 && playerTemplate.getSpaceX() < template.width && playerTemplate.getSpaceY() >= 0 && playerTemplate.getSpaceY() < template.height) {
+                        Space space = result.getSpace(playerTemplate.getSpaceX(), playerTemplate.getSpaceY());
+                        if (space != null) {
+                            newPlayer.setSpace(space);
+                            result.addPlayer(newPlayer);
+                        }
+                    }
+                    newPlayer.setHeading(Heading.valueOf(playerTemplate.getHeading()));
+                    for (int i = 0; i < Player.NO_REGISTERS; i++) {
+                        CommandCardFieldTemplate fieldTemplate = playerTemplate.getProgram().get(i);
+
+                        // Create a new CommandCardField from the template
+                        CommandCardField field = new CommandCardField(newPlayer);
+
+                        // Assuming CommandCardField has a setCard method and CommandCardFieldTemplate has a getCard method
+                        CommandCard card = fieldTemplate.getCard(); // Get the CommandCard from the template
+                        field.setCard(card); // Set the CommandCard to the field
+
+                        // Assuming CommandCardField has a setVisible method and CommandCardFieldTemplate has a getVisible method
+                        boolean isVisible = fieldTemplate.isVisible(); // Get the visibility from the template
+                        field.setVisible(isVisible); // Set the visibility to the field
+
+                        // Set the field to the player's program
+                        newPlayer.getProgram()[i] = field;
+                        newPlayer.getCards()[i] = field;
                     }
                 }
-                newPlayer.setHeading(Heading.valueOf(playerTemplate.getHeading()));
-                for (int i = 0; i < Player.NO_REGISTERS; i++) {
-                    CommandCardFieldTemplate fieldTemplate = playerTemplate.getProgram().get(i);
-
-                    // Create a new CommandCardField from the template
-                    CommandCardField field = new CommandCardField(newPlayer);
-
-                    // Assuming CommandCardField has a setCard method and CommandCardFieldTemplate has a getCard method
-                    CommandCard card = fieldTemplate.getCard(); // Get the CommandCard from the template
-                    field.setCard(card); // Set the CommandCard to the field
-
-                    // Assuming CommandCardField has a setVisible method and CommandCardFieldTemplate has a getVisible method
-                    boolean isVisible = fieldTemplate.isVisible(); // Get the visibility from the template
-                    field.setVisible(isVisible); // Set the visibility to the field
-
-                    // Set the field to the player's program
-                    newPlayer.getProgram()[i] = field;
-                    newPlayer.getCards()[i] = field;
-                }
-
             }
 			reader.close();
 			return result;

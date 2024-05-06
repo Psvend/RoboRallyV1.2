@@ -113,6 +113,9 @@ public class Board extends Subject {
             return null;
         }
     }
+    public List<Player>getPlayers(){
+        return players;
+    }
 
     public int getPlayersNumber() {
         return players.size();

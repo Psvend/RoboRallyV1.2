@@ -102,7 +102,22 @@ public class RoboRally extends Application {
 
         stage.sizeToScene();
     }
+    public void createLoadBoardView(GameController gameController) {
+        // if present, remove old BoardView
+        boardRoot.getChildren().clear();
 
+
+        if (gameController != null) {
+            // create and add view for new board
+            BoardView boardView = new BoardView(gameController);
+            boardRoot.setCenter(boardView);
+            boardRoot.setId("board-view");
+
+
+        }
+
+        stage.sizeToScene();
+    }
     @Override
     public void stop() throws Exception {
         super.stop();

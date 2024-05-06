@@ -33,6 +33,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -130,12 +131,25 @@ public class AppController implements Observer {
         fileChooser.setTitle("Open Resource File");
         File file = fileChooser.showOpenDialog(new Stage());
         if (file != null) {
-            Board defalut = LoadBoard.loadBoard(file.getName());
-            gameController = new GameController(defalut);
-
+            Board loadedBoard = LoadBoard.loadBoard(file.getName());
+            if (loadedBoard != null) {
+                // Ensure all players are properly initialized
+                int playerNumber = 0;
+                for (Player player : loadedBoard.getPlayers()) {
+                    if (player == null) {
+                        // Handle null player object appropriately
+                        // This could be showing an error message to the user
+                        return;
+                    }
+                    loadedBoard.getPlayerNumber(player);
+                }
+                gameController = new GameController(loadedBoard);
+                roboRally.createLoadBoardView(gameController);
+            } else {
+                // Handle the case when the board could not be loaded
+                // This could be showing an error message to the user
+            }
         }
-
-
     }
 
 
