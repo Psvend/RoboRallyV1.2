@@ -31,6 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ...
  *
@@ -397,10 +403,14 @@ public class GameController {
 
 
 
+
+
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
     }
@@ -439,10 +449,14 @@ public class GameController {
 
     private void executeNextStep() {
         if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
+        if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
             int step = board.getStep();
 
 
+
+
             if (step >= 0 && step < Player.NO_REGISTERS) {
+                Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt? 
@@ -461,7 +475,20 @@ public class GameController {
 
                 if (priorityPlayers.isEmpty()) { // if the priority list is empty
                     step++; // go to the next card
+
+                    if (command.isInteractive()) {
+                        board.setPhase(Phase.PLAYER_INTERACTION);
+                        return;
+
+                    }
+                }
+
+                    priorityPlayers.remove(0); // remove the current player from the priority list
+
+                if (priorityPlayers.isEmpty()) { // if the priority list is empty
+                    step++; // go to the next card
                     if (step < Player.NO_REGISTERS) {
+                        makeProgramFieldsVisible(step); // make the next card visible
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
@@ -471,7 +498,10 @@ public class GameController {
                         startProgrammingPhase();
                     }
 
+
                 }
+                board.setCurrentPlayer(priorityPlayers.get(0));
+
                 board.setCurrentPlayer(priorityPlayers.get(0));
 
             } else {
@@ -494,7 +524,13 @@ public class GameController {
         if (player != null && player.board == board && command != null) {
 
 
+
             switch (command) {
+                case OPTION_LEFT_RIGHT:
+                //board.setPhase(Phase.PLAYER_INTERACTION);
+                this.command = command;
+                break;
+
                 case OPTION_LEFT_RIGHT:
                 //board.setPhase(Phase.PLAYER_INTERACTION);
                 this.command = command;
@@ -584,7 +620,12 @@ public class GameController {
         priorityPlayers = determiningPriority();
         copyOfpriorityPlayers.clear(); // Clear the list before recalculating
         copyOfpriorityPlayers.addAll(priorityPlayers);
+        priorityPlayers.clear(); // Clear the list before recalculating
+        priorityPlayers = determiningPriority();
+        copyOfpriorityPlayers.clear(); // Clear the list before recalculating
+        copyOfpriorityPlayers.addAll(priorityPlayers);
         board.setPhase(Phase.PROGRAMMING);
+        board.setCurrentPlayer(priorityPlayers.get(0));
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 

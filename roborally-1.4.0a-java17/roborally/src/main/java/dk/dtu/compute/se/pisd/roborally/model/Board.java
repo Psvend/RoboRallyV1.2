@@ -267,6 +267,7 @@ public class Board extends Subject {
     /**
      * @author Petrine
      *
+     *
      * Here are the four energy spaces defined. The functionalities can 
      * be found in EnergySpaces.java
      */

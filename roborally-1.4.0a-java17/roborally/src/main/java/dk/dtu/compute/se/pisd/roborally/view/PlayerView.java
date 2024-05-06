@@ -34,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import java.util.List;
+
 /**
  * ...
  *
@@ -53,6 +55,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private CardFieldView[] programCardViews;
     private CardFieldView[] cardViews;
+
 
 
     private VBox buttonPanel;
@@ -103,11 +106,14 @@ public class PlayerView extends Tab implements ViewObserver {
 
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction(e -> gameController.finishProgrammingPhase());
 
         executeButton = new Button("Execute Program");
         executeButton.setOnAction(e -> gameController.executePrograms());
+        executeButton.setOnAction(e -> gameController.executePrograms());
 
         stepButton = new Button("Execute Current Register");
+        stepButton.setOnAction(e -> gameController.executeStep());
         stepButton.setOnAction(e -> gameController.executeStep());
 
         //button to show energy bank status 
@@ -126,6 +132,11 @@ public class PlayerView extends Tab implements ViewObserver {
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
         playerInteractionPanel.setSpacing(3.0);
+
+
+
+
+
 
         cardsLabel = new Label("Command Cards");
         cardsPane = new GridPane();
@@ -170,6 +181,7 @@ public class PlayerView extends Tab implements ViewObserver {
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
+                    if (player.board.getPhase() == Phase.PROGRAMMING) {
                     if (player.board.getPhase() == Phase.PROGRAMMING) {
                         cardFieldView.setBackground(CardFieldView.BG_DEFAULT);
                     } else {
@@ -223,6 +235,7 @@ public class PlayerView extends Tab implements ViewObserver {
                 }
 
 
+            } else if (player.board.getPhase() == Phase.PLAYER_INTERACTION) {
             } else if (player.board.getPhase() == Phase.PLAYER_INTERACTION) {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
