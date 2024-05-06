@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -43,6 +44,12 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+
+
+//nikolaj
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 
 /**
@@ -90,6 +97,54 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("wallspace-view");
         }else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
+        }else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
+            if(space.getConveyorBelt().getBeltType()==1){
+                if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: maroon;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: green;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: yellow;");
+                    } else {
+                        this.setStyle("-fx-background-color: teal;");
+                    }     
+                } else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: plum;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: turquoise;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: violet;");
+                    } else {
+                        this.setStyle("-fx-background-color: tan;");
+                    } 
+                } else {
+                    this.setStyle("-fx-background-color: cyan;");
+                }
+            } else if (space.getConveyorBelt().getBeltType()==2){
+                if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: sienna;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: red;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: pink;");
+                    } else {
+                        this.setStyle("-fx-background-color: olive;");
+                    } 
+                } else if (space.getConveyorBelt().getTurnBelt().equals("RIGHT")) {
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)) {
+                        this.setStyle("-fx-background-color: coral;");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setStyle("-fx-background-color: magenta;");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setStyle("-fx-background-color: blue;");
+                    } else {
+                        this.setStyle("-fx-background-color: aqua;");
+                    }
+                }
+            }    
         } else {
             this.setId("space-view");
         }

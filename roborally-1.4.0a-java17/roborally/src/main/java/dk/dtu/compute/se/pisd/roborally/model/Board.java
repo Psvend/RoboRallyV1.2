@@ -27,11 +27,21 @@ import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt; //nikolaj
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
+
+//nikolaj
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
@@ -51,6 +61,11 @@ public class Board extends Subject {
     private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
+    
+    //nikolaj
+    private List<FieldAction> actions = new ArrayList<>();
+    //nikolaj
+    private List<ConveyorBelt> belts = new ArrayList<>();
 
     private Player current;
 
@@ -77,7 +92,8 @@ public class Board extends Subject {
         }
         initEnergySpaces();
         initPriorityAntenna();
-        initWallSpaces();  //test
+        initWallSpaces();  
+        initBelt(); //nikolaj
         this.stepMode = false;
     }
 
@@ -279,8 +295,66 @@ public class Board extends Subject {
     public Space getPriorityAntenna() {
         return spaces[4][7];
     }
+
+    //nikolaj
+    public void initBelt() {
+        ConveyorBelt conveyorBelt1 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt2 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt3 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt4 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt5 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt6 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt7 = new ConveyorBelt();
+        ConveyorBelt conveyorBelt8 = new ConveyorBelt();
+
+        conveyorBelt1.setBeltType(1);
+        conveyorBelt2.setBeltType(2);
+        conveyorBelt3.setBeltType(1);
+        conveyorBelt4.setBeltType(2);
+        conveyorBelt5.setBeltType(1);
+        conveyorBelt6.setBeltType(2);
+        conveyorBelt7.setBeltType(1);
+        conveyorBelt8.setBeltType(2);
+
+        conveyorBelt1.setHeading(SOUTH);
+        conveyorBelt2.setHeading(NORTH);
+        conveyorBelt3.setHeading(EAST);
+        conveyorBelt4.setHeading(WEST);
+        conveyorBelt5.setHeading(EAST);
+        conveyorBelt6.setHeading(SOUTH);
+        conveyorBelt7.setHeading(NORTH);
+        conveyorBelt8.setHeading(WEST);
+
+        spaces[1][1].setConveyorBelt(conveyorBelt1);
+        spaces[1][2].setConveyorBelt(conveyorBelt1);
+        spaces[1][3].setConveyorBelt(conveyorBelt1);
+        spaces[1][4].setConveyorBelt(conveyorBelt1);
+
+        spaces[4][1].setConveyorBelt(conveyorBelt2);
+        spaces[4][2].setConveyorBelt(conveyorBelt2);
+        spaces[4][3].setConveyorBelt(conveyorBelt2);
+        spaces[4][4].setConveyorBelt(conveyorBelt2);
+
+        spaces[1][5].setConveyorBelt(conveyorBelt5);
+        spaces[2][5].setConveyorBelt(conveyorBelt3);
+        spaces[3][5].setConveyorBelt(conveyorBelt3);
+        spaces[4][5].setConveyorBelt(conveyorBelt7);
+
+        spaces[1][0].setConveyorBelt(conveyorBelt6);
+        spaces[2][0].setConveyorBelt(conveyorBelt4);
+        spaces[3][0].setConveyorBelt(conveyorBelt4);
+        spaces[4][0].setConveyorBelt(conveyorBelt8);
+
+        spaces[1][0].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[1][5].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[4][0].getConveyorBelt().setTurnBelt("LEFT");
+        spaces[4][5].getConveyorBelt().setTurnBelt("LEFT");
+    }
+
+
 }
     
+
 
 
 

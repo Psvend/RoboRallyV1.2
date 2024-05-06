@@ -23,7 +23,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
@@ -247,6 +246,44 @@ public class GameController {
     }
 
 
+    
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
+
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
+            int step = board.getStep();
+
+            priorityPlayers.remove(0); // remove the current player from the priority list
+
+            if (priorityPlayers.isEmpty()) { // if the priority list is empty
+
+                step++; // go to the next card
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step); // make the next card visible
+                    board.setStep(step);
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                    Activator.getInstance().activateElements(board, this);  //nikolaj
+                } else {
+                    startProgrammingPhase();
+                }
+
+            }
+            board.setCurrentPlayer(priorityPlayers.get(0));
+        }
+    }
+
+
+
+
+
+
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
@@ -408,7 +445,7 @@ public class GameController {
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
-                //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt?
+                //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt? 
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
@@ -428,7 +465,9 @@ public class GameController {
                         makeProgramFieldsVisible(step); // make the next card visible
                         board.setStep(step);
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                        Activator.getInstance().activateElements(board, this); //initializes the boardElements
                     } else {
+                        Activator.getInstance().activateElements(board, this);
                         startProgrammingPhase();
                     }
 
@@ -628,36 +667,6 @@ public class GameController {
 
 
     
-    /**
-     * @author Natali
-     * @param player,command
-     * @return none
-     */
-
-    // TODO Assignment A3
-    public void leftOrRight(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
-            executeCommand(player, command);
-            board.setPhase(Phase.ACTIVATION);
-            int step = board.getStep();
-
-            priorityPlayers.remove(0); // remove the current player from the priority list
-
-            if (priorityPlayers.isEmpty()) { // if the priority list is empty
-
-                step++; // go to the next card
-                if (step < Player.NO_REGISTERS) {
-                    makeProgramFieldsVisible(step); // make the next card visible
-                    board.setStep(step);
-                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
-                } else {
-                    startProgrammingPhase();
-                }
-
-            }
-            board.setCurrentPlayer(priorityPlayers.get(0));
-        }
-    }
 
 
 
@@ -689,6 +698,122 @@ public class GameController {
     }
 
     
+
+    //nikolaj
+    public void activateConveyorBelt() throws ImpossibleMoveException{
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            int moveAmount;
+            if(player.getSpace() != null){
+                if (player.getSpace().getConveyorBelt()!=null){
+                    
+                    if (player.getSpace().getConveyorBelt().getBeltType()==1){
+                        moveAmount = 1;
+                    } else if(player.getSpace().getConveyorBelt().getBeltType()==2){
+                        moveAmount = 2;
+                    } else{
+                        moveAmount = 0;
+                    }
+                    
+                    for(int c = moveAmount; c > 0; c--){
+                        Heading heading = player.getSpace().getConveyorBelt().getHeading();  
+                        Space target = null;
+
+                        switch (heading) {
+                            case NORTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                            
+                            case SOUTH:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+
+                            case WEST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                        
+                            case EAST:
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                break;
+                            default:
+                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
+                        }
+                        if (target == null) return;
+                        if (target.getConveyorBelt() == null) {
+                            if(target.getPlayer() == null) {
+                                player.setSpace(target);
+                                moveAmount = 0;
+                            } else {
+                                moveAmount = 0;
+                            }
+                        } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
+                            player.setSpace(target);
+                        } else {}
+                    }
+                }
+            }
+        }
+
+    }
+
+
+    //Nikolaj
+    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+        Space space = null;
+            switch (heading) {
+                case NORTH:
+                    if (OFFSET < 0 && y < board.height - 1) {
+                        space = board.getSpace(x, y + Math.abs(OFFSET));
+                    } else if (y >=  OFFSET && OFFSET > 0){
+                        space = board.getSpace(x, y - OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case SOUTH:
+                    if (OFFSET < 0 && y > 0) {
+                        space = board.getSpace(x, y - Math.abs(OFFSET));
+                    } else if (y < board.height - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x, y + OFFSET);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case EAST:
+                    if (OFFSET < 0 && x > 0) {
+                        space = board.getSpace(x - Math.abs(OFFSET), y);
+                    } else if (x < board.width - OFFSET && OFFSET >= 0) {
+                        space = board.getSpace(x + OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+
+                case WEST:
+                    if (OFFSET < 0 && x < board.width -1) {
+                        space = board.getSpace(x + Math.abs(OFFSET), y);
+                    } else if (x >= OFFSET && OFFSET > 0) {
+                        space = board.getSpace(x - OFFSET, y);
+                    } else {
+                        throw new ImpossibleMoveException(null, space, heading);
+                    }
+                break;
+        }
+            if(space == null) {
+                throw new ImpossibleMoveException(null, space, heading);
+            }
+        return space;
+    }
+
+
+
+
+
+
+
+
 }
 
 
