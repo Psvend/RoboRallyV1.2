@@ -54,6 +54,11 @@ public class ConveyorBelt extends FieldAction {
       return beltType;
     }
   
+      /**
+   * @author Nikolaj
+   * @param beltType
+   * sets the beltType.
+   */
     public void setBeltType(int beltType) {
         this.beltType = beltType;
     }
