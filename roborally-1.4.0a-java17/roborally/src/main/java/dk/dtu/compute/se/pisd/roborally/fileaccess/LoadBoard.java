@@ -144,6 +144,7 @@ public class LoadBoard {
                         if (space != null) {
                             newPlayer.setSpace(space);
                             result.addPlayer(newPlayer);
+                            result.getPlayerNumber(newPlayer);
                         }
                     }
                     newPlayer.setHeading(Heading.valueOf(playerTemplate.getHeading()));
