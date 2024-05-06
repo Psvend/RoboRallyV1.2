@@ -57,10 +57,9 @@ public class PlayerInteractionTest extends ApplicationTest {
         assertEquals(true, gameController.command.isInteractive(), "The command card should be interactive");
         assertEquals(Command.OPTION_LEFT_RIGHT, gameController.command, "The command should be OPTION_LEFT_RIGHT");
     }
-
     @Test
     void Display_Interactive_Panel() {
-        //Given the player has executed "LEFT_RIGHT" card and the game is in PLAYER_INTERACTION phase
+       // Given the player has "LEFT RIGHT" card in the current register
         Board board = gameController.board;
         Player player = board.getCurrentPlayer();
         CommandCard commandCard = new CommandCard(Command.OPTION_LEFT_RIGHT);
@@ -77,10 +76,12 @@ public class PlayerInteractionTest extends ApplicationTest {
         gameController.executeStep();
 
 
-        //Then the game phase changes to PLAYER_INTERACTION and the interactive command executed is "OPTION_LEFT_RIGHT"
+        //Then Interactive panel should be displayed with
+        //        the option buttons "Turn Left" and "Turn Right"
         for (int i = 0; i < commandCard.command.getOptions().size(); i++) {
             Command option = commandCard.command.getOptions().get(i);
             Button button = (Button) playerView.getPlayerInteractionPanel().getChildren().get(i);
+
 
             assertEquals(Phase.PLAYER_INTERACTION, board.getPhase(), "Game phase should change to PLAYER_INTERACTION");
             assertEquals(playerView.getPlayerInteractionPanel().getChildren().size(), commandCard.command.getOptions().size(),
@@ -90,8 +91,8 @@ public class PlayerInteractionTest extends ApplicationTest {
     }
     @Test
     void Execute_Program_Interactive_Command() {
-        //Given the player has executed "Turn Left", "Move Forward", "Turn Right"
-        //And Player is at position "2,3" facing South
+        //Given the player has cards "Left Right", "Move Forward", "Turn Right"
+        // in the register
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
         //Player player2 = board.getPlayer(1);
