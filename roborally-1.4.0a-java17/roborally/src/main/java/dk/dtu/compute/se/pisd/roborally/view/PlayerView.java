@@ -266,9 +266,11 @@ public class PlayerView extends Tab implements ViewObserver {
             }
         }
     }
+}
+public VBox getPlayerInteractionPanel() {
+    updateView(player.board);
 
-
+    return playerInteractionPanel;
 
 }
-
 }
