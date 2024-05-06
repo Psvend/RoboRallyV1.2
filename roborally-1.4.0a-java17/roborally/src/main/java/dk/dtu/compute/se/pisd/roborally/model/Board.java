@@ -28,7 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
-import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt; //nikolaj
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,8 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
-
-//nikolaj
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -63,9 +61,8 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
     
-    //nikolaj
     private List<FieldAction> actions = new ArrayList<>();
-    //nikolaj
+
     private List<ConveyorBelt> belts = new ArrayList<>();
 
     private Player current;
@@ -164,10 +161,20 @@ public class Board extends Subject {
         }
     }
 
+    /**
+     * @author Nikolaj
+     * @return moves
+     * gets moves. used in the message.
+     */
     public int getMoves() {
         return moves;
     }
 
+    /**
+     * @author Nikolaj
+     * @param moves
+     * sets moves, if they change.
+     */
     public void setMoves(int moves) {
         if (moves != this.moves) {
             this.moves = moves;
@@ -309,7 +316,10 @@ public class Board extends Subject {
         return spaces[4][7];
     }
 
-    //nikolaj
+/**
+ * @author Nikolaj
+ * declares the Belts' attributes, ties them to spaces and initializes them.
+ */
     public void initBelt() {
         ConveyorBelt conveyorBelt1 = new ConveyorBelt();
         ConveyorBelt conveyorBelt2 = new ConveyorBelt();
@@ -364,6 +374,10 @@ public class Board extends Subject {
         spaces[4][5].getConveyorBelt().setTurnBelt("LEFT");
     }
 
+    /**
+     * @author Nikolaj
+     * Declares  the gears' attributes, ties them to spaces and initializes them.
+     */
     private void initGear() {
         GearSpace gearSpace1 = new GearSpace();
         GearSpace gearSpace2 = new GearSpace();

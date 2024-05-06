@@ -36,18 +36,13 @@ import java.util.List;
  *
  */
 public class Space extends Subject {
+    
     private ConveyorBelt ConveyorBelt;
     private GearSpace gearSpace;
-
-
     private Player player;
-
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
-
-
     public final Board board;
-
     public final int x;
     public final int y;
 
@@ -93,18 +88,38 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    /**
+     * @author Nikolaj
+     * @return ConveyorBelt
+     * gets the value of the ConveyorBelt on the given space. This value is null, if nothing else is declared. 
+     */
     public ConveyorBelt getConveyorBelt(){
         return ConveyorBelt;
     }
 
+    /**
+     * @author Nikolaj 
+     * @param conveyorBelt
+     * sets the conveyorBelt.
+     */
     public void setConveyorBelt(ConveyorBelt conveyorBelt) {
         this.ConveyorBelt = conveyorBelt;
     }
    
+    /**
+     * @author Nikolaj
+     * @return
+     * gets the value of the gearSpace on the given space. This value is null, if nothing else is declared.
+     */
     public GearSpace getGearSpace(){
         return gearSpace;
     }
 
+    /**
+     * @author Nikolaj
+     * @param gearSpace
+     * Sets the gearSpace.
+     */
     public void setGearSpace(GearSpace gearSpace) {
         this.gearSpace = gearSpace;
     }
@@ -117,8 +132,4 @@ public class Space extends Subject {
     public boolean isFree(){
         return player==null;
         }
-
-
-
-
 }
