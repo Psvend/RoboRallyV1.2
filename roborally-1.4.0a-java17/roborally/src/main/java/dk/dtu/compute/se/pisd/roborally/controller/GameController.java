@@ -21,9 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,42 +45,22 @@ public class GameController {
     final public EnergyBank energyBank;
     public EnergySpace energySpace;
     public int moves = 0;
-    public Command command;
+     public Command command;
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
     public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
     public Player interactivePlayer;
+    private Map<Player, PlayerView> playerViews;
 
     public GameController(Board board) {
         this.board = board;
-        this.energyBank = new EnergyBank(1);
-        this.energySpace = new EnergySpace(board, 1, 1); 
+        this.energySpace = new EnergySpace(board, 1, 1);
+        this.energyBank = board.getEnergyBank();
+        this.playerViews = new HashMap<>();
     }
 
-    /**
-     * @author Natali
-     * @param player
-     * @return distance
-     */
-
-    // TODO Assignment A3
-
-    public int distanceToPriorityAntenna(@NotNull Player player){
-        int spaceX = player.getSpace().x;
-        int spaceY = player.getSpace().y;
-        int antennaX = board.getPriorityAntenna().x;
-        int antennaY = board.getPriorityAntenna().y;
-        int distance = 0;
-        if(spaceX < antennaX){
-            distance = antennaX - spaceX;
-            } else {
-            distance = spaceX - antennaX;
-        }
-        if(spaceY < antennaY){
-            distance = distance + (antennaY - spaceY);
-        } else {
-            distance = distance + (spaceY - antennaY);
-        }
-        return distance;
+    // Method to store PlayerView references
+    public void setPlayerView(Player player, PlayerView playerView) {
+        playerViews.put(player, playerView);
     }
 
     /**
@@ -109,21 +92,56 @@ public class GameController {
 
 
     public void moveForward(@NotNull Player player) {
-        if (player.board == board) {
-            Space space = player.getSpace();
-            Heading heading = player.getHeading();
-            Space target = board.getNeighbour(space, heading);
-            if (target != null) {
-                try {
-                    moveToSpace(player, target, heading);
-                } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
-                }
+    if (player.board == board) {
+        Space currentSpace = player.getSpace();
+        Heading heading = player.getHeading();
+
+        // Check if there's a wall in front of the player (either on the current space or the neighboring space)
+        if (currentSpace != null && currentSpace instanceof WallSpace) {
+        WallSpace wallSpace = (WallSpace) currentSpace;
+            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                return; // Cannot move forward: Wall detected in the way
+            }
+        }
+        
+        //nikolajs del
+        if (target != null) {
+            try {
+                moveToSpace(player, target, heading);
+            } catch (ImpossibleMoveException e) {
+                // we don't do anything here  for now; we just catch the
+                // exception so that we do no pass it on to the caller
+                // (which would be very bad style).
+            }
+        }
+
+        // Get the space in the forward direction using getNeighbour method
+        Space forwardSpace = board.getNeighbour(currentSpace, heading);
+
+        // Check if the forward space is valid
+        if (forwardSpace != null) {
+        // Check if there's a wall facing the space the player came from
+            Heading backwardHeading = heading.opposite();
+            Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
+
+                    // Check if there's a wall facing the backward space in the forward space
+                    if (backwardSpace != null && backwardSpace instanceof WallSpace) {
+                        WallSpace backwardWallSpace = (WallSpace) backwardSpace;
+                        if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                            return; // Cannot move forward: Wall detected in the opposite direction
+                        }
+                    }
+
+                    // Move the player to the forward space
+                    player.setSpace(forwardSpace);
             }
         }
     }
+
+
+
+
+
     /**
      * @author Louise
      * @param player
@@ -380,7 +398,7 @@ public class GameController {
             if (step >= 0 && step < Player.NO_REGISTERS) {
                 Player currentPlayer = priorityPlayers.get(0); // get the first player from the priority list
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
-
+                //tilføj hvis kort er et powerUp kort, så forbliver man på samme felt? 
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
@@ -559,6 +577,108 @@ public class GameController {
             this.heading = heading;
         }
     }
+
+
+
+    
+    /**
+     * @author Natali
+     *
+     * @return playersTurn
+     */
+
+    // TODO Assignment A3
+    public ArrayList<Player> determiningPriority(){
+        ArrayList<Player> playersTurn = new ArrayList<>();
+        HashMap<Player, Integer> playerDistances = new HashMap<>();
+
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player currentPlayer = board.getPlayer(i);
+            int distance = distanceToPriorityAntenna(currentPlayer);
+            playerDistances.put(currentPlayer, distance);
+        }
+
+        List<Map.Entry<Player, Integer>> list = new ArrayList<>(playerDistances.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        for (Map.Entry<Player, Integer> entry : list) {
+            playersTurn.add(entry.getKey());
+        }
+
+        return playersTurn;
+    }
+
+
+    
+    /**
+     * @author Natali
+     * @param player,command
+     * @return none
+     */
+
+    // TODO Assignment A3
+    public void leftOrRight(@NotNull Player player, Command command) {
+        if (player != null && player.board == board && command != null) {
+            executeCommand(player, command);
+            board.setPhase(Phase.ACTIVATION);
+            int step = board.getStep();
+
+            priorityPlayers.remove(0); // remove the current player from the priority list
+
+            if (priorityPlayers.isEmpty()) { // if the priority list is empty
+
+                step++; // go to the next card
+                if (step < Player.NO_REGISTERS) {
+                    makeProgramFieldsVisible(step); // make the next card visible
+                    board.setStep(step);
+                    priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
+                } else {
+                    startProgrammingPhase();
+                }
+
+            }
+            board.setCurrentPlayer(priorityPlayers.get(0));
+        }
+    }
+
+
+
+    
+ /**
+  * @author Natali
+  * @param player
+  * @return distance
+*/
+
+    // TODO Assignment A3
+    public int distanceToPriorityAntenna(@NotNull Player player){
+        int spaceX = player.getSpace().x;
+        int spaceY = player.getSpace().y;
+        int antennaX = board.getPriorityAntenna().x;
+        int antennaY = board.getPriorityAntenna().y;
+        int distance = 0;
+        if(spaceX < antennaX){
+            distance = antennaX - spaceX;
+            } else {
+            distance = spaceX - antennaX;
+        }
+        if(spaceY < antennaY){
+            distance = distance + (antennaY - spaceY);
+        } else {
+            distance = distance + (spaceY - antennaY);
+        }
+        return distance;
+    }
+
+    
+}
+
+
+
+
+
+
+
 
     /**
      * @author Nikolaj

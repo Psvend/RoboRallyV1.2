@@ -24,10 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -56,18 +53,19 @@ import javafx.scene.layout.BackgroundSize;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+
 public class SpaceView extends StackPane implements ViewObserver {
 
+    public final Space space;
     final public static int SPACE_HEIGHT = 30; // 75;
     final public static int SPACE_WIDTH = 30; // 75;
 
-    public final Space space;
-
 
     public SpaceView(@NotNull Space space) {
+        
         this.space = space;
-
-        // XXX the following styling should better be done with styles
+        this.setPrefSize(SPACE_WIDTH, SPACE_HEIGHT);
         this.setPrefWidth(SPACE_WIDTH);
         this.setMinWidth(SPACE_WIDTH);
         this.setMaxWidth(SPACE_WIDTH);
@@ -76,21 +74,20 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setMinHeight(SPACE_HEIGHT);
         this.setMaxHeight(SPACE_HEIGHT);
 
-        this.setId("space-view");
+        setupBackground();
 
-        // if ((space.x + space.y) % 2 == 0) {
-        //     this.setStyle("-fx-background-color: white;");
-        // } else {
-        //     this.setStyle("-fx-background-color: black;");
-        // }
+        space.attach(this);
+        update(space);
+    }
 
-        
-        //Hvis et space er et EnergySpace
-        if(space instanceof EnergySpace) {
-            this.setId("energyspace-view");
-        } else if(space instanceof PriorityAntenna){
+    private void setupBackground() {
+        if (space instanceof EnergySpace) {
+            setId("energyspace-view");
+        } else if (space instanceof WallSpace) {
+            setId("wallspace-view");
+        }else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
-        } else if(space.getConveyorBelt() instanceof ConveyorBelt) {
+        }else if(space.getConveyorBelt() instanceof ConveyorBelt) {
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
@@ -102,8 +99,7 @@ public class SpaceView extends StackPane implements ViewObserver {
                     } else {
                         this.setStyle("-fx-background-color: teal;");
                     }     
-                }
-                else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
+                } else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
                         this.setStyle("-fx-background-color: plum;");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
@@ -136,56 +132,41 @@ public class SpaceView extends StackPane implements ViewObserver {
                         this.setStyle("-fx-background-color: blue;");
                     } else {
                         this.setStyle("-fx-background-color: aqua;");
-                    } 
-                } else {
-                    this.setStyle("-fx-background-color: lime;");
-                }
-            }
+                    }
+        
         } else {
-            this.setId("space-view");
+            setId("space-view");
         }
-
-       // updatePlayer();
-
-        // This space view should listen to changes of the space
-        space.attach(this);
-        update(space);
     }
+}
 
-
-
-    //printer trekanten for en spiller
     private void updatePlayer() {
-        this.getChildren().clear();
+        // Clear only previous player icons, leave the background intact
+        this.getChildren().removeIf(child -> child instanceof Polygon);
 
         Player player = space.getPlayer();
-
         if (player != null) {
-            Polygon arrow = new Polygon(0.0, 0.0,
-                    10.0, 20.0,
-                    20.0, 0.0 );
-            try {
-                arrow.setFill(Color.valueOf(player.getColor()));
-            } catch (Exception e) {
-                arrow.setFill(Color.MEDIUMPURPLE);
-            }
-
-            arrow.setRotate((90*player.getHeading().ordinal())%360);
-            this.getChildren().add(arrow);
+            Polygon arrow = createPlayerIcon(player);
+            this.getChildren().add(arrow); // Add player icon last to ensure it is on top
         }
     }
 
+    private Polygon createPlayerIcon(Player player) {
+        Polygon arrow = new Polygon(0.0, 0.0, 10.0, 20.0, 20.0, 0.0);
+        try {
+            arrow.setFill(Color.valueOf(player.getColor()));
+        } catch (Exception e) {
+            arrow.setFill(Color.MEDIUMPURPLE); // Default color in case of an error
+        }
+        arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
+        return arrow;
+    }
 
-
-    
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             updatePlayer();
         }
     }
-
 }
-
-
-
+}
