@@ -40,6 +40,12 @@ public enum Heading {
     public Heading prev() {
         return values()[(this.ordinal() + values().length - 1) % values().length];
     }
+
+    /**
+     * @author Daniel
+     * @param opposite
+     *
+     */
     public Heading opposite() {
         return switch (this) {
             case NORTH -> SOUTH;

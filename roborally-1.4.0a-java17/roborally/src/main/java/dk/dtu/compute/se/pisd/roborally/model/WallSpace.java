@@ -5,6 +5,15 @@ public class WallSpace extends Space {
     private final Heading heading;
     private final boolean hasWall;
 
+    /**
+     * @author Daniel
+     *
+     * @param board
+     * @param x
+     * @param y
+     * @param heading
+     */
+
     public WallSpace(Board board, int x, int y, Heading heading) {
         super(board, x, y);
         this.heading = heading;

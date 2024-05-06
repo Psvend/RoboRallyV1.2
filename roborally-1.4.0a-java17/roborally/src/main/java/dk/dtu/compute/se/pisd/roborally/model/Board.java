@@ -286,6 +286,11 @@ public class Board extends Subject {
             
     }
 
+    /**
+     * @auhor Daniel
+     * @param initWallSpaces
+     */
+
     private void initWallSpaces() {
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
         spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
