@@ -3,6 +3,13 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Benjamin
+ * @param PlayerTemplate
+ * this class is a template for the player and to save the player in the json file.
+ */
+
+
 public class PlayerTemplate {
     public String name;
     public String color;

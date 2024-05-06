@@ -1,5 +1,11 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
+/**
+ * @author Benjamin
+ * @param WallsTemplate
+ * this class is a template for the walls and to save the walls in the json file.
+ */
+
 public class WallsTemplate {
     public int x;
     public int y;

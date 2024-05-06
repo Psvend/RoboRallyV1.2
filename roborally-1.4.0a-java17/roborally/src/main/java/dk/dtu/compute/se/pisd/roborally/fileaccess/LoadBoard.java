@@ -96,7 +96,12 @@ public class LoadBoard {
 		}
 		return null;
     }
-
+    /**
+     * @author Benjamin
+     * @param saveBoard
+     * the metode saveBoard is used to save the current board into a json files where players has choosen the name for that file,
+     * this is were all the class variblaes are saved into the template classes and then saved into the file.
+     */
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate();
         template.width = board.width;

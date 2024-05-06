@@ -1,5 +1,11 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
+/**
+ * @author Benjamin
+ * @param CheckPointSpaceTemplate
+ * this class is a template for the checkpoint space and to save the checkpoint space in the json file
+ */
+
 public class CheckPointSpaceTemplate {
     public int x;
     public int y;

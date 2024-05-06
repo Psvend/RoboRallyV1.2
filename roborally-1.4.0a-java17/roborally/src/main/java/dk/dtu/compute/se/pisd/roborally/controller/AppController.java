@@ -96,7 +96,11 @@ public class AppController implements Observer {
             roboRally.createBoardView(gameController);
         }
     }
-
+    /**
+     * @author Benjamin
+     * @param saveGame
+     * The method saveGame is used to save the current game. it opens a dialog where player can decide the name of the save file.
+     */
     public void saveGame() {
         // XXX needs to be implemented eventually
         TextInputDialog dialog = new TextInputDialog("default");

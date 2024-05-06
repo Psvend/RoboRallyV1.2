@@ -1,5 +1,11 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
+/**
+ * @author Benjamin
+ * @param GearSpaceTemplate
+ * this class is a template for the gear space and to save the gear space in the json file.
+ */
+
 public class GearSpaceTemplate {
     public int x;
     public int y;

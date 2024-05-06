@@ -29,10 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * @author Benjamin
+ * @param SpaceTemplate
+ * this class is a template for the space and to save the space in the json file.
  */
 public class SpaceTemplate {
 

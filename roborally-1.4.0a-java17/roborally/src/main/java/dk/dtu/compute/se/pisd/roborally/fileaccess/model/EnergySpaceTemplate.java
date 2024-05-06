@@ -1,5 +1,11 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
+/**
+ * @author Benjamin
+ * @param energySpaceTemplate
+ * this class is a template for the energy space and to save the energy space in the json file.
+ */
+
 public class EnergySpaceTemplate {
     public int x;
     public int y;

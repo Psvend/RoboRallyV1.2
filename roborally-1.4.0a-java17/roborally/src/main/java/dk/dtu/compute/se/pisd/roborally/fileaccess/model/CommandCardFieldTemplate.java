@@ -2,6 +2,12 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
 import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 
+/**
+ * @author Benjamin
+ * @param CommandCardFieldTemplate
+ * this class is a template for the command card field and to save the command card field in the json file
+ */
+
 public class CommandCardFieldTemplate {
 
     private boolean visible;

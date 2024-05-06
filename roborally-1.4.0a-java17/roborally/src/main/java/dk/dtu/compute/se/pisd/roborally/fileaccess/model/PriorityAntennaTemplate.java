@@ -1,5 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
+/**
+ * @author Benjamin
+ * @param PriorityAntennaTemplate
+ * this class is a template for the priority antenna and to save the priority antenna in the json file
+ */
+
+
 public class PriorityAntennaTemplate {
     int x;
     int y;

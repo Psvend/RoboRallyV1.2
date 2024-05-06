@@ -26,10 +26,9 @@ import java.util.List;
 
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * @author Benjamin
+ * @param BoardTemplate
+ * this class is used as a template for the board and to be saved in
  */
 public class BoardTemplate {
 
