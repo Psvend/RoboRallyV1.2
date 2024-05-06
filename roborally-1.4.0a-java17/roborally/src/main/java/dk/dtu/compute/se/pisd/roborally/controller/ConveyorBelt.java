@@ -63,6 +63,11 @@ public class ConveyorBelt extends FieldAction {
         this.beltType = beltType;
     }
   
+      /**
+   * @author Nikolaj
+   * @return String turnBelt
+   * gets turnBelt. Mainly used in Spaceview to define a situation, where a different png for the ConveyorBelt is needed. (if the belt turns onto another)
+   */
     public String getTurnBelt() {
       return turnBelt;
     }
