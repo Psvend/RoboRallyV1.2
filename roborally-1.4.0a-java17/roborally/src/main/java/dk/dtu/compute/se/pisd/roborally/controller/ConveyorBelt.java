@@ -44,7 +44,12 @@ public class ConveyorBelt extends FieldAction {
     public void setHeading(Heading heading) {
       this.heading = heading;
     }
-  
+
+    /**
+   * @author Nikolaj
+   * @return Int beltType
+   * gets beltType. beltType defines whether the player moves one or two spaces, if they're standing on a ConveyorBelt.
+   */
     public int getBeltType(){
       return beltType;
     }
