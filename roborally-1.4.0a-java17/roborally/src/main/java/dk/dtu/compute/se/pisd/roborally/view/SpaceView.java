@@ -99,17 +99,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         update(space);
     }
 
-    private void setupBackground() {
-        if (space instanceof EnergySpace) {
-            setId("energyspace-view");
-        } else if (space instanceof WallSpace) {
-            setId("wallspace-view");
-        } else if (space instanceof PriorityAntenna) {
-            setId("priorityantenna-view");
-        } else {
-            setId("space-view");
-        }
-    }
 
     private void updatePlayer() {
         // Clear only previous player icons, leave the background intact
