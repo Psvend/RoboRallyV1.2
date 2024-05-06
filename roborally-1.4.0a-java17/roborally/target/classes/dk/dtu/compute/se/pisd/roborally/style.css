@@ -21,6 +21,8 @@
 }
 
 
+
+
 #main-window {
     -fx-background-image: url('img/startpage.png');
     -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
