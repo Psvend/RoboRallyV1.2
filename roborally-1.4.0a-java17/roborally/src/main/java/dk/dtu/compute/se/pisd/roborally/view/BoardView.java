@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -104,11 +105,13 @@ public class BoardView extends VBox implements ViewObserver {
                         spaces[x][y] = null;
                     }
                 }
+
                 winnerLabel = new Label(board.getCurrentPlayer().getName() + " WINS!");
                 winnerBox =  new VBox(winnerLabel);
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);
                 mainBoardPane.getChildren().add(winnerLabel);
+                statusLabel.setText("CONTRATZ!");
                 this.setId("winner-view");
             }
         }

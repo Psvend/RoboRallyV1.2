@@ -21,7 +21,8 @@
 }
 
 #checkpoint-view {
-    -fx-background-color: orange;
+    -fx-background-image: url('img/checkpoint.png');
+    -fx-background-size: 100% 100%;
 }
 
 #main-window {
@@ -31,10 +32,14 @@
 }
 
 #winner-view {
-    -fx-background-color: yellow;
+    -fx-background-color: lightgray;
     -fx-background-size:100% 100%;
     -fx-min-height:400px;
     -fx-min-width:400px;
+    -fx-padding: 20px;
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-font-size: 40;
 }
 
 
