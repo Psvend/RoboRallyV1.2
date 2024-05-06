@@ -83,8 +83,10 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             this.setId("wallspace-view");
-        }else if(space instanceof PriorityAntenna){
+        } else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
+        } else if (space instanceof CheckpointSpace) {
+            this.setId("checkpoint-view");
         } else {
             this.setId("space-view");
         }
@@ -92,18 +94,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
-    }
-
-    private void setupBackground() {
-        if (space instanceof EnergySpace) {
-            setId("energyspace-view");
-        } else if (space instanceof WallSpace) {
-            setId("wallspace-view");
-        } else if (space instanceof PriorityAntenna) {
-            setId("priorityantenna-view");
-        } else {
-            setId("space-view");
-        }
     }
 
     private void updatePlayer() {
