@@ -23,6 +23,7 @@ public class Activator {
         this.board = board;
         this.gameController = gameController;
         activateConveyorBelts();
+        activateGearSpaces();
     }
 
     private void activateConveyorBelts(){
@@ -32,4 +33,9 @@ public class Activator {
 
         }
     }
+
+    private void activateGearSpaces(){
+        gameController.activateGearSpaces();
+    }
+
 }

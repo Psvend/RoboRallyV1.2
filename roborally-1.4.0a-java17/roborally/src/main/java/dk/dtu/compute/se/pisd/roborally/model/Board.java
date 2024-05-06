@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
@@ -94,6 +95,7 @@ public class Board extends Subject {
         initPriorityAntenna();
         initWallSpaces();  
         initBelt(); //nikolaj
+        initGear();
         this.stepMode = false;
     }
 
@@ -352,7 +354,16 @@ public class Board extends Subject {
         spaces[4][5].getConveyorBelt().setTurnBelt("LEFT");
     }
 
+    private void initGear() {
+        GearSpace gearSpace1 = new GearSpace();
+        GearSpace gearSpace2 = new GearSpace();
 
+        spaces[7][0].setGearSpace(gearSpace1);
+        spaces[7][6].setGearSpace(gearSpace2);
+
+        gearSpace1.setGearType("LEFT");
+        gearSpace2.setGearType("RIGHT");
+    }
 }
     
 

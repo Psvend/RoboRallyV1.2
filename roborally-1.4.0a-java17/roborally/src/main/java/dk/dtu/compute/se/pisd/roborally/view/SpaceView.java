@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -92,7 +93,14 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("wallspace-view");
         }else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
-        }else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
+        }else if (space.getGearSpace() instanceof GearSpace){
+            if(space.getGearSpace().getGearType().equals("LEFT")){
+                this.setStyle("-fx-background-color: crimson;");
+            } else if(space.getGearSpace().getGearType().equals("RIGHT")){
+                this.setStyle("-fx-background-color: chocolate;");
+            }
+        } 
+        else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {

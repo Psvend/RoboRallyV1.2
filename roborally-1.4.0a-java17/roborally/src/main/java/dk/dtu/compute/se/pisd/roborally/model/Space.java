@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ import java.util.List;
  */
 public class Space extends Subject {
     private ConveyorBelt ConveyorBelt;
+    private GearSpace gearSpace;
+
 
     private Player player;
 
@@ -96,8 +99,23 @@ public class Space extends Subject {
     public void setConveyorBelt(ConveyorBelt conveyorBelt) {
         this.ConveyorBelt = conveyorBelt;
     }
-    
+   
+    public GearSpace getGearSpace(){
+        return gearSpace;
+    }
 
+    public void setGearSpace(GearSpace gearSpace) {
+        this.gearSpace = gearSpace;
+    }
+
+
+     /**
+     * @author Benjamin
+     * @return Boolean
+     */
+    public boolean isFree(){
+        return player==null;
+        }
 
 
 
