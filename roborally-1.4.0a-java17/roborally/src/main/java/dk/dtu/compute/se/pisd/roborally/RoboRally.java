@@ -31,6 +31,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 
 //Det er det meste layout er defineret da det er her Stage og Pane defineres 
 
@@ -102,22 +104,7 @@ public class RoboRally extends Application {
 
         stage.sizeToScene();
     }
-    public void createLoadBoardView(GameController gameController) {
-        // if present, remove old BoardView
-        boardRoot.getChildren().clear();
 
-
-        if (gameController != null) {
-            // create and add view for new board
-            BoardView boardView = new BoardView(gameController);
-            boardRoot.setCenter(boardView);
-            boardRoot.setId("board-view");
-
-
-        }
-
-        stage.sizeToScene();
-    }
     @Override
     public void stop() throws Exception {
         super.stop();

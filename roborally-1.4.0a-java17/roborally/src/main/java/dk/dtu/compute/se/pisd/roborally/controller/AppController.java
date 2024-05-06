@@ -144,7 +144,7 @@ public class AppController implements Observer {
                     loadedBoard.getPlayerNumber(player);
                 }
                 gameController = new GameController(loadedBoard);
-                roboRally.createLoadBoardView(gameController);
+
             } else {
                 // Handle the case when the board could not be loaded
                 // This could be showing an error message to the user
