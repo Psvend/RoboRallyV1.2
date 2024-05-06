@@ -174,21 +174,6 @@ public void updateView(Subject subject) {
 
 
 
-
-
-    /* THE OLD GIVEN VERSION, DONT DELETE BEFORE WE ARE SURE THE NEW ONE WORKS
-    @Override
-    public void updateView(Subject subject) {
-        if (subject == field && subject != null) {
-            CommandCard card = field.getCard();
-            if (card != null && field.isVisible()) {
-                label.setText(card.getName());
-            } else {
-                label.setText("");
-            }
-        }
-    }
-*/
     private class OnDragDetectedHandler implements EventHandler<MouseEvent> {
 
         @Override

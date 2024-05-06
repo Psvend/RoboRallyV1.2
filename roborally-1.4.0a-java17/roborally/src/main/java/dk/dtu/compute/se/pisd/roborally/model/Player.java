@@ -138,10 +138,21 @@ public class Player extends Subject {
         return cards[i];
     }
 
+
+    /**
+     * @author Petrine
+     * @return the energy reserve of a player
+     */
     public int getEnergyReserve() {
         return this.energyReserve;
     }    
 
+
+
+     /**
+     * @author Petrine
+     * @return the set energy reserve of a player
+     */
     public void setEnergyReserve(Integer i) {
         this.energyReserve = i;
     }

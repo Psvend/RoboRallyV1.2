@@ -118,7 +118,6 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         //button to show players energy status
-        //ÆNDRET AF LOUISE
         reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
     
@@ -164,6 +163,8 @@ public class PlayerView extends Tab implements ViewObserver {
         }
     }
 
+
+    
     public void updateEnergyReserveLabel(int newReserve) {
         reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
     }

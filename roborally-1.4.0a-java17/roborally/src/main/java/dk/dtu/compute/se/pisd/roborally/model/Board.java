@@ -94,7 +94,7 @@ public class Board extends Subject {
         initEnergySpaces();
         initPriorityAntenna();
         initWallSpaces();  
-        initBelt(); //nikolaj
+        initBelt(); 
         initGear();
         initCheckpointSpaces();
         this.stepMode = false;
@@ -261,7 +261,11 @@ public class Board extends Subject {
 
 
 
-
+    /**
+     * @author Petrine
+     * @param getEnergyBank()
+     * allows a energybank to work
+     */
     public EnergyBank getEnergyBank() {
         return energyBank;
     }
@@ -269,9 +273,9 @@ public class Board extends Subject {
 
     /**
      * @author Petrine
+     * @param initEnergySpaces
      *
-     *
-     * Here are the four energy spaces defined. The functionalities can 
+     * The four energy spaces defined and seen on the board. The functionalities can 
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {

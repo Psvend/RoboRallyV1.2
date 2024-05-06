@@ -43,9 +43,7 @@ public class EnergyBank{
     }
 
 
-    //MULIGVIS SLET?
     public void attach(EnergyBank energyBankView) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'attach'");
     }
 

@@ -48,7 +48,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 
 
-//nikolaj
+
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -60,8 +60,6 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-
-
 
 public class SpaceView extends StackPane implements ViewObserver {
 
@@ -87,7 +85,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
 
         
-        //Hvis et space er et EnergySpace
+        //updated by Petrine for each different type of space accounted
         if(space instanceof EnergySpace) {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {

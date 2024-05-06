@@ -369,7 +369,6 @@ public class GameController {
      * a cube gets added to it. 
      * 
      */
-    // ÆNDRET AF LOUISE og ÆNNDRET TIL VOID - FLYTTET FRA PLAYER
     public void addEnergyCube(Player player, EnergyBank energyBank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
         Integer playerBank = player.getEnergyReserve();
         energyBank = board.getEnergyBank();
@@ -434,13 +433,7 @@ public class GameController {
             isPlayerOnCheckpointSpace(player);
 
         }
-        // LOOP MADE BY LOUISE FOR TESTING
-        // Integer j = board.getPlayersNumber();
-        // for (int i = 0; i < j; i++ )  {
-        //     System.out.println(board.getPlayer(i));
-        //     System.out.println("Player" + i + " Har nu i reserven " + board.getPlayer(i).getEnergyReserve());
-        //     System.out.println("BANKEN HAR " + energyBank.getBankStatus());
-        // }
+        
     }
 
 
