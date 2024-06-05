@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class Space extends Subject {
     
     private ConveyorBelt ConveyorBelt;
     private GearSpace gearSpace;
+    private PushPanel pushPanel;
     private Player player;
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
@@ -122,6 +124,10 @@ public class Space extends Subject {
      */
     public void setGearSpace(GearSpace gearSpace) {
         this.gearSpace = gearSpace;
+    }
+
+    public PushPanels getPush(){
+        return PushPanels
     }
 
 
