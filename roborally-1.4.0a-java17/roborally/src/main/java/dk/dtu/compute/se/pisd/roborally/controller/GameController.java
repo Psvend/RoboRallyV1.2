@@ -873,6 +873,11 @@ public class GameController {
                                 default:
                                     throw new ImpossibleMoveException(player, space, heading);
                             }
+                            if (target == null) {
+                                return;
+                            } if(target.getPlayer()==null) {
+                                player.setSpace(target);
+                            }
                         } else {}
                     }
                 } else {}
