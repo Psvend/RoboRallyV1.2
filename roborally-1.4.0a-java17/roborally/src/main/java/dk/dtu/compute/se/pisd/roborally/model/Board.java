@@ -410,6 +410,8 @@ public class Board extends Subject {
 
         pushPanel1.setHeading(NORTH);
         pushPanel2.setHeading(WEST);
+        
+        pushPanel1.setRegisters(pushRegisters[2]);
     }
 }
     

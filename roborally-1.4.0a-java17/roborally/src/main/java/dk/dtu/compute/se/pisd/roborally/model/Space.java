@@ -126,7 +126,7 @@ public class Space extends Subject {
         this.gearSpace = gearSpace;
     }
 
-    public PushPanel getPush(){
+    public PushPanel getPushPanel(){
         return pushPanel;
     }
 
