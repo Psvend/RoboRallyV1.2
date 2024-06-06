@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
@@ -52,6 +53,7 @@ import javafx.scene.layout.BackgroundSize;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 
 
 /**
@@ -100,8 +102,17 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
         } else if(space instanceof CheckpointSpace) {
             this.setId("checkpoint-view");
-        }
-        else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
+        } else if(space.getPushPanel() instanceof PushPanel){
+            if(space.getPushPanel().getHeading() == WEST){
+                this.setStyle("-fx-background-color: bisque;");    
+            } else if (space.getPushPanel().getHeading() == EAST) {
+                this.setStyle("-fx-background-color: fuchsia;");    
+            } else if (space.getPushPanel().getHeading() == SOUTH) {
+                this.setStyle("-fx-background-color: gold;");    
+            } else if(space.getPushPanel().getHeading() == NORTH){
+                this.setStyle("-fx-background-color: plum;");    
+            }
+        } else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
