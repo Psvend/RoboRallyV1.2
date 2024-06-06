@@ -404,6 +404,8 @@ public class Board extends Subject {
     private void initPanels() {
         PushPanel pushPanel1 = new PushPanel();
         PushPanel pushPanel2 = new PushPanel();
+        int [] pushRegister1 = {1,3,5};
+        int [] pushRegister2 = {2, 4};
 
         spaces[6][7].setPushPanel(pushPanel1);
         spaces[7][5].setPushPanel(pushPanel2);
@@ -411,7 +413,8 @@ public class Board extends Subject {
         pushPanel1.setHeading(NORTH);
         pushPanel2.setHeading(WEST);
         
-        pushPanel1.setRegisters(pushRegisters[2]);
+        pushPanel1.setRegisters(pushRegister1);
+        pushPanel2.setRegisters(pushRegister2);;
     }
 }
     
