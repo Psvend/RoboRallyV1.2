@@ -25,6 +25,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
@@ -94,6 +95,7 @@ public class Board extends Subject {
         initBelt(); 
         initGear();
         initCheckpointSpaces();
+        initPanels();
         this.stepMode = false;
     }
 
@@ -397,6 +399,17 @@ public class Board extends Subject {
      */
      private void initCheckpointSpaces () {
         spaces[6][6] = new CheckpointSpace(this, 6, 6);
+    }
+
+    private void initPanels() {
+        PushPanel pushPanel1 = new PushPanel();
+        PushPanel pushPanel2 = new PushPanel();
+
+        spaces[6][7].setPushPanel(pushPanel1);
+        spaces[7][5].setPushPanel(pushPanel2);
+
+        pushPanel1.setHeading(NORTH);
+        pushPanel2.setHeading(WEST);
     }
 }
     
