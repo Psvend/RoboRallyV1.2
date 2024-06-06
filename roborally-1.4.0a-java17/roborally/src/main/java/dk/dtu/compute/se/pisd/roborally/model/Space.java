@@ -25,7 +25,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
-import dk.dtu.compute.se.pisd.roborally.controller.PushPanels;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,10 +126,13 @@ public class Space extends Subject {
         this.gearSpace = gearSpace;
     }
 
-    public PushPanels getPush(){
-        return PushPanels
+    public PushPanel getPush(){
+        return pushPanel;
     }
 
+    public void setPushPanel(PushPanel pushPanel){
+        this.pushPanel = pushPanel;
+    }
 
      /**
      * @author Benjamin
