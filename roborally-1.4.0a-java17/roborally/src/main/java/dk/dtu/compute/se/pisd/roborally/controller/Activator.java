@@ -55,7 +55,11 @@ public class Activator {
     }
 
     private void activatePushPanels(){
-        gameController.activatePushPanels();
+        try {
+            gameController.activatePushPanels();
+        } catch (ImpossibleMoveException e) {
+
+        }
     }
 
 }

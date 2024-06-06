@@ -846,16 +846,34 @@ public class GameController {
         }
     }
 
-    public void activatePushPanels(){
+    public void activatePushPanels() throws ImpossibleMoveException{
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
             if(space != null) {
                 if(space.getPushPanel() != null){
-                    if(space.getGearSpace().getGearType().equals("LEFT")){
-                        turnLeft(player);
-                    } else if(space.getGearSpace().getGearType().equals("RIGHT")){
-                        turnRight(player);
+                    int [] currentRegisters = space.getPushPanel().getRegisters();
+                    for (int c = 0; c <= currentRegisters.length -1; c++){
+                        if (board.getStep() == currentRegisters[c]){
+                            Heading heading = space.getPushPanel().getHeading();
+                            Space target = null;
+                            switch (heading) {
+                                case EAST:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case NORTH:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case SOUTH:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case WEST:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                default:
+                                    throw new ImpossibleMoveException(player, space, heading);
+                            }
+                        } else {}
                     }
                 } else {}
             }
