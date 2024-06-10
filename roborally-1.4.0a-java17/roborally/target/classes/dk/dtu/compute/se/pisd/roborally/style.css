@@ -154,6 +154,21 @@
     -fx-background-size: 100% 100%;    
 }
 
+#pushEvenEAST {
+    -fx-background-image: url('img/push24EAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenNORTH {
+    -fx-background-image: url('img/push24NORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEven {
+    -fx-background-image: url('img/push24EAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
 #main-window {
     -fx-background-image: url('img/startpage.png');
     -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
