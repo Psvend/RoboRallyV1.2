@@ -92,13 +92,29 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("checkpoint-view");
         } else if(space.getPushPanel() instanceof PushPanel){
             if(space.getPushPanel().getHeading() == WEST){
-                this.setStyle("-fx-background-color: bisque;");    
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenNORTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenNORTH");
+                }   
             } else if (space.getPushPanel().getHeading() == EAST) {
-                this.setStyle("-fx-background-color: fuchsia;");    
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenNORTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenNORTH");
+                }     
             } else if (space.getPushPanel().getHeading() == SOUTH) {
-                this.setStyle("-fx-background-color: gold;");    
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenNORTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenNORTH");
+                }      
             } else if(space.getPushPanel().getHeading() == NORTH){
-                this.setStyle("-fx-background-color: plum;");    
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenNORTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenNORTH");
+                }     
             }
         } else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
             if(space.getConveyorBelt().getBeltType()==1){

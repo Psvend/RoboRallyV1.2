@@ -164,8 +164,33 @@
     -fx-background-size: 100% 100%;    
 }
 
-#pushEven {
-    -fx-background-image: url('img/push24EAST.png');
+#pushEvenSOUTH {
+    -fx-background-image: url('img/push24SOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenWEST {
+    -fx-background-image: url('img/push24WEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenEAST {
+    -fx-background-image: url('img/push135EAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenNORTH {
+    -fx-background-image: url('img/push135NORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenSOUTH {
+    -fx-background-image: url('img/push135SOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenWEST {
+    -fx-background-image: url('img/push135WEST.png');
     -fx-background-size: 100% 100%;    
 }
 
