@@ -24,7 +24,6 @@ public class PushPanel extends FieldAction{
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doAction'");
     }
 

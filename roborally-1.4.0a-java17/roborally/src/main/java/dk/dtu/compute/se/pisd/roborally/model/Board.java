@@ -219,10 +219,6 @@ public class Board extends Subject {
         if (space.getWalls().contains(heading)) {
             return null;
         }
-        // TODO needs to be implemented based on the actual spaces
-        //      and obstacles and walls placed there. For now it,
-        //      just calculates the next space in the respective
-        //      direction in a cyclic way.
 
         int x = space.x;
         int y = space.y;

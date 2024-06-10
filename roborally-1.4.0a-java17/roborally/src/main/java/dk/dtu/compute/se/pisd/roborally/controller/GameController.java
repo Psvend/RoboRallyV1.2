@@ -188,7 +188,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
@@ -200,7 +199,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
     public void turnRight(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.next());
@@ -211,8 +209,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
-
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.prev());
@@ -252,8 +248,6 @@ public class GameController {
      * @param player,command
      * @return none
      */
-
-    // TODO Assignment A3
     public void leftOrRight(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             executeCommand(player, command);
@@ -651,7 +645,6 @@ public class GameController {
      * @return playersTurn
      */
 
-    // TODO Assignment A3
     public ArrayList<Player> determiningPriority(){
         ArrayList<Player> playersTurn = new ArrayList<>();
         HashMap<Player, Integer> playerDistances = new HashMap<>();
@@ -683,8 +676,6 @@ public class GameController {
   * @param player
   * @return distance
 */
-
-    // TODO Assignment A3
     public int distanceToPriorityAntenna(@NotNull Player player){
         int spaceX = player.getSpace().x;
         int spaceY = player.getSpace().y;
