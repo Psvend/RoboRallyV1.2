@@ -23,14 +23,9 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
-import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
-import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,7 +37,6 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
-import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
  * ...
@@ -62,10 +56,6 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
     
-    private List<FieldAction> actions = new ArrayList<>();
-
-    private List<ConveyorBelt> belts = new ArrayList<>();
-
     private Player current;
 
     private Phase phase = INITIALISATION;
