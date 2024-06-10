@@ -93,21 +93,21 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else if(space.getPushPanel() instanceof PushPanel){
             if(space.getPushPanel().getHeading() == WEST){
                 if(space.getPushPanel().getRegisters().length == 3){
-                    this.setId("pushUnevenNORTH");
+                    this.setId("pushUnevenWEST");
                 } else if(space.getPushPanel().getRegisters().length == 2) {
-                    this.setId("pushEvenNORTH");
+                    this.setId("pushEvenWEST");
                 }   
             } else if (space.getPushPanel().getHeading() == EAST) {
                 if(space.getPushPanel().getRegisters().length == 3){
-                    this.setId("pushUnevenNORTH");
+                    this.setId("pushUnevenEAST");
                 } else if(space.getPushPanel().getRegisters().length == 2) {
-                    this.setId("pushEvenNORTH");
+                    this.setId("pushEvenEAST");
                 }     
             } else if (space.getPushPanel().getHeading() == SOUTH) {
                 if(space.getPushPanel().getRegisters().length == 3){
-                    this.setId("pushUnevenNORTH");
+                    this.setId("pushUnevenSOUTH");
                 } else if(space.getPushPanel().getRegisters().length == 2) {
-                    this.setId("pushEvenNORTH");
+                    this.setId("pushEvenSOUTH");
                 }      
             } else if(space.getPushPanel().getHeading() == NORTH){
                 if(space.getPushPanel().getRegisters().length == 3){
