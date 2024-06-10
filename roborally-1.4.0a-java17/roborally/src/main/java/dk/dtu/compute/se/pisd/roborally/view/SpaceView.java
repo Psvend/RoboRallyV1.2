@@ -128,26 +128,34 @@ public class SpaceView extends StackPane implements ViewObserver {
             } else if (space.getConveyorBelt().getBeltType()==2){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setId("")
+                        this.setId("blueTurnLeftNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: red;");
+                        this.setId("blueTurnLeftSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: pink;");
+                        this.setId("blueTurnLeftEAST");
                     } else {
-                        this.setStyle("-fx-background-color: olive;");
+                        this.setId("blueTurnLeftWEST");
                     } 
                 } else if (space.getConveyorBelt().getTurnBelt().equals("RIGHT")) {
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: coral;");
+                        this.setId("blueTurnRightNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: magenta;");
+                        this.setId("blueTurnRightSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: blue;");
+                        this.setId("blueTurnRightEAST");
                     } else {
-                        this.setStyle("-fx-background-color: aqua;");
+                        this.setId("blueTurnRightWEST");
                     }
                 } else {
-                    this.setStyle("-fx-background-color: lime;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)){
+                        this.setId("blueNORTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setId("blueSOUTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setId("blueEAST");
+                    } else if(space.getConveyorBelt().getHeading().equals(WEST)){
+                        this.setId("blueWEST");
+                    }
                 }
             }    
         } else {
