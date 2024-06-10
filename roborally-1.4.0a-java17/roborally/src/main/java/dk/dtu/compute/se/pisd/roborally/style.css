@@ -34,6 +34,66 @@
     -fx-background-size: 100% 100%;
 }
 
+#blueEAST {
+    -fx-background-image: url('img/blueEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueNORTH {
+    -fx-background-image: url('img/blueNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueSOUTH {
+    -fx-background-image: url('img/blueSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueWEST {
+    -fx-background-image: url('img/blueEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftEAST {
+    -fx-background-image: url('img/blueTurnLeftEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftNORTH {
+    -fx-background-image: url('img/blueTurnLeftNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftSOUTH {
+    -fx-background-image: url('img/blueTurnLeftSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftWEST {
+    -fx-background-image: url('img/blueTurnLeftWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightEAST {
+    -fx-background-image: url('img/blueTurnRightEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightNORTH {
+    -fx-background-image: url('img/blueTurnRightNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightSOUTH {
+    -fx-background-image: url('img/blueTurnRightSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightWEST {
+    -fx-background-image: url('img/blueTurnRightWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
 #main-window {
     -fx-background-image: url('img/startpage.png');
     -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
