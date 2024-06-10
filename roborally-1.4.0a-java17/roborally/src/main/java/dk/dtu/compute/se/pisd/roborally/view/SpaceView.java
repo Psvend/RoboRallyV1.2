@@ -104,26 +104,34 @@ public class SpaceView extends StackPane implements ViewObserver {
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: maroon;");
+                        this.setId("greenTurnLeftNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: green;");
+                        this.setId("greenTurnLeftSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: yellow;");
+                        this.setId("greenTurnLeftEAST");
                     } else {
-                        this.setStyle("-fx-background-color: teal;");
+                        this.setId("greenTurnLeftWEST");
                     }     
                 } else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: plum;");
+                        this.setId("greenTurnRightNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: turquoise;");
+                        this.setId("greenTurnRightSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: violet;");
+                        this.setId("greenTurnRightEAST");
                     } else {
-                        this.setStyle("-fx-background-color: tan;");
+                        this.setId("greenTurnRightWEST");
                     } 
                 } else {
-                    this.setStyle("-fx-background-color: cyan;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)){
+                        this.setId("greenNORTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setId("greenSOUTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setId("greenEAST");
+                    } else if(space.getConveyorBelt().getHeading().equals(WEST)){
+                        this.setId("greenWEST");
+                    }
                 }
             } else if (space.getConveyorBelt().getBeltType()==2){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
