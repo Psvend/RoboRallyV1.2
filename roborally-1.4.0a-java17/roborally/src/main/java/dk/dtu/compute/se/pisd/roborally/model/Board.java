@@ -287,9 +287,10 @@ public class Board extends Subject {
      */
 
     private void initWallSpaces() {
+        spaces[0][1] = new WallSpace(this, 2, 3, Heading.NORTH);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
-        spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
-        spaces[7][7] = new WallSpace(this, 7, 7, Heading.SOUTH);
+        spaces[5][6] = new WallSpace(this, 5, 6, Heading.EAST);
+        spaces[7][7] = new WallSpace(this, 7, 7, Heading.WEST);
     }
 
 

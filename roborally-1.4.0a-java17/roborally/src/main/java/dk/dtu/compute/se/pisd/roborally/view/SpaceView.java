@@ -80,7 +80,15 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             WallSpace wallSpace = (WallSpace) space;
-            this.setId("wallspace-view");
+            if(wallSpace.getHeading().equals(NORTH)){
+                this.setId("wallspaceNORTH");
+            } else if(wallSpace.getHeading().equals(SOUTH)){
+                this.setId("wallspaceSOUTH");
+            } else if(wallSpace.getHeading().equals(EAST)){
+                this.setId("wallspaceEAST");
+            } else if(wallSpace.getHeading().equals(WEST)){
+                this.setId("wallspaceWEST");
+            }
         }else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
         }else if (space.getGearSpace() instanceof GearSpace){
