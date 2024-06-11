@@ -24,34 +24,24 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 
 
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 
 
 /**
@@ -89,7 +79,16 @@ public class SpaceView extends StackPane implements ViewObserver {
         if(space instanceof EnergySpace) {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
-            this.setId("wallspace-view");
+            WallSpace wallSpace = (WallSpace) space;
+            if(wallSpace.getHeading().equals(NORTH)){
+                this.setId("wallspaceNORTH");
+            } else if(wallSpace.getHeading().equals(SOUTH)){
+                this.setId("wallspaceSOUTH");
+            } else if(wallSpace.getHeading().equals(EAST)){
+                this.setId("wallspaceEAST");
+            } else if(wallSpace.getHeading().equals(WEST)){
+                this.setId("wallspaceWEST");
+            }
         }else if(space instanceof PriorityAntenna){
             this.setId("priorityantenna-view");
         }else if (space.getGearSpace() instanceof GearSpace){
@@ -100,55 +99,96 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
         } else if(space instanceof CheckpointSpace) {
             this.setId("checkpoint-view");
-        }
-        else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
+        } else if(space.getPushPanel() instanceof PushPanel){
+            if(space.getPushPanel().getHeading() == WEST){
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenWEST");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenWEST");
+                }   
+            } else if (space.getPushPanel().getHeading() == EAST) {
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenEAST");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenEAST");
+                }     
+            } else if (space.getPushPanel().getHeading() == SOUTH) {
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenSOUTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenSOUTH");
+                }      
+            } else if(space.getPushPanel().getHeading() == NORTH){
+                if(space.getPushPanel().getRegisters().length == 3){
+                    this.setId("pushUnevenNORTH");
+                } else if(space.getPushPanel().getRegisters().length == 2) {
+                    this.setId("pushEvenNORTH");
+                }     
+            }
+        } else if(space.getConveyorBelt() instanceof ConveyorBelt) {   //nikolaj
             if(space.getConveyorBelt().getBeltType()==1){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: maroon;");
+                        this.setId("greenTurnLeftNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: green;");
+                        this.setId("greenTurnLeftSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: yellow;");
+                        this.setId("greenTurnLeftEAST");
                     } else {
-                        this.setStyle("-fx-background-color: teal;");
+                        this.setId("greenTurnLeftWEST");
                     }     
                 } else if(space.getConveyorBelt().getTurnBelt().equals("RIGHT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: plum;");
+                        this.setId("greenTurnRightNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: turquoise;");
+                        this.setId("greenTurnRightSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: violet;");
+                        this.setId("greenTurnRightEAST");
                     } else {
-                        this.setStyle("-fx-background-color: tan;");
+                        this.setId("greenTurnRightWEST");
                     } 
                 } else {
-                    this.setStyle("-fx-background-color: cyan;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)){
+                        this.setId("greenNORTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setId("greenSOUTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setId("greenEAST");
+                    } else if(space.getConveyorBelt().getHeading().equals(WEST)){
+                        this.setId("greenWEST");
+                    }
                 }
             } else if (space.getConveyorBelt().getBeltType()==2){
                 if(space.getConveyorBelt().getTurnBelt().equals("LEFT")){
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: sienna;");
+                        this.setId("blueTurnLeftNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: red;");
+                        this.setId("blueTurnLeftSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: pink;");
+                        this.setId("blueTurnLeftEAST");
                     } else {
-                        this.setStyle("-fx-background-color: olive;");
+                        this.setId("blueTurnLeftWEST");
                     } 
                 } else if (space.getConveyorBelt().getTurnBelt().equals("RIGHT")) {
                     if(space.getConveyorBelt().getHeading().equals(NORTH)) {
-                        this.setStyle("-fx-background-color: coral;");
+                        this.setId("blueTurnRightNORTH");
                     } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
-                        this.setStyle("-fx-background-color: magenta;");
+                        this.setId("blueTurnRightSOUTH");
                     } else if(space.getConveyorBelt().getHeading().equals(EAST)){
-                        this.setStyle("-fx-background-color: blue;");
+                        this.setId("blueTurnRightEAST");
                     } else {
-                        this.setStyle("-fx-background-color: aqua;");
+                        this.setId("blueTurnRightWEST");
                     }
                 } else {
-                    this.setStyle("-fx-background-color: lime;");
+                    if(space.getConveyorBelt().getHeading().equals(NORTH)){
+                        this.setId("blueNORTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(SOUTH)){
+                        this.setId("blueSOUTH");
+                    } else if(space.getConveyorBelt().getHeading().equals(EAST)){
+                        this.setId("blueEAST");
+                    } else if(space.getConveyorBelt().getHeading().equals(WEST)){
+                        this.setId("blueWEST");
+                    }
                 }
             }    
         } else {

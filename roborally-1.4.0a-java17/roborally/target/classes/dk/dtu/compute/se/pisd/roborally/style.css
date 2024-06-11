@@ -1,7 +1,7 @@
 
 #space-view {
-    -fx-background-color: lightgray;
-    -fx-effect: innershadow(gaussian, gray, 10, 0, 0, 0);
+    -fx-background-image: url('img/empty.png');
+    -fx-background-size: 100% 100%;
 }
 
 #energyspace-view {
@@ -14,8 +14,23 @@
     -fx-background-size: 100% 100%;
 }
 
-#wallspace-view {
-    -fx-background-image: url('img/wall1.png');
+#wallspaceWEST {
+    -fx-background-image: url('img/wallspace2.png');
+    -fx-background-size: 100% 100%;
+}
+
+#wallspaceEAST {
+    -fx-background-image: url('img/wallspace4.png');
+    -fx-background-size: 100% 100%;
+}
+
+#wallspace-SOUTH {
+    -fx-background-image: url('img/wallspace1.png');
+    -fx-background-size: 100% 100%;
+}
+
+#wallspaceNORTH {
+    -fx-background-image: url('img/wallspace3.png');
     -fx-background-size: 100% 100%;
 }
 
@@ -32,6 +47,166 @@
 #checkpoint-view {
     -fx-background-image: url('img/checkpoint.png');
     -fx-background-size: 100% 100%;
+}
+
+#blueEAST {
+    -fx-background-image: url('img/blueEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueNORTH {
+    -fx-background-image: url('img/blueNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueSOUTH {
+    -fx-background-image: url('img/blueSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueWEST {
+    -fx-background-image: url('img/blueWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftEAST {
+    -fx-background-image: url('img/blueTurnLeftEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftNORTH {
+    -fx-background-image: url('img/blueTurnLeftNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftSOUTH {
+    -fx-background-image: url('img/blueTurnLeftSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnLeftWEST {
+    -fx-background-image: url('img/blueTurnLeftWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightEAST {
+    -fx-background-image: url('img/blueTurnRightEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightNORTH {
+    -fx-background-image: url('img/blueTurnRightNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightSOUTH {
+    -fx-background-image: url('img/blueTurnRightSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#blueTurnRightWEST {
+    -fx-background-image: url('img/blueTurnRightWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenEAST {
+    -fx-background-image: url('img/greenEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenNORTH {
+    -fx-background-image: url('img/greenNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenSOUTH {
+    -fx-background-image: url('img/greenSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenWEST {
+    -fx-background-image: url('img/greenWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnLeftEAST {
+    -fx-background-image: url('img/greenTurnLeftEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnLeftNORTH {
+    -fx-background-image: url('img/greenTurnLeftNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnLeftSOUTH {
+    -fx-background-image: url('img/greenTurnLeftSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnLeftWEST {
+    -fx-background-image: url('img/greenTurnLeftWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnRightEAST {
+    -fx-background-image: url('img/greenTurnRightEAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnRightNORTH {
+    -fx-background-image: url('img/greenTurnRightNORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnRightSOUTH {
+    -fx-background-image: url('img/greenTurnRightSOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#greenTurnRightWEST {
+    -fx-background-image: url('img/greenTurnRightWEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenEAST {
+    -fx-background-image: url('img/push24EAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenNORTH {
+    -fx-background-image: url('img/push24NORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenSOUTH {
+    -fx-background-image: url('img/push24SOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushEvenWEST {
+    -fx-background-image: url('img/push24WEST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenEAST {
+    -fx-background-image: url('img/push135EAST.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenNORTH {
+    -fx-background-image: url('img/push135NORTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenSOUTH {
+    -fx-background-image: url('img/push135SOUTH.png');
+    -fx-background-size: 100% 100%;    
+}
+
+#pushUnevenWEST {
+    -fx-background-image: url('img/push135WEST.png');
+    -fx-background-size: 100% 100%;    
 }
 
 #main-window {

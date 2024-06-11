@@ -23,13 +23,9 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
-import dk.dtu.compute.se.pisd.roborally.model.EnergyBank;
-import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
-import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
+import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +37,6 @@ import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
-import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
 
 /**
  * ...
@@ -61,10 +56,6 @@ public class Board extends Subject {
 
     private final List<Player> players = new ArrayList<>();
     
-    private List<FieldAction> actions = new ArrayList<>();
-
-    private List<ConveyorBelt> belts = new ArrayList<>();
-
     private Player current;
 
     private Phase phase = INITIALISATION;
@@ -94,6 +85,7 @@ public class Board extends Subject {
         initBelt(); 
         initGear();
         initCheckpointSpaces();
+        initPanels();
         this.stepMode = false;
     }
 
@@ -227,10 +219,6 @@ public class Board extends Subject {
         if (space.getWalls().contains(heading)) {
             return null;
         }
-        // TODO needs to be implemented based on the actual spaces
-        //      and obstacles and walls placed there. For now it,
-        //      just calculates the next space in the respective
-        //      direction in a cyclic way.
 
         int x = space.x;
         int y = space.y;
@@ -299,9 +287,10 @@ public class Board extends Subject {
      */
 
     private void initWallSpaces() {
+        spaces[0][1] = new WallSpace(this, 2, 3, Heading.NORTH);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
-        spaces[5][6] = new WallSpace(this, 5, 6, Heading.SOUTH);
-        spaces[7][7] = new WallSpace(this, 7, 7, Heading.SOUTH);
+        spaces[5][6] = new WallSpace(this, 5, 6, Heading.EAST);
+        spaces[7][7] = new WallSpace(this, 7, 7, Heading.WEST);
     }
 
 
@@ -397,6 +386,22 @@ public class Board extends Subject {
      */
      private void initCheckpointSpaces () {
         spaces[6][6] = new CheckpointSpace(this, 6, 6);
+    }
+
+    private void initPanels() {
+        PushPanel pushPanel1 = new PushPanel();
+        PushPanel pushPanel2 = new PushPanel();
+        int [] pushRegister1 = {1,3,5};
+        int [] pushRegister2 = {2, 4};
+
+        spaces[6][7].setPushPanel(pushPanel1);
+        spaces[7][5].setPushPanel(pushPanel2);
+
+        pushPanel1.setHeading(NORTH);
+        pushPanel2.setHeading(WEST);
+        
+        pushPanel1.setRegisters(pushRegister1);
+        pushPanel2.setRegisters(pushRegister2);;
     }
 }
     

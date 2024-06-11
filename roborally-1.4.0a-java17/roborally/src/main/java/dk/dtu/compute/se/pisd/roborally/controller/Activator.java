@@ -31,6 +31,7 @@ public class Activator {
         this.gameController = gameController;
         activateConveyorBelts();
         activateGearSpaces();
+        activatePushPanels();
     }
 
     /**
@@ -51,6 +52,14 @@ public class Activator {
      */
     private void activateGearSpaces(){
         gameController.activateGearSpaces();
+    }
+
+    private void activatePushPanels(){
+        try {
+            gameController.activatePushPanels();
+        } catch (ImpossibleMoveException e) {
+
+        }
     }
 
 }

@@ -25,7 +25,6 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +188,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
@@ -201,7 +199,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
     public void turnRight(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.next());
@@ -212,8 +209,6 @@ public class GameController {
      * @param player
      * @return none
      */
-    // TODO Assignment A3
-
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
         player.setHeading(playerHeading.prev());
@@ -253,8 +248,6 @@ public class GameController {
      * @param player,command
      * @return none
      */
-
-    // TODO Assignment A3
     public void leftOrRight(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             executeCommand(player, command);
@@ -652,7 +645,6 @@ public class GameController {
      * @return playersTurn
      */
 
-    // TODO Assignment A3
     public ArrayList<Player> determiningPriority(){
         ArrayList<Player> playersTurn = new ArrayList<>();
         HashMap<Player, Integer> playerDistances = new HashMap<>();
@@ -684,8 +676,6 @@ public class GameController {
   * @param player
   * @return distance
 */
-
-    // TODO Assignment A3
     public int distanceToPriorityAntenna(@NotNull Player player){
         int spaceX = player.getSpace().x;
         int spaceY = player.getSpace().y;
@@ -840,6 +830,45 @@ public class GameController {
                         turnLeft(player);
                     } else if(space.getGearSpace().getGearType().equals("RIGHT")){
                         turnRight(player);
+                    }
+                } else {}
+            }
+        }
+    }
+
+    public void activatePushPanels() throws ImpossibleMoveException{
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            Space space = player.getSpace();
+            if(space != null) {
+                if(space.getPushPanel() != null){
+                    int [] currentRegisters = space.getPushPanel().getRegisters();
+                    for (int c = 0; c <= currentRegisters.length -1; c++){
+                        if (board.getStep() == currentRegisters[c]){
+                            Heading heading = space.getPushPanel().getHeading();
+                            Space target = null;
+                            switch (heading) {
+                                case EAST:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case NORTH:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case SOUTH:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                case WEST:
+                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                                    break;
+                                default:
+                                    throw new ImpossibleMoveException(player, space, heading);
+                            }
+                            if (target == null) {
+                                return;
+                            } if(target.getPlayer()==null) {
+                                player.setSpace(target);
+                            }
+                        } else {}
                     }
                 } else {}
             }
