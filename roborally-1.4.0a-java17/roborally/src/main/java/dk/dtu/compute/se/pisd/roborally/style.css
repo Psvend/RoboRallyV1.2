@@ -15,22 +15,22 @@
 }
 
 #wallspaceWEST {
-    -fx-background-image: url('img/wall1.png');
+    -fx-background-image: url('img/wallspace2.png');
     -fx-background-size: 100% 100%;
 }
 
 #wallspaceEAST {
-    -fx-background-image: url('img/wall2.png');
+    -fx-background-image: url('img/wallspace4.png');
     -fx-background-size: 100% 100%;
 }
 
 #wallspace-SOUTH {
-    -fx-background-image: url('img/wall3.png');
+    -fx-background-image: url('img/wallspace1.png');
     -fx-background-size: 100% 100%;
 }
 
 #wallspaceNORTH {
-    -fx-background-image: url('img/wall4.png');
+    -fx-background-image: url('img/wallspace3.png');
     -fx-background-size: 100% 100%;
 }
 
