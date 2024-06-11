@@ -123,6 +123,19 @@ public class AppController implements Observer {
         }
     }
 
+    public void lobby(){
+        if (gameController != null) {
+            // The UI should not allow this, but in case this happens anyway.
+            // give the user the option to save the game or abort this operation!
+            if (!stopGame()) {
+                return;
+            }
+        }
+        Board board = new Board(8,8);
+        Player player = new Player(board, "red", "Player 1");
+        roboRally.createLobbyView(player);
+    }
+
     /**
      * Stop playing the current game, giving the user the option to save
      * the game or to cancel stopping the game. The method returns true

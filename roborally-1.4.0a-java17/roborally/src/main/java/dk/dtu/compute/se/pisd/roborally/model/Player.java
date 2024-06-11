@@ -49,7 +49,9 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    private int energyReserve;   //the players own energy reserve
+    private int energyReserve;
+    //the players own energy reserve
+    private boolean ready = false;
      
 
 
@@ -136,6 +138,14 @@ public class Player extends Subject {
 
     public CommandCardField getCardField(int i) {
         return cards[i];
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+        notifyChange();
+    }
+    public boolean isReady() {
+        return ready;
     }
 
 
