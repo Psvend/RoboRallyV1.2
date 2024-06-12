@@ -77,7 +77,7 @@ public class GameController {
      * 
      */
     public void moveForward(@NotNull Player player) {
-        if(wasActivated = true){
+        if(wasActivated == true){
             wasActivated = false;
         }
     if (player.board == board) {
@@ -153,7 +153,7 @@ public class GameController {
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
-            if(wasActivated = true) {
+            if(wasActivated == true) {
                 wasActivated = false;
                 break;
             }
@@ -190,7 +190,7 @@ public class GameController {
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
-            if(wasActivated = true) {
+            if(wasActivated == true) {
                 wasActivated = false;
                 break;
             }
@@ -205,7 +205,7 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
-            if(wasActivated = true) {
+            if(wasActivated == true) {
                 wasActivated = false;
                 break;
             }
@@ -897,6 +897,12 @@ public class GameController {
         if(space.getPitfall() instanceof Pitfall) {
             player.setSpace(findRespawnPoint());
             wasActivated = true;
+        }
+    }
+
+    public void wasActivated(boolean wasActivated) {
+        if(wasActivated == true) {
+            wasActivated = false;
         }
     }
 
