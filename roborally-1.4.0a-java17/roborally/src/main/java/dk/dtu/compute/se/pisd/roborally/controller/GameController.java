@@ -150,6 +150,10 @@ public class GameController {
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
+            if(wasActivated = true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
@@ -183,6 +187,10 @@ public class GameController {
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
+            if(wasActivated = true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
@@ -194,6 +202,10 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
+            if(wasActivated = true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
