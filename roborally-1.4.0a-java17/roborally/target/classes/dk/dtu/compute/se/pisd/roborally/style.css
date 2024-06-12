@@ -1,4 +1,11 @@
 
+
+
+
+/*
+Board UI
+*/
+
 #space-view {
     -fx-background-image: url('img/empty.png');
     -fx-background-size: 100% 100%;
@@ -209,6 +216,28 @@
     -fx-background-size: 100% 100%;    
 }
 
+#pitfall {
+    -fx-background-image: url('img/hole.png');
+    -fx-background-size: 100% 100%;
+}
+
+#respawnPoint {
+    -fx-background-image: url('img/respawn.png');
+    -fx-background-size: 100% 100%;
+}
+
+#startField {
+    -fx-background-image: url('img/startField.png');
+    -fx-background-size: 100% 100%;
+}
+
+
+
+
+/* 
+UI for menus
+*/
+
 #main-window {
     -fx-background-image: url('img/startpage.png');
     -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
@@ -220,6 +249,13 @@
     -fx-background-color: lightgray;
 }
 
+
+
+
+
+/*
+WINNER UI 
+*/
 #winner-view {
     -fx-background-color: lightgray;
     -fx-background-size:100% 100%;
@@ -232,17 +268,37 @@
 }
 
 
+
+/* 
+Board UI (subject to change)
+*/
+
 #board-view {
     -fx-background-image: url('img/mainview.png');
     -fx-background-size: 100% 100%;
 }
 
 
+
+
+
+/*
+Player Robots assets
+*/
+
 #player-image-red {
     -fx-background-image: url('img/blueplayer.png');
     -fx-background-size: 100% 100%;
 }
 
+
+
+
+
+
+/* 
+Cards UI
+*/
 
 #card-Fwd {
     -fx-background-image: url('img/fwd.png');
