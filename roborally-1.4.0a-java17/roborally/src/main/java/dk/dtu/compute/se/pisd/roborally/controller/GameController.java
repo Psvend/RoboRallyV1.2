@@ -885,10 +885,10 @@ public class GameController {
     public Space findRespawnPoint(){
         int i = 0;
         int j = 0;
-        Space respawnPoint = new Space(board, i, j);
+        Space respawnPoint = board.getSpace(i, j);
         for(i = 0; i <= board.width-1; i++) {
             for (j = 0; j <= board.height-1; j++) {
-                respawnPoint = new Space(board, i, j);
+                respawnPoint = board.getSpace( i, j);
                 if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint;
                 } else {}
