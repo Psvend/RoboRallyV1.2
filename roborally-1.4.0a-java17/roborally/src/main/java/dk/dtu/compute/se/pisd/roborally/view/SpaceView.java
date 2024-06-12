@@ -24,7 +24,9 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
 import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -97,7 +99,12 @@ public class SpaceView extends StackPane implements ViewObserver {
             }
         } else if(space instanceof CheckpointSpace) {
             this.setId("checkpoint-view");
-        } else if(space.getPushPanel() instanceof PushPanel){
+        } else if (space.getPitfall() instanceof Pitfall) {
+            this.setId("pitfall");
+        } else if (space.getRespawnPoint() instanceof RespawnPoint) {
+            this.setId("respawnPoint");
+        }
+         else if(space.getPushPanel() instanceof PushPanel){
             if(space.getPushPanel().getHeading() == WEST){
                 if(space.getPushPanel().getRegisters().length == 3){
                     this.setId("pushUnevenWEST");
