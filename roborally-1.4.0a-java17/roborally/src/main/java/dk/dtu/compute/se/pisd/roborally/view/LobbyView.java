@@ -32,11 +32,14 @@ public class LobbyView extends Tab implements ViewObserver{
     private BorderPane borderPane;
     private RoboRally roboRally;
     private Button ReadyButton;
+    private Label howManyPlayers;
+    private int playersNumber;
 
 
 
 
     public LobbyView(@NotNull Player player, @NotNull Board board) {
+        playersNumber = 0;
      roboRally = new RoboRally();
         appController = new AppController(roboRally);
         this.setText("Lobby");
@@ -60,10 +63,13 @@ public class LobbyView extends Tab implements ViewObserver{
             HBox playerHBox = new HBox(playerLabel, ReadyButton); // create a new HBox for each player
 
             playerBox.getChildren().add(playerHBox); // add the HBox to the playerBox
+
+            playersNumber++;
         }
         ReadyButton.setOnAction(e -> { player.setReady(true); }); // set the action for the button
         borderPane.setCenter(playerBox);
-
+        howManyPlayers = new Label("Number of players: " +playersNumber+"/"+ board.getPlayersNumber());
+        borderPane.setTop(howManyPlayers);
 
 
 
@@ -76,7 +82,7 @@ public class LobbyView extends Tab implements ViewObserver{
         buttonPanel.setAlignment(Pos.BOTTOM_RIGHT);
         buttonPanel.setSpacing(3.0);
 
-
+        top.getChildren().add(playerBox);
         top.getChildren().add(buttonPanel);
         top.getChildren().add(borderPane);
 
@@ -84,13 +90,12 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
         updateView(player);
-
+        update(player);
     }
 
     @Override
     public void updateView(Subject subject) {
-        if (subject instanceof Player) {
-            Player player = (Player) subject;
+        if (subject instanceof Player player) {
             if (player.isReady()) {
                 startGameButton.setText("Ready to Start");
                 ReadyButton.setText("Ready");
