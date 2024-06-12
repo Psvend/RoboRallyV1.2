@@ -291,7 +291,7 @@ public class Board extends Subject {
      */
 
     private void initWallSpaces() {
-        spaces[0][1] = new WallSpace(this, 2, 3, Heading.NORTH);
+        spaces[0][1] = new WallSpace(this, 0, 1, Heading.NORTH);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
         spaces[5][6] = new WallSpace(this, 5, 6, Heading.EAST);
         spaces[7][7] = new WallSpace(this, 7, 7, Heading.WEST);
@@ -419,7 +419,7 @@ public class Board extends Subject {
     private void initRespawnPoint() {
         RespawnPoint respawnPoint1 = new RespawnPoint();
 
-        spaces[0][0].setRespawnPoint(respawnPoint1);
+        spaces[3][3].setRespawnPoint(respawnPoint1);
     }
 }
     
