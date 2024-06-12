@@ -48,6 +48,7 @@ public class GameController {
     public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
     public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
+    public boolean wasActivated = false;
 
     public GameController(Board board) {
         this.board = board;
@@ -880,6 +881,7 @@ public class GameController {
     public void activatePitfall(Player player, Space space){
         if(space.getPitfall() instanceof Pitfall) {
             player.setSpace(findRespawnPoint());
+            wasActivated = true;
         }
     }
 
