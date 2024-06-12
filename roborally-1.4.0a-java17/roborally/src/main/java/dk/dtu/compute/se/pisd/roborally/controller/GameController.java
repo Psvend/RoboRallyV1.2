@@ -135,6 +135,9 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
+                    if(wasActivated == true){
+                        wasActivated = false;
+                    }
                 } catch (ImpossibleMoveException e) {
                     // we don't do anything here  for now; we just catch the
                     // exception so that we do no pass it on to the caller
@@ -907,11 +910,9 @@ public class GameController {
     }
 
     public Space findRespawnPoint(){
-        int i = 0;
-        int j = 0;
-        Space respawnPoint = board.getSpace(i, j);
-        for(i = 0; i <= board.width-1; i++) {
-            for (j = 0; j <= board.height-1; j++) {
+        Space respawnPoint;
+        for(int i = 0; i <= board.width-1; i++) {
+            for (int j = 0; j <= board.height-1; j++) {
                 respawnPoint = board.getSpace(i, j);
                 if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint;
