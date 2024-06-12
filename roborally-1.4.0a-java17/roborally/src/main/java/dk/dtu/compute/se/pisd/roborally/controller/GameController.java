@@ -77,6 +77,9 @@ public class GameController {
      * 
      */
     public void moveForward(@NotNull Player player) {
+        if(wasActivated = true){
+            wasActivated = false;
+        }
     if (player.board == board) {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
