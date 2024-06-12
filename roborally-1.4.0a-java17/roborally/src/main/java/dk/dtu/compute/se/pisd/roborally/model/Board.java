@@ -24,7 +24,9 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 
 import org.jetbrains.annotations.NotNull;
@@ -86,6 +88,8 @@ public class Board extends Subject {
         initGear();
         initCheckpointSpaces();
         initPanels();
+        initPits();
+        initRespawnPoint();
         this.stepMode = false;
     }
 
@@ -402,6 +406,20 @@ public class Board extends Subject {
         
         pushPanel1.setRegisters(pushRegister1);
         pushPanel2.setRegisters(pushRegister2);;
+    }
+
+    private void initPits() {
+        Pitfall pitfall1 = new Pitfall();
+        Pitfall pitfall2 = new Pitfall();
+
+        spaces[0][3].setPitfall(pitfall1);
+        spaces[0][5].setPitfall(pitfall2);
+    }
+
+    private void initRespawnPoint() {
+        RespawnPoint respawnPoint1 = new RespawnPoint();
+
+        spaces[0][0].setRespawnPoint(respawnPoint1);
     }
 }
     
