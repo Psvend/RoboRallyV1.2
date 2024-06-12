@@ -888,13 +888,13 @@ public class GameController {
         Space respawnPoint = board.getSpace(i, j);
         for(i = 0; i <= board.width-1; i++) {
             for (j = 0; j <= board.height-1; j++) {
-                respawnPoint = board.getSpace( i, j);
+                respawnPoint = board.getSpace(i, j);
                 if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint;
                 } else {}
             }
         }
-        return respawnPoint = new Space(board, 0, 0);
+        return respawnPoint = board.getSpace(0, 0);
     }
 
 
