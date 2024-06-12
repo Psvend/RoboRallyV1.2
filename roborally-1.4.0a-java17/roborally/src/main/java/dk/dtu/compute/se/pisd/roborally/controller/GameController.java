@@ -107,6 +107,7 @@ public class GameController {
 
                     // Move the player to the forward space
                     player.setSpace(forwardSpace);
+                    activatePitfall(player, player.getSpace());
             }
         }
     }
@@ -129,6 +130,7 @@ public class GameController {
             if (target != null) {
                 try {
                     moveToSpace(player, target, heading);
+                    activatePitfall(player, player.getSpace());
                 } catch (ImpossibleMoveException e) {
                     // we don't do anything here  for now; we just catch the
                     // exception so that we do no pass it on to the caller
@@ -422,7 +424,6 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
-            activatePitfall(player, player.getSpace());
             isPlayerOnEnergySpace(player, energyBank);
             isPlayerOnCheckpointSpace(player);
 
