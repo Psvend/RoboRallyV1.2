@@ -886,8 +886,8 @@ public class GameController {
         int i = 0;
         int j = 0;
         Space[][] respawnPoint = new Space[i][j];
-        for(i = 0; i < board.width-1; i++) {
-            for (j = 0; j < board.height-1; j++) {
+        for(i = 0; i <= board.width-1; i++) {
+            for (j = 0; j <= board.height-1; j++) {
                 if (respawnPoint[i][j].getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint[i][j];
                 } else {}
