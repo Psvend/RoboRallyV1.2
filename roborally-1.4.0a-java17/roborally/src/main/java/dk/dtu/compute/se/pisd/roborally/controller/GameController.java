@@ -135,7 +135,7 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
-                    if(wasActivated == true){
+                    if(wasActivated == true) {
                         wasActivated = false;
                     }
                 } catch (ImpossibleMoveException e) {
@@ -900,12 +900,6 @@ public class GameController {
         if(space.getPitfall() instanceof Pitfall) {
             player.setSpace(findRespawnPoint());
             wasActivated = true;
-        }
-    }
-
-    public void wasActivated(boolean wasActivated) {
-        if(wasActivated == true) {
-            wasActivated = false;
         }
     }
 
