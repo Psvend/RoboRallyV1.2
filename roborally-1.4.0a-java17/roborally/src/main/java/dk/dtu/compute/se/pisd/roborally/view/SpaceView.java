@@ -103,8 +103,9 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setId("pitfall");
         } else if (space.getRespawnPoint() instanceof RespawnPoint) {
             this.setId("respawnPoint");
-        }
-         else if(space.getPushPanel() instanceof PushPanel){
+        } else if (space.y == 0 && space.x == 0) {
+            this.setId("startField");
+        } else if(space.getPushPanel() instanceof PushPanel){
             if(space.getPushPanel().getHeading() == WEST){
                 if(space.getPushPanel().getRegisters().length == 3){
                     this.setId("pushUnevenWEST");
