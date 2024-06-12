@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -27,28 +28,40 @@ public class LobbyView extends Tab implements ViewObserver{
     //add label or button to vbox
     private Button startGameButton;
     private Label playerLabel;
-    private HBox playerBox;
+    private VBox playerBox;
     private BorderPane borderPane;
+    private RoboRally roboRally;
+    private Button ReadyButton;
 
 
 
-    public LobbyView(@NotNull Player player) {
+
+    public LobbyView(@NotNull Player player, @NotNull Board board) {
+     roboRally = new RoboRally();
+        appController = new AppController(roboRally);
         this.setText("Lobby");
         top = new VBox();
         this.setContent(top);
 
         borderPane = new BorderPane();
         playerLabel = new Label("Players:");
-        playerBox = new HBox();
+        playerBox = new VBox();
         playerBox.setAlignment(Pos.CENTER_LEFT);
 
         List<Player> players = new ArrayList<>();
-
-        players.add(player);
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player p = board.getPlayer(i);
+            players.add(p);
+        }
         for (Player p : players) {
             Label playerLabel = new Label(p.getName());
-            playerBox.getChildren().add(playerLabel);
+            ReadyButton = new Button("is Ready"); // create a new button for each player
+
+            HBox playerHBox = new HBox(playerLabel, ReadyButton); // create a new HBox for each player
+
+            playerBox.getChildren().add(playerHBox); // add the HBox to the playerBox
         }
+        ReadyButton.setOnAction(e -> { player.setReady(true); }); // set the action for the button
         borderPane.setCenter(playerBox);
 
 
@@ -56,7 +69,7 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
         startGameButton = new Button("Start Game");
-        startGameButton.setOnAction(e -> { appController.lobby(); });
+        startGameButton.setOnAction(e -> { appController.startGame(); });
 
 
         buttonPanel = new VBox(startGameButton);
@@ -80,8 +93,10 @@ public class LobbyView extends Tab implements ViewObserver{
             Player player = (Player) subject;
             if (player.isReady()) {
                 startGameButton.setText("Ready to Start");
+                ReadyButton.setText("Ready");
             } else {
                 startGameButton.setText("Start Game");
+
             }
         }
 

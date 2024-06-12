@@ -23,6 +23,7 @@ package dk.dtu.compute.se.pisd.roborally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.LobbyView;
@@ -110,14 +111,14 @@ public class RoboRally extends Application {
 
         stage.sizeToScene();
     }
-    public void createLobbyView(Player player){
+    public void createLobbyView(Player player, Board board){
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
 
 
         if (player != null) {
             // create and add view for new board
-            LobbyView lobbyView = new LobbyView(player);
+            LobbyView lobbyView = new LobbyView(player, board);
             Node lobbyViewContent = lobbyView.getContent();
             boardRoot.setCenter(lobbyViewContent);
             boardRoot.setId("lobby-view");

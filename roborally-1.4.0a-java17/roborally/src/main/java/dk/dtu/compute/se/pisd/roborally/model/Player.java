@@ -141,7 +141,9 @@ public class Player extends Subject {
     }
 
     public void setReady(boolean ready) {
-        this.ready = ready;
+        if(ready==true){
+            this.ready= true;
+        }
         notifyChange();
     }
     public boolean isReady() {

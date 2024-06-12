@@ -133,7 +133,7 @@ public class AppController implements Observer {
         }
         Board board = new Board(8,8);
         Player player = new Player(board, "red", "Player 1");
-        roboRally.createLobbyView(player);
+        roboRally.createLobbyView(player, board);
     }
     public void onlineGame(){
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
@@ -159,13 +159,21 @@ public class AppController implements Observer {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
-                roboRally.createLobbyView(board.getPlayer(i));
+                roboRally.createLobbyView(board.getPlayer(i), board);
             }
 
 
         }
 
 
+    }
+
+    public void startGame() {
+        if (gameController != null) {
+            gameController.startProgrammingPhase();
+            roboRally.createBoardView(gameController);
+
+        }
     }
 
     /**
