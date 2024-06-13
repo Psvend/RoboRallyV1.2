@@ -49,8 +49,8 @@ public class RoboRally extends Application {
     private static final int MIN_APP_WIDTH = 800;
     private static final int MIN_APP_HEIGHT = 800;
 
-    private Stage stage;
-    private BorderPane boardRoot;
+    private Stage stage= new Stage();
+    private BorderPane boardRoot= new BorderPane();
     
 
     @Override
@@ -111,14 +111,14 @@ public class RoboRally extends Application {
 
         stage.sizeToScene();
     }
-    public void createLobbyView(Player player, Board board){
+    public void createLobbyView(Player player, Board board, GameController gameController){
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
 
 
         if (player != null) {
             // create and add view for new board
-            LobbyView lobbyView = new LobbyView(player, board);
+            LobbyView lobbyView = new LobbyView(player, board, gameController);
             Node lobbyViewContent = lobbyView.getContent();
             boardRoot.setCenter(lobbyViewContent);
             boardRoot.setId("lobby-view");

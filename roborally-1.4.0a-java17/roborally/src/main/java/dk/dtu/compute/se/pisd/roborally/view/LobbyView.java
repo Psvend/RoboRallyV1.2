@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.geometry.Pos;
@@ -38,7 +39,7 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
 
-    public LobbyView(@NotNull Player player, @NotNull Board board) {
+    public LobbyView(@NotNull Player player, @NotNull Board board, @NotNull GameController gameController) {
         playersNumber = 0;
      roboRally = new RoboRally();
         appController = new AppController(roboRally);
@@ -60,13 +61,20 @@ public class LobbyView extends Tab implements ViewObserver{
             Label playerLabel = new Label(p.getName());
             ReadyButton = new Button("is Ready"); // create a new button for each player
 
+            ReadyButton.setOnAction(e -> {
+                p.setReady(true);
+                updateView(p);
+            }); // set the action for the button
+
             HBox playerHBox = new HBox(playerLabel, ReadyButton); // create a new HBox for each player
 
             playerBox.getChildren().add(playerHBox); // add the HBox to the playerBox
 
             playersNumber++;
+
         }
-        ReadyButton.setOnAction(e -> { player.setReady(true); }); // set the action for the button
+
+
         borderPane.setCenter(playerBox);
         howManyPlayers = new Label("Number of players: " +playersNumber+"/"+ board.getPlayersNumber());
         borderPane.setTop(howManyPlayers);
@@ -75,7 +83,10 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
         startGameButton = new Button("Start Game");
-        startGameButton.setOnAction(e -> { appController.startGame(); });
+        startGameButton.setOnAction(e -> { appController.startGame(gameController);
+        updateView(player);
+        });
+
 
 
         buttonPanel = new VBox(startGameButton);
