@@ -25,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
@@ -150,13 +152,11 @@ public class LoadBoard {
                         // Assign the WallSpaceTemplate to the wallSpace field of the SpaceTemplate
                         spaceTemplate.wallsTemplate = wallSpaceTemplate;
                     }
-                    if(space instanceof CheckpointSpace){
-                        CheckpointSpace checkpointSpace = (CheckpointSpace) space;
+                    if(space.getCheckpoint() instanceof Checkpoint){
+                        Checkpoint checkpointSpace = (Checkpoint) space.getCheckpoint();
                         CheckPointSpaceTemplate checkpointSpaceTemplate = new CheckPointSpaceTemplate();
-                        checkpointSpaceTemplate.setX(checkpointSpace.x);
-                        checkpointSpaceTemplate.setY(checkpointSpace.y);
-                        checkpointSpaceTemplate.setIsPlayerOnCheckpointSpace(checkpointSpace.isPlayerOnCheckpointSpace());
-
+                        //TODO skal ligne ConveyorBelt
+                        checkpointSpaceTemplate.setCheckPointNumber(i);
                         // Assign the CheckpointSpaceTemplate to the checkpointSpace field of the SpaceTemplate
                         spaceTemplate.checkpoint = checkpointSpaceTemplate;
                     }

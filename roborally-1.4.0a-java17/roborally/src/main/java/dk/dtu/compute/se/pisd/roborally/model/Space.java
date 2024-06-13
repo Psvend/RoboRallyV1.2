@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
@@ -51,6 +52,7 @@ public class Space extends Subject {
     public final int y;
     private Pitfall pitfall;
     private RespawnPoint respawnPoint;
+    private Checkpoint checkpoint;
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -152,6 +154,14 @@ public class Space extends Subject {
 
     public RespawnPoint getRespawnPoint() {
         return respawnPoint;
+    }
+
+    public void setCheckPoint(Checkpoint checkpoint) {
+        this.checkpoint = checkpoint;
+    }
+
+    public Checkpoint getCheckpoint(){
+        return checkpoint;
     }
 
      /**

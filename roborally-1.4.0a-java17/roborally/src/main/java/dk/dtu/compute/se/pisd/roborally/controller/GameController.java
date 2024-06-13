@@ -387,7 +387,7 @@ public class GameController {
 
     public void isPlayerOnCheckpointSpace(Player player) {
         Space currentSpace = player.getSpace();
-        if(currentSpace instanceof CheckpointSpace) {
+        if(currentSpace.getCheckpoint() instanceof Checkpoint) {
             board.setPhase(Phase.RESULT);
         }
     }

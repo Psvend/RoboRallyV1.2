@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
 
 import org.jetbrains.annotations.NotNull;
@@ -389,7 +390,14 @@ public class Board extends Subject {
      * Initialize the checkpointspace
      */
      private void initCheckpointSpaces () {
-        spaces[6][6] = new CheckpointSpace(this, 6, 6);
+        Checkpoint checkpoint1 = new Checkpoint();
+        Checkpoint checkpoint2 = new Checkpoint();
+
+        spaces[0][7].setCheckPoint(checkpoint1);
+        spaces[2][7].setCheckPoint(checkpoint2);
+
+        checkpoint2.setCheckPointNumber(2);
+        checkpoint1.setCheckPointNumber(1);
     }
 
     private void initPanels() {

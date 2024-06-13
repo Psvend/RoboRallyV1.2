@@ -9,14 +9,16 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 public class CheckPointSpaceTemplate {
     public int x;
     public int y;
-    public boolean isPlayerOnCheckpointSpace;
+    public int number;
 
-    public boolean getIsPlayerOnCheckPointSpace() {
-        return isPlayerOnCheckpointSpace;
+    public int getCheckpointNumber(){
+        return number;
     }
-    public void setIsPlayerOnCheckpointSpace(boolean isPlayerOnCheckpointSpace) {
-        this.isPlayerOnCheckpointSpace = isPlayerOnCheckpointSpace;
+
+    public void setCheckPointNumber(int number){
+        this.number = number;
     }
+
     public int getX() {
         return x;
     }

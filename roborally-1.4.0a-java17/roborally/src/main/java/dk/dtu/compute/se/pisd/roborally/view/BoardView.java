@@ -21,9 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
@@ -100,7 +100,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
-            if (board.getCurrentPlayer().getSpace() instanceof CheckpointSpace) {
+            if (board.getCurrentPlayer().getSpace().getCheckpoint() instanceof Checkpoint) {
                 mainBoardPane.getChildren().clear();
                 for (int x = 0; x < board.width; x++) {
                     for (int y = 0; y < board.height; y++) {
