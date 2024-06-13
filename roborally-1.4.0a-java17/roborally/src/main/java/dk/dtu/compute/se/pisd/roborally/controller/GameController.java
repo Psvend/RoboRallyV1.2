@@ -99,12 +99,11 @@ public class GameController {
         if (forwardSpace != null) {
         // Check if there's a wall facing the space the player came from
             Heading backwardHeading = heading.opposite();
-            Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
 
                     // Check if there's a wall facing the backward space in the forward space
-                    if (backwardSpace != null && backwardSpace instanceof WallSpace) {
-                        WallSpace backwardWallSpace = (WallSpace) backwardSpace;
-                        if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                    if (forwardSpace != null && forwardSpace instanceof WallSpace) {
+                        WallSpace forwardWallSpace = (WallSpace) forwardSpace;
+                        if (forwardWallSpace.getHeading() == backwardHeading && forwardWallSpace.hasWall()) {
                             return; // Cannot move forward: Wall detected in the opposite direction
                         }
                     }
