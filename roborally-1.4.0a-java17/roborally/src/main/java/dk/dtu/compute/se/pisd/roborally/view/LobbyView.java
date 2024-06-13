@@ -83,8 +83,11 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
         startGameButton = new Button("Start Game");
-        startGameButton.setOnAction(e -> { appController.startGame(gameController);
-        updateView(player);
+        startGameButton.setOnAction(e -> {
+            System.out.println("Start Game");
+            appController.startGame(board);
+            player.board.attach(this);
+            update(player.board);;
         });
 
 
@@ -101,12 +104,13 @@ public class LobbyView extends Tab implements ViewObserver{
 
 
         updateView(player);
-        update(player);
+
     }
 
     @Override
     public void updateView(Subject subject) {
         if (subject instanceof Player player) {
+
             if (player.isReady()) {
                 startGameButton.setText("Ready to Start");
                 ReadyButton.setText("Ready");
