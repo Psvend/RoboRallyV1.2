@@ -169,5 +169,22 @@ public class Player extends Subject {
         tokens.add(number);
     }
 
+    public List<Integer> sortTokens(List<Integer> tokens) {
+        List<Integer> compare = new ArrayList<>();
+        for(int i = 0; i <= tokens.size(); i++){
+            compare.add(i+1);
+        }
+
+        List<Integer> tempTokens = new ArrayList<>();
+        for(int k = 0; k<= tokens.size(); k++){
+            for(int j = 0; j <= tokens.size(); j++){
+                if(tokens.get(j).equals(compare.get(k))) {
+                    tempTokens.add(j+1);
+                } else {}
+            }
+        }
+
+        return tokens;
+    }
 }
 
