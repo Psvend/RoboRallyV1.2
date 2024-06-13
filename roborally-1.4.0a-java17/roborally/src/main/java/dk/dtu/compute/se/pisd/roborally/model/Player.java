@@ -27,6 +27,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ...
  *
@@ -48,6 +51,7 @@ public class Player extends Subject {
 
     private CommandCardField[] program;
     private CommandCardField[] cards;
+    private List<Integer> tokens = new ArrayList<>();
 
     private int energyReserve;   //the players own energy reserve
      
@@ -155,6 +159,14 @@ public class Player extends Subject {
      */
     public void setEnergyReserve(Integer i) {
         this.energyReserve = i;
+    }
+
+    public List<Integer> getTokens(){
+        return tokens;
+    }
+
+    public void setTokens(int number) {
+        tokens.add(number);
     }
 
 }
