@@ -131,21 +131,21 @@ public class GameController {
         if (player.board == board) {
             Space space = player.getSpace();
             Heading playerHeading = player.getHeading();
+            Heading heading = player.getHeading().opposite();
             if (space != null && space instanceof WallSpace) {
                 WallSpace wallSpace = (WallSpace) space;
                 
-                if (wallSpace.getHeading() == playerHeading && wallSpace.hasWall()) {
+                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
                         return; // Cannot move forward: Wall detected in the way
                 }
             }
             
-            Heading heading = player.getHeading().opposite();
             Space target = board.getNeighbour(space, heading);
 
             if (target != null) {
                 if (target instanceof WallSpace){
                     WallSpace targetWallSpace = (WallSpace) target;
-                    if(targetWallSpace.getHeading() == heading && targetWallSpace.hasWall()){
+                    if(targetWallSpace.getHeading() == playerHeading && targetWallSpace.hasWall()){
                         return;
                     }
                 }
