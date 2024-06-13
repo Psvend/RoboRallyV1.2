@@ -86,7 +86,8 @@ public class GameController {
 
         // Check if there's a wall in front of the player (either on the current space or the neighboring space)
         if (currentSpace != null && currentSpace instanceof WallSpace) {
-        WallSpace wallSpace = (WallSpace) currentSpace;
+            WallSpace wallSpace = (WallSpace) currentSpace;
+            
             if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
                 return; // Cannot move forward: Wall detected in the way
             }
@@ -103,6 +104,7 @@ public class GameController {
                     // Check if there's a wall facing the backward space in the forward space
                     if (forwardSpace != null && forwardSpace instanceof WallSpace) {
                         WallSpace forwardWallSpace = (WallSpace) forwardSpace;
+                        
                         if (forwardWallSpace.getHeading() == backwardHeading && forwardWallSpace.hasWall()) {
                             return; // Cannot move forward: Wall detected in the opposite direction
                         }
@@ -128,14 +130,31 @@ public class GameController {
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
-            Heading heading = player.getHeading().next().next();
+            Heading playerHeading = player.getHeading();
+            if (space != null && space instanceof WallSpace) {
+                WallSpace wallSpace = (WallSpace) space;
+                
+                if (wallSpace.getHeading() == playerHeading && wallSpace.hasWall()) {
+                        return; // Cannot move forward: Wall detected in the way
+                }
+            }
+            
+            Heading heading = player.getHeading().opposite();
             Space target = board.getNeighbour(space, heading);
+
             if (target != null) {
+                if (target instanceof WallSpace){
+                    WallSpace targetWallSpace = (WallSpace) target;
+                    if(targetWallSpace.getHeading() == heading && targetWallSpace.hasWall()){
+                        return;
+                    }
+                }
+                
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
                     if(wasActivated == true) {
-                        wasActivated = false;
+                    wasActivated = false;
                     }
                 } catch (ImpossibleMoveException e) {
                     // we don't do anything here  for now; we just catch the
