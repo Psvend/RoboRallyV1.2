@@ -394,7 +394,7 @@ public class Board extends Subject {
         Checkpoint checkpoint2 = new Checkpoint();
 
         spaces[0][7].setCheckPoint(checkpoint1);
-        spaces[2][7].setCheckPoint(checkpoint2);
+        spaces[5][7].setCheckPoint(checkpoint2);
 
         checkpoint2.setCheckPointNumber(2);
         checkpoint1.setCheckPointNumber(1);
