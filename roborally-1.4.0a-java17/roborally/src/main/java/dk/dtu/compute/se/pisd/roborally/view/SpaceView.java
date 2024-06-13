@@ -98,7 +98,19 @@ public class SpaceView extends StackPane implements ViewObserver {
                 this.setId("gearspaceright-view");
             }
         } else if(space.getCheckpoint() instanceof Checkpoint) {
-            this.setId("checkpoint-view");
+            if(space.getCheckpoint().getNumber() == 1) {
+                this.setId("checkpoint1");
+            } else if(space.getCheckpoint().getNumber() == 2) {
+                this.setId("checkpoint2");
+            } else if(space.getCheckpoint().getNumber() == 3) {
+                this.setId("checkpoint3");
+            } else if(space.getCheckpoint().getNumber() == 4) {
+                this.setId("checkpoint4");
+            } else if(space.getCheckpoint().getNumber() == 5) {
+                this.setId("checkpoint5");
+            } else if(space.getCheckpoint().getNumber() == 6) {
+                this.setId("checkpoint6");
+            }
         } else if (space.getPitfall() instanceof Pitfall) {
             this.setId("pitfall");
         } else if (space.getRespawnPoint() instanceof RespawnPoint) {
