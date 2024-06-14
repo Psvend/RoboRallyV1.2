@@ -400,6 +400,7 @@ public class GameController {
                         List<Integer> playerTokens = player.getTokens();
                         playerTokens.add(checkpointToken);
                         player.setTokens(playerTokens);
+                        getPlayerView(player).updateCheckPointTokensLabel(playerTokens);
                         if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
                             board.setPhase(Phase.RESULT);
                         }
