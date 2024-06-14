@@ -949,11 +949,11 @@ public class GameController {
     public int findTotalCheckpoints(){
         Space checkpoint;
         int totalCheckpoints = 0;
-        for(int i = 0; i <= board.width; i++) {
-            for (int j = 0; j <= board.height; j++) {
+        for(int i = 0; i <= board.width-1; i++) {
+            for (int j = 0; j <= board.height-1; j++) {
                 checkpoint = board.getSpace(i, j);
                 if (checkpoint.getCheckpoint() instanceof Checkpoint){
-                    totalCheckpoints = totalCheckpoints++;
+                    totalCheckpoints = totalCheckpoints+1;
                 } else {}
             }
         }
