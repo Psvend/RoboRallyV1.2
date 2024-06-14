@@ -167,7 +167,7 @@ public class Player extends Subject {
 
     public void setTokens(int number) {
         tokens.add(number);
-        sortTokens(tokens);
+
     }
 
     public List<Integer> sortTokens(List<Integer> tokens) {
