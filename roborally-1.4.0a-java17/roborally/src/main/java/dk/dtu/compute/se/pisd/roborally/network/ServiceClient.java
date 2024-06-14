@@ -7,7 +7,7 @@ import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class Service implements HttpRequestService{
+public class ServiceClient implements HttpRequestService{
     private HttpRequestService httpRequestService;
 
 
