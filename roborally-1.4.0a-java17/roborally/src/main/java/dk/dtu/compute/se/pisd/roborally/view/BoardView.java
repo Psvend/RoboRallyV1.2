@@ -107,7 +107,7 @@ public class BoardView extends VBox implements ViewObserver {
                         spaces[x][y] = null;
                     }
                 }
-                statusLabel.setText("");;
+                statusLabel = new Label("");
                 winnerLabel = new Label();
                 winnerLabel.setText("Player " + board.getWinner()+" Wins!");
                 winnerBox =  new VBox(winnerLabel);
