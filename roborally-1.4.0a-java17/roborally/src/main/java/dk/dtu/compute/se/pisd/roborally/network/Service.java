@@ -3,43 +3,49 @@ package dk.dtu.compute.se.pisd.roborally.network;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class Service implements HttpRequestService{
+    private HttpRequestService httpRequestService;
 
-    private HttpClient client;
-    public Service(){
-        this.client = HttpClient.newHttpClient();
-    }
+
+private static final HttpClient httpClient = HttpClient.newBuilder()
+        .version(HttpClient.Version.HTTP_2)
+        .build();
+
+public static String getProducts() throws Exception {
+    HttpRequest request = HttpRequest.newBuilder()
+            .GET()
+            .uri(URI.create("http://localhost:8080/products"))
+            .setHeader("User-Agent", "Product Client")
+            .header("Content-Type", "application/json")
+            .build();
+    CompletableFuture<HttpResponse<String>> response =
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    String result = response.thenApply((r)->r.body()).get(5, TimeUnit.SECONDS);
+    return result;
+}
     @Override
     public String sendGet(String url) {
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(url))
-                .setHeader("User-Agent", "Product Client")
-                .header("Content-Type", "application/json")
-                .build();
-        try {
-            return client.send(request, java.net.http.HttpResponse.BodyHandlers.ofString()).body();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+     return httpRequestService.sendGet(url);
     }
 
     @Override
     public String sendPost(String url, String body) {
 
-        return null;
+        return httpRequestService.sendPost(url, body);
     }
 
     @Override
     public String sendPut(String url, String body) {
-        return null;
+        return httpRequestService.sendPut(url, body);
     }
 
     @Override
     public String sendDelete(String url) {
-        return null;
+        return httpRequestService.sendDelete(url);
     }
 }
