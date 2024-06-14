@@ -30,6 +30,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 
@@ -63,6 +66,8 @@ public class PlayerView extends Tab implements ViewObserver {
     private Button stepButton;
     private Label bankLabel;
     private Label reserveLabel;
+    private Label checkpointTokensLabel;
+    private Label totalCheckpointsLabel;
 
     //the vbox labels or buttons get added to
     private VBox playerInteractionPanel;
@@ -118,10 +123,13 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show players energy status
         reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
 
-    
+        checkpointTokensLabel = new Label(player.getName() + " Checkpoint Tokens: " + player.getTokens());
+
+        totalCheckpointsLabel = new Label("Total Checkpoints: " + gameController.findTotalCheckpoints());
+
         
         //add button to vbox to print
-        buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
+        buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel, checkpointTokensLabel, totalCheckpointsLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
 
@@ -176,6 +184,14 @@ public class PlayerView extends Tab implements ViewObserver {
 
     public void updateBankLabel(int newBank) {
         bankLabel.setText("Energy Bank Status: " + newBank);
+    }
+
+    public void updateCheckPointTokensLabel(List<Integer> checkpointTokens) {
+        checkpointTokensLabel.setText(player.getName() + " Checkpoint Tokens: " + player.getTokens());
+    }
+
+    public void updateTotalCheckpointsLabel(int totalCheckpoints){
+        totalCheckpointsLabel.setText("Total Checkpoints: " + gameController.findTotalCheckpoints());
     }
     
 
