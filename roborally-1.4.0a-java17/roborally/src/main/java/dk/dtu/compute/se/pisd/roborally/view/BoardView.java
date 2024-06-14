@@ -100,7 +100,7 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
-            if (board.getCurrentPlayer().getSpace().getCheckpoint() instanceof Checkpoint) {
+            if (phase.equals(Phase.RESULT)) {
                 mainBoardPane.getChildren().clear();
                 for (int x = 0; x < board.width; x++) {
                     for (int y = 0; y < board.height; y++) {
