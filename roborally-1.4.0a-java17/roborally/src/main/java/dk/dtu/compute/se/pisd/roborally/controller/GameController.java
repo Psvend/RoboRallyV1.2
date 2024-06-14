@@ -385,7 +385,39 @@ public class GameController {
     }
 
 
-    public void isPlayerOnCheckpointSpace(Player player) {
+    public void isPlayerOnCheckpointSpace() {
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            Space space = player.getSpace();
+            if(space != null) {
+                if(space.getCheckpoint() != null){
+                    if(player.getTokens().contains(space.getCheckpoint().getNumber())){
+                        if(board.getStep()==5) {
+                            
+                        }
+                    } else {
+                        player.setTokens(space.getCheckpoint().getNumber());
+                    }
+
+
+                    int [] currentRegisters = space.getPushPanel().getRegisters();
+                    for (int c = 0; c <= currentRegisters.length -1; c++){
+                        if (board.getStep() == currentRegisters[c]){
+                            Heading heading = space.getPushPanel().getHeading();
+                            Space target = null;
+                            
+                        } else {}
+                    }
+                } else {}
+            }
+        }
+
+
+
+
+
+
+
         Space currentSpace = player.getSpace();
         if(currentSpace.getCheckpoint() instanceof Checkpoint) {
             board.setPhase(Phase.RESULT);
@@ -934,6 +966,19 @@ public class GameController {
         return respawnPoint = board.getSpace(0, 0);
     }
 
+    public int findTotalCheckpoints(){
+        Space checkpoint;
+        int totalCheckpoints = 0;
+        for(int i = 0; i <= board.width-1; i++) {
+            for (int j = 0; j <= board.height-1; j++) {
+                checkpoint = board.getSpace(i, j);
+                if (checkpoint.getCheckpoint() instanceof Checkpoint){
+                    totalCheckpoints = totalCheckpoints++;
+                } else {}
+            }
+        }
+        return totalCheckpoints;
+    }
 
 }
 
