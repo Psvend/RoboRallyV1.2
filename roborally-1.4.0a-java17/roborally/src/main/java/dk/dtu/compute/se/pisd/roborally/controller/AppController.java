@@ -38,6 +38,7 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -156,11 +157,19 @@ public class AppController implements Observer {
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                TextInputDialog name = new TextInputDialog("Player " + (i + 1));
+                name.setTitle("Player name");
+                name.setHeaderText("Enter the name of the player:");
+                Optional<String> nameResult = name.showAndWait();
+
+                Player player = new Player(board, PLAYER_COLORS.get(i), nameResult.get());
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
                 roboRally.createLobbyView(board.getPlayer(i), board, gameController);
+
             }
+
+
 
 
         }
@@ -168,18 +177,10 @@ public class AppController implements Observer {
 
     }
 
-    public void startGame(Board board) {
-        gameController = new GameController(board);
-        for (int i = 0; i < 6; i++) {
-           Player p= board.getPlayer(i);
-           board.addPlayer(p);
-           ;
-        }
-
-
-        System.out.println("hii");
-            roboRally.createBoardView(gameController);
-
+    public void startGame(Board board, GameController gameController, Player player) {
+        System.out.println("hiii");
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
 
     }
 

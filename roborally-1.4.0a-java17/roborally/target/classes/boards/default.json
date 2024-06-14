@@ -1,0 +1,980 @@
+{
+  "width": 8,
+  "height": 8,
+  "step": 0,
+  "moves": 0,
+  "spaces": [
+    {
+      "actions": [],
+      "x": 0,
+      "y": 0
+    },
+    {
+      "wallsTemplate": {
+        "x": 2,
+        "y": 3,
+        "heading": "NORTH",
+        "hasWall": true
+      },
+      "actions": [],
+      "x": 2,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 2
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 4
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "x": 0,
+      "y": 7
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "SOUTH",
+            "beltType": 2,
+            "turnBelt": "LEFT",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 0
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "SOUTH",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 1
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "SOUTH",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 2
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "SOUTH",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 3
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "SOUTH",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 4
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "EAST",
+            "beltType": 1,
+            "turnBelt": "LEFT",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 1,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "energySpace": {
+        "x": 1,
+        "y": 6,
+        "hasEnergyCube": true
+      },
+      "x": 1,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "x": 1,
+      "y": 7
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "WEST",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 2,
+      "y": 0
+    },
+    {
+      "actions": [],
+      "x": 2,
+      "y": 1
+    },
+    {
+      "actions": [],
+      "x": 2,
+      "y": 2
+    },
+    {
+      "wallsTemplate": {
+        "x": 2,
+        "y": 3,
+        "heading": "SOUTH",
+        "hasWall": true
+      },
+      "actions": [],
+      "x": 2,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 2,
+      "y": 4
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "EAST",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 2,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "x": 2,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "energySpace": {
+        "x": 2,
+        "y": 7,
+        "hasEnergyCube": true
+      },
+      "x": 2,
+      "y": 7
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "WEST",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 3,
+      "y": 0
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 1
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 2
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 4
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "EAST",
+            "beltType": 1,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 3,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "x": 3,
+      "y": 7
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "WEST",
+            "beltType": 2,
+            "turnBelt": "LEFT",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 0
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "NORTH",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 1
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "NORTH",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 2
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "NORTH",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 3
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "NORTH",
+            "beltType": 2,
+            "turnBelt": "",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 4
+    },
+    {
+      "actions": [
+        {
+          "conveyorBelt": {
+            "heading": "NORTH",
+            "beltType": 1,
+            "turnBelt": "LEFT",
+            "x": 0,
+            "y": 0
+          }
+        }
+      ],
+      "x": 4,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "x": 4,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "priorityAntenna": {
+        "x": 4,
+        "y": 7,
+        "isPriorityAntenna": true
+      },
+      "x": 4,
+      "y": 7
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 0
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 1
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 2
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 4
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 5
+    },
+    {
+      "wallsTemplate": {
+        "x": 5,
+        "y": 6,
+        "heading": "EAST",
+        "hasWall": true
+      },
+      "actions": [],
+      "x": 5,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "x": 5,
+      "y": 7
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 0
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 1
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 2
+    },
+    {
+      "actions": [],
+      "energySpace": {
+        "x": 6,
+        "y": 3,
+        "hasEnergyCube": true
+      },
+      "x": 6,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 4
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 5
+    },
+    {
+      "actions": [],
+      "checkpoint": {
+        "x": 6,
+        "y": 6,
+        "isPlayerOnCheckpointSpace": false
+      },
+      "x": 6,
+      "y": 6
+    },
+    {
+      "actions": [],
+      "x": 6,
+      "y": 7
+    },
+    {
+      "actions": [
+        {
+          "gearSpace": {
+            "x": 0,
+            "y": 0,
+            "gearType": "LEFT"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 0
+    },
+    {
+      "actions": [],
+      "energySpace": {
+        "x": 7,
+        "y": 1,
+        "hasEnergyCube": true
+      },
+      "x": 7,
+      "y": 1
+    },
+    {
+      "actions": [],
+      "x": 7,
+      "y": 2
+    },
+    {
+      "actions": [],
+      "x": 7,
+      "y": 3
+    },
+    {
+      "actions": [],
+      "x": 7,
+      "y": 4
+    },
+    {
+      "actions": [],
+      "x": 7,
+      "y": 5
+    },
+    {
+      "actions": [
+        {
+          "gearSpace": {
+            "x": 0,
+            "y": 0,
+            "gearType": "RIGHT"
+          }
+        }
+      ],
+      "x": 7,
+      "y": 6
+    },
+    {
+      "wallsTemplate": {
+        "x": 7,
+        "y": 7,
+        "heading": "WEST",
+        "hasWall": true
+      },
+      "actions": [],
+      "x": 7,
+      "y": 7
+    }
+  ],
+  "players": [
+    {
+      "name": "Player 1",
+      "color": "red",
+      "spaceX": 0,
+      "spaceY": 0,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "POWERUP",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 2",
+      "color": "green",
+      "spaceX": 1,
+      "spaceY": 1,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "U_TURN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 3",
+      "color": "blue",
+      "spaceX": 2,
+      "spaceY": 2,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 4",
+      "color": "orange",
+      "spaceX": 3,
+      "spaceY": 3,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FAST_FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "Player 5",
+      "color": "grey",
+      "spaceX": 4,
+      "spaceY": 4,
+      "heading": "SOUTH",
+      "energyReserve": 0,
+      "program": [
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        },
+        {
+          "visible": true
+        }
+      ],
+      "cards": [
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "MOVE_THREE",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "AGAIN",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "LEFT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "BACKWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "OPTION_LEFT_RIGHT",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        },
+        {
+          "visible": true,
+          "card": {
+            "command": "FORWARD",
+            "observers": []
+          }
+        }
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "phase": "PROGRAMMING"
+    }
+  ]
+}
