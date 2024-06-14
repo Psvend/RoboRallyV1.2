@@ -71,6 +71,8 @@ public class Board extends Subject {
 
     private EnergyBank energyBank;
 
+    private Player winner = null;
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
@@ -257,6 +259,14 @@ public class Board extends Subject {
                 ", Player = " + getCurrentPlayer().getName() +
                 ", Step: " + getStep() +
                 ", Moves: " + getMoves();
+    }
+
+    public Player getWinner(){
+        return winner;
+    }
+
+    public void setWinner(Player player) {
+        winner = player;
     }
 
 

@@ -108,7 +108,7 @@ public class BoardView extends VBox implements ViewObserver {
                     }
                 }
 
-                winnerLabel = new Label(board.getCurrentPlayer().getName() + " WINS!");
+                winnerLabel = new Label(board.getWinner() + " WINS!");
                 winnerBox =  new VBox(winnerLabel);
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);
