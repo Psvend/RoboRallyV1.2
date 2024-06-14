@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
@@ -57,8 +58,13 @@ public class PlayersView extends TabPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            Player current = board.getCurrentPlayer();
-            this.getSelectionModel().select(board.getPlayerNumber(current));
+            Player winner = null;
+
+            if(!board.getWinner().equals(null)){
+                winner = board.getWinner();
+            }
+
+            this.getSelectionModel().select(board.getPlayerNumber(winner));
             Phase phase = board.getPhase();
             if (phase == Phase.RESULT) {
                 // Clear the tabs in PlayersView
