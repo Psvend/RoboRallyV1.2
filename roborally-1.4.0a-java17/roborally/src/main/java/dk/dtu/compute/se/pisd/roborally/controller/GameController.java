@@ -396,7 +396,10 @@ public class GameController {
                             board.setPhase(Phase.RESULT);
                         }
                     } else {
-                        player.setTokens(space.getCheckpoint().getNumber());
+                        int checkpointToken = space.getCheckpoint().getNumber();
+                        List<Integer> playerTokens = player.getTokens();
+                        playerTokens.add(checkpointToken);
+                        player.setTokens(playerTokens);
                         if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
                             board.setPhase(Phase.RESULT);
                         }
