@@ -167,6 +167,7 @@ public class Player extends Subject {
 
     public void setTokens(List<Integer> tokens) {
         this.tokens = tokens;
+        notifyAll();
     }
 
     public List<Integer> sortTokens(List<Integer> tokens) {
