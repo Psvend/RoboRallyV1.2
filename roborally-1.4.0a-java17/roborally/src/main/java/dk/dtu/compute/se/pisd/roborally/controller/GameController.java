@@ -385,42 +385,24 @@ public class GameController {
     }
 
 
-    public void isPlayerOnCheckpointSpace() {
+    public void activateCheckpointSpace() {
         for(int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
             if(space != null) {
                 if(space.getCheckpoint() != null){
                     if(player.getTokens().contains(space.getCheckpoint().getNumber())){
-                        if(board.getStep()==5) {
-                            
+                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setPhase(Phase.RESULT);
                         }
                     } else {
                         player.setTokens(space.getCheckpoint().getNumber());
-                    }
-
-
-                    int [] currentRegisters = space.getPushPanel().getRegisters();
-                    for (int c = 0; c <= currentRegisters.length -1; c++){
-                        if (board.getStep() == currentRegisters[c]){
-                            Heading heading = space.getPushPanel().getHeading();
-                            Space target = null;
-                            
-                        } else {}
+                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setPhase(Phase.RESULT);
+                        }
                     }
                 } else {}
             }
-        }
-
-
-
-
-
-
-
-        Space currentSpace = player.getSpace();
-        if(currentSpace.getCheckpoint() instanceof Checkpoint) {
-            board.setPhase(Phase.RESULT);
         }
     }
 
@@ -494,8 +476,6 @@ public class GameController {
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
             isPlayerOnEnergySpace(player, energyBank);
-            isPlayerOnCheckpointSpace(player);
-
         }
         
     }

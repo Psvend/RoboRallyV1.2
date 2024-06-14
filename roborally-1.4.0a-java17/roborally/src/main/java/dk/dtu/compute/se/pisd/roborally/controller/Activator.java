@@ -32,6 +32,7 @@ public class Activator {
         activateConveyorBelts();
         activateGearSpaces();
         activatePushPanels();
+        activateCheckpoints();
     }
 
     /**
@@ -60,6 +61,10 @@ public class Activator {
         } catch (ImpossibleMoveException e) {
 
         }
+    }
+
+    private void activateCheckpoints(){
+        gameController.activateCheckpointSpace();
     }
 
 }
