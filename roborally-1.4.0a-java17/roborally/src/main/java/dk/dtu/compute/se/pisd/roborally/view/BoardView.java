@@ -114,7 +114,7 @@ public class BoardView extends VBox implements ViewObserver {
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);
                 mainBoardPane.getChildren().add(winnerLabel);
-                this.setId("winner-view");
+                this.setId("winner-view" + "pitfall");
             }
         }
     }
