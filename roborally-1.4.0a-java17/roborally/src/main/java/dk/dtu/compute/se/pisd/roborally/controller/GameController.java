@@ -393,6 +393,7 @@ public class GameController {
                 if(space.getCheckpoint() != null){
                     if(player.getTokens().contains(space.getCheckpoint().getNumber())){
                         if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setPhase(Phase.RESULT);
                         }
                     } else {
                         player.setTokens(space.getCheckpoint().getNumber());
