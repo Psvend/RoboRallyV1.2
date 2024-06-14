@@ -393,7 +393,7 @@ public class GameController {
                 if(space.getCheckpoint() != null){
                     if(player.getTokens().contains(space.getCheckpoint().getNumber())){
                         if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
-                            board.setWinner(board.getPlayerNumber(player));
+                            board.setWinner(board.getPlayerNumber(player)+1);
                             board.setPhase(Phase.RESULT);
                         }
                     } else {
@@ -403,7 +403,7 @@ public class GameController {
                         player.setTokens(playerTokens);
                         getPlayerView(player).updateCheckPointTokensLabel(playerTokens);
                         if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
-                            board.setWinner(board.getPlayerNumber(player));
+                            board.setWinner(board.getPlayerNumber(player)+1);
                             board.setPhase(Phase.RESULT);
                         }
                     }
