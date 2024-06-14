@@ -392,12 +392,12 @@ public class GameController {
             if(space != null) {
                 if(space.getCheckpoint() != null){
                     if(player.getTokens().contains(space.getCheckpoint().getNumber())){
-                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                        if(board.getStep()==5 && player.getTokens().size()-1 == findTotalCheckpoints()) {
                             board.setPhase(Phase.RESULT);
                         }
                     } else {
                         player.setTokens(space.getCheckpoint().getNumber());
-                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                        if(board.getStep()==5 && player.getTokens().size()-1 == findTotalCheckpoints()) {
                             board.setPhase(Phase.RESULT);
                         }
                     }
