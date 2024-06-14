@@ -58,13 +58,8 @@ public class PlayersView extends TabPane implements ViewObserver {
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {
-            Player winner = null;
-
-            if(!board.getWinner().equals(null)){
-                winner = board.getWinner();
-            }
-
-            this.getSelectionModel().select(board.getPlayerNumber(winner));
+            Player current = board.getCurrentPlayer();
+            this.getSelectionModel().select(board.getPlayerNumber(current));
             Phase phase = board.getPhase();
             if (phase == Phase.RESULT) {
                 // Clear the tabs in PlayersView
