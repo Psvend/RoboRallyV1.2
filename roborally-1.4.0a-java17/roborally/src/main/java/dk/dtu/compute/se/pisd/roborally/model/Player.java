@@ -179,7 +179,7 @@ public class Player extends Subject {
         List<Integer> tempTokens = new ArrayList<>();
         for(int k = 0; k < tokens.size(); k++){
             for(int j = 0; j < tokens.size(); j++){
-                if(tokens.get(j) == (compare.get(k))) {
+                if(tokens.get(j) == compare.get(k)) {
                     tempTokens.add(tokens.get(j));
                 } else {}
             }
