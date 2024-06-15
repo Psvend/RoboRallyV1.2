@@ -185,9 +185,7 @@ public class Player extends Subject {
             }
         }
 
-        tokens = tempTokens;
-
-        return compare;
+        return tempTokens;
     }
 }
 
