@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -21,6 +22,7 @@ public class PlayerTemplate {
     public int energyReserve;
     private List<CommandCardFieldTemplate> program= new ArrayList<>();
     private List<CommandCardFieldTemplate> cards =new ArrayList<>();
+    private List<Integer> tokens;
 
     public String getName() {
         return name;
@@ -82,6 +84,15 @@ public class PlayerTemplate {
     }
     public void setEnergyReserve(int energyReserve) {
         this.energyReserve = energyReserve;
+    }
+
+    public List<Integer> getTokens(){
+        return tokens;
+    }
+
+    public void setTokens(List<Integer> tokens){
+        this.tokens = tokens;
+        Collections.sort(this.tokens);
     }
 
     public PlayerTemplate(){

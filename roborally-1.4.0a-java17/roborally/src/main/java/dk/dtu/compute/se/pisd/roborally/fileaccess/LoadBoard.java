@@ -28,6 +28,7 @@ import com.google.gson.stream.JsonWriter;
 
 import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.model.*;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
@@ -121,12 +122,10 @@ public class LoadBoard {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
-                    if (space instanceof EnergySpace) {
-                        EnergySpace energySpace = (EnergySpace) space;
-                        EnergySpaceTemplate energySpaceTemplate = new EnergySpaceTemplate();
-                        energySpaceTemplate.setX(energySpace.x);
-                        energySpaceTemplate.setY(energySpace.y);
-                        energySpaceTemplate.setHasEnergyCube(energySpace.hasEnergyCube);
+                    if (space.getEnergyField() instanceof EnergyField) {
+                        EnergyField energySpace = (EnergyField) space.getEnergyField();
+                        EnergyFieldTemplate energySpaceTemplate = new EnergyFieldTemplate();
+                        //TODO energySpaceTemplate.setHasEnergyCube(hasEnergyCube);
 
                         // Assign the EnergySpaceTemplate to the energySpace field of the SpaceTemplate
                         spaceTemplate.energySpace = energySpaceTemplate;
