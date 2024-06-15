@@ -28,6 +28,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -123,29 +129,33 @@ public class PlayerView extends Tab implements ViewObserver {
 
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
-        bankLabel.setFont(new Font("Lucida Console", 15));
+        bankLabel.setFont(new Font("Lucida Console", 11));
         bankLabel.setTextFill(Color.STEELBLUE);
         //button to show players energy status
-        reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
-        reserveLabel.setFont(new Font("Lucida Console", 15));
+        reserveLabel = new Label("Reserve: " + player.getEnergyReserve());
+        reserveLabel.setFont(new Font("Lucida Console", 11));
         reserveLabel.setTextFill(Color.STEELBLUE);
 
-        checkpointTokensLabel = new Label(player.getName() + " Checkpoint Tokens: " + player.getTokens());
-        checkpointTokensLabel.setFont(new Font("Lucida Console", 15));
+        checkpointTokensLabel = new Label("Checkpoint Tokens: " + player.getTokens());
+        checkpointTokensLabel.setFont(new Font("Lucida Console", 11));
         checkpointTokensLabel.setTextFill(Color.YELLOW);
 
         totalCheckpointsLabel = new Label("Total Checkpoints: " + gameController.findTotalCheckpoints());
-        totalCheckpointsLabel.setFont(new Font("Lucida Console", 15));
+        totalCheckpointsLabel.setFont(new Font("Lucida Console", 11));
         totalCheckpointsLabel.setTextFill(Color.YELLOW);
         
         //add button to vbox to print
-        buttonPanel = new VBox(finishButton, executeButton, stepButton, reserveLabel, checkpointTokensLabel);
+        buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
 
-        LabelContainer = new VBox(bankLabel, totalCheckpointsLabel);
+        LabelContainer = new VBox(bankLabel, reserveLabel, totalCheckpointsLabel, checkpointTokensLabel);
         LabelContainer.setAlignment(Pos.CENTER_RIGHT);
         LabelContainer.setSpacing(3.0);
+        Image LabelContainerBackground = new Image("img/empty.png", true);
+        BackgroundImage ContainerBackground = new BackgroundImage(LabelContainerBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+        Background Container = new Background(ContainerBackground);
+        LabelContainer.setBackground(Container);
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
