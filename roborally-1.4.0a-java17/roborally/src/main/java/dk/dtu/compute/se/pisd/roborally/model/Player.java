@@ -28,6 +28,8 @@ import org.jetbrains.annotations.NotNull;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -167,6 +169,7 @@ public class Player extends Subject {
 
     public void setTokens(List<Integer> tokens) {
         this.tokens = tokens;
+        Collections.sort(tokens);
     }
 
     public List<Integer> sortTokens(List<Integer> tokens) {
@@ -178,7 +181,7 @@ public class Player extends Subject {
         List<Integer> tempTokens = new ArrayList<>();
         for(int k = 0; k < tokens.size(); k++){
             for(int j = 0; j < tokens.size(); j++){
-                if(tokens.get(j) == compare.get(k)) {
+                if(tokens.get(j) <= compare.get(k)) {
                     tempTokens.add(tokens.get(j));
                 } else {}
             }
