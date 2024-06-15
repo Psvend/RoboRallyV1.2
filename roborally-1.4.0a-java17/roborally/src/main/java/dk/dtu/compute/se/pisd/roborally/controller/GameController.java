@@ -429,13 +429,16 @@ public class GameController {
         Integer playerBank = player.getEnergyReserve();
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
-        if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
-            // TILFØJET AF LOUISE
-            playerBank++;
-            player.setEnergyReserve(playerBank);
-            energyBankStatus--;
-            energyBank.setEnergyBank(energyBankStatus);
+        Space energySpace = player.getSpace();
+        if(energySpace.getEnergyField().hasEnergyCube()){
+            if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+                // TILFØJET AF LOUISE
+                playerBank++;
+                player.setEnergyReserve(playerBank);
+                energyBankStatus--;
+                energyBank.setEnergyBank(energyBankStatus);
             }
+        }
     }
 
     private void makeProgramFieldsVisible(int register) {
