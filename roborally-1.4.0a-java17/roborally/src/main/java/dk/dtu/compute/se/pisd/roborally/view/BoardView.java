@@ -32,6 +32,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+
 import org.jetbrains.annotations.NotNull;
 
 
@@ -110,6 +112,8 @@ public class BoardView extends VBox implements ViewObserver {
                 this.getChildren().remove(statusLabel);
                 winnerLabel = new Label();
                 winnerLabel.setText("Player " + board.getWinner()+" Wins!");
+                Font font = new Font("Impact", USE_COMPUTED_SIZE);
+                winnerLabel.setFont(font);
                 winnerBox =  new VBox(winnerLabel);
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);
