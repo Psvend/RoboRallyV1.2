@@ -187,7 +187,7 @@ public class Player extends Subject {
 
         tokens = tempTokens;
 
-        return tokens;
+        return compare;
     }
 }
 
