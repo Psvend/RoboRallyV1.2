@@ -380,6 +380,7 @@ public class GameController {
                             getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
                             getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
                         }
+                        space.getEnergyField().setEnergyCube(true);
                     }            
                 } else {}
             }
@@ -966,6 +967,22 @@ public class GameController {
             }
         }
         return totalCheckpoints;
+    }
+
+    public void restockEnergyField(){
+        Space energyField;
+        if(board.getStep() == 5){
+            for(int i = 0; i <= board.width-1; i++) {
+                for (int j = 0; j <= board.height-1; j++) {
+                    energyField = board.getSpace(i, j);
+                    if (energyField.getEnergyField() instanceof EnergyField){
+                        if(!energyField.getEnergyField().hasEnergyCube()){
+                            energyField.getEnergyField().setEnergyCube(false);
+                        }
+                    } else {}
+                }
+            }
+        }
     }
 
 }
