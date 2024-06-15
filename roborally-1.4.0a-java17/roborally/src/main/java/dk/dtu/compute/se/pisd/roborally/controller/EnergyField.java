@@ -8,10 +8,11 @@ public class EnergyField {
     }
 
     public void setEnergyCube(boolean contains) {
-        if(contains){
-            contains =false;
+        this.contains = contains;
+        if(this.contains){
+            this.contains =false;
         } else {
-            contains = true;
+            this.contains = true;
         }
     }
 }
