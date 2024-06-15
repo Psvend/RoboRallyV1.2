@@ -48,6 +48,7 @@ public class GameController {
     public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
     public boolean wasActivated = false;
+    public boolean hasCube = true;
 
     public GameController(Board board) {
         this.board = board;
@@ -380,7 +381,8 @@ public class GameController {
                             getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
                             getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
                         }
-                        space.getEnergyField().setEnergyCube(true);
+                        hasCube = true;
+                        space.getEnergyField().setEnergyCube(hasCube);
                     }            
                 } else {}
             }
