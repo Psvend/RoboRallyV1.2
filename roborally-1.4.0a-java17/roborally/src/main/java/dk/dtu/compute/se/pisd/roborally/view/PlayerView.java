@@ -130,19 +130,19 @@ public class PlayerView extends Tab implements ViewObserver {
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
         bankLabel.setFont(new Font("Lucida Console", 11));
-        bankLabel.setTextFill(Color.STEELBLUE);
+        bankLabel.setTextFill(Color.BLACK);
         //button to show players energy status
         reserveLabel = new Label("Reserve: " + player.getEnergyReserve());
         reserveLabel.setFont(new Font("Lucida Console", 11));
-        reserveLabel.setTextFill(Color.STEELBLUE);
+        reserveLabel.setTextFill(Color.valueOf(player.getColor()));
 
         checkpointTokensLabel = new Label("Checkpoint Tokens: " + player.getTokens());
         checkpointTokensLabel.setFont(new Font("Lucida Console", 11));
-        checkpointTokensLabel.setTextFill(Color.YELLOW);
+        checkpointTokensLabel.setTextFill(Color.valueOf(player.getColor()));
 
         totalCheckpointsLabel = new Label("Total Checkpoints: " + gameController.findTotalCheckpoints());
         totalCheckpointsLabel.setFont(new Font("Lucida Console", 11));
-        totalCheckpointsLabel.setTextFill(Color.YELLOW);
+        totalCheckpointsLabel.setTextFill(Color.BLACK);
         
         //add button to vbox to print
         buttonPanel = new VBox(finishButton, executeButton, stepButton);
@@ -152,10 +152,7 @@ public class PlayerView extends Tab implements ViewObserver {
         LabelContainer = new VBox(bankLabel, reserveLabel, totalCheckpointsLabel, checkpointTokensLabel);
         LabelContainer.setAlignment(Pos.CENTER_RIGHT);
         LabelContainer.setSpacing(3.0);
-        Image LabelContainerBackground = new Image("C:\\Users\\nikol\\OneDrive\\Skrivebord\\RoboRally v2\\RoboRallyV1.2\\roborally-1.4.0a-java17\\roborally\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\img\\empty.png", true);
-        BackgroundImage ContainerBackground = new BackgroundImage(LabelContainerBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
-        Background Container = new Background(ContainerBackground);
-        LabelContainer.setBackground(Container);
+        
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
