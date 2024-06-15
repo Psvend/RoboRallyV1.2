@@ -432,7 +432,7 @@ public class GameController {
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
         Space energySpace = player.getSpace();
-        if(energySpace.getEnergyField().hasEnergyCube()){
+        if(energySpace.getEnergyField().hasEnergyCube() && energySpace.getEnergyField()!= null){
             if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
                 // TILFØJET AF LOUISE
                 playerBank++;
