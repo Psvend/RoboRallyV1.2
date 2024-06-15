@@ -29,6 +29,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
 import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -289,11 +290,15 @@ public class Board extends Subject {
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {
-        spaces[7][1] = new EnergySpace(this, 7, 1);
-        spaces[1][6] = new EnergySpace(this, 1, 6);
-        spaces[2][7] = new EnergySpace(this, 2, 7);
-        spaces[6][3] = new EnergySpace(this, 6, 3);
-            
+        EnergyField energyField1 = new EnergyField();
+        EnergyField energyField2 = new EnergyField();
+        EnergyField energyField3 = new EnergyField();
+        EnergyField energyField4 = new EnergyField();
+
+        spaces[7][1].setEnergyField(energyField1);
+        spaces[1][6].setEnergyField(energyField2);
+        spaces[2][7].setEnergyField(energyField3);;
+        spaces[6][3].setEnergyField(energyField4);
     }
 
     /**
