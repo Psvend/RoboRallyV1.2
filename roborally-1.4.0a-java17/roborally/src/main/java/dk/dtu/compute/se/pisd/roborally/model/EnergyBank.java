@@ -49,12 +49,5 @@ public class EnergyBank{
     public void attach(EnergyBank energyBankView) {
         throw new UnsupportedOperationException("Unimplemented method 'attach'");
     }
-
-
-    //andre metoder tilføjes hernede
-
-
-
-
 }
 

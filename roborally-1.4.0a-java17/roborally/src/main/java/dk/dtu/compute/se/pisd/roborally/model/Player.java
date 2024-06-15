@@ -46,14 +46,11 @@ public class Player extends Subject {
 
     private String name;
     private String color;
-
     private Space space;
     private Heading heading = SOUTH;
-
     private CommandCardField[] program;
     private CommandCardField[] cards;
     private List<Integer> tokens = new ArrayList<>();
-
     private int energyReserve;   //the players own energy reserve
      
 
@@ -151,7 +148,6 @@ public class Player extends Subject {
     public int getEnergyReserve() {
         return this.energyReserve;
     }    
-
 
 
      /**

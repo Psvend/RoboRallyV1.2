@@ -24,11 +24,11 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
 import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
-import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
@@ -76,7 +76,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         
         //updated by Petrine for each different type of space accounted
-        if(space instanceof EnergySpace) {
+        if(space.getEnergyField() instanceof EnergyField) {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             WallSpace wallSpace = (WallSpace) space;
