@@ -172,13 +172,13 @@ public class Player extends Subject {
 
     public List<Integer> sortTokens(List<Integer> tokens) {
         List<Integer> compare = new ArrayList<>();
-        for(int i = 0; i < tokens.size(); i++){
+        for(int i = 0; i < tokens.size()-1; i++){
             compare.add(i+1);
         }
 
         List<Integer> tempTokens = new ArrayList<>();
-        for(int k = 0; k < tokens.size(); k++){
-            for(int j = 0; j < tokens.size(); j++){
+        for(int k = 0; k < tokens.size()-1; k++){
+            for(int j = 0; j < tokens.size()-1; j++){
                 if(tokens.get(j) == (compare.get(k))) {
                     tempTokens.add(tokens.get(j));
                 } else {}
