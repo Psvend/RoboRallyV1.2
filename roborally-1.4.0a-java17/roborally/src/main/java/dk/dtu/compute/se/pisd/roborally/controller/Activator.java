@@ -33,6 +33,7 @@ public class Activator {
         activateGearSpaces();
         activatePushPanels();
         activateCheckpoints();
+        activateEnergyFields();
     }
 
     /**
@@ -65,6 +66,10 @@ public class Activator {
 
     private void activateCheckpoints(){
         gameController.activateCheckpointSpace();
+    }
+
+    private void activateEnergyFields(){
+        gameController.isPlayerOnEnergySpace(board.getEnergyBank());
     }
 
 }

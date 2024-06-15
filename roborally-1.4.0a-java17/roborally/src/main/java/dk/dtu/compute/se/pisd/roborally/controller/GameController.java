@@ -385,6 +385,7 @@ public class GameController {
                 } else {}
             }
         }
+        restockEnergyField();
     }
 
 
