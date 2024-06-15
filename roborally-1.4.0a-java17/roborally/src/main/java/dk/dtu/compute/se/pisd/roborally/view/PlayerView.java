@@ -130,11 +130,11 @@ public class PlayerView extends Tab implements ViewObserver {
 
         
         //add button to vbox to print
-        buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel, checkpointTokensLabel, totalCheckpointsLabel);
+        buttonPanel = new VBox(finishButton, executeButton, stepButton, reserveLabel, checkpointTokensLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
 
-        LabelContainer = new VBox(checkpointTokensLabel, totalCheckpointsLabel);
+        LabelContainer = new VBox(bankLabel, totalCheckpointsLabel);
         LabelContainer.setAlignment(Pos.CENTER_RIGHT);
         LabelContainer.setSpacing(3.0);
 
