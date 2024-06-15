@@ -30,6 +30,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.List;
 
@@ -121,13 +123,20 @@ public class PlayerView extends Tab implements ViewObserver {
 
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
+        bankLabel.setFont(new Font("Lucida Console", 15));
+        bankLabel.setTextFill(Color.STEELBLUE);
         //button to show players energy status
         reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
+        reserveLabel.setFont(new Font("Lucida Console", 15));
+        reserveLabel.setTextFill(Color.STEELBLUE);
 
         checkpointTokensLabel = new Label(player.getName() + " Checkpoint Tokens: " + player.getTokens());
+        checkpointTokensLabel.setFont(new Font("Lucida Console", 15));
+        checkpointTokensLabel.setTextFill(Color.YELLOW);
 
         totalCheckpointsLabel = new Label("Total Checkpoints: " + gameController.findTotalCheckpoints());
-
+        totalCheckpointsLabel.setFont(new Font("Lucida Console", 15));
+        totalCheckpointsLabel.setTextFill(Color.YELLOW);
         
         //add button to vbox to print
         buttonPanel = new VBox(finishButton, executeButton, stepButton, reserveLabel, checkpointTokensLabel);
