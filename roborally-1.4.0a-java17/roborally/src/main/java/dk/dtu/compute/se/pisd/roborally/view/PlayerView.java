@@ -150,7 +150,7 @@ public class PlayerView extends Tab implements ViewObserver {
         buttonPanel.setSpacing(3.0);
 
         LabelContainer = new VBox(bankLabel, reserveLabel, totalCheckpointsLabel, checkpointTokensLabel);
-        LabelContainer.setAlignment(Pos.CENTER_RIGHT);
+        LabelContainer.setAlignment(Pos.CENTER_LEFT);
         LabelContainer.setSpacing(3.0);
         
 
