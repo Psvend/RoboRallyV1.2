@@ -113,7 +113,7 @@ public class BoardView extends VBox implements ViewObserver {
                 this.getChildren().remove(statusLabel);
                 winnerLabel = new Label();
                 winnerLabel.setText("Player " + board.getWinner()+" Wins!");
-                Font font = new Font("Impact", 24);
+                Font font = new Font("Impact", 50);
                 winnerLabel.setFont(font);
                 winnerLabel.setTextFill(Color.valueOf(board.getPlayer(board.getWinner()-1).getColor()));
                 winnerBox =  new VBox(winnerLabel);
