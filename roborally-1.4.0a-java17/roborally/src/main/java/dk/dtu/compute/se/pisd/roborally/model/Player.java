@@ -166,8 +166,7 @@ public class Player extends Subject {
     }
 
     public void setTokens(List<Integer> tokens) {
-        this.tokens = tokens;
-        sortTokens(this.tokens);
+        this.tokens = sortTokens(tokens);
     }
 
     public List<Integer> sortTokens(List<Integer> tokens) {
@@ -180,7 +179,7 @@ public class Player extends Subject {
         for(int k = 0; k<= tokens.size()-1; k++){
             for(int j = 0; j <= tokens.size()-1; j++){
                 if(tokens.get(j) == (compare.get(k))) {
-                    tempTokens.add(j+1);
+                    tempTokens.add(tokens.get(j));
                 } else {}
             }
         }
