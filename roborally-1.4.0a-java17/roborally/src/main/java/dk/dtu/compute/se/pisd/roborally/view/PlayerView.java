@@ -152,7 +152,7 @@ public class PlayerView extends Tab implements ViewObserver {
         LabelContainer = new VBox(bankLabel, reserveLabel, totalCheckpointsLabel, checkpointTokensLabel);
         LabelContainer.setAlignment(Pos.CENTER_RIGHT);
         LabelContainer.setSpacing(3.0);
-        Image LabelContainerBackground = new Image("roborally-1.4.0a-java17\\roborally\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\img\\empty.png", true);
+        Image LabelContainerBackground = new Image("C:\\Users\\nikol\\OneDrive\\Skrivebord\\RoboRally v2\\RoboRallyV1.2\\roborally-1.4.0a-java17\\roborally\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\img\\empty.png", true);
         BackgroundImage ContainerBackground = new BackgroundImage(LabelContainerBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         Background Container = new Background(ContainerBackground);
         LabelContainer.setBackground(Container);
