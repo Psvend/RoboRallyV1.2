@@ -59,6 +59,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
 
     private VBox buttonPanel;
+    private VBox LabelContainer;
 
     //add label or button to vbox
     private Button finishButton;
@@ -132,6 +133,10 @@ public class PlayerView extends Tab implements ViewObserver {
         buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel, checkpointTokensLabel, totalCheckpointsLabel);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
+
+        LabelContainer = new VBox(checkpointTokensLabel, totalCheckpointsLabel);
+        LabelContainer.setAlignment(Pos.CENTER_RIGHT);
+        LabelContainer.setSpacing(3.0);
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
@@ -224,9 +229,10 @@ public class PlayerView extends Tab implements ViewObserver {
             }
 
             if (player.board.getPhase() != Phase.PLAYER_INTERACTION) {
-                if (!programPane.getChildren().contains(buttonPanel)) {
+                if (!programPane.getChildren().contains(buttonPanel) && !programPane.getChildren().contains(LabelContainer)) {
                     programPane.getChildren().remove(playerInteractionPanel);
                     programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
+                    programPane.add(LabelContainer, 8,0);
                 }
                 switch (player.board.getPhase()) {
                     case INITIALISATION:
@@ -259,6 +265,7 @@ public class PlayerView extends Tab implements ViewObserver {
             } else {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
+                    programPane.getChildren().remove(LabelContainer);
                     programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
                 }
                 playerInteractionPanel.getChildren().clear();
