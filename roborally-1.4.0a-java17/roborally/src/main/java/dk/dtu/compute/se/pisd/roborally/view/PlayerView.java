@@ -132,11 +132,11 @@ public class PlayerView extends Tab implements ViewObserver {
         bankLabel.setFont(new Font("Lucida Console", 11));
         bankLabel.setTextFill(Color.BLACK);
         //button to show players energy status
-        reserveLabel = new Label("Reserve: " + player.getEnergyReserve());
+        reserveLabel = new Label("Your Reserve: " + player.getEnergyReserve());
         reserveLabel.setFont(new Font("Lucida Console", 11));
         reserveLabel.setTextFill(Color.valueOf(player.getColor()));
 
-        checkpointTokensLabel = new Label("Checkpoint Tokens: " + player.getTokens());
+        checkpointTokensLabel = new Label("Your Checkpoint Tokens: " + player.getTokens());
         checkpointTokensLabel.setFont(new Font("Lucida Console", 11));
         checkpointTokensLabel.setTextFill(Color.valueOf(player.getColor()));
 
@@ -194,7 +194,7 @@ public class PlayerView extends Tab implements ViewObserver {
      */
     
     public void updateEnergyReserveLabel(int newReserve) {
-        reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
+        reserveLabel.setText("Your Reserve: " + newReserve);
     }
 
         /**
@@ -208,7 +208,7 @@ public class PlayerView extends Tab implements ViewObserver {
     }
 
     public void updateCheckPointTokensLabel(List<Integer> checkpointTokens) {
-        checkpointTokensLabel.setText(player.getName() + " Checkpoint Tokens: " + player.getTokens());
+        checkpointTokensLabel.setText("Your Checkpoint Tokens: " + player.getTokens());
     }
 
     public void updateTotalCheckpointsLabel(int totalCheckpoints){
