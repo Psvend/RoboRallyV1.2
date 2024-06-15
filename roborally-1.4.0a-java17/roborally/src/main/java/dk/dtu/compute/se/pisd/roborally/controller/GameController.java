@@ -41,7 +41,6 @@ public class GameController {
 
     final public Board board;
     final public EnergyBank energyBank;
-    public EnergySpace energySpace;
     public int moves = 0;
     public Command command;
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
@@ -52,7 +51,6 @@ public class GameController {
 
     public GameController(Board board) {
         this.board = board;
-        this.energySpace = new EnergySpace(board, 1, 1);
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
@@ -370,17 +368,21 @@ public class GameController {
      * and the labels showing the reserve and bank 
      * 
      */
-    public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
-        Space currentSpace = player.getSpace();
-        energyBank = this.energyBank;
-        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
-            if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
-                addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
-                getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
-                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
-                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
-                }
-           } 
+    public void isPlayerOnEnergySpace(EnergyBank energyBank) {
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            Space space = player.getSpace();
+            if(space != null) {
+                if(space.getEnergyField() != null){
+                    if(space.getEnergyField().hasEnergyCube()){
+                        if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+                            addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
+                            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+                            getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+                        }
+                    }            
+                } else {}
+            }
         }
     }
 
@@ -481,7 +483,6 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
-            isPlayerOnEnergySpace(player, energyBank);
         }
         
     }
