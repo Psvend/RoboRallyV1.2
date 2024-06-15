@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
 import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
@@ -44,6 +45,7 @@ public class Space extends Subject {
     private ConveyorBelt ConveyorBelt;
     private GearSpace gearSpace;
     private PushPanel pushPanel;
+    private EnergyField energyField;
     private Player player;
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
@@ -162,6 +164,14 @@ public class Space extends Subject {
 
     public Checkpoint getCheckpoint(){
         return checkpoint;
+    }
+
+    public void setEnergyField(EnergyField energyField){
+        this.energyField = energyField;
+    }
+
+    public EnergyField getEnergyField(){
+        return energyField;
     }
 
      /**
