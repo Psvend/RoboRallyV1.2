@@ -311,13 +311,35 @@ Board UI (subject to change)
 Player Robots assets
 */
 
-#player-image-red {
-    -fx-background-image: url('img/blueplayer.png');
+#player1 {
+    -fx-background-image: url('img/r1.png');
     -fx-background-size: 100% 100%;
 }
 
+#player2 {
+    -fx-background-image: url('img/r2.png');
+    -fx-background-size: 100% 100%;
+}
 
+#player3 {
+    -fx-background-image: url('img/r3.png');
+    -fx-background-size: 100% 100%;
+}
 
+#player4 {
+    -fx-background-image: url('img/r4.png');
+    -fx-background-size: 100% 100%;
+}
+
+#player5 {
+    -fx-background-image: url('img/r5.png');
+    -fx-background-size: 100% 100%;
+}
+
+#player6 {
+    -fx-background-image: url('img/r6.png');
+    -fx-background-size: 100% 100%;
+}
 
 
 
