@@ -115,6 +115,9 @@ public class GameController {
                     }
 
                     // Move the player to the forward space
+                    if(isOutside(forwardSpace,player.getHeading())){
+                        return;
+                    }
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
             }
