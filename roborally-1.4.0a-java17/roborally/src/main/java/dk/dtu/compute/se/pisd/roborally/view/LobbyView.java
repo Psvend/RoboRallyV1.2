@@ -64,6 +64,7 @@ public class LobbyView extends Tab implements ViewObserver{
             ReadyButton.setOnAction(e -> {
                 p.setReady(true);
                 updateView(p);
+                gameController.playerFinishedSetup(board.getPlayerNumber(p));
             }); // set the action for the button
 
             HBox playerHBox = new HBox(playerLabel, ReadyButton); // create a new HBox for each player

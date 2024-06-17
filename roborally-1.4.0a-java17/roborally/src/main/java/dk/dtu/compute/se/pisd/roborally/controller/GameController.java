@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
@@ -49,11 +50,15 @@ public class GameController {
     private Map<Player, PlayerView> playerViews;
     public boolean wasActivated = false;
     public boolean hasCube = true;
+    private ServiceClient serviceClient;
+
+    private int gameId;
 
     public GameController(Board board) {
         this.board = board;
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
+        this.serviceClient = new ServiceClient();
     }
     
 
@@ -115,7 +120,24 @@ public class GameController {
             }
         }
     }
+    public void playerFinishedSetup(int playerID) {
+        String response = serviceClient.markPlayerAsReady(playerID);
+        // Handle the response here
+        System.out.println(response);
+    }
 
+    public void createGame(int boardID) {
+        String response = serviceClient.creategame(boardID);
+        // Handle the response here
+        System.out.println(response);
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
+    }
 
 
 

@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -136,7 +137,7 @@ public class AppController implements Observer {
         Player player = new Player(board, "red", "Player 1");
         roboRally.createLobbyView(player, board, gameController);
     }
-    public void onlineGame(){
+    public void onlineGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -155,6 +156,7 @@ public class AppController implements Observer {
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
             gameController = new GameController(board);
+            gameController.createGame(8);
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 TextInputDialog name = new TextInputDialog("Player " + (i + 1));
@@ -166,6 +168,7 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
                 roboRally.createLobbyView(board.getPlayer(i), board, gameController);
+
 
             }
 
