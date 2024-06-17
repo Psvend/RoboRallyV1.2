@@ -28,8 +28,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
+import java.util.List;
+
 import org.jetbrains.annotations.NotNull;
 
 
@@ -56,6 +67,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
 
     private VBox buttonPanel;
+    private VBox LabelContainer;
 
     //add label or button to vbox
     private Button finishButton;
@@ -63,6 +75,8 @@ public class PlayerView extends Tab implements ViewObserver {
     private Button stepButton;
     private Label bankLabel;
     private Label reserveLabel;
+    private Label checkpointTokensLabel;
+    private Label totalCheckpointsLabel;
 
     //the vbox labels or buttons get added to
     private VBox playerInteractionPanel;
@@ -115,15 +129,30 @@ public class PlayerView extends Tab implements ViewObserver {
 
         //button to show energy bank status 
         bankLabel = new Label("Energy Bank Status: " + gameController.energyBank.getBankStatus());
+        bankLabel.setFont(new Font("Lucida Console", 11));
+        bankLabel.setTextFill(Color.BLACK);
         //button to show players energy status
-        reserveLabel = new Label(player.getName() + " Reserve: " + player.getEnergyReserve());
+        reserveLabel = new Label("Your Reserve: " + player.getEnergyReserve());
+        reserveLabel.setFont(new Font("Lucida Console", 11));
+        reserveLabel.setTextFill(Color.valueOf(player.getColor()));
 
-    
+        checkpointTokensLabel = new Label("Your Checkpoint Tokens: " + player.getTokens());
+        checkpointTokensLabel.setFont(new Font("Lucida Console", 11));
+        checkpointTokensLabel.setTextFill(Color.valueOf(player.getColor()));
+
+        totalCheckpointsLabel = new Label("Total Checkpoints: " + gameController.findTotalCheckpoints());
+        totalCheckpointsLabel.setFont(new Font("Lucida Console", 11));
+        totalCheckpointsLabel.setTextFill(Color.BLACK);
         
         //add button to vbox to print
-        buttonPanel = new VBox(finishButton, executeButton, stepButton, bankLabel, reserveLabel);
+        buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
+
+        LabelContainer = new VBox(bankLabel, reserveLabel, totalCheckpointsLabel, checkpointTokensLabel);
+        LabelContainer.setAlignment(Pos.CENTER_LEFT);
+        LabelContainer.setSpacing(3.0);
+        
 
         playerInteractionPanel = new VBox();
         playerInteractionPanel.setAlignment(Pos.CENTER_LEFT);
@@ -165,7 +194,7 @@ public class PlayerView extends Tab implements ViewObserver {
      */
     
     public void updateEnergyReserveLabel(int newReserve) {
-        reserveLabel.setText(player.getName() + " Reserve: " + newReserve);
+        reserveLabel.setText("Your Reserve: " + newReserve);
     }
 
         /**
@@ -176,6 +205,14 @@ public class PlayerView extends Tab implements ViewObserver {
 
     public void updateBankLabel(int newBank) {
         bankLabel.setText("Energy Bank Status: " + newBank);
+    }
+
+    public void updateCheckPointTokensLabel(List<Integer> checkpointTokens) {
+        checkpointTokensLabel.setText("Your Checkpoint Tokens: " + player.getTokens());
+    }
+
+    public void updateTotalCheckpointsLabel(int totalCheckpoints){
+        totalCheckpointsLabel.setText("Total Checkpoints: " + gameController.findTotalCheckpoints());
     }
     
 
@@ -208,9 +245,10 @@ public class PlayerView extends Tab implements ViewObserver {
             }
 
             if (player.board.getPhase() != Phase.PLAYER_INTERACTION) {
-                if (!programPane.getChildren().contains(buttonPanel)) {
+                if (!programPane.getChildren().contains(buttonPanel) && !programPane.getChildren().contains(LabelContainer)) {
                     programPane.getChildren().remove(playerInteractionPanel);
                     programPane.add(buttonPanel, Player.NO_REGISTERS, 0);
+                    programPane.add(LabelContainer, 8,0);
                 }
                 switch (player.board.getPhase()) {
                     case INITIALISATION:
@@ -243,6 +281,7 @@ public class PlayerView extends Tab implements ViewObserver {
             } else {
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
+                    programPane.getChildren().remove(LabelContainer);
                     programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
                 }
                 playerInteractionPanel.getChildren().clear();

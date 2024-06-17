@@ -27,8 +27,6 @@ public class WallSpace extends Space {
     public boolean hasWall() {
         return hasWall;
     }
-
-    // Add any additional methods or fields specific to WallSpace if needed
 }
 
 

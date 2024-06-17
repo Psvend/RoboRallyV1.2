@@ -34,7 +34,7 @@ public class SpaceTemplate {
     public WallsTemplate wallsTemplate;
     public List<FieldActionTemplate> actions = new ArrayList<>();
 
-    public EnergySpaceTemplate energySpace;
+    public EnergyFieldTemplate energySpace;
     public PriorityAntennaTemplate priorityAntenna;
     public CheckPointSpaceTemplate checkpoint;
 

@@ -27,6 +27,10 @@ import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * ...
  *
@@ -42,17 +46,13 @@ public class Player extends Subject {
 
     private String name;
     private String color;
-
     private Space space;
     private Heading heading = SOUTH;
-
     private CommandCardField[] program;
     private CommandCardField[] cards;
-
-    private int energyReserve;
-    //the players own energy reserve
+    private List<Integer> tokens = new ArrayList<>();
+    private int energyReserve;   //the players own energy reserve
     private boolean ready = false;
-     
 
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -162,7 +162,6 @@ public class Player extends Subject {
     }    
 
 
-
      /**
      * @author Petrine & Louise
      * @return the set energy reserve of a player
@@ -171,5 +170,13 @@ public class Player extends Subject {
         this.energyReserve = i;
     }
 
+    public List<Integer> getTokens(){
+        return tokens;
+    }
+
+    public void setTokens(List<Integer> tokens) {
+        this.tokens = tokens;
+        Collections.sort(tokens);
+    }
 }
 

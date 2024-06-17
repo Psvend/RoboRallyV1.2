@@ -22,10 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,12 +45,16 @@ public class Space extends Subject {
     private ConveyorBelt ConveyorBelt;
     private GearSpace gearSpace;
     private PushPanel pushPanel;
+    private EnergyField energyField;
     private Player player;
     private List<Heading> walls = new ArrayList<>();
     private List<FieldAction> actions = new ArrayList<>();
     public final Board board;
     public final int x;
     public final int y;
+    private Pitfall pitfall;
+    private RespawnPoint respawnPoint;
+    private Checkpoint checkpoint;
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -132,6 +140,38 @@ public class Space extends Subject {
 
     public void setPushPanel(PushPanel pushPanel){
         this.pushPanel = pushPanel;
+    }
+
+    public void setPitfall(Pitfall pitfall) {
+        this.pitfall = pitfall;
+    }
+
+    public Pitfall getPitfall() {
+        return pitfall;
+    }
+
+    public void setRespawnPoint(RespawnPoint respawnPoint){
+        this.respawnPoint = respawnPoint;
+    }
+
+    public RespawnPoint getRespawnPoint() {
+        return respawnPoint;
+    }
+
+    public void setCheckPoint(Checkpoint checkpoint) {
+        this.checkpoint = checkpoint;
+    }
+
+    public Checkpoint getCheckpoint(){
+        return checkpoint;
+    }
+
+    public void setEnergyField(EnergyField energyField){
+        this.energyField = energyField;
+    }
+
+    public EnergyField getEnergyField(){
+        return energyField;
     }
 
      /**

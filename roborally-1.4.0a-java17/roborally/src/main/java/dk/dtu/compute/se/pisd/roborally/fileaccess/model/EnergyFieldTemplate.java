@@ -6,7 +6,7 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess.model;
  * this class is a template for the energy space and to save the energy space in the json file.
  */
 
-public class EnergySpaceTemplate {
+public class EnergyFieldTemplate {
     public int x;
     public int y;
     public boolean hasEnergyCube;
@@ -28,11 +28,11 @@ public class EnergySpaceTemplate {
         this.y = y;
     }
 
-    public boolean getHasEnergyCube() {
+    public boolean hasEnergyCube() {
         return hasEnergyCube;
     }
 
-    public void setHasEnergyCube(boolean hasEnergyCube) {
+    public void setEnergyCube(boolean hasEnergyCube) {
         this.hasEnergyCube = hasEnergyCube;
     }
 }

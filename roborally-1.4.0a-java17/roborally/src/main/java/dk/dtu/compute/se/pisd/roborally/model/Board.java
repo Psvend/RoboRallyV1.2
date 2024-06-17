@@ -24,8 +24,12 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
+import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -68,6 +72,8 @@ public class Board extends Subject {
 
     private EnergyBank energyBank;
 
+    private int winnerNumber = 0;
+
     public Board(int width, int height) {
         this.width = width;
         this.height = height;
@@ -86,6 +92,8 @@ public class Board extends Subject {
         initGear();
         initCheckpointSpaces();
         initPanels();
+        initPits();
+        initRespawnPoint();
         this.stepMode = false;
     }
 
@@ -254,6 +262,14 @@ public class Board extends Subject {
                 ", Moves: " + getMoves();
     }
 
+    public int getWinner(){
+        return winnerNumber;
+    }
+
+    public void setWinner(int winnerNumber) {
+        this.winnerNumber = winnerNumber;
+    }
+
 
 
     /**
@@ -274,11 +290,15 @@ public class Board extends Subject {
      * be found in EnergySpaces.java
      */
     private void initEnergySpaces() {
-        spaces[7][1] = new EnergySpace(this, 7, 1);
-        spaces[1][6] = new EnergySpace(this, 1, 6);
-        spaces[2][7] = new EnergySpace(this, 2, 7);
-        spaces[6][3] = new EnergySpace(this, 6, 3);
-            
+        EnergyField energyField1 = new EnergyField();
+        EnergyField energyField2 = new EnergyField();
+        EnergyField energyField3 = new EnergyField();
+        EnergyField energyField4 = new EnergyField();
+
+        spaces[7][1].setEnergyField(energyField1);
+        spaces[1][6].setEnergyField(energyField2);
+        spaces[2][7].setEnergyField(energyField3);;
+        spaces[6][3].setEnergyField(energyField4);
     }
 
     /**
@@ -287,7 +307,7 @@ public class Board extends Subject {
      */
 
     private void initWallSpaces() {
-        spaces[0][1] = new WallSpace(this, 2, 3, Heading.NORTH);
+        spaces[0][1] = new WallSpace(this, 0, 1, Heading.NORTH);
         spaces[2][3] = new WallSpace(this, 2, 3, Heading.SOUTH);
         spaces[5][6] = new WallSpace(this, 5, 6, Heading.EAST);
         spaces[7][7] = new WallSpace(this, 7, 7, Heading.WEST);
@@ -385,7 +405,14 @@ public class Board extends Subject {
      * Initialize the checkpointspace
      */
      private void initCheckpointSpaces () {
-        spaces[6][6] = new CheckpointSpace(this, 6, 6);
+        Checkpoint checkpoint1 = new Checkpoint();
+        Checkpoint checkpoint2 = new Checkpoint();
+
+        spaces[0][7].setCheckPoint(checkpoint1);
+        spaces[5][7].setCheckPoint(checkpoint2);
+
+        checkpoint2.setCheckPointNumber(2);
+        checkpoint1.setCheckPointNumber(1);
     }
 
     private void initPanels() {
@@ -402,6 +429,20 @@ public class Board extends Subject {
         
         pushPanel1.setRegisters(pushRegister1);
         pushPanel2.setRegisters(pushRegister2);;
+    }
+
+    private void initPits() {
+        Pitfall pitfall1 = new Pitfall();
+        Pitfall pitfall2 = new Pitfall();
+
+        spaces[0][3].setPitfall(pitfall1);
+        spaces[0][5].setPitfall(pitfall2);
+    }
+
+    private void initRespawnPoint() {
+        RespawnPoint respawnPoint1 = new RespawnPoint();
+
+        spaces[3][3].setRespawnPoint(respawnPoint1);
     }
 }
     

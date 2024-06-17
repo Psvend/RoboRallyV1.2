@@ -1,4 +1,11 @@
 
+
+
+
+/*
+Board UI
+*/
+
 #space-view {
     -fx-background-image: url('img/empty.png');
     -fx-background-size: 100% 100%;
@@ -24,8 +31,8 @@
     -fx-background-size: 100% 100%;
 }
 
-#wallspace-SOUTH {
-    -fx-background-image: url('img/wallspace1.png');
+#wallspaceSOUTH {
+    -fx-background-image: url('img/wallspaceSOUTH.png');
     -fx-background-size: 100% 100%;
 }
 
@@ -44,8 +51,33 @@
     -fx-background-size: 100% 100%;
 }
 
-#checkpoint-view {
+#checkpoint1 {
     -fx-background-image: url('img/checkpoint.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint2 {
+    -fx-background-image: url('img/checkpoint2.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint3 {
+    -fx-background-image: url('img/checkpoint3.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint4 {
+    -fx-background-image: url('img/checkpoint4.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint5 {
+    -fx-background-image: url('img/checkpoint5.png');
+    -fx-background-size: 100% 100%;
+}
+
+#checkpoint6 {
+    -fx-background-image: url('img/checkpoint6.png');
     -fx-background-size: 100% 100%;
 }
 
@@ -209,6 +241,28 @@
     -fx-background-size: 100% 100%;    
 }
 
+#pitfall {
+    -fx-background-image: url('img/hole.png');
+    -fx-background-size: 100% 100%;
+}
+
+#respawnPoint {
+    -fx-background-image: url('img/respawn.png');
+    -fx-background-size: 100% 100%;
+}
+
+#startField {
+    -fx-background-image: url('img/startField.png');
+    -fx-background-size: 100% 100%;
+}
+
+
+
+
+/* 
+UI for menus
+*/
+
 #main-window {
     -fx-background-image: url('img/startpage.png');
     -fx-effect: innershadow( gaussian, gray, 10, 0, 0, 0);
@@ -220,8 +274,15 @@
     -fx-background-color: lightgray;
 }
 
+
+
+
+
+/*
+WINNER UI 
+*/
 #winner-view {
-    -fx-background-color: lightgray;
+    -fx-background-image: url('img/Winnersview.gif');
     -fx-background-size:100% 100%;
     -fx-min-height:400px;
     -fx-min-width:400px;
@@ -232,17 +293,37 @@
 }
 
 
+
+/* 
+Board UI (subject to change)
+*/
+
 #board-view {
     -fx-background-image: url('img/mainview.png');
     -fx-background-size: 100% 100%;
 }
 
 
+
+
+
+/*
+Player Robots assets
+*/
+
 #player-image-red {
     -fx-background-image: url('img/blueplayer.png');
     -fx-background-size: 100% 100%;
 }
 
+
+
+
+
+
+/* 
+Cards UI
+*/
 
 #card-Fwd {
     -fx-background-image: url('img/fwd.png');

@@ -22,11 +22,13 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.EnergyField;
 import dk.dtu.compute.se.pisd.roborally.controller.GearSpace;
+import dk.dtu.compute.se.pisd.roborally.controller.Pitfall;
 import dk.dtu.compute.se.pisd.roborally.controller.PushPanel;
-import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
-import dk.dtu.compute.se.pisd.roborally.model.EnergySpace;
+import dk.dtu.compute.se.pisd.roborally.controller.RespawnPoint;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
@@ -35,8 +37,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import org.jetbrains.annotations.NotNull;
-
-
 
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
@@ -76,7 +76,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         
         //updated by Petrine for each different type of space accounted
-        if(space instanceof EnergySpace) {
+        if(space.getEnergyField() instanceof EnergyField) {
             this.setId("energyspace-view");
         } else if (space instanceof WallSpace) {
             WallSpace wallSpace = (WallSpace) space;
@@ -97,8 +97,26 @@ public class SpaceView extends StackPane implements ViewObserver {
             } else if(space.getGearSpace().getGearType().equals("RIGHT")){
                 this.setId("gearspaceright-view");
             }
-        } else if(space instanceof CheckpointSpace) {
-            this.setId("checkpoint-view");
+        } else if(space.getCheckpoint() instanceof Checkpoint) {
+            if(space.getCheckpoint().getNumber() == 1) {
+                this.setId("checkpoint1");
+            } else if(space.getCheckpoint().getNumber() == 2) {
+                this.setId("checkpoint2");
+            } else if(space.getCheckpoint().getNumber() == 3) {
+                this.setId("checkpoint3");
+            } else if(space.getCheckpoint().getNumber() == 4) {
+                this.setId("checkpoint4");
+            } else if(space.getCheckpoint().getNumber() == 5) {
+                this.setId("checkpoint5");
+            } else if(space.getCheckpoint().getNumber() == 6) {
+                this.setId("checkpoint6");
+            }
+        } else if (space.getPitfall() instanceof Pitfall) {
+            this.setId("pitfall");
+        } else if (space.getRespawnPoint() instanceof RespawnPoint) {
+            this.setId("respawnPoint");
+        } else if (space.y == 0 && space.x == 0) {
+            this.setId("startField");
         } else if(space.getPushPanel() instanceof PushPanel){
             if(space.getPushPanel().getHeading() == WEST){
                 if(space.getPushPanel().getRegisters().length == 3){

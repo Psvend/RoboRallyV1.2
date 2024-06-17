@@ -41,17 +41,17 @@ public class GameController {
 
     final public Board board;
     final public EnergyBank energyBank;
-    public EnergySpace energySpace;
     public int moves = 0;
     public Command command;
     public ArrayList<Player> priorityPlayers = new ArrayList<>();
     public ArrayList<Player> copyOfpriorityPlayers = new ArrayList<>();
     public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
+    public boolean wasActivated = false;
+    public boolean hasCube = true;
 
     public GameController(Board board) {
         this.board = board;
-        this.energySpace = new EnergySpace(board, 1, 1);
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
@@ -76,13 +76,17 @@ public class GameController {
      * 
      */
     public void moveForward(@NotNull Player player) {
+        if(wasActivated == true){
+            wasActivated = false;
+        }
     if (player.board == board) {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
 
         // Check if there's a wall in front of the player (either on the current space or the neighboring space)
         if (currentSpace != null && currentSpace instanceof WallSpace) {
-        WallSpace wallSpace = (WallSpace) currentSpace;
+            WallSpace wallSpace = (WallSpace) currentSpace;
+            
             if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
                 return; // Cannot move forward: Wall detected in the way
             }
@@ -95,18 +99,19 @@ public class GameController {
         if (forwardSpace != null) {
         // Check if there's a wall facing the space the player came from
             Heading backwardHeading = heading.opposite();
-            Space backwardSpace = board.getNeighbour(forwardSpace, backwardHeading);
 
                     // Check if there's a wall facing the backward space in the forward space
-                    if (backwardSpace != null && backwardSpace instanceof WallSpace) {
-                        WallSpace backwardWallSpace = (WallSpace) backwardSpace;
-                        if (backwardWallSpace.getHeading() == backwardHeading && backwardWallSpace.hasWall()) {
+                    if (forwardSpace != null && forwardSpace instanceof WallSpace) {
+                        WallSpace forwardWallSpace = (WallSpace) forwardSpace;
+                        
+                        if (forwardWallSpace.getHeading() == backwardHeading && forwardWallSpace.hasWall()) {
                             return; // Cannot move forward: Wall detected in the opposite direction
                         }
                     }
 
                     // Move the player to the forward space
                     player.setSpace(forwardSpace);
+                    activatePitfall(player, player.getSpace());
             }
         }
     }
@@ -124,11 +129,32 @@ public class GameController {
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
-            Heading heading = player.getHeading().next().next();
+            Heading playerHeading = player.getHeading();
+            Heading heading = player.getHeading().opposite();
+            if (space != null && space instanceof WallSpace) {
+                WallSpace wallSpace = (WallSpace) space;
+                
+                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                        return; // Cannot move forward: Wall detected in the way
+                }
+            }
+            
             Space target = board.getNeighbour(space, heading);
+
             if (target != null) {
+                if (target instanceof WallSpace){
+                    WallSpace targetWallSpace = (WallSpace) target;
+                    if(targetWallSpace.getHeading() == playerHeading && targetWallSpace.hasWall()){
+                        return;
+                    }
+                }
+                
                 try {
                     moveToSpace(player, target, heading);
+                    activatePitfall(player, player.getSpace());
+                    if(wasActivated == true) {
+                    wasActivated = false;
+                    }
                 } catch (ImpossibleMoveException e) {
                     // we don't do anything here  for now; we just catch the
                     // exception so that we do no pass it on to the caller
@@ -147,6 +173,10 @@ public class GameController {
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
+            if(wasActivated == true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
@@ -180,6 +210,10 @@ public class GameController {
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
+            if(wasActivated == true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
@@ -191,6 +225,10 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
+            if(wasActivated == true) {
+                wasActivated = false;
+                break;
+            }
         }
     }
 
@@ -331,25 +369,52 @@ public class GameController {
      * and the labels showing the reserve and bank 
      * 
      */
-    public void isPlayerOnEnergySpace(Player player, EnergyBank energyBank) {
-        Space currentSpace = player.getSpace();
-        energyBank = this.energyBank;
-        if(currentSpace instanceof EnergySpace) {   //hvis spiller lander på et energySpace 
-            if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
-                addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
-                getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
-                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
-                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
-                }
-           } 
+    public void isPlayerOnEnergySpace(EnergyBank energyBank) {
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            Space space = player.getSpace();
+            if(space != null) {
+                if(space.getEnergyField() != null){
+                    if(space.getEnergyField().hasEnergyCube()){
+                        if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+                            addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
+                            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+                            getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+                        }
+                        hasCube = true;
+                        space.getEnergyField().setEnergyCube(hasCube);
+                    }            
+                } else {}
+            }
         }
+        restockEnergyField();
     }
 
 
-    public void isPlayerOnCheckpointSpace(Player player) {
-        Space currentSpace = player.getSpace();
-        if(currentSpace instanceof CheckpointSpace) {
-            board.setPhase(Phase.RESULT);
+    public void activateCheckpointSpace() {
+        for(int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            Space space = player.getSpace();
+            if(space != null) {
+                if(space.getCheckpoint() != null){
+                    if(player.getTokens().contains(space.getCheckpoint().getNumber())){
+                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setWinner(board.getPlayerNumber(player)+1);
+                            board.setPhase(Phase.RESULT);
+                        }
+                    } else {
+                        int checkpointToken = space.getCheckpoint().getNumber();
+                        List<Integer> playerTokens = player.getTokens();
+                        playerTokens.add(checkpointToken);
+                        player.setTokens(playerTokens);
+                        getPlayerView(player).updateCheckPointTokensLabel(playerTokens);
+                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setWinner(board.getPlayerNumber(player)+1);
+                            board.setPhase(Phase.RESULT);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -366,13 +431,16 @@ public class GameController {
         Integer playerBank = player.getEnergyReserve();
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
-        if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
-            // TILFØJET AF LOUISE
-            playerBank++;
-            player.setEnergyReserve(playerBank);
-            energyBankStatus--;
-            energyBank.setEnergyBank(energyBankStatus);
+        Space energySpace = player.getSpace();
+        if(energySpace.getEnergyField().hasEnergyCube() && energySpace.getEnergyField()!= null){
+            if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+                // TILFØJET AF LOUISE
+                playerBank++;
+                player.setEnergyReserve(playerBank);
+                energyBankStatus--;
+                energyBank.setEnergyBank(energyBankStatus);
             }
+        }
     }
 
     private void makeProgramFieldsVisible(int register) {
@@ -422,9 +490,6 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
-            isPlayerOnEnergySpace(player, energyBank);
-            isPlayerOnCheckpointSpace(player);
-
         }
         
     }
@@ -460,6 +525,7 @@ public class GameController {
                         priorityPlayers.addAll(copyOfpriorityPlayers); // determine the priority for the next round
                         Activator.getInstance().activateElements(board, this); //initializes the boardElements
                     } else {
+                        board.setStep(step);
                         Activator.getInstance().activateElements(board, this);
                         startProgrammingPhase();
                     }
@@ -875,6 +941,55 @@ public class GameController {
         }
     }
 
+    public void activatePitfall(Player player, Space space){
+        if(space.getPitfall() instanceof Pitfall) {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;
+        }
+    }
+
+    public Space findRespawnPoint(){
+        Space respawnPoint;
+        for(int i = 0; i <= board.width-1; i++) {
+            for (int j = 0; j <= board.height-1; j++) {
+                respawnPoint = board.getSpace(i, j);
+                if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
+                    return respawnPoint;
+                } else {}
+            }
+        }
+        return respawnPoint = board.getSpace(0, 0);
+    }
+
+    public int findTotalCheckpoints(){
+        Space checkpoint;
+        int totalCheckpoints = 0;
+        for(int i = 0; i <= board.width-1; i++) {
+            for (int j = 0; j <= board.height-1; j++) {
+                checkpoint = board.getSpace(i, j);
+                if (checkpoint.getCheckpoint() instanceof Checkpoint){
+                    totalCheckpoints = totalCheckpoints+1;
+                } else {}
+            }
+        }
+        return totalCheckpoints;
+    }
+
+    public void restockEnergyField(){
+        Space energyField;
+        if(board.getStep() == 5){
+            for(int i = 0; i <= board.width-1; i++) {
+                for (int j = 0; j <= board.height-1; j++) {
+                    energyField = board.getSpace(i, j);
+                    if (energyField.getEnergyField() instanceof EnergyField){
+                        if(!energyField.getEnergyField().hasEnergyCube()){
+                            energyField.getEnergyField().setEnergyCube(false);
+                        }
+                    } else {}
+                }
+            }
+        }
+    }
 
 }
 

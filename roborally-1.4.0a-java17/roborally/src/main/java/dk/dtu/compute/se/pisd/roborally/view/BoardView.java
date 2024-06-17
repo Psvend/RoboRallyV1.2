@@ -21,9 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.CheckpointSpace;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
@@ -32,6 +32,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 import org.jetbrains.annotations.NotNull;
 
 
@@ -100,15 +103,19 @@ public class BoardView extends VBox implements ViewObserver {
         if (subject == board) {
             Phase phase = board.getPhase();
             statusLabel.setText(board.getStatusMessage());
-            if (board.getCurrentPlayer().getSpace() instanceof CheckpointSpace) {
+            if (phase.equals(Phase.RESULT)) {
                 mainBoardPane.getChildren().clear();
                 for (int x = 0; x < board.width; x++) {
                     for (int y = 0; y < board.height; y++) {
                         spaces[x][y] = null;
                     }
                 }
-
-                winnerLabel = new Label(board.getCurrentPlayer().getName() + " WINS!");
+                this.getChildren().remove(statusLabel);
+                winnerLabel = new Label();
+                winnerLabel.setText("Player " + board.getWinner()+" Wins!");
+                Font font = new Font("Impact", 50);
+                winnerLabel.setFont(font);
+                winnerLabel.setTextFill(Color.valueOf(board.getPlayer(board.getWinner()-1).getColor()));
                 winnerBox =  new VBox(winnerLabel);
                 winnerBox.setAlignment(Pos.CENTER_LEFT);
                 winnerBox.setSpacing(3.0);

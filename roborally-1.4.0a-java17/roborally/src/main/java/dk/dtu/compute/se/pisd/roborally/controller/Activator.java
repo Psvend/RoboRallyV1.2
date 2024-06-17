@@ -32,6 +32,8 @@ public class Activator {
         activateConveyorBelts();
         activateGearSpaces();
         activatePushPanels();
+        activateCheckpoints();
+        activateEnergyFields();
     }
 
     /**
@@ -60,6 +62,14 @@ public class Activator {
         } catch (ImpossibleMoveException e) {
 
         }
+    }
+
+    private void activateCheckpoints(){
+        gameController.activateCheckpointSpace();
+    }
+
+    private void activateEnergyFields(){
+        gameController.isPlayerOnEnergySpace(board.getEnergyBank());
     }
 
 }
