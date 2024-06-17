@@ -33,6 +33,9 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.WallSpace;
 import dk.dtu.compute.se.pisd.roborally.model.PriorityAntenna;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -221,24 +224,28 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private void updatePlayer() {
         // Clear only previous player icons, leave the background intact
-        this.getChildren().removeIf(child -> child instanceof Polygon);
+        this.getChildren().removeIf(child -> child instanceof ImageView);
 
         Player player = space.getPlayer();
         if (player != null) {
-            Polygon arrow = createPlayerIcon(player);
-            this.getChildren().add(arrow); // Add player icon last to ensure it is on top
+            ImageView playerRobot = createPlayerIcon(player);
+            this.getChildren().add(playerRobot); // Add player icon last to ensure it is on top
         }
     }
 
-    private Polygon createPlayerIcon(Player player) {
-        Polygon arrow = new Polygon(0.0, 0.0, 10.0, 20.0, 20.0, 0.0);
+    private ImageView createPlayerIcon(Player player) {
+        ImageView playerRobot = new ImageView();
         try {
-            arrow.setFill(Color.valueOf(player.getColor()));
+            if(player.getColor().equals("red")){
+                Image image = new Image("r1.png");
+                image.setId();
+                playerRobot.setId("r1.png");
+                playerRobot.setViewport(new Rectangle2D(10, 10, 20, 20));
+            }
         } catch (Exception e) {
-            arrow.setFill(Color.MEDIUMPURPLE); // Default color in case of an error
         }
-        arrow.setRotate((90 * player.getHeading().ordinal()) % 360);
-        return arrow;
+        playerRobot.setRotate((90 * player.getHeading().ordinal()) % 360);
+        return playerRobot;
     }
 
     @Override
