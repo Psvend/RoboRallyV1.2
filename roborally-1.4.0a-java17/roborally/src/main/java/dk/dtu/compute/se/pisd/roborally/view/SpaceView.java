@@ -230,19 +230,17 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (player != null) {
             ImageView playerRobot = createPlayerIcon(player);
             this.getChildren().add(playerRobot); // Add player icon last to ensure it is on top
+            System.out.println("check");
         }
     }
 
     private ImageView createPlayerIcon(Player player) {
         ImageView playerRobot = new ImageView();
         try {
-            if(player.getColor().equals("red")){
-                Image image = new Image("r1.png");
-                image.setId();
-                playerRobot.setId("r1.png");
-                playerRobot.setViewport(new Rectangle2D(10, 10, 20, 20));
-            }
+                playerRobot.setId("player1");
+                playerRobot.set
         } catch (Exception e) {
+            System.out.println("didnt work");
         }
         playerRobot.setRotate((90 * player.getHeading().ordinal()) % 360);
         return playerRobot;
