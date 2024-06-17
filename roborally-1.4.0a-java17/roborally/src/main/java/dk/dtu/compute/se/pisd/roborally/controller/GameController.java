@@ -115,9 +115,9 @@ public class GameController {
                     }
 
                     // Move the player to the forward space
+                    isPossible(player, player.getHeading());
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
-                    isPossible(player, player.getHeading());
             }
         }
     }
