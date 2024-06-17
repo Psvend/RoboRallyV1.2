@@ -969,7 +969,6 @@ public class GameController {
             player.setSpace(findRespawnPoint());
         }
         else {
-            player.setSpace(findRespawnPoint());
         }    
     }
 
