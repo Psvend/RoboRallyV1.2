@@ -115,7 +115,6 @@ public class GameController {
                     }
 
                     // Move the player to the forward space
-                    isPossible(player, player.getHeading());
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
             }
@@ -969,6 +968,24 @@ public class GameController {
             player.setSpace(findRespawnPoint());
         }
         else {
+        }    
+    }
+
+    public boolean isOutside(Space space, @NotNull Heading heading) {
+        if (space.y == 0 && heading == SOUTH) {
+            return true;
+        } 
+        if (space.y == board.height-1 && heading == NORTH) {
+            return true;
+        }
+        if (space.x == 0 && heading == EAST) {
+            return true;
+        }
+        if (space.x == board.width-1 && heading == WEST) {
+            return true;
+        }
+        else {
+            return false;
         }    
     }
 
