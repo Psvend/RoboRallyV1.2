@@ -236,14 +236,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private ImageView createPlayerIcon(Player player) {
         ImageView playerRobot = new ImageView();
-        try {
-            Image robot = new Image("file:r1.png", true);
+            Image robot = new Image("r1.png");
             playerRobot.setImage(robot);
-            playerRobot.setFitHeight(25);
-            playerRobot.setFitWidth(25);
-        } catch (Exception e) {
-            System.out.println("didnt work");
-        }
         playerRobot.setRotate((90 * player.getHeading().ordinal()) % 360);
         return playerRobot;
     }
