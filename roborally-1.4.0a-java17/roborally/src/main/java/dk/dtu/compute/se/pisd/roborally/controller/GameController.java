@@ -25,6 +25,11 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,6 +117,7 @@ public class GameController {
                     // Move the player to the forward space
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
+                    isPossible(player, player.getHeading());
             }
         }
     }
@@ -152,6 +158,7 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
+                    isPossible(player, player.getHeading());
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
@@ -946,6 +953,29 @@ public class GameController {
             player.setSpace(findRespawnPoint());
             wasActivated = true;
         }
+    }
+    
+    public void isPossible(@NotNull Player player, @NotNull Heading heading) {
+        if (player.getSpace().y == 0 && heading == NORTH) {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;  
+        } 
+        if (player.getSpace().y == board.height-1 && heading == SOUTH) {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;  
+        }
+        if (player.getSpace().x == 0 && heading == WEST) {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;
+        }
+        if (player.getSpace().x == board.width-1 && heading == EAST) {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;
+        }
+        else {
+            player.setSpace(findRespawnPoint());
+            wasActivated = true;
+        }    
     }
 
     public Space findRespawnPoint(){
