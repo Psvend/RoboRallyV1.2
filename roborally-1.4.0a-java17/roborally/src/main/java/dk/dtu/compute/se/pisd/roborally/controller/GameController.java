@@ -958,23 +958,18 @@ public class GameController {
     public void isPossible(@NotNull Player player, @NotNull Heading heading) {
         if (player.getSpace().y == 0 && heading == NORTH) {
             player.setSpace(findRespawnPoint());
-            wasActivated = true;  
         } 
         if (player.getSpace().y == board.height-1 && heading == SOUTH) {
             player.setSpace(findRespawnPoint());
-            wasActivated = true;  
         }
         if (player.getSpace().x == 0 && heading == WEST) {
             player.setSpace(findRespawnPoint());
-            wasActivated = true;
         }
         if (player.getSpace().x == board.width-1 && heading == EAST) {
             player.setSpace(findRespawnPoint());
-            wasActivated = true;
         }
         else {
             player.setSpace(findRespawnPoint());
-            wasActivated = true;
         }    
     }
 
