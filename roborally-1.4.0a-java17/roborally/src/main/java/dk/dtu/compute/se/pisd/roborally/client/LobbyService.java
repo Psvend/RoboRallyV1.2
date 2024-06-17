@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally.network;
+package dk.dtu.compute.se.pisd.roborally.client;
 
 public class LobbyService {
     private HttpRequestService httpRequestService;
