@@ -25,7 +25,19 @@ public class ServiceClient implements HttpRequestService{
 
             @Override
             public String sendPost(String url, String body) {
-                return null;
+                HttpClient client = HttpClient.newHttpClient();
+                HttpRequest request = HttpRequest.newBuilder()
+                        .uri(URI.create(url))
+                        .POST(HttpRequest.BodyPublishers.ofString(body))
+                        .build();
+
+                try {
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    return response.body();
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
 
             @Override
