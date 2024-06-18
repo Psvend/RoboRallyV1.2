@@ -518,6 +518,7 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
+            //TODO label fejl stammer her fra
         }
         
     }
