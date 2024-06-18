@@ -441,6 +441,7 @@ public class Board extends Subject {
 
     private void initRespawnPoint() {
         RespawnPoint respawnPoint1 = new RespawnPoint();
+        respawnPoint1.setHeading(NORTH);
 
         spaces[3][3].setRespawnPoint(respawnPoint1);
     }
