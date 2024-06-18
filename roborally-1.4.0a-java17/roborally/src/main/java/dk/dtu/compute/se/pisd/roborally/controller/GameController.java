@@ -120,11 +120,7 @@ public class GameController {
             }
         }
     }
-    public void playerFinishedSetup(int playerID) {
-        String response = serviceClient.markPlayerAsReady(playerID);
-        // Handle the response here
-        System.out.println(response);
-    }
+
 
     public void createGame(int boardID) {
         String response = serviceClient.creategame(boardID);

@@ -82,13 +82,15 @@ public static String getPlayer() throws Exception {
     }).join();
     return result;
 }
-    public String markPlayerAsReady(int playerID) {
-        String url = "http://localhost:8080/api/players/" + playerID + "/ready";
-        return sendPost(url, "");
-    }
+
     public String creategame(int boardID) {
         String url = "http://localhost:8080/api/createGame";
+
         return httpRequestService.sendPost(url, "");
+    }
+    public String startGame(){
+    String url ="http://localhost:8080/api/startGame";
+    return sendPost(url, "");
     }
     @Override
     public String sendGet(String url) {
