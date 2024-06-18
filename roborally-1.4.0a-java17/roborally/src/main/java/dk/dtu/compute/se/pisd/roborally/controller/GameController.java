@@ -53,7 +53,9 @@ public class GameController {
     public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
     public boolean wasActivated = false;
+    public boolean wasOutside = false;
     public boolean hasCube = true;
+    
 
     public GameController(Board board) {
         this.board = board;
@@ -83,6 +85,9 @@ public class GameController {
     public void moveForward(@NotNull Player player) {
         if(wasActivated == true){
             wasActivated = false;
+        }
+        if(wasOutside == true) {
+            wasOutside = false;
         }
     if (player.board == board) {
         Space currentSpace = player.getSpace();
@@ -116,6 +121,8 @@ public class GameController {
 
                     // Move the player to the forward space
                     if(isOutside(forwardSpace,player.getHeading())){
+                        player.setSpace(findRespawnPoint());
+                        wasOutside = true;
                         return;
                     }
                     player.setSpace(forwardSpace);
@@ -186,6 +193,10 @@ public class GameController {
                 wasActivated = false;
                 break;
             }
+            if(wasOutside == true) {
+                wasOutside = false;
+                break;
+            }
         }
     }
 
@@ -223,6 +234,10 @@ public class GameController {
                 wasActivated = false;
                 break;
             }
+            if(wasOutside == true) {
+                wasOutside = false;
+                break;
+            }
         }
     }
 
@@ -236,6 +251,10 @@ public class GameController {
             moveForward(player);
             if(wasActivated == true) {
                 wasActivated = false;
+                break;
+            }
+            if(wasOutside == true) {
+                wasOutside = false;
                 break;
             }
         }
