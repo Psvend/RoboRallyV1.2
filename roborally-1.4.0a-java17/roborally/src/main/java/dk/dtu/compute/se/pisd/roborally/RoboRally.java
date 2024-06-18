@@ -23,9 +23,13 @@ package dk.dtu.compute.se.pisd.roborally;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
+import dk.dtu.compute.se.pisd.roborally.view.LobbyView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
 import javafx.application.Application;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -45,8 +49,8 @@ public class RoboRally extends Application {
     private static final int MIN_APP_WIDTH = 800;
     private static final int MIN_APP_HEIGHT = 800;
 
-    private Stage stage;
-    private BorderPane boardRoot;
+    private Stage stage= new Stage();
+    private BorderPane boardRoot= new BorderPane();
     
 
     @Override
@@ -103,6 +107,22 @@ public class RoboRally extends Application {
             boardRoot.setCenter(boardView);
             boardRoot.setId("board-view");
             
+        }
+
+        stage.sizeToScene();
+    }
+    public void createLobbyView(Player player, Board board, GameController gameController){
+        // if present, remove old BoardView
+        boardRoot.getChildren().clear();
+
+
+        if (player != null) {
+            // create and add view for new board
+            LobbyView lobbyView = new LobbyView(player, board, gameController);
+            Node lobbyViewContent = lobbyView.getContent();
+            boardRoot.setCenter(lobbyViewContent);
+            boardRoot.setId("lobby-view");
+
         }
 
         stage.sizeToScene();
