@@ -51,6 +51,7 @@ public class RoboRally extends Application {
 
     private Stage stage= new Stage();
     private BorderPane boardRoot= new BorderPane();
+    private String name;
     
 
     @Override
@@ -126,6 +127,9 @@ public class RoboRally extends Application {
         }
 
         stage.sizeToScene();
+    }
+    public String getName() {
+        return name;
     }
 
     @Override

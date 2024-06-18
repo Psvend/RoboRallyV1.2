@@ -26,6 +26,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.client.LobbyService;
 import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
@@ -40,9 +41,12 @@ import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * ...
@@ -59,9 +63,11 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
+    private LobbyService lobbyService;
 
     public AppController(@NotNull RoboRally roboRally) {
-        this.roboRally = roboRally;
+        this.roboRally = roboRally;;
+        this.lobbyService = new LobbyService();
         
     }
 
@@ -126,17 +132,52 @@ public class AppController implements Observer {
     }
 
     public void lobby(){
-        if (gameController != null) {
-            // The UI should not allow this, but in case this happens anyway.
-            // give the user the option to save the game or abort this operation!
-            if (!stopGame()) {
-                return;
+        int gameStatus = 0; // replace with the actual game status you want to use
+        CompletableFuture<List<RoboRally>> availableGamesFuture = lobbyService.getAvailableGames(gameStatus);
+
+        // Handle the CompletableFuture result
+        availableGamesFuture.thenAccept(availableGames -> {
+            // Convert the list of RoboRally objects to a list of strings
+            List<String> gameNames = availableGames.stream()
+                    .map(RoboRally::getName)
+                    .collect(Collectors.toList());
+            System.out.println(gameNames);
+            // Create a ChoiceDialog with the list of game names
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameNames.get(0), gameNames);
+            dialog.setTitle("Choose a game");
+            dialog.setHeaderText("Select a game from the list:");
+
+            // Show the dialog and handle the user's choice
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                String chosenGameName = result.get();
+                System.out.println("You chose: " + chosenGameName);
+
+                RoboRally chosenGame = availableGames.stream()
+                        .filter(game -> game.getName().equals(chosenGameName))
+                        .findFirst()
+                        .orElse(null);
+
+                if (chosenGame != null) {
+                    Board board = new Board(8,8);
+                    TextInputDialog name = new TextInputDialog("Player " );
+                    name.setTitle("Player name");
+                    name.setHeaderText("Enter the name of the player:");
+                    Optional<String> nameResult = name.showAndWait();
+
+                    Player player = new Player(board, PLAYER_COLORS.get(1), nameResult.get());
+                    // Start the LobbyView for the chosen game
+                    roboRally.createLobbyView(player, board, gameController);
+                } else {
+                    System.out.println("Game not found: " + chosenGameName);
+                }
+
+                // Do something with the chosen game name
             }
-        }
-        Board board = new Board(8,8);
-        Player player = new Player(board, "red", "Player 1");
-        roboRally.createLobbyView(player, board, gameController);
+        });
     }
+
+
     public void onlineGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -156,7 +197,7 @@ public class AppController implements Observer {
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
             gameController = new GameController(board);
-            gameController.createGame(8);
+
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 TextInputDialog name = new TextInputDialog("Player " + (i + 1));
@@ -171,8 +212,7 @@ public class AppController implements Observer {
 
 
             }
-
-
+            gameController.createGame(roboRally);
 
 
         }

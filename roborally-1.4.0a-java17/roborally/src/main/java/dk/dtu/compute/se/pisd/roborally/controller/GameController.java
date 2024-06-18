@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
@@ -122,8 +123,18 @@ public class GameController {
     }
 
 
-    public void createGame(int boardID) {
-        String response = serviceClient.creategame(boardID);
+    public void createGame(RoboRally roboRally) {
+        String response = serviceClient.creategame(roboRally);
+        // Handle the response here
+        System.out.println(response);
+    }
+    public void createPlayer() {
+        String response = serviceClient.createPlayer();
+        // Handle the response here
+        System.out.println(response);
+    }
+    public void startGame() {
+        String response = serviceClient.startGame();
         // Handle the response here
         System.out.println(response);
     }

@@ -2,7 +2,7 @@ package dk.dtu.compute.se.pisd.roborally.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.io.IOException;
@@ -11,7 +11,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class ServiceClient implements HttpRequestService{
     private HttpRequestService httpRequestService;
@@ -28,16 +27,17 @@ public class ServiceClient implements HttpRequestService{
                 HttpClient client = HttpClient.newHttpClient();
                 HttpRequest request = HttpRequest.newBuilder()
                         .uri(URI.create(url))
+                        .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString(body))
                         .build();
 
-                try {
-                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    return response.body();
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                    return null;
-                }
+                return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                        .thenApply(HttpResponse::body)
+                        .exceptionally(e -> {
+                            e.printStackTrace();
+                            return null;
+                        }).join();
+
             }
 
             @Override
@@ -58,35 +58,27 @@ private static final HttpClient httpClient = HttpClient.newBuilder()
         .version(HttpClient.Version.HTTP_2)
         .build();
 
-public static String getPlayer() throws Exception {
-    HttpRequest request = HttpRequest.newBuilder()
-            .GET()
-            .uri(URI.create("http://localhost:8080/api/players"))
-            .build();
-    CompletableFuture<HttpResponse<String>> response =
-            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString());
-    String result = response.thenApply((r)-> {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<String > players = objectMapper.readValue(r.body(), List.class);
-            Board board = new Board(8, 8);
-            for (String player : players) {
-                Player player1 = objectMapper.readValue(player, Player.class);
-                return player1.toString();
-
-            }
-            return r.body();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }).join();
-    return result;
+public String createPlayer()  {
+    String url = "http://localhost:8080/api/createPlayer";
+    return httpRequestService.sendPost(url, "");
 }
 
-    public String creategame(int boardID) {
-        String url = "http://localhost:8080/api/createGame";
 
-        return httpRequestService.sendPost(url, "");
+
+    public String creategame(RoboRally game) {
+        String url = "http://localhost:8080/createGame";
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String gameJson = "";
+        try {
+            gameJson = objectMapper.writeValueAsString(game);
+            System.out.println(gameJson);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return httpRequestService.sendPost(url, gameJson);
     }
     public String startGame(){
     String url ="http://localhost:8080/api/startGame";

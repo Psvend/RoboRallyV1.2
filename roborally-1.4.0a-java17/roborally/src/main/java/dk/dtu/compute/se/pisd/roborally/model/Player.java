@@ -52,7 +52,6 @@ public class Player extends Subject {
     private CommandCardField[] cards;
     private List<Integer> tokens = new ArrayList<>();
     private int energyReserve;   //the players own energy reserve
-    private boolean ready = false;
 
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
@@ -140,17 +139,6 @@ public class Player extends Subject {
         return cards[i];
     }
 
-    public void setReady(boolean ready) {
-        if(ready==true){
-            this.ready= true;
-        }else{
-            this.ready = false;
-        }
-        notifyChange();
-    }
-    public boolean isReady() {
-        return ready;
-    }
 
 
     /**
