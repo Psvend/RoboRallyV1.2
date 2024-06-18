@@ -51,7 +51,7 @@ public class RoboRally extends Application {
 
     private Stage stage= new Stage();
     private BorderPane boardRoot= new BorderPane();
-    
+
 
     @Override
     public void init() throws Exception {
@@ -59,31 +59,35 @@ public class RoboRally extends Application {
     }
     /**
      * @author Louise
-     * @param Stage
+     * @param primaryStage
      * Added implementation of stylesheet (style.css)
      */
     @Override
     public void start(Stage primaryStage) {
         stage = primaryStage;
-            
+
         // Load the CSS stylesheet
 
         Scene primaryScene = new Scene(new VBox(), MIN_APP_WIDTH, MIN_APP_HEIGHT);
-        primaryScene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        
-    
+        var temp = getClass().getResource("/style.css");
+
+        //if (temp != null) {
+            primaryScene.getStylesheets().add(temp.toExternalForm());
+        //}
+
+
         AppController appController = new AppController(this);
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
-        menuBar.setId("menuBar-view");  //styrer baggrund på første pop up 
+        menuBar.setId("menuBar-view");  //styrer baggrund på første pop up
         boardRoot = new BorderPane();
-                
+
         //test 1
         VBox vbox = new VBox(menuBar, boardRoot);
         vbox.setId("main-window");  //styrer baggrund på spillepladen
 
 
         vbox.setMinWidth(MIN_APP_WIDTH);
-        primaryScene.setRoot(vbox);    
+        primaryScene.setRoot(vbox);
         stage.setScene(primaryScene);
         stage.setTitle("RoboRally");
         stage.setOnCloseRequest(
@@ -99,14 +103,14 @@ public class RoboRally extends Application {
     public void createBoardView(GameController gameController) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-        
+
 
         if (gameController != null) {
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
             boardRoot.setId("board-view");
-            
+
         }
 
         stage.sizeToScene();
@@ -139,7 +143,6 @@ public class RoboRally extends Application {
     }
 
     public static void main(String[] args) {
-        
         launch(args);
     }
 
