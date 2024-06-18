@@ -1094,6 +1094,9 @@ public class GameController {
                     }
 
                     if(isOutside(pushSpace,heading)){
+                        //if(findRespawnPoint().getPlayer()!=null){
+//
+//                      }
                         playerBeingPushed.setSpace(findRespawnPoint());
                         wasOutside = true;
                         return;
@@ -1103,6 +1106,8 @@ public class GameController {
         }
     }
     
+    public void respawnPush(@NotNull Player player){
+    }
 
 }
 
