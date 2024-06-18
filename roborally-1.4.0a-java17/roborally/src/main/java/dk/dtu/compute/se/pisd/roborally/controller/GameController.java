@@ -125,8 +125,15 @@ public class GameController {
                         wasOutside = true;
                         return;
                     }
+                    if(forwardSpace.getPlayer() != null) {
+                        pushPlayer(forwardSpace, player.getHeading());
+                    }
+                    if(forwardSpace.getPlayer() == null){
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
+                    } else {
+                        return;
+                    }
             }
         }
     }
@@ -1054,6 +1061,48 @@ public class GameController {
             }
         }
     }
+
+    public void pushPlayer(Space space, Heading heading) {
+        if(wasActivated == true){
+            wasActivated = false;
+        }
+        if(wasOutside == true) {
+            wasOutside = false;
+        }
+
+        Player playerBeingPushed = space.getPlayer();
+
+        if (space != null && space instanceof WallSpace) {
+            WallSpace wallSpace = (WallSpace) space;
+            
+            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                return;
+            }
+        }
+
+        Space pushSpace = board.getNeighbour(space, heading);
+
+        if (pushSpace != null) {
+            Heading backwardHeading = heading.opposite();
+
+            if (pushSpace != null && pushSpace instanceof WallSpace) {
+                        WallSpace pushWallSpace = (WallSpace) pushSpace;
+                        
+                        if (pushWallSpace.getHeading() == backwardHeading && pushWallSpace.hasWall()) {
+                            return;
+                        }
+                    }
+
+                    if(isOutside(pushSpace,heading)){
+                        playerBeingPushed.setSpace(findRespawnPoint());
+                        wasOutside = true;
+                        return;
+                    }
+                    playerBeingPushed.setSpace(pushSpace);
+                    activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
+        }
+    }
+    
 
 }
 
