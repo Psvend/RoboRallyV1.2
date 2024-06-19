@@ -1,6 +1,10 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -79,11 +83,14 @@ public class CreateGameView {
         // Confirm button
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(e -> {
+            //herfra
             String gameName = gameNameField.getText();
             int numPlayers = Integer.parseInt(numPlayersField.getText());
 
             List<String> playerNames = new ArrayList<>();
             boolean validSetup = true;
+            LobbyViewNY lobby = new LobbyViewNY();
+            lobby.show();
             for (var node : playerNamesVbox.getChildren()) {
                 if (node instanceof TextField && !((TextField) node).getPromptText().equals("Player Names:")) {
                     String playerName = ((TextField) node).getText().trim();
@@ -101,7 +108,7 @@ public class CreateGameView {
                 HttpClientAsynchronousPost.Games newGame = createNewGame(gameName, numPlayers, playerNames);
                 HttpClientAsynchronousPost.addGame(newGame);
                 System.out.println("Game setup successful!");
-                dialogStage.close();
+                
             } else {
                 // Display error or prompt user to fill in all player names
                 System.out.println("Please enter a name for each player.");
@@ -133,6 +140,15 @@ public class CreateGameView {
         //}
 
         return newGame;
+    }
+
+    //handles opening of lobby view
+    private void openLobbyView(HttpClientAsynchronousPost.Games game, List<String> playerNames) {
+        //updateView(p);
+        //System.out.println("Lobby view opened succesfully");
+        //dialogStage.show(player);
+    
+    
     }
 
     public void show() {

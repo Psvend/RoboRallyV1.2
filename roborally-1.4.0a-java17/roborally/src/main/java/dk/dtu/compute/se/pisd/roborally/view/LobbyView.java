@@ -23,7 +23,6 @@ public class LobbyView extends Tab implements ViewObserver{
 
     private AppController appController;
     private VBox top;
-
     private VBox buttonPanel;
 
     //add label or button to vbox

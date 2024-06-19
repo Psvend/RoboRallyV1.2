@@ -120,10 +120,12 @@ public class RoboRally extends Application {
         exitButton.setId("exit-button");
 
 
+
         // Set button actions
         createGameButton.setOnAction(e -> createGame());
         joinGameButton.setOnAction(e -> {});
         exitButton.setOnAction(e -> exitApplication());
+        
 
         createGameButton.setMaxWidth(Double.MAX_VALUE);
         joinGameButton.setMaxWidth(Double.MAX_VALUE);
