@@ -43,24 +43,6 @@ public class HttpClientAsynchronous {
                 .join();
     }
 
-    // Games class
-   /* public class Games {
-        @JsonProperty("game_id")
-        private int gameId;
-
-        @JsonProperty("game_name")
-        private String gameName;
-
-        @JsonProperty("players_amount")
-        private int playersAmount;
-
-        // Other properties and methods...
-
-        @Override
-        public String toString() {
-            return "Games{id=" + gameId + ", gameName='" + gameName + "', playersAmount=" + playersAmount + '}';
-        }
-*/
         // Static Games class
         public static class Games {
             @JsonProperty("game_id")

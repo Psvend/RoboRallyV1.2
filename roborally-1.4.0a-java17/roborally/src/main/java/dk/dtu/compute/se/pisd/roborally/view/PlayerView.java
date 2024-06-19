@@ -58,8 +58,6 @@ public class PlayerView extends Tab implements ViewObserver {
     private CardFieldView[] programCardViews;
     private CardFieldView[] cardViews;
 
-
-
     private VBox buttonPanel;
     private VBox LabelContainer;
 

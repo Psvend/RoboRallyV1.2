@@ -67,7 +67,7 @@ public class HttpClientAsynchronousPost {
         return newGame;
     }
 
-    private static void addGame(Games game) {
+    public static void addGame(Games game) {
         try {
             // Convert Games object to JSON string
             String jsonBody = new ObjectMapper().writeValueAsString(game);

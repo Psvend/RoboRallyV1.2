@@ -21,16 +21,20 @@
  */
 package dk.dtu.compute.se.pisd.roborally;
 
+import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
+import dk.dtu.compute.se.pisd.roborally.view.CreateGameView;
 import dk.dtu.compute.se.pisd.roborally.view.LobbyView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -51,6 +55,13 @@ public class RoboRally extends Application {
 
     private Stage stage= new Stage();
     private BorderPane boardRoot= new BorderPane();
+
+    private Button createGameButton;
+    private Button joinGameButton;
+    private Button exitButton;
+
+    private AppController appController;
+
 
 
     @Override
@@ -98,6 +109,57 @@ public class RoboRally extends Application {
         stage.setResizable(false);
         stage.sizeToScene();
         stage.show();
+
+        Button createGameButton = new Button("Create Game");
+        createGameButton.setId("create-game-button");
+
+        Button joinGameButton = new Button("Join Game");
+        joinGameButton.setId("join-game-button");
+
+        Button exitButton = new Button("Exit");
+        exitButton.setId("exit-button");
+
+
+        // Set button actions
+        createGameButton.setOnAction(e -> createGame());
+        joinGameButton.setOnAction(e -> {});
+        exitButton.setOnAction(e -> exitApplication());
+
+        createGameButton.setMaxWidth(Double.MAX_VALUE);
+        joinGameButton.setMaxWidth(Double.MAX_VALUE);
+        exitButton.setMaxWidth(Double.MAX_VALUE);
+
+        VBox vbButtons = new VBox();
+        vbButtons.setSpacing(10);
+        vbButtons.setPadding(new Insets(50, 20, 10, 20));
+        vbButtons.getChildren().addAll(createGameButton, joinGameButton, exitButton);
+        // Create a VBox layout and add the buttons
+        vbox.getChildren().addAll(vbButtons);
+
+
+    }
+
+
+    private void createGame() {
+        System.out.println("Create Game button clicked");
+        CreateGameView dialog = new CreateGameView();
+        dialog.show();
+    }
+
+    private void onCreateGame() {
+        System.out.println("Game setup confirmed");
+        // Implement game setup logic here
+    }
+
+    private void joinGame() {
+        System.out.println("Join Game button clicked");
+        // Add logic to handle joining a game
+    }
+
+    private void exitApplication() {
+        System.out.println("Exit button clicked");
+        // Add logic to handle exiting the application
+        System.exit(0);
     }
 
     public void createBoardView(GameController gameController) {
