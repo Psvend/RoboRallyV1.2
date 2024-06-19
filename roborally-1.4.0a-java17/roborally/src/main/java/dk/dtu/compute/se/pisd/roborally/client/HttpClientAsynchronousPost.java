@@ -11,6 +11,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class HttpClientAsynchronousPost {
@@ -21,6 +22,7 @@ public class HttpClientAsynchronousPost {
 
     // Static variable to store the current game
     public static Games currentGame;
+    public static List<Games> availableGames;
 
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
@@ -44,8 +46,8 @@ public class HttpClientAsynchronousPost {
                             ObjectMapper objectMapper = new ObjectMapper();
                             currentGame = objectMapper.readValue(response, Games.class);
                             futureGame.complete(currentGame); // Complete the future when the game is added
-                        }
-                        catch (Exception e) {
+                            System.out.println("Game added: " + currentGame);
+                        } catch (Exception e) {
                             e.printStackTrace();
                             futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
                         }
@@ -57,6 +59,37 @@ public class HttpClientAsynchronousPost {
 
         return futureGame; // Return the future that will be completed in the future
     }
+
+    //Get list of available games
+    public static CompletableFuture<List<Games>> getAvailableGames() throws Exception {
+        CompletableFuture<List<Games>> futureGame = new CompletableFuture<>();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/availableGames/0"))
+                .header("Content-Type", "application/json")
+                .build();
+
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
+                        });
+
+                        // Print the games (for demonstration)
+                        /*for (Games game : gamesList) {
+                            System.out.println(game);
+                        }*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .join(); // Block main thread to wait for completion (for demonstration)
+        return futureGame;
+    }
+
 
 
 

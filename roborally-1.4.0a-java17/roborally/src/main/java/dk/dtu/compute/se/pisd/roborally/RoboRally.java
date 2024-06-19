@@ -119,7 +119,13 @@ public class RoboRally extends Application {
 
         // Set button actions
         createGameButton.setOnAction(e -> createGame());
-        joinGameButton.setOnAction(e -> {joinGame();});
+        joinGameButton.setOnAction(e -> {
+            try {
+                joinGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         exitButton.setOnAction(e -> exitApplication());
 
         createGameButton.setMaxWidth(Double.MAX_VALUE);
@@ -148,9 +154,10 @@ public class RoboRally extends Application {
         // Implement game setup logic here
     }
 
-    private void joinGame() {
+    private void joinGame() throws Exception {
         System.out.println("Join Game button clicked");
-
+        AvailableGamesView gamesList = new AvailableGamesView();
+        gamesList.show();
        // LobbyView dialog = new LobbyView();
 
         // Add logic to handle joining a game

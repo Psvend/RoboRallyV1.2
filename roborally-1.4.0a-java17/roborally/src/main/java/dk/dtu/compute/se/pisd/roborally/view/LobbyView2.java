@@ -20,17 +20,13 @@ public class LobbyView2 {
         lobbyStage = new Stage();
 
 
-        lobbyStage.setTitle("Lobby" + HttpClientAsynchronousPost.currentGame.getGameName());
+        lobbyStage.setTitle("Lobby " + HttpClientAsynchronousPost.currentGame.getGameName());
         VBox dialogVbox = new VBox(10);
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
 
 
-        VBox playerNamesVbox = new VBox(5);
-        Label playerNamesLabel = new Label("Player Names:"  );
 
-        //+ HttpClientAsynchronousPost.currentGame.getGameName()
-        playerNamesVbox.getChildren().add(playerNamesLabel);
 
         Scene lobbyScene = new Scene(dialogVbox, 300, 400);
         lobbyStage.setScene(lobbyScene);
