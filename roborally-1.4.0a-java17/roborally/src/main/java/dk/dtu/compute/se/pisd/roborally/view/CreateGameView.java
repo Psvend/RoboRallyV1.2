@@ -69,11 +69,11 @@ public class CreateGameView {
             playerNamesVbox.getChildren().add(playerNamesLabel);
 
             // Add new player name fields
-            for (int i = 0; i < numPlayers; i++) {
+
                 TextField playerNameField = new TextField();
-                playerNameField.setPromptText("Player " + (i + 1) + " Name");
+                playerNameField.setPromptText("Player 1" + " Name");
                 playerNamesVbox.getChildren().add(playerNameField);
-            }
+
         });
 
         dialogVbox.getChildren().add(playerNamesVbox);
