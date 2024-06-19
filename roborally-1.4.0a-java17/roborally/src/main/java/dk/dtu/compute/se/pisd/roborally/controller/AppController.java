@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.client.LobbyService;
+import dk.dtu.compute.se.pisd.roborally.client.Playerclient;
 import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
@@ -64,10 +65,12 @@ public class AppController implements Observer {
 
     private GameController gameController;
     private LobbyService lobbyService;
+    private Playerclient playerclient;
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;;
         this.lobbyService = new LobbyService();
+        this.playerclient = new Playerclient();
         
     }
 
@@ -206,6 +209,8 @@ public class AppController implements Observer {
                 Optional<String> nameResult = name.showAndWait();
 
                 Player player = new Player(board, PLAYER_COLORS.get(i), nameResult.get());
+                player=playerclient.addPlayer(player);
+                gameController.addPlayer(player);
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
                 roboRally.createLobbyView(board.getPlayer(i), board, gameController);

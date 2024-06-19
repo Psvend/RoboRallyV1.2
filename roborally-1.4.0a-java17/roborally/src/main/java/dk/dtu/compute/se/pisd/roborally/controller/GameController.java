@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.client.Playerclient;
 import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
@@ -52,6 +53,7 @@ public class GameController {
     public boolean wasActivated = false;
     public boolean hasCube = true;
     private ServiceClient serviceClient;
+    private Playerclient playerclient;
 
     private int gameId;
 
@@ -60,6 +62,8 @@ public class GameController {
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
         this.serviceClient = new ServiceClient();
+        this.playerclient = new Playerclient();
+
     }
     
 
@@ -135,6 +139,13 @@ public class GameController {
     }
     public void startGame() {
         String response = serviceClient.startGame();
+        // Handle the response here
+        System.out.println(response);
+    }
+
+    public void addPlayer(Player player) {
+        String response = String.valueOf(playerclient.addPlayer(player));
+
         // Handle the response here
         System.out.println(response);
     }
