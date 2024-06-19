@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally.client;
+package dk.dtu.compute.se.pisd.roborally.network;
 
 public interface HttpRequestService {
     public String sendGet(String url);

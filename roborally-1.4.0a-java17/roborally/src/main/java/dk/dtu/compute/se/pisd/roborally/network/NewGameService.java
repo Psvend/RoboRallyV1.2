@@ -1,6 +1,5 @@
-package dk.dtu.compute.se.pisd.roborally.client;
+package dk.dtu.compute.se.pisd.roborally.network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 

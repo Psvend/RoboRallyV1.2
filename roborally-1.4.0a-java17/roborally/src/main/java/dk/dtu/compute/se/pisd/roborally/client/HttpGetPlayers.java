@@ -172,4 +172,5 @@ public class HttpGetPlayers {
             return "Board{boardId=" + boardId + ", boardName='" + boardName + "'}";
         }
     }
+
 }

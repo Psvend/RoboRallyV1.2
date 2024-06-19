@@ -3,16 +3,15 @@ package dk.dtu.compute.se.pisd.roborally.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.network.HttpRequestService;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 
-public class ServiceClient implements HttpRequestService{
+public class ServiceClient implements HttpRequestService {
     private HttpRequestService httpRequestService;
 
     public ServiceClient(){

@@ -2,6 +2,7 @@ package dk.dtu.compute.se.pisd.roborally.client;
 
 import com.google.gson.Gson;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import dk.dtu.compute.se.pisd.roborally.network.HttpRequestService;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,7 +10,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Playerclient implements HttpRequestService{
+public class Playerclient implements HttpRequestService {
 
     private HttpRequestService httpRequestService;
     private Gson gson;

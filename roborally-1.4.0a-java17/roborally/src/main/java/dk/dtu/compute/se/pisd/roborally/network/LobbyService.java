@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.roborally.client;
+package dk.dtu.compute.se.pisd.roborally.network;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,13 +9,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public class LobbyService implements HttpRequestService{
+public class LobbyService implements HttpRequestService {
     private HttpRequestService httpRequestService;
 
     private static final HttpClient httpClient = HttpClient.newBuilder()

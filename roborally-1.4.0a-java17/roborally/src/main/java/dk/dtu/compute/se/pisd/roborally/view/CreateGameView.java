@@ -2,6 +2,8 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
+import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPlayerPost;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,6 +21,7 @@ public class CreateGameView {
 
     private Stage dialogStage;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
+    private HttpClientAsynchronousPlayerPost httpClientPlayer = new HttpClientAsynchronousPlayerPost();
 
     public CreateGameView() {
         dialogStage = new Stage();
@@ -102,6 +105,8 @@ public class CreateGameView {
                 // Create game object and send it to the server
                 Games newGame = createNewGame(gameName, numPlayers, playerNames);
                 HttpClientAsynchronousPost.addGame(newGame);
+                //Players newPlayer = createNewPlayer(playerNames.get(0));
+                //HttpClientAsynchronousPlayerPost.AddPlayer(newPlayer);
                 System.out.println("Game setup successful!");
                 dialogStage.close();
             } else {
@@ -135,6 +140,14 @@ public class CreateGameView {
         //}
 
         return newGame;
+    }
+
+    private Players createNewPlayer(String playerName) {
+        Players newPlayer = new Players();
+        newPlayer.setPlayerId(0);
+        newPlayer.setPlayerName(playerName);
+        newPlayer.setPhaseStatus(false); // Initially player is not ready
+        return newPlayer;
     }
 
     public void show() {
