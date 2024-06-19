@@ -1,4 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.client;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -41,6 +42,16 @@ public class HttpClientAsynchronousPlayerPost {
     }
 
     public static class Players{
+    @JsonProperty("player_id")
+    private int playerId;
+
+    @JsonProperty("player_name")
+    private String playerName;
+
+    @JsonProperty("phase_status")
+    private String phaseStatus;
+
+
 
     }
 }
