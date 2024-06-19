@@ -105,8 +105,8 @@ public class CreateGameView {
                 // Create game object and send it to the server
                 Games newGame = createNewGame(gameName, numPlayers, playerNames);
                 HttpClientAsynchronousPost.addGame(newGame);
-                //Players newPlayer = createNewPlayer(playerNames.get(0));
-                //HttpClientAsynchronousPlayerPost.AddPlayer(newPlayer);
+                Players newPlayer = createNewPlayer(playerNames.get(0));
+                HttpClientAsynchronousPlayerPost.AddPlayer(newPlayer);
                 System.out.println("Game setup successful!");
                 dialogStage.close();
             } else {
