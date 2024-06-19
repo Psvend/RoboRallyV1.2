@@ -153,6 +153,8 @@ public class RoboRally extends Application {
 
     private void joinGame() {
         System.out.println("Join Game button clicked");
+       // LobbyView dialog = new LobbyView();
+
         // Add logic to handle joining a game
     }
 
