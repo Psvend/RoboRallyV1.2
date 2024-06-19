@@ -64,8 +64,7 @@ public class GameController {
         this.board = board;
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
-        this.serviceClient = new ServiceClient();
-        this.playerclient = new Playerclient();
+
 
     }
     
@@ -137,36 +136,6 @@ public class GameController {
         }
     }
 
-
-    public void createGame(RoboRally roboRally) {
-        String response = serviceClient.creategame(roboRally);
-        // Handle the response here
-        System.out.println(response);
-    }
-    public void createPlayer() {
-        String response = serviceClient.createPlayer();
-        // Handle the response here
-        System.out.println(response);
-    }
-    public void startGame() {
-        String response = serviceClient.startGame();
-        // Handle the response here
-        System.out.println(response);
-    }
-
-    public void addPlayer(Player player) {
-        String response = String.valueOf(playerclient.addPlayer(player));
-
-        // Handle the response here
-        System.out.println(response);
-    }
-
-    public int getGameId() {
-        return gameId;
-    }
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
 
 
 

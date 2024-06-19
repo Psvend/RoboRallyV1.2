@@ -193,9 +193,7 @@ public class RoboRally extends Application {
 
         stage.sizeToScene();
     }
-    public String getName() {
-        return name;
-    }
+
 
     @Override
     public void stop() throws Exception {

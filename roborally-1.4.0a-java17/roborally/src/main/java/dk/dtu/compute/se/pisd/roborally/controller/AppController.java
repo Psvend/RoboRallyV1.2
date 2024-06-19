@@ -135,49 +135,9 @@ public class AppController implements Observer {
     }
 
     public void lobby(){
-        int gameStatus = 0; // replace with the actual game status you want to use
-        CompletableFuture<List<RoboRally>> availableGamesFuture = lobbyService.getAvailableGames(gameStatus);
 
-        // Handle the CompletableFuture result
-        availableGamesFuture.thenAccept(availableGames -> {
             // Convert the list of RoboRally objects to a list of strings
-            List<String> gameNames = availableGames.stream()
-                    .map(RoboRally::getName)
-                    .collect(Collectors.toList());
-            System.out.println(gameNames);
-            // Create a ChoiceDialog with the list of game names
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(gameNames.get(0), gameNames);
-            dialog.setTitle("Choose a game");
-            dialog.setHeaderText("Select a game from the list:");
 
-            // Show the dialog and handle the user's choice
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                String chosenGameName = result.get();
-                System.out.println("You chose: " + chosenGameName);
-
-                RoboRally chosenGame = availableGames.stream()
-                        .filter(game -> game.getName().equals(chosenGameName))
-                        .findFirst()
-                        .orElse(null);
-
-                if (chosenGame != null) {
-                    Board board = new Board(8,8);
-                    TextInputDialog name = new TextInputDialog("Player " );
-                    name.setTitle("Player name");
-                    name.setHeaderText("Enter the name of the player:");
-                    Optional<String> nameResult = name.showAndWait();
-
-                    Player player = new Player(board, PLAYER_COLORS.get(1), nameResult.get());
-                    // Start the LobbyView for the chosen game
-                    roboRally.createLobbyView(player, board, gameController);
-                } else {
-                    System.out.println("Game not found: " + chosenGameName);
-                }
-
-                // Do something with the chosen game name
-            }
-        });
     }
 
 
@@ -210,14 +170,13 @@ public class AppController implements Observer {
 
                 Player player = new Player(board, PLAYER_COLORS.get(i), nameResult.get());
                 player=playerclient.addPlayer(player);
-                gameController.addPlayer(player);
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
                 roboRally.createLobbyView(board.getPlayer(i), board, gameController);
 
 
             }
-            gameController.createGame(roboRally);
+
 
 
         }
