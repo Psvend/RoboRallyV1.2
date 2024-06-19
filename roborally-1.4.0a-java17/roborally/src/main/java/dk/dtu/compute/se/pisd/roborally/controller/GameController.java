@@ -1115,6 +1115,15 @@ public class GameController {
                         playerBeingPushed.setSpace(findRespawnPoint());
                         return;
                     }
+                    if (playerBeingPushed == null) {
+                        try {
+                            respawnPush(findRespawnPoint().getPlayer());
+                        } catch (ImpossibleMoveException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        return;
+                    }
                     playerBeingPushed.setSpace(pushSpace);
                     activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
                     wasActivated = false;
