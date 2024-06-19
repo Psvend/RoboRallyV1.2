@@ -121,6 +121,7 @@ public class GameController {
 
                     // Move the player to the forward space
                     if(isOutside(forwardSpace,player.getHeading())){
+                        pushPlayer(forwardSpace, player.getHeading());
                         player.setSpace(findRespawnPoint());
                         wasOutside = true;
                         return;
