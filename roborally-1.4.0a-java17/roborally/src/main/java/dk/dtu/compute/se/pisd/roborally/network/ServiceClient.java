@@ -36,7 +36,7 @@ public static String getPlayer() throws Exception {
 
             }
             return r.body();
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }).join();

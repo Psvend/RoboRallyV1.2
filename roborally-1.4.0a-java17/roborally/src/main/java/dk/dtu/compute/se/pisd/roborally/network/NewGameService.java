@@ -36,7 +36,7 @@ public class NewGameService {
 
                 }
                 return r.body();
-            } catch (JsonProcessingException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }).join();
