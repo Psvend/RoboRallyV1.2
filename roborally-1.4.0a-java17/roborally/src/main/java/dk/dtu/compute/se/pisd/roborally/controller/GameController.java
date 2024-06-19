@@ -127,10 +127,10 @@ public class GameController {
                     }
                     if(forwardSpace.getPlayer() != null) {
                         pushPlayer(forwardSpace, player.getHeading());
-                    }
-                    if(forwardSpace.getPlayer() == null){
-                    player.setSpace(forwardSpace);
-                    activatePitfall(player, player.getSpace());
+                        player.setSpace(forwardSpace);
+                    } if(forwardSpace.getPlayer() == null){
+                        player.setSpace(forwardSpace);
+                        activatePitfall(player, player.getSpace());
                     } else {
                         return;
                     }
@@ -979,6 +979,13 @@ public class GameController {
 
     public void activatePitfall(Player player, Space space){
         if(space.getPitfall() instanceof Pitfall) {
+            if(findRespawnPoint().getPlayer() != null){
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                   new ImpossibleMoveException(player, space, findRespawnPoint().getRespawnPoint().getHeading());
+                }
+            }
             player.setSpace(findRespawnPoint());
             wasActivated = true;
         }
@@ -1092,21 +1099,61 @@ public class GameController {
                             return;
                         }
                     }
-
+                    if(pushSpace.getPlayer() != null){
+                        pushPlayer(pushSpace, heading);
+                    }
                     if(isOutside(pushSpace,heading)){
-                        //if(findRespawnPoint().getPlayer()!=null){
-//
-//                      }
+                        if(findRespawnPoint().getPlayer()!=null){
+                            try {
+                                respawnPush(findRespawnPoint().getPlayer());
+                            } catch (ImpossibleMoveException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
                         playerBeingPushed.setSpace(findRespawnPoint());
-                        wasOutside = true;
                         return;
                     }
                     playerBeingPushed.setSpace(pushSpace);
                     activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
+                    wasActivated = false;
         }
     }
     
-    public void respawnPush(@NotNull Player player){
+    public void respawnPush(@NotNull Player player) throws ImpossibleMoveException{
+        Heading respawnHeading = findRespawnPoint().getRespawnPoint().getHeading();
+        Space respawnSpace = player.getSpace();
+        Space target = null;
+
+        switch (respawnHeading) {
+            case NORTH:
+                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
+                break;
+            
+            case SOUTH:
+                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
+                break;
+
+            case WEST:
+                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
+                break;
+
+            case EAST:
+                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);            
+                break;
+            
+            default:
+                break;
+        }
+        if (target.equals(null)){
+            return;
+        }
+        if (target.getPlayer() != null){
+            respawnPush(target.getPlayer());
+            player.setSpace(target);
+        } else {
+        player.setSpace(target);
+        }
     }
 
 }
