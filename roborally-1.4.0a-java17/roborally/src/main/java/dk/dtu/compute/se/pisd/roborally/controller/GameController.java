@@ -28,6 +28,11 @@ import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,11 +56,9 @@ public class GameController {
     public Player interactivePlayer;
     private Map<Player, PlayerView> playerViews;
     public boolean wasActivated = false;
+    public boolean wasOutside = false;
     public boolean hasCube = true;
-    private ServiceClient serviceClient;
-    private Playerclient playerclient;
 
-    private int gameId;
 
     public GameController(Board board) {
         this.board = board;
@@ -89,6 +92,9 @@ public class GameController {
         if(wasActivated == true){
             wasActivated = false;
         }
+        if(wasOutside == true) {
+            wasOutside = false;
+        }
     if (player.board == board) {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
@@ -120,6 +126,11 @@ public class GameController {
                     }
 
                     // Move the player to the forward space
+                    if(isOutside(forwardSpace,player.getHeading())){
+                        player.setSpace(findRespawnPoint());
+                        wasOutside = true;
+                        return;
+                    }
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
             }
@@ -192,6 +203,7 @@ public class GameController {
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
+                    isPossible(player, player.getHeading());
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
@@ -215,6 +227,10 @@ public class GameController {
             moveForward(player);
             if(wasActivated == true) {
                 wasActivated = false;
+                break;
+            }
+            if(wasOutside == true) {
+                wasOutside = false;
                 break;
             }
         }
@@ -254,6 +270,10 @@ public class GameController {
                 wasActivated = false;
                 break;
             }
+            if(wasOutside == true) {
+                wasOutside = false;
+                break;
+            }
         }
     }
 
@@ -267,6 +287,10 @@ public class GameController {
             moveForward(player);
             if(wasActivated == true) {
                 wasActivated = false;
+                break;
+            }
+            if(wasOutside == true) {
+                wasOutside = false;
                 break;
             }
         }
@@ -530,6 +554,7 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
+            //TODO label fejl stammer her fra
         }
         
     }
@@ -985,6 +1010,41 @@ public class GameController {
         if(space.getPitfall() instanceof Pitfall) {
             player.setSpace(findRespawnPoint());
             wasActivated = true;
+        }
+    }
+
+    public void isPossible(@NotNull Player player, @NotNull Heading heading) {
+        if (player.getSpace().y == 0 && heading == NORTH) {
+            player.setSpace(findRespawnPoint());
+        }
+        if (player.getSpace().y == board.height-1 && heading == SOUTH) {
+            player.setSpace(findRespawnPoint());
+        }
+        if (player.getSpace().x == 0 && heading == WEST) {
+            player.setSpace(findRespawnPoint());
+        }
+        if (player.getSpace().x == board.width-1 && heading == EAST) {
+            player.setSpace(findRespawnPoint());
+        }
+        else {
+        }
+    }
+
+    public boolean isOutside(Space space, @NotNull Heading heading) {
+        if (space.y == 0 && heading == SOUTH) {
+            return true;
+        }
+        if (space.y == board.height-1 && heading == NORTH) {
+            return true;
+        }
+        if (space.x == 0 && heading == EAST) {
+            return true;
+        }
+        if (space.x == board.width-1 && heading == WEST) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

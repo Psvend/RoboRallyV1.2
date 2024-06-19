@@ -1,3 +1,4 @@
+
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +41,7 @@ public class LobbyView extends Tab implements ViewObserver{
 
     public LobbyView(@NotNull Player player, @NotNull Board board, @NotNull GameController gameController) {
         playersNumber = 0;
-     roboRally = new RoboRally();
+        roboRally = new RoboRally();
         appController = new AppController(roboRally);
         this.setText("Lobby");
         top = new VBox();
