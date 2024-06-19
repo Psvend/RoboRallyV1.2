@@ -1108,8 +1108,7 @@ public class GameController {
                             try {
                                 respawnPush(findRespawnPoint().getPlayer());
                             } catch (ImpossibleMoveException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
                             }
                         }
                         playerBeingPushed.setSpace(findRespawnPoint());
@@ -1119,8 +1118,7 @@ public class GameController {
                         try {
                             respawnPush(findRespawnPoint().getPlayer());
                         } catch (ImpossibleMoveException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
                         }
                         return;
                     }
