@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
+import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -98,7 +100,7 @@ public class CreateGameView {
 
             if (validSetup) {
                 // Create game object and send it to the server
-                HttpClientAsynchronousPost.Games newGame = createNewGame(gameName, numPlayers, playerNames);
+                Games newGame = createNewGame(gameName, numPlayers, playerNames);
                 HttpClientAsynchronousPost.addGame(newGame);
                 System.out.println("Game setup successful!");
                 dialogStage.close();
@@ -114,15 +116,15 @@ public class CreateGameView {
         dialogStage.setScene(dialogScene);
     }
 
-    private HttpClientAsynchronousPost.Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
-        HttpClientAsynchronousPost.Games newGame = new HttpClientAsynchronousPost.Games();
+    private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
+        Games newGame = new Games();
         newGame.setGameId(0);
         newGame.setGameName(gameName);
         newGame.setPlayersAmount(numPlayers);
         newGame.setJoinedPlayers(1); // Initially no players joined
         newGame.setGameStatus(0); // Initial game status
 
-        HttpClientAsynchronousPost.Board board = new HttpClientAsynchronousPost.Board();
+        Board board = new Board();
         board.setBoardId(5);
         board.setBoardName("Default Board");
         newGame.setBoard(board);
