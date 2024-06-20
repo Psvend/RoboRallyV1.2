@@ -22,7 +22,10 @@ public class CreateGameView {
     private Stage dialogStage;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
 
-    public CreateGameView() {
+    private RoboRally roboRally;
+
+    public CreateGameView(RoboRally roboRally) {
+        this.roboRally = roboRally;
         dialogStage = new Stage();
         dialogStage.setTitle("Game Setup");
 
@@ -116,7 +119,7 @@ public class CreateGameView {
                     Platform.runLater(() -> {
                         dialogStage.close();
                         //links to the new lobby
-                        LobbyView2 lobby = new LobbyView2();
+                        LobbyView2 lobby = new LobbyView2(roboRally);
                         lobby.show();
                     });
                 }).exceptionally(ex -> {

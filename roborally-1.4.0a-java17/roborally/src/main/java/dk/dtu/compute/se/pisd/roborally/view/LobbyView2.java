@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class LobbyView2 {
@@ -25,21 +26,19 @@ public class LobbyView2 {
 
     private List<Player> joinedPlayers;
 
-    public void AppController(@NotNull RoboRally roboRally) {
-        this.roboRally = roboRally;
 
-    }
 
 
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
 
     private AppController appController;
+    final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
 
 
-    public LobbyView2() {
+    public LobbyView2(RoboRally roboRally) {
 
         lobbyStage = new Stage();
-
+        this.roboRally = roboRally;
 
         lobbyStage.setTitle("Lobby " + HttpClientAsynchronousPost.currentGame.getGameName());
         VBox dialogVbox = new VBox(10);
@@ -55,6 +54,15 @@ public class LobbyView2 {
         //sets action of the startGame button
         startGameButton.setOnAction(e -> {
             Board board = new Board(8, 8);
+
+            //creates players on the board
+            for (int i = 0; i < 2; i++) {
+                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                board.addPlayer(player);
+                player.setSpace(board.getSpace(i % board.width, i));
+            }
+
+
             gameController = new GameController(board);
             System.out.println("Starting Game successfully");
             gameController.startProgrammingPhase();

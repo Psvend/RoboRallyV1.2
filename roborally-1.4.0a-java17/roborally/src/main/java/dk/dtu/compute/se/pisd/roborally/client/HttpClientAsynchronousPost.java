@@ -99,7 +99,7 @@ public class HttpClientAsynchronousPost {
         CompletableFuture<List<Player>> getPlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/findJoinedPlayers/" + game_id))
+                .uri(URI.create("http://localhost:8080/findJoinedPlayers/6"))  //+ game_id
                 .header("Content-Type", "application/json")
                 .build();
 
