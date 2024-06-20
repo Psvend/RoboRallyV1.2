@@ -139,7 +139,6 @@ public class GameController {
                             return;
                         }
                         player.setSpace(forwardSpace);
-                        System.out.println("check");
                     } if(forwardSpace.getPlayer() == null){
                         player.setSpace(forwardSpace);
                         activatePitfall(player, player.getSpace());
