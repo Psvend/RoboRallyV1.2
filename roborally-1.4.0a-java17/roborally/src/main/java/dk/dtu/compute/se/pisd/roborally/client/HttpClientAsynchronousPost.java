@@ -135,8 +135,8 @@ public class HttpClientAsynchronousPost {
 
 
     //GET list of joined players
-    public static CompletableFuture<List<Player>> getPlayers(int game_id) throws Exception {
-        CompletableFuture<List<Player>> getPlayers = new CompletableFuture<>();
+    public static CompletableFuture<List<Players>> getPlayers(int game_id) throws Exception {
+        CompletableFuture<List<Players>> getPlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("http://localhost:8080/findJoinedPlayers/"+game_id)) // Replace with your endpoint
@@ -148,10 +148,10 @@ public class HttpClientAsynchronousPost {
                 .thenAccept(response -> {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                List<Player> playersList = objectMapper.readValue(response, new TypeReference<List<Player>>() {
+                List<Players> playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {
                 });
                 getPlayers.complete(playersList);
-                for (Player player : playersList) {
+                for (Players player : playersList) {
                     System.out.println(player);
                 }
                 getPlayers.complete(playersList);

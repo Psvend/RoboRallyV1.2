@@ -2,6 +2,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
@@ -24,7 +25,7 @@ public class LobbyView2 {
     private GameController gameController;
     private RoboRally roboRally;
 
-    private List<Player> joinedPlayers;
+    private List<Players> joinedPlayers;
 
 
 
@@ -72,7 +73,7 @@ public class LobbyView2 {
 
         try {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
-                joinedPlayers = players;
+
 
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
