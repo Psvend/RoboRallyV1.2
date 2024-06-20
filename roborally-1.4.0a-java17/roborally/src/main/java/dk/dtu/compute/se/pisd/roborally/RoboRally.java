@@ -26,10 +26,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.view.BoardView;
-import dk.dtu.compute.se.pisd.roborally.view.CreateGameView;
-import dk.dtu.compute.se.pisd.roborally.view.LobbyView;
-import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.view.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -122,7 +119,13 @@ public class RoboRally extends Application {
 
         // Set button actions
         createGameButton.setOnAction(e -> createGame());
-        joinGameButton.setOnAction(e -> {});
+        joinGameButton.setOnAction(e -> {
+            try {
+                joinGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         exitButton.setOnAction(e -> exitApplication());
 
         createGameButton.setMaxWidth(Double.MAX_VALUE);
@@ -151,8 +154,10 @@ public class RoboRally extends Application {
         // Implement game setup logic here
     }
 
-    private void joinGame() {
+    private void joinGame() throws Exception {
         System.out.println("Join Game button clicked");
+        AvailableGamesView gamesList = new AvailableGamesView();
+        gamesList.show();
        // LobbyView dialog = new LobbyView();
 
         // Add logic to handle joining a game
