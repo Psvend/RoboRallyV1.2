@@ -187,12 +187,8 @@ public class GameController {
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
@@ -228,12 +224,8 @@ public class GameController {
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
@@ -247,12 +239,8 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
@@ -1067,12 +1055,7 @@ public class GameController {
     }
 
     public void pushPlayer(Space space, Heading heading) {
-        if(wasActivated == true){
-            wasActivated = false;
-        }
-        if(wasOutside == true) {
-            wasOutside = false;
-        }
+        booleanHandler(wasActivated, wasOutside);
 
         Player playerBeingPushed = space.getPlayer();
 
@@ -1157,6 +1140,11 @@ public class GameController {
         
         }
         return false;
+    }
+
+    public void booleanHandler(Boolean wasActivated, Boolean wasOutside){
+        wasActivated = false;
+        wasOutside = false;
     }
 
 }
