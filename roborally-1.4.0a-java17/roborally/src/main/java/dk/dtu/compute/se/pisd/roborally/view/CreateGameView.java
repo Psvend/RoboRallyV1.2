@@ -11,7 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,40 +39,48 @@ public class CreateGameView {
         // Player Names
         VBox playerNamesVbox = new VBox(5);
         Label playerNamesLabel = new Label("Player Names:");
-        playerNamesVbox.getChildren().add(playerNamesLabel);
+        TextField player1NameField = new TextField();
+        player1NameField.setPromptText("Player 1 Name");
+        playerNamesVbox.getChildren().addAll(playerNamesLabel, player1NameField);
 
-        // Button to dynamically add player name fields based on number of players
         numPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 numPlayersField.setText(newValue.replaceAll("[^\\d]", ""));
+                return;
             }
 
             int numPlayers;
             try {
-                numPlayers = Integer.parseInt(newValue);
+                numPlayers = Integer.parseInt(numPlayersField.getText());
             } catch (NumberFormatException e) {
                 numPlayers = 0;
             }
 
-            // Restrict number of players to between 2 and 6
-            if (numPlayers < 2) {
-                numPlayers = 2;
-            } else if (numPlayers > 6) {
-                numPlayers = 6;
+            if (numPlayers < 2 || numPlayers > 6) {
+                numPlayersField.setStyle("-fx-border-color: red;");
+            } else {
+                numPlayersField.setStyle(null);
             }
+        });
 
-            numPlayersField.setText(String.valueOf(numPlayers));
+        numPlayersField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                int numPlayers;
+                try {
+                    numPlayers = Integer.parseInt(numPlayersField.getText());
+                } catch (NumberFormatException e) {
+                    numPlayers = 0;
+                }
 
-            // Clear previous player name fields
-            playerNamesVbox.getChildren().clear();
-            playerNamesVbox.getChildren().add(playerNamesLabel);
+                // Restrict number of players to between 2 and 6
+                if (numPlayers < 2) {
+                    numPlayers = 2;
+                } else if (numPlayers > 6) {
+                    numPlayers = 6;
+                }
 
-            // Add new player name fields
-
-                TextField playerNameField = new TextField();
-                playerNameField.setPromptText("Player 1" + " Name");
-                playerNamesVbox.getChildren().add(playerNameField);
-
+                numPlayersField.setText(String.valueOf(numPlayers));
+            }
         });
 
         dialogVbox.getChildren().add(playerNamesVbox);
@@ -86,16 +93,13 @@ public class CreateGameView {
 
             List<String> playerNames = new ArrayList<>();
             boolean validSetup = true;
-            for (var node : playerNamesVbox.getChildren()) {
-                if (node instanceof TextField && !((TextField) node).getPromptText().equals("Player Names:")) {
-                    String playerName = ((TextField) node).getText().trim();
-                    if (!playerName.isEmpty()) {
-                        playerNames.add(playerName);
-                    } else {
-                        validSetup = false;
-                        break;
-                    }
-                }
+
+            // Add only the first player's name
+            String player1Name = player1NameField.getText().trim();
+            if (!player1Name.isEmpty()) {
+                playerNames.add(player1Name);
+            } else {
+                validSetup = false;
             }
 
             if (validSetup) {
@@ -106,7 +110,7 @@ public class CreateGameView {
                 dialogStage.close();
             } else {
                 // Display error or prompt user to fill in all player names
-                System.out.println("Please enter a name for each player.");
+                System.out.println("Please enter a name for Player 1.");
             }
         });
 
