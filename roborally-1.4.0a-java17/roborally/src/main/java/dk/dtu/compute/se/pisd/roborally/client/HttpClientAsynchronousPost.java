@@ -77,6 +77,7 @@ public class HttpClientAsynchronousPost {
                         ObjectMapper objectMapper = new ObjectMapper();
                         List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
                         });
+                        futureGame.complete(gamesList);
 
                         // Print the games (for demonstration)
                         /*for (Games game : gamesList) {
@@ -84,6 +85,7 @@ public class HttpClientAsynchronousPost {
                         }*/
                     } catch (Exception e) {
                         e.printStackTrace();
+                        futureGame.completeExceptionally(e);
                     }
                 })
                 .join(); // Block main thread to wait for completion (for demonstration)

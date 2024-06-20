@@ -26,11 +26,14 @@ public class AvailableGamesView {
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
         httpClient.getAvailableGames().thenAccept(games -> {
-
+            availableGames = games;
 
             // Use Platform.runLater to update the UI on the JavaFX Application Thread
             Platform.runLater(() -> {
-                printGames();
+                for(Games game : availableGames) {
+                    Button gameButton = new Button(game.getGameName());
+                    dialogVbox.getChildren().add(gameButton);
+                }
             });
         }).exceptionally(ex -> {
             ex.printStackTrace();
@@ -43,13 +46,6 @@ public class AvailableGamesView {
         Scene gamesScene = new Scene(dialogVbox, 300, 400);
         gamesStage.setScene(gamesScene);
         gamesStage.show();
-    }
-
-    public void printGames() {
-        List<Games> games = HttpClientAsynchronousPost.availableGames;
-        for(int i=0; i<games.size(); i++) {
-            System.out.println(games.get(i).getGameName());
-        }
     }
 
     public void show() {
