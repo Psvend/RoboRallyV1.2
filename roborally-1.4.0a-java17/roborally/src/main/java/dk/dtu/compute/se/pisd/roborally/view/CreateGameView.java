@@ -3,7 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,12 +14,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class CreateGameView {
 
     private Stage dialogStage;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
+    private HttpClientAsynchronousPlayerPost httpClientPlayer = new HttpClientAsynchronousPlayerPost();
 
     public CreateGameView() {
         dialogStage = new Stage();
@@ -120,6 +119,11 @@ public class CreateGameView {
                     return null;
                 });
 
+                HttpClientAsynchronousPost.addGame(newGame);
+                Players newPlayer = createNewPlayer(playerNames.get(0));
+                HttpClientAsynchronousPlayerPost.AddPlayer(newPlayer);
+                System.out.println("Game setup successful!");
+                dialogStage.close();
             } else {
                 // Display error or prompt user to fill in all player names
                 System.out.println("Please enter a name for each player.");
@@ -153,6 +157,14 @@ public class CreateGameView {
         //}
 
         return newGame;
+    }
+
+    private Players createNewPlayer(String playerName) {
+        Players newPlayer = new Players();
+        newPlayer.setPlayerId(0);
+        newPlayer.setPlayerName(playerName);
+        newPlayer.setPhaseStatus(false); // Initially player is not ready
+        return newPlayer;
     }
 
     public void show() {

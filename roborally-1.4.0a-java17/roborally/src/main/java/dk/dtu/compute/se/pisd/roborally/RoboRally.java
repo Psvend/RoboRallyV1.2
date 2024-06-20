@@ -201,6 +201,7 @@ public class RoboRally extends Application {
         stage.sizeToScene();
     }
 
+
     @Override
     public void stop() throws Exception {
         super.stop();

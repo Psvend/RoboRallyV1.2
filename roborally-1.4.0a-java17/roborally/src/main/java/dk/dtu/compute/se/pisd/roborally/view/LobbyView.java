@@ -59,14 +59,9 @@ public class LobbyView extends Tab implements ViewObserver{
         }
         for (Player p : players) {
             Label playerLabel = new Label(p.getName());
-            ReadyButton = new Button("is Ready"); // create a new button for each player
 
-            ReadyButton.setOnAction(e -> {
-                p.setReady(true);
-                updateView(p);
-            }); // set the action for the button
 
-            HBox playerHBox = new HBox(playerLabel, ReadyButton); // create a new HBox for each player
+            HBox playerHBox = new HBox(playerLabel); // create a new HBox for each player
 
             playerBox.getChildren().add(playerHBox); // add the HBox to the playerBox
 
@@ -84,8 +79,8 @@ public class LobbyView extends Tab implements ViewObserver{
 
         startGameButton = new Button("Start Game");
         startGameButton.setOnAction(e -> {
-            System.out.println("Start Game");
-            top.getChildren().clear();
+
+            playerBox.getChildren().clear();
             appController.startGame(board, gameController, player);
         });
 
@@ -112,16 +107,7 @@ public class LobbyView extends Tab implements ViewObserver{
 
     @Override
     public void updateView(Subject subject) {
-        if (subject instanceof Player player) {
 
-            if (player.isReady()) {
-                startGameButton.setText("Ready to Start");
-                ReadyButton.setText("Ready");
-            } else {
-                startGameButton.setText("Start Game");
-
-            }
-        }
 
 
     }

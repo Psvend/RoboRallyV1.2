@@ -26,6 +26,8 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.network.LobbyService;
+import dk.dtu.compute.se.pisd.roborally.client.Playerclient;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -38,7 +40,6 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -58,9 +59,13 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
+    private LobbyService lobbyService;
+    private Playerclient playerclient;
 
     public AppController(@NotNull RoboRally roboRally) {
-        this.roboRally = roboRally;
+        this.roboRally = roboRally;;
+        this.lobbyService = new LobbyService();
+        this.playerclient = new Playerclient();
         
     }
 
@@ -125,18 +130,13 @@ public class AppController implements Observer {
     }
 
     public void lobby(){
-        if (gameController != null) {
-            // The UI should not allow this, but in case this happens anyway.
-            // give the user the option to save the game or abort this operation!
-            if (!stopGame()) {
-                return;
-            }
-        }
-        Board board = new Board(8,8);
-        Player player = new Player(board, "red", "Player 1");
-        roboRally.createLobbyView(player, board, gameController);
+
+            // Convert the list of RoboRally objects to a list of strings
+
     }
-    public void onlineGame(){
+
+
+    public void onlineGame() {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -155,6 +155,7 @@ public class AppController implements Observer {
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
             gameController = new GameController(board);
+
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 TextInputDialog name = new TextInputDialog("Player " + (i + 1));
@@ -163,12 +164,13 @@ public class AppController implements Observer {
                 Optional<String> nameResult = name.showAndWait();
 
                 Player player = new Player(board, PLAYER_COLORS.get(i), nameResult.get());
+                player=playerclient.addPlayer(player);
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
                 roboRally.createLobbyView(board.getPlayer(i), board, gameController);
 
-            }
 
+            }
 
 
 

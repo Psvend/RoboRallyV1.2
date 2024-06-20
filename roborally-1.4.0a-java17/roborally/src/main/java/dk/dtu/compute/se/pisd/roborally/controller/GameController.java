@@ -21,6 +21,9 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
+import dk.dtu.compute.se.pisd.roborally.client.Playerclient;
+import dk.dtu.compute.se.pisd.roborally.client.ServiceClient;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
@@ -55,12 +58,14 @@ public class GameController {
     public boolean wasActivated = false;
     public boolean wasOutside = false;
     public boolean hasCube = true;
-    
+
 
     public GameController(Board board) {
         this.board = board;
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
+
+
     }
     
 
@@ -976,11 +981,11 @@ public class GameController {
             wasActivated = true;
         }
     }
-    
+
     public void isPossible(@NotNull Player player, @NotNull Heading heading) {
         if (player.getSpace().y == 0 && heading == NORTH) {
             player.setSpace(findRespawnPoint());
-        } 
+        }
         if (player.getSpace().y == board.height-1 && heading == SOUTH) {
             player.setSpace(findRespawnPoint());
         }
@@ -991,13 +996,13 @@ public class GameController {
             player.setSpace(findRespawnPoint());
         }
         else {
-        }    
+        }
     }
 
     public boolean isOutside(Space space, @NotNull Heading heading) {
         if (space.y == 0 && heading == SOUTH) {
             return true;
-        } 
+        }
         if (space.y == board.height-1 && heading == NORTH) {
             return true;
         }
@@ -1009,7 +1014,7 @@ public class GameController {
         }
         else {
             return false;
-        }    
+        }
     }
 
     public Space findRespawnPoint(){

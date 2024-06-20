@@ -1,6 +1,5 @@
 package dk.dtu.compute.se.pisd.roborally.network;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -11,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class ServiceClient implements HttpRequestService{
+public class ServiceClient implements HttpRequestService {
     private HttpRequestService httpRequestService;
 
 
