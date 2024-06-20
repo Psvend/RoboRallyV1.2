@@ -1,6 +1,9 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
+import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CreateGameView {
 
@@ -67,11 +71,11 @@ public class CreateGameView {
             playerNamesVbox.getChildren().add(playerNamesLabel);
 
             // Add new player name fields
-            for (int i = 0; i < numPlayers; i++) {
+
                 TextField playerNameField = new TextField();
-                playerNameField.setPromptText("Player " + (i + 1) + " Name");
+                playerNameField.setPromptText("Player 1" + " Name");
                 playerNamesVbox.getChildren().add(playerNameField);
-            }
+
         });
 
         dialogVbox.getChildren().add(playerNamesVbox);
@@ -79,6 +83,7 @@ public class CreateGameView {
         // Confirm button
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(e -> {
+
             String gameName = gameNameField.getText();
             int numPlayers = Integer.parseInt(numPlayersField.getText());
 
@@ -98,10 +103,23 @@ public class CreateGameView {
 
             if (validSetup) {
                 // Create game object and send it to the server
-                HttpClientAsynchronousPost.Games newGame = createNewGame(gameName, numPlayers, playerNames);
-                HttpClientAsynchronousPost.addGame(newGame);
-                System.out.println("Game setup successful!");
-                dialogStage.close();
+                Games newGame = createNewGame(gameName, numPlayers, playerNames);
+                HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
+                    System.out.println("Game setup successful!");
+
+                    // Use Platform.runLater to update the UI on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        dialogStage.close();
+
+                        LobbyView2 lobby = new LobbyView2();
+                        lobby.show();
+                    });
+                }).exceptionally(ex -> {
+                    ex.printStackTrace();
+                    System.out.println("Error setting up game.");
+                    return null;
+                });
+
             } else {
                 // Display error or prompt user to fill in all player names
                 System.out.println("Please enter a name for each player.");
@@ -114,15 +132,17 @@ public class CreateGameView {
         dialogStage.setScene(dialogScene);
     }
 
-    private HttpClientAsynchronousPost.Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
-        HttpClientAsynchronousPost.Games newGame = new HttpClientAsynchronousPost.Games();
+
+
+    private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
+        Games newGame = new Games();
         newGame.setGameId(0);
         newGame.setGameName(gameName);
         newGame.setPlayersAmount(numPlayers);
         newGame.setJoinedPlayers(1); // Initially no players joined
         newGame.setGameStatus(0); // Initial game status
 
-        HttpClientAsynchronousPost.Board board = new HttpClientAsynchronousPost.Board();
+        Board board = new Board();
         board.setBoardId(5);
         board.setBoardName("Default Board");
         newGame.setBoard(board);

@@ -1,7 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.client;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,71 +10,26 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HttpClientAsynchronousPost {
-
     private static final HttpClient httpClient = HttpClient.newBuilder()
             .version(HttpClient.Version.HTTP_2) // Use HTTP/2
             .connectTimeout(Duration.ofSeconds(10)) // Timeout after 10 seconds
             .build();
 
-    public static void main(String[] args) throws Exception {
-        // Make a GET request to fetch games (for demonstration)
-        fetchGames();
+    // Static variable to store the current game
+    public static Games currentGame;
+    public static List<Games> availableGames;
 
-        // Make a POST request to add a new game
-        Games newGame = createNewGame();
-        addGame(newGame);
-    }
+    public static CompletableFuture<Games> addGame(Games game) {
+        CompletableFuture<Games> futureGame = new CompletableFuture<>();
 
-    private static void fetchGames() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create("http://localhost:8080/getGames")) // Replace with your endpoint
-                .build();
-
-        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(response -> {
-                    try {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        List<Games> gamesList = objectMapper.readValue(response, new com.fasterxml.jackson.core.type.TypeReference<List<Games>>() {
-                        });
-
-                        // Print the games (for demonstration)
-                        for (Games game : gamesList) {
-                            System.out.println(game);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                })
-                .join(); // Block main thread to wait for completion (for demonstration)
-    }
-
-    private static Games createNewGame() {
-        Games newGame = new Games();
-        newGame.setGameId(5);
-        newGame.setGameName("MIWSI");
-        newGame.setPlayersAmount(4);
-        newGame.setJoinedPlayers(4);
-        newGame.setGameStatus(0);
-
-        Board board = new Board();
-        board.setBoardId(5);
-        board.setBoardName("MIWSISI");
-        newGame.setBoard(board);
-
-        return newGame;
-    }
-
-    public static void addGame(Games game) {
         try {
             // Convert Games object to JSON string
             String jsonBody = new ObjectMapper().writeValueAsString(game);
-
-            System.out.println("JSON Payload to Send:");
-            System.out.println(jsonBody);
 
             // Prepare HTTP POST request
             HttpRequest request = HttpRequest.newBuilder()
@@ -86,136 +42,83 @@ public class HttpClientAsynchronousPost {
             httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
                     .thenAccept(response -> {
-                        System.out.println("Game added successfully: " + response);
-                        // Handle success or failure as needed
-                    })
-                    .join(); // Block main thread to wait for completion (for demonstration)
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            currentGame = objectMapper.readValue(response, Games.class);
+                            futureGame.complete(currentGame); // Complete the future when the game is added
+                            System.out.println("Game added: " + currentGame);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
         } catch (Exception e) {
             e.printStackTrace();
+            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
         }
+
+        return futureGame; // Return the future that will be completed in the future
     }
 
-    // Games class
-    public static class Games {
-        @JsonProperty("game_id")
-        private int gameId; // Assuming game_id is autogenerated and Long type
+    //Get list of available games
+    public static CompletableFuture<List<Games>> getAvailableGames() throws Exception {
+        CompletableFuture<List<Games>> futureGame = new CompletableFuture<>();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/availableGames/0"))
+                .header("Content-Type", "application/json")
+                .build();
 
-        @JsonProperty("game_name")
-        private String gameName;
 
-        @JsonProperty("players_amount")
-        private int playersAmount;
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
+                        });
+                        futureGame.complete(gamesList);
 
-        @JsonProperty("joined_players")
-        private int joinedPlayers;
-
-        @JsonProperty("game_status")
-        private int gameStatus;
-
-        @JsonProperty("board_id")
-        private Board board;
-
-        // Getters and setters for non-autogenerated fields
-
-        public void setGameId (int gameId) {
-            this.gameId = gameId;
-        }
-        public String getGameName() {
-            return gameName;
-        }
-
-        public void setGameName(String gameName) {
-            this.gameName = gameName;
-        }
-
-        public int getPlayersAmount() {
-            return playersAmount;
-        }
-
-        public void setPlayersAmount(int playersAmount) {
-            this.playersAmount = playersAmount;
-        }
-
-        public int getJoinedPlayers() {
-            return joinedPlayers;
-        }
-
-        public void setJoinedPlayers(int joinedPlayers) {
-            this.joinedPlayers = joinedPlayers;
-        }
-
-        public int getGameStatus() {
-            return gameStatus;
-        }
-
-        public void setGameStatus(int gameStatus) {
-            this.gameStatus = gameStatus;
-        }
-
-        public Board getBoard() {
-            return board;
-        }
-
-        public void setBoard(Board board) {
-            this.board = board;
-        }
-
-        // Getters for autogenerated fields
-        public int getGameId() {
-            return gameId;
-        }
-
-        // No setter for gameId as it's autogenerated
-
-        // toString method
-        @Override
-        public String toString() {
-            return "Games{" +
-                    "gameId=" + gameId +
-                    ", gameName='" + gameName + '\'' +
-                    ", playersAmount=" + playersAmount +
-                    ", joinedPlayers=" + joinedPlayers +
-                    ", gameStatus=" + gameStatus +
-                    ", board=" + board +
-                    '}';
-        }
+                        // Print the games (for demonstration)
+                        /*for (Games game : gamesList) {
+                            System.out.println(game);
+                        }*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        futureGame.completeExceptionally(e);
+                    }
+                })
+                .join(); // Block main thread to wait for completion (for demonstration)
+        return futureGame;
     }
 
-    // Board class
-    public static class Board {
-        @JsonProperty("board_id")
-        private int boardId;
 
-        @JsonProperty("board_name")
-        private String boardName;
 
-        // Getters and setters for non-autogenerated fields
-        public String getBoardName() {
-            return boardName;
-        }
 
-        public void setBoardId (int boardId) {
-            this.boardId = boardId;
-        }
 
-        public void setBoardName(String boardName) {
-            this.boardName = boardName;
-        }
 
-        // Getters for autogenerated fields
-        public int getBoardId() {
-            return boardId;
-        }
+    private static void fetchGames() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/getGames")) // Replace with your endpoint
+                .build();
 
-        // No setter for boardId as it's autogenerated
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
+                        });
 
-        // toString method
-        @Override
-        public String toString() {
-            return "Board{" +
-                    "boardId=" + boardId +
-                    ", boardName='" + boardName + '\'' +
-                    '}';
-        }
+                        // Print the games (for demonstration)
+                        for (Games game : gamesList) {
+                            System.out.println(game);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                })
+                .join(); // Block main thread to wait for completion (for demonstration)
     }
 }
