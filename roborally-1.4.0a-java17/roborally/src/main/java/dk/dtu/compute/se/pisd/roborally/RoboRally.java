@@ -50,12 +50,15 @@ public class RoboRally extends Application {
     private static final int MIN_APP_WIDTH = 800;
     private static final int MIN_APP_HEIGHT = 800;
 
-    private Stage stage= new Stage();
-    private BorderPane boardRoot= new BorderPane();
+    private Stage stage = new Stage();
+    private BorderPane boardRoot = new BorderPane();
 
     private Button createGameButton;
     private Button joinGameButton;
     private Button exitButton;
+
+    private VBox vbButtons; // Make this an instance variable
+
 
     private AppController appController;
 
@@ -107,13 +110,13 @@ public class RoboRally extends Application {
         stage.sizeToScene();
         stage.show();
 
-        Button createGameButton = new Button("Create Game");
+        createGameButton = new Button("Create Game");
         createGameButton.setId("create-game-button");
 
-        Button joinGameButton = new Button("Join Game");
+        joinGameButton = new Button("Join Game");
         joinGameButton.setId("join-game-button");
 
-        Button exitButton = new Button("Exit");
+        exitButton = new Button("Exit");
         exitButton.setId("exit-button");
 
 
@@ -132,12 +135,12 @@ public class RoboRally extends Application {
         joinGameButton.setMaxWidth(Double.MAX_VALUE);
         exitButton.setMaxWidth(Double.MAX_VALUE);
 
-        VBox vbButtons = new VBox();
+        vbButtons = new VBox();
         vbButtons.setSpacing(10);
         vbButtons.setPadding(new Insets(50, 20, 10, 20));
         vbButtons.getChildren().addAll(createGameButton, joinGameButton, exitButton);
         // Create a VBox layout and add the buttons
-        boardRoot.getChildren().addAll(vbButtons);
+        vbox.getChildren().addAll(vbButtons);
 
 
     }
@@ -145,6 +148,9 @@ public class RoboRally extends Application {
         System.out.println("Create Game button clicked");
         CreateGameView dialog = new CreateGameView();
         dialog.show();
+    }
+    private void removeButtons() {
+        vbButtons.getChildren().clear(); // Hide the buttons
     }
 
     private void onCreateGame() {
@@ -170,7 +176,7 @@ public class RoboRally extends Application {
     public void createBoardView(GameController gameController) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
-
+        removeButtons();
 
 
         if (gameController != null) {
