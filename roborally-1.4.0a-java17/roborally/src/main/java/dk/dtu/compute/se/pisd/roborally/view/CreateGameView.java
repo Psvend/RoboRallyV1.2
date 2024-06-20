@@ -150,7 +150,7 @@ public class CreateGameView {
         newGame.setGameId(0);
         newGame.setGameName(gameName);
         newGame.setPlayersAmount(numPlayers);
-        newGame.setJoinedPlayers(1); // Initially no players joined
+        newGame.setJoinedPlayers(0); // Initially no players joined
         newGame.setGameStatus(0); // Initial game status
 
         Board board = new Board();
