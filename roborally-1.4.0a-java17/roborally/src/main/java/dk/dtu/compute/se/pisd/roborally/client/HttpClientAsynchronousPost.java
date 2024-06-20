@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
@@ -24,6 +25,8 @@ public class HttpClientAsynchronousPost {
     // Static variable to store the current game
     public static Games currentGame;
     public static List<Games> availableGames;
+    public static Players player;
+    public static List<Players> playersList;
 
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
@@ -60,6 +63,43 @@ public class HttpClientAsynchronousPost {
 
         return futureGame; // Return the future that will be completed in the future
     }
+
+    public static CompletableFuture<Players> addPlayer(Players players) {
+        CompletableFuture<Players> futurePlayer = new CompletableFuture<>();
+
+        try {
+            // Convert Players object to JSON string
+            String jsonBody = new ObjectMapper().writeValueAsString(players);
+
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .uri(URI.create("http://localhost:8080/addPlayer")) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            // Send HTTP POST request asynchronously
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            player = objectMapper.readValue(response, Players.class);
+                            futurePlayer.complete(player); // Complete the future when the player is added
+                            System.out.println("Player added: " + player);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futurePlayer; // Return the future that will be completed in the future
+    }
+
 
     //Get list of available games
     public static CompletableFuture<List<Games>> getAvailableGames() throws Exception {
@@ -99,7 +139,7 @@ public class HttpClientAsynchronousPost {
         CompletableFuture<List<Player>> getPlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/findJoinedPlayers/1")) // Replace with your endpoint
+                .uri(URI.create("http://localhost:8080/findJoinedPlayers/"+game_id)) // Replace with your endpoint
                 .header("Content-Type", "application/json")
                 .build();
 
@@ -110,8 +150,9 @@ public class HttpClientAsynchronousPost {
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Player> playersList = objectMapper.readValue(response, new TypeReference<List<Player>>() {
                 });
+
                 for (Player player : playersList) {
-                    System.out.println(player);
+                    System.out.println("GET"+player);
                 }
                 getPlayers.complete(playersList);
 

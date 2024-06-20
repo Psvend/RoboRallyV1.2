@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ public class CreateGameView {
 
     private Stage dialogStage;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
+    private Games newGame;
 
     public CreateGameView() {
         dialogStage = new Stage();
@@ -108,8 +110,12 @@ public class CreateGameView {
 
             if (validSetup) {
                 // Create game object and send it to the server
-                Games newGame = createNewGame(gameName, numPlayers, playerNames);
+                newGame = createNewGame(gameName, numPlayers, playerNames);
                 HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
+                    newGame = game;
+                    HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, newGame)).thenAccept(player -> {
+                        httpClient.player = player;
+                    });
                     System.out.println("Game setup successful!");
 
                     // Use Platform.runLater to update the UI on the JavaFX Application Thread
@@ -151,9 +157,17 @@ public class CreateGameView {
         board.setBoardId(5);
         board.setBoardName("Default Board");
         newGame.setBoard(board);
-
-
         return newGame;
+    }
+
+
+    private Players newPlayer(String playerName, Games game) {
+        Players newPlayer = new Players();
+        newPlayer.setPlayerId(0);
+        newPlayer.setPlayerName(playerName);
+        newPlayer.setPhaseStatus(0); // Initial phase status
+        newPlayer.setGameID(game);
+        return newPlayer;
     }
 
     public void show() {
