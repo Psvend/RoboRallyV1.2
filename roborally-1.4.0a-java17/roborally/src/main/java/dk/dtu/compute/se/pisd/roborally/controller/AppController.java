@@ -38,7 +38,6 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -179,8 +178,8 @@ public class AppController implements Observer {
 
     public void startGame(Board board, GameController gameController, Player player) {
         System.out.println("hiii");
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
+        this.gameController.startProgrammingPhase();
+        roboRally.createBoardView(this.gameController);
 
     }
 

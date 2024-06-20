@@ -137,12 +137,10 @@ public class RoboRally extends Application {
         vbButtons.setPadding(new Insets(50, 20, 10, 20));
         vbButtons.getChildren().addAll(createGameButton, joinGameButton, exitButton);
         // Create a VBox layout and add the buttons
-        vbox.getChildren().addAll(vbButtons);
+        boardRoot.getChildren().addAll(vbButtons);
 
 
     }
-
-
     private void createGame() {
         System.out.println("Create Game button clicked");
         CreateGameView dialog = new CreateGameView();
@@ -172,6 +170,7 @@ public class RoboRally extends Application {
     public void createBoardView(GameController gameController) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
+
 
 
         if (gameController != null) {
