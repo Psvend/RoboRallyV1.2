@@ -832,25 +832,11 @@ public class GameController {
                         Heading heading = player.getSpace().getConveyorBelt().getHeading();  
                         Space target = null;
 
-                        switch (heading) {
-                            case NORTH:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                            
-                            case SOUTH:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-
-                            case WEST:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                        
-                            case EAST:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                            default:
-                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
-                        }
+                        if(heading != null) {
+                            target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                            }else {
+                                return;
+                            }
                         if (target == null) return;
                         if (target.getConveyorBelt() == null) {
                             if(target.getPlayer() == null) {
@@ -960,22 +946,10 @@ public class GameController {
                         if (board.getStep() == currentRegisters[c]){
                             Heading heading = space.getPushPanel().getHeading();
                             Space target = null;
-                            switch (heading) {
-                                case EAST:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case NORTH:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case SOUTH:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case WEST:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                default:
-                                    throw new ImpossibleMoveException(player, space, heading);
-                            }
+                            if(heading != null) {
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+
+                            }else {}
                             if (target == null) {
                                 return;
                             } if(target.getPlayer()==null) {
@@ -1004,15 +978,47 @@ public class GameController {
     
     public void isPossible(@NotNull Player player, @NotNull Heading heading) {
         if (player.getSpace().y == 0 && heading == NORTH) {
+            if(findRespawnPoint().getPlayer()!=null){
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             player.setSpace(findRespawnPoint());
         } 
         if (player.getSpace().y == board.height-1 && heading == SOUTH) {
+            if(findRespawnPoint().getPlayer()!=null){
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             player.setSpace(findRespawnPoint());
         }
         if (player.getSpace().x == 0 && heading == WEST) {
+            if(findRespawnPoint().getPlayer()!=null){
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             player.setSpace(findRespawnPoint());
         }
         if (player.getSpace().x == board.width-1 && heading == EAST) {
+            if(findRespawnPoint().getPlayer()!=null){
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             player.setSpace(findRespawnPoint());
         }
         else {
@@ -1148,25 +1154,10 @@ public class GameController {
         Space respawnSpace = player.getSpace();
         Space target = null;
 
-        switch (respawnHeading) {
-            case NORTH:
-                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
-                break;
-            
-            case SOUTH:
-                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
-                break;
-
-            case WEST:
-                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
-                break;
-
-            case EAST:
-                target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);            
-                break;
-            
-            default:
-                break;
+        if(respawnHeading != null) {
+            target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
+        } else {
+            return;
         }
         if (target.equals(null)){
             return;
