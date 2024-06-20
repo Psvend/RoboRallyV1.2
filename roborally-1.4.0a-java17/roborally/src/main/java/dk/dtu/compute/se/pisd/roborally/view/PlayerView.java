@@ -181,7 +181,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     /**
      * @author Louise
-     * @param Integer newReserve
+     * @param int newReserve
      * @return none
      */
     
@@ -191,7 +191,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
         /**
      * @author Louise
-     * @param Integer newBank
+     * @param int newBank
      * @return none
      */
 
