@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,9 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CreateGameView {
 
@@ -40,40 +41,48 @@ public class CreateGameView {
         // Player Names
         VBox playerNamesVbox = new VBox(5);
         Label playerNamesLabel = new Label("Player Names:");
-        playerNamesVbox.getChildren().add(playerNamesLabel);
+        TextField player1NameField = new TextField();
+        player1NameField.setPromptText("Player 1 Name");
+        playerNamesVbox.getChildren().addAll(playerNamesLabel, player1NameField);
 
-        // Button to dynamically add player name fields based on number of players
         numPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 numPlayersField.setText(newValue.replaceAll("[^\\d]", ""));
+                return;
             }
 
             int numPlayers;
             try {
-                numPlayers = Integer.parseInt(newValue);
+                numPlayers = Integer.parseInt(numPlayersField.getText());
             } catch (NumberFormatException e) {
                 numPlayers = 0;
             }
 
-            // Restrict number of players to between 2 and 6
-            if (numPlayers < 2) {
-                numPlayers = 2;
-            } else if (numPlayers > 6) {
-                numPlayers = 6;
+            if (numPlayers < 2 || numPlayers > 6) {
+                numPlayersField.setStyle("-fx-border-color: red;");
+            } else {
+                numPlayersField.setStyle(null);
             }
+        });
 
-            numPlayersField.setText(String.valueOf(numPlayers));
+        numPlayersField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // Focus lost
+                int numPlayers;
+                try {
+                    numPlayers = Integer.parseInt(numPlayersField.getText());
+                } catch (NumberFormatException e) {
+                    numPlayers = 0;
+                }
 
-            // Clear previous player name fields
-            playerNamesVbox.getChildren().clear();
-            playerNamesVbox.getChildren().add(playerNamesLabel);
+                // Restrict number of players to between 2 and 6
+                if (numPlayers < 2) {
+                    numPlayers = 2;
+                } else if (numPlayers > 6) {
+                    numPlayers = 6;
+                }
 
-            // Add new player name fields
-
-                TextField playerNameField = new TextField();
-                playerNameField.setPromptText("Player 1" + " Name");
-                playerNamesVbox.getChildren().add(playerNameField);
-
+                numPlayersField.setText(String.valueOf(numPlayers));
+            }
         });
 
         dialogVbox.getChildren().add(playerNamesVbox);
@@ -81,32 +90,43 @@ public class CreateGameView {
         // Confirm button
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(e -> {
+
             String gameName = gameNameField.getText();
             int numPlayers = Integer.parseInt(numPlayersField.getText());
 
             List<String> playerNames = new ArrayList<>();
             boolean validSetup = true;
-            for (var node : playerNamesVbox.getChildren()) {
-                if (node instanceof TextField && !((TextField) node).getPromptText().equals("Player Names:")) {
-                    String playerName = ((TextField) node).getText().trim();
-                    if (!playerName.isEmpty()) {
-                        playerNames.add(playerName);
-                    } else {
-                        validSetup = false;
-                        break;
-                    }
-                }
+
+            // Add only the first player's name
+            String player1Name = player1NameField.getText().trim();
+            if (!player1Name.isEmpty()) {
+                playerNames.add(player1Name);
+            } else {
+                validSetup = false;
             }
 
             if (validSetup) {
                 // Create game object and send it to the server
                 Games newGame = createNewGame(gameName, numPlayers, playerNames);
-                HttpClientAsynchronousPost.addGame(newGame);
-                System.out.println("Game setup successful!");
-                dialogStage.close();
+                HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
+                    System.out.println("Game setup successful!");
+
+                    // Use Platform.runLater to update the UI on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        dialogStage.close();
+
+                        LobbyView2 lobby = new LobbyView2();
+                        lobby.show();
+                    });
+                }).exceptionally(ex -> {
+                    ex.printStackTrace();
+                    System.out.println("Error setting up game.");
+                    return null;
+                });
+
             } else {
                 // Display error or prompt user to fill in all player names
-                System.out.println("Please enter a name for each player.");
+                System.out.println("Please enter a name for Player 1.");
             }
         });
 
@@ -115,6 +135,8 @@ public class CreateGameView {
         Scene dialogScene = new Scene(dialogVbox, 300, 400);
         dialogStage.setScene(dialogScene);
     }
+
+
 
     private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
         Games newGame = new Games();
