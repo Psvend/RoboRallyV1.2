@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
@@ -114,7 +115,7 @@ public class CreateGameView {
                     // Use Platform.runLater to update the UI on the JavaFX Application Thread
                     Platform.runLater(() -> {
                         dialogStage.close();
-
+                        //links to the new lobby
                         LobbyView2 lobby = new LobbyView2();
                         lobby.show();
                     });
