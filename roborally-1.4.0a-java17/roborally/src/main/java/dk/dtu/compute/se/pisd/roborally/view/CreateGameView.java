@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class CreateGameView {
 
@@ -88,6 +90,7 @@ public class CreateGameView {
         // Confirm button
         Button confirmButton = new Button("Confirm");
         confirmButton.setOnAction(e -> {
+
             String gameName = gameNameField.getText();
             int numPlayers = Integer.parseInt(numPlayersField.getText());
 
@@ -105,9 +108,22 @@ public class CreateGameView {
             if (validSetup) {
                 // Create game object and send it to the server
                 Games newGame = createNewGame(gameName, numPlayers, playerNames);
-                HttpClientAsynchronousPost.addGame(newGame);
-                System.out.println("Game setup successful!");
-                dialogStage.close();
+                HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
+                    System.out.println("Game setup successful!");
+
+                    // Use Platform.runLater to update the UI on the JavaFX Application Thread
+                    Platform.runLater(() -> {
+                        dialogStage.close();
+
+                        LobbyView2 lobby = new LobbyView2();
+                        lobby.show();
+                    });
+                }).exceptionally(ex -> {
+                    ex.printStackTrace();
+                    System.out.println("Error setting up game.");
+                    return null;
+                });
+
             } else {
                 // Display error or prompt user to fill in all player names
                 System.out.println("Please enter a name for Player 1.");
@@ -119,6 +135,8 @@ public class CreateGameView {
         Scene dialogScene = new Scene(dialogVbox, 300, 400);
         dialogStage.setScene(dialogScene);
     }
+
+
 
     private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
         Games newGame = new Games();
