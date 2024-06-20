@@ -151,10 +151,6 @@ public class CreateGameView {
         board.setBoardName("Default Board");
         newGame.setBoard(board);
 
-        // Add player names
-        //for (int i = 0; i < playerNames.size(); i++) {
-        //    newGame.getPlayerNames().put("Player " + (i + 1), playerNames.get(i));
-        //}
 
         return newGame;
     }

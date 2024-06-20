@@ -40,8 +40,6 @@ public class AvailableGamesView {
             System.out.println("Error setting up game.");
             return null;
         });
-        Button testButton = new Button("Test"); // Add a test button
-        dialogVbox.getChildren().add(testButton);
 
         Scene gamesScene = new Scene(dialogVbox, 300, 400);
         gamesStage.setScene(gamesScene);
