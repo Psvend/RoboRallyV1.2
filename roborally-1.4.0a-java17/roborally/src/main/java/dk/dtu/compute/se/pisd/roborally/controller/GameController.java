@@ -84,11 +84,14 @@ public class GameController {
      * 
      */
     public void moveForward(@NotNull Player player) {
-        if(wasActivated == true){
+        if(wasActivated){
             wasActivated = false;
         }
-        if(wasOutside == true) {
+        if(wasOutside) {
             wasOutside = false;
+        }
+        if(stop){
+            stop = false;
         }
     if (player.board == board) {
         Space currentSpace = player.getSpace();
@@ -122,7 +125,9 @@ public class GameController {
 
                     // Move the player to the forward space
                     if(isOutside(forwardSpace,player.getHeading())){
+                        if(findRespawnPoint().getPlayer() != null){
                         pushPlayer(forwardSpace, player.getHeading());
+                        }
                         player.setSpace(findRespawnPoint());
                         wasOutside = true;
                         return;
@@ -1128,6 +1133,9 @@ public class GameController {
                         } catch (ImpossibleMoveException e) {
                             new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
                         }
+                        return;
+                    }
+                    if (stop) {
                         return;
                     }
                     playerBeingPushed.setSpace(pushSpace);
