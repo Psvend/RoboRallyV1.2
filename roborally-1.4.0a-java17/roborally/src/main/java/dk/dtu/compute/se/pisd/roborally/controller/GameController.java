@@ -97,54 +97,34 @@ public class GameController {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
 
-        // Check if there's a wall in front of the player (either on the current space or the neighboring space)
-        if (currentSpace != null && currentSpace instanceof WallSpace) {
-            WallSpace wallSpace = (WallSpace) currentSpace;
-            
-            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                return; // Cannot move forward: Wall detected in the way
-            }
+        if (isWallInfront(currentSpace, heading)){
+            return;
         }
 
-        // Get the space in the forward direction using getNeighbour method
         Space forwardSpace = board.getNeighbour(currentSpace, heading);
 
-        // Check if the forward space is valid
         if (forwardSpace != null) {
-        // Check if there's a wall facing the space the player came from
-            Heading backwardHeading = heading.opposite();
-
-                    // Check if there's a wall facing the backward space in the forward space
-                    if (forwardSpace != null && forwardSpace instanceof WallSpace) {
-                        WallSpace forwardWallSpace = (WallSpace) forwardSpace;
-                        
-                        if (forwardWallSpace.getHeading() == backwardHeading && forwardWallSpace.hasWall()) {
-                            return; // Cannot move forward: Wall detected in the opposite direction
-                        }
-                    }
-
-                    // Move the player to the forward space
-                    if(isOutside(forwardSpace,player.getHeading())){
-                        if(findRespawnPoint().getPlayer() != null){
+                if(isOutside(forwardSpace,player.getHeading())){
+                    if(findRespawnPoint().getPlayer() != null){
                         pushPlayer(forwardSpace, player.getHeading());
-                        }
-                        player.setSpace(findRespawnPoint());
-                        wasOutside = true;
+                    }
+                    player.setSpace(findRespawnPoint());
+                    wasOutside = true;
+                    return;
+                }
+                if(forwardSpace.getPlayer() != null) {
+                    pushPlayer(forwardSpace, player.getHeading());
+                    if(stop){
+                        stop = false;
                         return;
                     }
-                    if(forwardSpace.getPlayer() != null) {
-                        pushPlayer(forwardSpace, player.getHeading());
-                        if(stop){
-                            stop = false;
-                            return;
-                        }
-                        player.setSpace(forwardSpace);
-                    } if(forwardSpace.getPlayer() == null){
-                        player.setSpace(forwardSpace);
-                        activatePitfall(player, player.getSpace());
-                    } else {
-                        return;
-                    }
+                    player.setSpace(forwardSpace);
+                } if(forwardSpace.getPlayer() == null){
+                    player.setSpace(forwardSpace);
+                    activatePitfall(player, player.getSpace());
+                } else {
+                    return;
+                }
             }
         }
     }
@@ -1050,7 +1030,7 @@ public class GameController {
                 respawnPoint = board.getSpace(i, j);
                 if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint;
-                } else {}
+                }
             }
         }
         return respawnPoint = board.getSpace(0, 0);
@@ -1064,7 +1044,7 @@ public class GameController {
                 checkpoint = board.getSpace(i, j);
                 if (checkpoint.getCheckpoint() instanceof Checkpoint){
                     totalCheckpoints = totalCheckpoints+1;
-                } else {}
+                }
             }
         }
         return totalCheckpoints;
@@ -1080,7 +1060,7 @@ public class GameController {
                         if(!energyField.getEnergyField().hasEnergyCube()){
                             energyField.getEnergyField().setEnergyCube(false);
                         }
-                    } else {}
+                    }
                 }
             }
         }
@@ -1096,56 +1076,43 @@ public class GameController {
 
         Player playerBeingPushed = space.getPlayer();
 
-        if (space != null && space instanceof WallSpace) {
-            WallSpace wallSpace = (WallSpace) space;
-            
-            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                stop = true;
-                return;
-            }
+        if(isWallInfront(space, heading)){
+            stop = true;
+            return;
         }
 
         Space pushSpace = board.getNeighbour(space, heading);
 
         if (pushSpace != null) {
             Heading backwardHeading = heading.opposite();
-
-            if (pushSpace != null && pushSpace instanceof WallSpace) {
-                        WallSpace pushWallSpace = (WallSpace) pushSpace;
-                        
-                        if (pushWallSpace.getHeading() == backwardHeading && pushWallSpace.hasWall()) {
-                            stop = true;
-                            return;
-                        }
+            if(pushSpace.getPlayer() != null){
+                pushPlayer(pushSpace, heading);
+            }
+            if(isOutside(pushSpace,heading)){
+                if(findRespawnPoint().getPlayer()!=null){
+                    try {
+                        respawnPush(findRespawnPoint().getPlayer());
+                    } catch (ImpossibleMoveException e) {
+                        new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
                     }
-                    if(pushSpace.getPlayer() != null){
-                        pushPlayer(pushSpace, heading);
-                    }
-                    if(isOutside(pushSpace,heading)){
-                        if(findRespawnPoint().getPlayer()!=null){
-                            try {
-                                respawnPush(findRespawnPoint().getPlayer());
-                            } catch (ImpossibleMoveException e) {
-                                new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
-                            }
-                        }
-                        playerBeingPushed.setSpace(findRespawnPoint());
-                        return;
-                    }
-                    if (playerBeingPushed == null) {
-                        try {
-                            respawnPush(findRespawnPoint().getPlayer());
-                        } catch (ImpossibleMoveException e) {
-                            new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
-                        }
-                        return;
-                    }
-                    if (stop) {
-                        return;
-                    }
-                    playerBeingPushed.setSpace(pushSpace);
-                    activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
-                    wasActivated = false;
+                }
+                playerBeingPushed.setSpace(findRespawnPoint());
+                return;
+            }
+            if (playerBeingPushed == null) {
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
+                }
+                return;
+            }
+            if (stop) {
+                return;
+            }
+            playerBeingPushed.setSpace(pushSpace);
+            activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
+            wasActivated = false;
         }
     }
     
@@ -1168,6 +1135,28 @@ public class GameController {
         } else {
         player.setSpace(target);
         }
+    }
+
+    public Boolean isWallInfront(@NotNull Space space, @NotNull Heading heading){
+        if (space != null && space instanceof WallSpace) {
+            WallSpace wallSpace = (WallSpace) space;
+                    
+            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                return true;
+            }
+        }
+        Space pushSpace = board.getNeighbour(space, heading);
+
+        if (pushSpace != null && pushSpace instanceof WallSpace) {
+            Heading backwardHeading = heading.opposite();
+            WallSpace wallSpace2 = (WallSpace) pushSpace;
+
+            if(wallSpace2.getHeading() == backwardHeading && wallSpace2.hasWall()){
+                return true;
+            }
+        
+        }
+        return false;
     }
 
 }
