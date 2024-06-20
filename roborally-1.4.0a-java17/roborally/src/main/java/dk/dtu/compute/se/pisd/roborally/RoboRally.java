@@ -145,7 +145,7 @@ public class RoboRally extends Application {
 
     private void createGame() {
         System.out.println("Create Game button clicked");
-        CreateGameView dialog = new CreateGameView();
+        CreateGameView dialog = new CreateGameView(this);
         dialog.show();
     }
 

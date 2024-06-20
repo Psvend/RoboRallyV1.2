@@ -99,7 +99,7 @@ public class HttpClientAsynchronousPost {
         CompletableFuture<List<Player>> getPlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/findJoinedPlayers/1")) // Replace with your endpoint
+                .uri(URI.create("http://localhost:8080/findJoinedPlayers/" + game_id))
                 .header("Content-Type", "application/json")
                 .build();
 
@@ -110,10 +110,11 @@ public class HttpClientAsynchronousPost {
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<Player> playersList = objectMapper.readValue(response, new TypeReference<List<Player>>() {
                 });
+                getPlayers.complete(playersList);
                 for (Player player : playersList) {
                     System.out.println(player);
                 }
-                getPlayers.complete(playersList);
+
 
             } catch (Exception e) {
                 e.printStackTrace();
