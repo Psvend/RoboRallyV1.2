@@ -68,7 +68,7 @@ public class LobbyView2 {
             gameController.startProgrammingPhase();
             roboRally.createBoardView(gameController);
         });
-
+        Button updatePlayerListButton = new Button("Update");
 
         try {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
@@ -76,15 +76,16 @@ public class LobbyView2 {
 
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    for (Player player : joinedPlayers) {
+                    dialogVbox.getChildren().add(updatePlayerListButton);
+                   /* for (Player player : joinedPlayers) {
                         //updates updateButton to get list of players
                         Button updatePlayerListButton = new Button("Update"); // Add a test button
                         dialogVbox.getChildren().add(updatePlayerListButton);
-                    }
+                    }*/
                 });
             }).exceptionally(ex -> {
                 ex.printStackTrace();
-                System.out.println("Error setting up game.");
+                System.out.println("Error in lobby.");
                 return null;
             });
         } catch (Exception e) {
