@@ -55,6 +55,7 @@ public class GameController {
     public boolean wasActivated = false;
     public boolean wasOutside = false;
     public boolean hasCube = true;
+    public boolean stop = false;
     
 
     public GameController(Board board) {
@@ -128,7 +129,12 @@ public class GameController {
                     }
                     if(forwardSpace.getPlayer() != null) {
                         pushPlayer(forwardSpace, player.getHeading());
+                        if(stop){
+                            stop = false;
+                            return;
+                        }
                         player.setSpace(forwardSpace);
+                        System.out.println("check");
                     } if(forwardSpace.getPlayer() == null){
                         player.setSpace(forwardSpace);
                         activatePitfall(player, player.getSpace());
@@ -1084,6 +1090,7 @@ public class GameController {
             WallSpace wallSpace = (WallSpace) space;
             
             if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                stop = true;
                 return;
             }
         }
@@ -1097,6 +1104,7 @@ public class GameController {
                         WallSpace pushWallSpace = (WallSpace) pushSpace;
                         
                         if (pushWallSpace.getHeading() == backwardHeading && pushWallSpace.hasWall()) {
+                            stop = true;
                             return;
                         }
                     }
