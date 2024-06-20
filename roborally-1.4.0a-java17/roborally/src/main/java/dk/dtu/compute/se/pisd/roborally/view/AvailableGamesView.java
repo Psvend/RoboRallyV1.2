@@ -25,6 +25,7 @@ public class AvailableGamesView {
         VBox dialogVbox = new VBox(10);
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
+
         httpClient.getAvailableGames().thenAccept(games -> {
             availableGames = games;
 

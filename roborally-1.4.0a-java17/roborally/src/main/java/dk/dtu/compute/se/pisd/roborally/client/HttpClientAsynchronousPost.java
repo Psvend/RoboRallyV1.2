@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.client;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -90,6 +91,39 @@ public class HttpClientAsynchronousPost {
                 })
                 .join(); // Block main thread to wait for completion (for demonstration)
         return futureGame;
+    }
+
+
+    //GET list of joined players
+    public static CompletableFuture<List<Player>> getPlayers(int game_id) throws Exception {
+        CompletableFuture<List<Player>> getPlayers = new CompletableFuture<>();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/findJoinedPlayers/" + game_id))
+                .header("Content-Type", "application/json")
+                .build();
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                List<Player> playersList = objectMapper.readValue(response, new TypeReference<List<Player>>() {
+                });
+                getPlayers.complete(playersList);
+                for (Player player : playersList) {
+                    System.out.println("Caught in GET " + playersList);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                getPlayers.completeExceptionally(e);
+            }
+        })
+                .join(); // Block main thread to wait for completion (for demonstration)
+        return getPlayers;
+
+
+
     }
 
 
