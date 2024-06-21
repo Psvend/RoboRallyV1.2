@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
+import dk.dtu.compute.se.pisd.roborally.client.Data.ProgCards;
+
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
