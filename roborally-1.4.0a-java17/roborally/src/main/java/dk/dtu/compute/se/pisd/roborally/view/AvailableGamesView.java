@@ -96,10 +96,9 @@ public class AvailableGamesView {
     }
     private Players newPlayer(String playerName, Games game) {
         Players newPlayer = new Players();
-        newPlayer.setPlayerId(0);
         newPlayer.setPlayerName(playerName);
-        newPlayer.setPhaseStatus(0); // Initial phase status
-        newPlayer.setGameID(game);
+        newPlayer.setPhaseStatus(false); // Initial phase status
+        newPlayer.setGame(game);
         return newPlayer;
     }
 }

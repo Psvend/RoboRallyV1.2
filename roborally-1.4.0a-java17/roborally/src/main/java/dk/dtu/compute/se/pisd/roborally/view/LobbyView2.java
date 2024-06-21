@@ -57,7 +57,7 @@ public class LobbyView2 {
         startGameButton.setOnAction(e -> {
             lobbyStage.close();
             Board board = new Board(8, 8);
-            int amountPlayers = HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers();
+            int amountPlayers = HttpClientAsynchronousPost.currentPlayer.getGameID().getJoinedPlayers();
 
             //creates players on the board
             for (int i = 0; i < amountPlayers ; i++) {
@@ -77,7 +77,7 @@ public class LobbyView2 {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers() + " Players out of " + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
+                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.currentPlayer.getGameID().getJoinedPlayers() + " Players out of " + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
                     dialogVbox.getChildren().add(joinedPlayers);
                     //dialogVbox.getChildren().add(updatePlayerListButton);
                     for (Players player : players) {
@@ -98,8 +98,8 @@ public class LobbyView2 {
 
     public Object fetchData() {
         Object object = null;
-        if(HttpClientAsynchronousPost.player !=null){
-            object= HttpClientAsynchronousPost.player;
+        if(HttpClientAsynchronousPost.currentPlayer !=null){
+            object= HttpClientAsynchronousPost.currentPlayer;
         } else if(HttpClientAsynchronousPost.currentGame != null){
             object = HttpClientAsynchronousPost.currentGame;
         }

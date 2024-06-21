@@ -25,7 +25,7 @@ public class HttpClientAsynchronousPost {
     // Static variable to store the current game
     public static Games currentGame;
     public static List<Games> availableGames;
-    public static Players player;
+    public static Players currentPlayer;
     public static List<Players> playersList;
 
     public static CompletableFuture<Games> addGame(Games game) {
@@ -84,9 +84,9 @@ public class HttpClientAsynchronousPost {
                     .thenAccept(response -> {
                         try {
                             ObjectMapper objectMapper = new ObjectMapper();
-                            player = objectMapper.readValue(response, Players.class);
-                            futurePlayer.complete(player); // Complete the future when the player is added
-                            System.out.println("Player added: " + player);
+                            currentPlayer = objectMapper.readValue(response, Players.class);
+                            futurePlayer.complete(currentPlayer); // Complete the future when the player is added
+                            System.out.println("Player added: " + currentPlayer);
                         } catch (Exception e) {
                             e.printStackTrace();
                             futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
@@ -135,7 +135,7 @@ public class HttpClientAsynchronousPost {
 
 
     //GET list of joined players
-    public static CompletableFuture<List<Players>> getPlayers(int game_id) throws Exception {
+    public static CompletableFuture<List<Players>> getPlayers(Long game_id) throws Exception {
         CompletableFuture<List<Players>> getPlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
@@ -165,7 +165,7 @@ public class HttpClientAsynchronousPost {
         return getPlayers;
     }
 
-    public static CompletableFuture<Games> getCurrentGame(int game_id) {
+    public static CompletableFuture<Games> getCurrentGame(Long game_id) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
 
         try {

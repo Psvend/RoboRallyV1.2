@@ -24,6 +24,8 @@ public class CreateGameView {
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
     private Games newGame;
 
+    private Players players;
+
     private RoboRally roboRally;
 
     public CreateGameView(RoboRally roboRally) {
@@ -113,12 +115,17 @@ public class CreateGameView {
 
             if (validSetup) {
                 // Create game object and send it to the server
-                newGame = createNewGame(gameName, numPlayers, playerNames);
+                newGame = createNewGame(gameName, numPlayers);
                 HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
-                    newGame = game;
-                    HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, newGame)).thenAccept(player -> {
-                        httpClient.player = player;
-                    });
+                    game = newGame;
+                    Players layers = newPlayer(player1Name, game);
+                    System.out.println(layers);
+
+                    HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, game));
+
+                            /*.thenAccept(player -> {
+
+                    });*/
                     System.out.println("Game setup successful!");
 
                     // Use Platform.runLater to update the UI on the JavaFX Application Thread
@@ -148,12 +155,11 @@ public class CreateGameView {
 
 
 
-    private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
+    private Games createNewGame(String gameName, int numPlayers) {
         Games newGame = new Games();
-        newGame.setGameId(0);
         newGame.setGameName(gameName);
         newGame.setPlayersAmount(numPlayers);
-        newGame.setJoinedPlayers(0); // Initially no players joined
+        newGame.setJoinedPlayers(1); // Initially no players joined
         newGame.setGameStatus(0); // Initial game status
 
         Board board = new Board();
@@ -166,10 +172,10 @@ public class CreateGameView {
 
     private Players newPlayer(String playerName, Games game) {
         Players newPlayer = new Players();
-        newPlayer.setPlayerId(0);
         newPlayer.setPlayerName(playerName);
-        newPlayer.setPhaseStatus(0); // Initial phase status
-        newPlayer.setGameID(game);
+        newPlayer.setPhaseStatus(false); // Initial phase status
+        newPlayer.setGame(game);
+
         return newPlayer;
     }
 
