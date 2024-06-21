@@ -82,7 +82,7 @@ public class LobbyView2 {
                     //dialogVbox.getChildren().add(updatePlayerListButton);
                     for (Players player : players) {
                         //updates updateButton to get list of players
-                        Button updatePlayerListButton = new Button(player.getPlayerName()); // Add a test button
+                        Button updatePlayerListButton = new Button(player.getPlayerName());
                         dialogVbox.getChildren().add(updatePlayerListButton);
                     }
                 });
