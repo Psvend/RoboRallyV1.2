@@ -165,33 +165,38 @@ public class HttpClientAsynchronousPost {
         return getPlayers;
     }
 
+    public static CompletableFuture<Games> getCurrentGame(int game_id) {
+        CompletableFuture<Games> futureGame = new CompletableFuture<>();
+
+        try {
+             // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("http://localhost:8080/getGameById/"+game_id)) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
 
 
-
-
-
-    private static void fetchGames() throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create("http://localhost:8080/getGames")) // Replace with your endpoint
-                .build();
-
-        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenAccept(response -> {
-                    try {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
-                        });
-
-                        // Print the games (for demonstration)
-                        for (Games game : gamesList) {
-                            System.out.println(game);
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            currentGame = objectMapper.readValue(response, Games.class);
+                            futureGame.complete(currentGame); // Complete the future when the game is added
+                            System.out.println("Game added: " + currentGame);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                })
-                .join(); // Block main thread to wait for completion (for demonstration)
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureGame; // Return the future that will be completed in the future
     }
+
+
 }

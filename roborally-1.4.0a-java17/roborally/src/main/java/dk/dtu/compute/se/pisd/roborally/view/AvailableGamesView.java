@@ -63,6 +63,7 @@ public class AvailableGamesView {
                     gameButton.setOnAction(e -> {
                         try {
                             httpClient.addPlayer(newPlayer(player1NameField.getText(), game)).get();
+                            HttpClientAsynchronousPost.getCurrentGame(game.getGameId());
                             gamesStage.close();
                             //links to the new lobby
                             LobbyView2 lobby = new LobbyView2(roboRally);
