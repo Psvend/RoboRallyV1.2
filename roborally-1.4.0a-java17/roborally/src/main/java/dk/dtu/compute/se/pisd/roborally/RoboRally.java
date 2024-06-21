@@ -161,7 +161,7 @@ public class RoboRally extends Application {
 
     private void joinGame() throws Exception {
         System.out.println("Join Game button clicked");
-        AvailableGamesView gamesList = new AvailableGamesView();
+        AvailableGamesView gamesList = new AvailableGamesView(this);
         gamesList.show();
        // LobbyView dialog = new LobbyView();
 

@@ -1,6 +1,8 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
+import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -18,11 +20,13 @@ import java.util.List;
 
 public class AvailableGamesView {
     private Stage gamesStage;
+    private RoboRally roboRally;
     private List<Games> availableGames;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
 
-    public AvailableGamesView() throws Exception {
+    public AvailableGamesView(RoboRally roboRally) throws Exception {
         gamesStage = new Stage();
+        this.roboRally = roboRally;
         gamesStage.setTitle("Available Games and Player Name");
 
         VBox dialogVboxPlayerLobby = new VBox();
@@ -56,6 +60,18 @@ public class AvailableGamesView {
                 for(Games game : availableGames) {
                     Button gameButton = new Button(game.getGameName());
                     dialogVboxGamesLobby.getChildren().add(gameButton);
+                    gameButton.setOnAction(e -> {
+                        try {
+                            httpClient.addPlayer(newPlayer(player1NameField.getText(), game)).get();
+                            gamesStage.close();
+                            //links to the new lobby
+                            LobbyView2 lobby = new LobbyView2(roboRally);
+                            lobby.show();
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                            System.out.println("Error adding player to game.");
+                        }
+                    });
                 }
             });
 
@@ -76,5 +92,13 @@ public class AvailableGamesView {
 
     public void show() {
         gamesStage.show();
+    }
+    private Players newPlayer(String playerName, Games game) {
+        Players newPlayer = new Players();
+        newPlayer.setPlayerId(0);
+        newPlayer.setPlayerName(playerName);
+        newPlayer.setPhaseStatus(0); // Initial phase status
+        newPlayer.setGameID(game);
+        return newPlayer;
     }
 }
