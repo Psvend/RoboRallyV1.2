@@ -56,9 +56,10 @@ public class LobbyView2 {
         startGameButton.setOnAction(e -> {
             lobbyStage.close();
             Board board = new Board(8, 8);
+            int amountPlayers = HttpClientAsynchronousPost.currentGame.getPlayersAmount();
 
             //creates players on the board
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < amountPlayers ; i++) {
                 Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
@@ -72,18 +73,14 @@ public class LobbyView2 {
         });
         Button updatePlayerListButton = new Button("Update");
 
+
+        //Handles Update button to show list of players
         try {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
-
-
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
                     dialogVbox.getChildren().add(updatePlayerListButton);
-                   /* for (Player player : joinedPlayers) {
-                        //updates updateButton to get list of players
-                        Button updatePlayerListButton = new Button("Update"); // Add a test button
-                        dialogVbox.getChildren().add(updatePlayerListButton);
-                    }*/
+
                 });
             }).exceptionally(ex -> {
                 ex.printStackTrace();
