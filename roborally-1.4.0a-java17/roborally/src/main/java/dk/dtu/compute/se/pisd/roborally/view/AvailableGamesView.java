@@ -25,35 +25,26 @@ public class AvailableGamesView {
         gamesStage = new Stage();
         gamesStage.setTitle("Available Games and Player Name");
 
-        VBox dialogVbox1 = new VBox();
-        dialogVbox1.setPadding(new Insets(10, 10, 10, 10));
-        dialogVbox1.getChildren().add(new Label("Player Name: "));
+        VBox dialogVboxPlayerLobby = new VBox();
+        dialogVboxPlayerLobby.setPadding(new Insets(10, 10, 10, 10));
+        dialogVboxPlayerLobby.getChildren().add(new Label("Player Name: "));
 
-        VBox dialogVbox2 = new VBox();
-        dialogVbox2.setPadding(new Insets(10, 10, 30, 10));
-        dialogVbox2.getChildren().add(new Label("List of Available Games: "));
+        VBox dialogVboxGamesLobby = new VBox();
+        dialogVboxGamesLobby.setPadding(new Insets(10, 10, 50, 10));
+        dialogVboxGamesLobby.getChildren().add(new Label("List of Available Games: "));
 
         //add the row to here
         GridPane root = new GridPane();
-        root.add(dialogVbox1,0,0);
-        root.add(dialogVbox2,1,0);
+        root.add(dialogVboxPlayerLobby,0,0);
+        root.add(dialogVboxGamesLobby,1,0);
 
 
         //Adds the input box for the player name
         // Player Names
-        VBox playerNamesVbox = new VBox(5);
-        Label playerNamesLabel = new Label("Player Names:");
         TextField player1NameField = new TextField();
         player1NameField.setPromptText("Player 1 Name");
-        playerNamesVbox.getChildren().addAll(playerNamesLabel, player1NameField);
-
-
-        numPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
-                numPlayersField.setText(newValue.replaceAll("[^\\d]", ""));
-                return;
-            }
-
+        dialogVboxPlayerLobby.getChildren().addAll(player1NameField);
+        //httpClient.addPlayer();
 
 
         //Adds the list of available games
@@ -64,7 +55,7 @@ public class AvailableGamesView {
             Platform.runLater(() -> {
                 for(Games game : availableGames) {
                     Button gameButton = new Button(game.getGameName());
-                    dialogVbox2.getChildren().add(gameButton);
+                    dialogVboxGamesLobby.getChildren().add(gameButton);
                 }
             });
 
@@ -78,7 +69,7 @@ public class AvailableGamesView {
 
 
 
-        Scene gamesScene = new Scene(root, 300, 400);
+        Scene gamesScene = new Scene(root, 350, 400);
         gamesStage.setScene(gamesScene);
         gamesStage.show();
     }
