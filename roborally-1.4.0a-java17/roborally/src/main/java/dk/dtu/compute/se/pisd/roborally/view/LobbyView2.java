@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -71,16 +72,19 @@ public class LobbyView2 {
             gameController.startProgrammingPhase();
             roboRally.createBoardView(gameController);
         });
-        Button updatePlayerListButton = new Button("Update");
 
-
-        //Handles Update button to show list of players
         try {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    dialogVbox.getChildren().add(updatePlayerListButton);
-
+                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers()+ " Players out of " + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
+                    dialogVbox.getChildren().add(joinedPlayers);
+                    //dialogVbox.getChildren().add(updatePlayerListButton);
+                    for (Players player : players) {
+                        //updates updateButton to get list of players
+                        Button updatePlayerListButton = new Button(player.getPlayerName()); // Add a test button
+                        dialogVbox.getChildren().add(updatePlayerListButton);
+                    }
                 });
             }).exceptionally(ex -> {
                 ex.printStackTrace();
