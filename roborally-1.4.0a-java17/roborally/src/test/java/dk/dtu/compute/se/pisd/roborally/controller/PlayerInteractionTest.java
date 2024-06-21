@@ -152,5 +152,60 @@ public class PlayerInteractionTest extends ApplicationTest {
         assertFalse(board.isStepMode());
     }
 
+    @Test
+    void Wall_Test(){
+
+    }
+
+    @Test
+    void Pitfall_Test(){
+
+    }
+
+    @Test
+    void ConveyorBelt_Test(){
+
+    }
+
+    @Test
+    void GearSpace_Test(){
+
+    }
+
+    @Test
+    void EnergySpace_Test(){
+
+    }
+
+    @Test
+    void OutsideOfBoard_Test(){
+
+    }
+
+    @Test
+    void PushPlayerForward_Test(){
+
+    }
+
+    @Test
+    void PushPlayerBackwards_Test(){
+
+    }
+
+    @Test
+    void RespawnPush_Test(){
+
+    }
+
+    @Test
+    void CheckPoint_Test(){
+
+    }
+
+    @Test
+    void Winner_Test(){
+
+    }
+
 
 }
