@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.client;
 
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
@@ -13,6 +14,9 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -21,11 +25,12 @@ public class HttpClientAsynchronousPost {
             .version(HttpClient.Version.HTTP_2) // Use HTTP/2
             .connectTimeout(Duration.ofSeconds(10)) // Timeout after 10 seconds
             .build();
+    private static final Logger logger = Logger.getLogger(HttpClientAsynchronousPost.class.getName());
 
     // Static variable to store the current game
     public static Games currentGame;
     public static List<Games> availableGames;
-    public static Players player;
+    public static Players currentPlayer;
     public static List<Players> playersList;
 
     public static CompletableFuture<Games> addGame(Games game) {
@@ -70,6 +75,7 @@ public class HttpClientAsynchronousPost {
         try {
             // Convert Players object to JSON string
             String jsonBody = new ObjectMapper().writeValueAsString(players);
+            logger.log(Level.INFO, "Sending POST request to /addPlayer with body: {0}", jsonBody);
 
             // Prepare HTTP POST request
             HttpRequest request = HttpRequest.newBuilder()
@@ -84,9 +90,9 @@ public class HttpClientAsynchronousPost {
                     .thenAccept(response -> {
                         try {
                             ObjectMapper objectMapper = new ObjectMapper();
-                            player = objectMapper.readValue(response, Players.class);
-                            futurePlayer.complete(player); // Complete the future when the player is added
-                            System.out.println("Player added: " + player);
+                            currentPlayer = objectMapper.readValue(response, Players.class);
+                            futurePlayer.complete(currentPlayer); // Complete the future when the player is added
+                            System.out.println("Player added: " + currentPlayer);
                         } catch (Exception e) {
                             e.printStackTrace();
                             futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
@@ -153,6 +159,8 @@ public class HttpClientAsynchronousPost {
                 getPlayers.complete(playersList);
                 for (Players player : playersList) {
                     System.out.println(player);
+                    System.out.println("Game added: " + currentGame);
+
                 }
                 getPlayers.complete(playersList);
 

@@ -14,15 +14,35 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
+import dk.dtu.compute.se.pisd.roborally.view.CreateGameView;
+
+import static dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost.addPlayer;
+import static dk.dtu.compute.se.pisd.roborally.client.HttpPostPlayer.createFirstPlayer;
+
 
 public class CreateGameView {
 
     private Stage dialogStage;
     private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
     private Games newGame;
+
+    private Players firstPlayer;
 
     private RoboRally roboRally;
 
@@ -102,22 +122,55 @@ public class CreateGameView {
 
             List<String> playerNames = new ArrayList<>();
             boolean validSetup = true;
+            System.out.println("Er jeg idiot? ja kæmpe");
 
             // Add only the first player's name
             String player1Name = player1NameField.getText().trim();
+
+
             if (!player1Name.isEmpty()) {
                 playerNames.add(player1Name);
+
             } else {
                 validSetup = false;
             }
 
+            System.out.println("Er jeg idiot? ja kæmpe mega meget fucking");
+
             if (validSetup) {
+                System.out.println("Er jeg idiot? ja kæmpe mega meget fucking taber");
+
                 // Create game object and send it to the server
-                newGame = createNewGame(gameName, numPlayers, playerNames);
+                newGame = createNewGame(gameName, numPlayers);
+
+                try {
+                    createFirstPlayer(gameName, numPlayers, player1Name);
+                } catch (URISyntaxException ex) {
+                    throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+                    dialogStage.close();
+                    //links to the new lobby
+                    LobbyView2 lobby = new LobbyView2(roboRally);
+                    lobby.show();
+
+
+                /*
                 HttpClientAsynchronousPost.addGame(newGame).thenAccept(game -> {
-                    newGame = game;
-                    HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, newGame)).thenAccept(player -> {
-                        httpClient.player = player;
+                    System.out.println("Er jeg idiot? ja kæmpe mega meget fucking taber er");
+                    game = newGame;
+
+
+                    Players newPlayer = createNewPlayer(player1Name, newGame);
+                    addPlayer(newPlayer).thenAccept(player -> {
+                        player = newPlayer;
+                        System.out.println("Er jeg idiot? ja kæmpe mega meget fucking taber er måske");
+
                     });
                     System.out.println("Game setup successful!");
 
@@ -132,7 +185,7 @@ public class CreateGameView {
                     ex.printStackTrace();
                     System.out.println("Error setting up game.");
                     return null;
-                });
+                });*/
 
             } else {
                 // Display error or prompt user to fill in all player names
@@ -148,9 +201,8 @@ public class CreateGameView {
 
 
 
-    private Games createNewGame(String gameName, int numPlayers, List<String> playerNames) {
+    public Games createNewGame(String gameName, int numPlayers) {
         Games newGame = new Games();
-        newGame.setGameId(0);
         newGame.setGameName(gameName);
         newGame.setPlayersAmount(numPlayers);
         newGame.setJoinedPlayers(0); // Initially no players joined
@@ -164,14 +216,17 @@ public class CreateGameView {
     }
 
 
-    private Players newPlayer(String playerName, Games game) {
+    private Players createNewPlayer(String playerName, Games game) {
         Players newPlayer = new Players();
-        newPlayer.setPlayerId(0);
-        newPlayer.setPlayerName(playerName);
-        newPlayer.setPhaseStatus(0); // Initial phase status
-        newPlayer.setGameID(game);
+        newPlayer.setPhaseStatus(false);
+        newPlayer.setPlayerName(playerName);// Initial phase status
+        newPlayer.setGame(game);
+
+
         return newPlayer;
     }
+
+
 
     public void show() {
         dialogStage.show();

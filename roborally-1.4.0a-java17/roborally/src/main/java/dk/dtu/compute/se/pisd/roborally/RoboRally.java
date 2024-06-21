@@ -122,6 +122,7 @@ public class RoboRally extends Application {
 
         // Set button actions
         createGameButton.setOnAction(e -> createGame());
+
         joinGameButton.setOnAction(e -> {
             try {
                 joinGame();
@@ -177,7 +178,6 @@ public class RoboRally extends Application {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
         removeButtons();
-
 
         if (gameController != null) {
             // create and add view for new board

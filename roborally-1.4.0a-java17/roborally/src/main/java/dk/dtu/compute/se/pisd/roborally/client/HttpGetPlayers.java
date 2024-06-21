@@ -3,6 +3,9 @@ package dk.dtu.compute.se.pisd.roborally.client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,13 +13,44 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class HttpGetPlayers {
 
-    private static final HttpClient httpClient = HttpClient.newBuilder()
-            .version(HttpClient.Version.HTTP_2)
-            .connectTimeout(Duration.ofSeconds(10))
-            .build();
+    private static final HttpClient httpClient = HttpClient.newHttpClient();
+
+
+
+    public static CompletableFuture<List<Players>> getPlayersInLobby(int gameId) throws Exception {
+        CompletableFuture<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>> futureGame = new CompletableFuture<>();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/availableGames/gameId"))
+                .header("Content-Type", "application/json")
+                .build();
+
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<dk.dtu.compute.se.pisd.roborally.client.Data.Games> gamesList = objectMapper.readValue(response, new TypeReference<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>>() {
+                        });
+                        futureGame.complete(gamesList);
+
+                        // Print the games (for demonstration)
+                        /*for (Games game : gamesList) {
+                            System.out.println(game);
+                        }*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        futureGame.completeExceptionally(e);
+                    }
+                })
+                .join(); // Block main thread to wait for completion (for demonstration)
+        return futureGame;
+    }
 
     public static void main(String[] args) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()

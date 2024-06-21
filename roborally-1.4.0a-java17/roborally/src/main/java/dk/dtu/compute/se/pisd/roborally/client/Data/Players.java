@@ -9,9 +9,9 @@ public class Players {
     @JsonProperty("player_name")
     private String playerName;
     @JsonProperty("phase_status")
-    private int phaseStatus;
+    private boolean phaseStatus;
     @JsonProperty("game_id")
-    private Games gameID;
+    private Games game;
 
     public void setPlayerId (int playerId) {
         this.playerId = playerId;
@@ -25,28 +25,27 @@ public class Players {
     public String getPlayerName() {
         return playerName;
     }
-    public void setPhaseStatus(int phaseStatus) {
+    public void setPhaseStatus(boolean phaseStatus) {
         this.phaseStatus = phaseStatus;
     }
-    public int getPhaseStatus() {
+    public boolean getPhaseStatus() {
         return phaseStatus;
     }
-    public void setGameID(Games gameID) {
-        this.gameID = gameID;
+    //public int getGameID(Games gameId) {
+      //  return gameId;
+    //}
+
+    public void setGame(Games game) {
+        this.game = game;
     }
-    public Games getGameID() {
-        return gameID;
-    }
+
     @Override
     public String toString() {
         return "Players{" +
                 "playerId=" + playerId +
-                ", playerName='" + playerName + '\'' +
                 ", phaseStatus=" + phaseStatus +
-                ", gameID=" + gameID.toString() +
+                ", playerName='" + playerName + '\'' +
+                ", gameId=" + game +
                 '}';
     }
-
-
-
 }

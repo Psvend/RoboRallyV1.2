@@ -4,6 +4,7 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import dk.dtu.compute.se.pisd.roborally.client.HttpPostPlayer;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
@@ -41,7 +42,7 @@ public class LobbyView2 {
         lobbyStage = new Stage();
         this.roboRally = roboRally;
 
-        lobbyStage.setTitle("Lobby " + HttpClientAsynchronousPost.currentGame.getGameName());
+        lobbyStage.setTitle("Lobby " + HttpPostPlayer.createdGame.getGameName());
         VBox dialogVbox = new VBox(10);
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
@@ -70,6 +71,7 @@ public class LobbyView2 {
             roboRally.createBoardView(gameController);
         });
         Button updatePlayerListButton = new Button("Update");
+        dialogVbox.getChildren().add(updatePlayerListButton);
 
         try {
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
@@ -77,7 +79,6 @@ public class LobbyView2 {
 
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    dialogVbox.getChildren().add(updatePlayerListButton);
                    /* for (Player player : joinedPlayers) {
                         //updates updateButton to get list of players
                         Button updatePlayerListButton = new Button("Update"); // Add a test button
