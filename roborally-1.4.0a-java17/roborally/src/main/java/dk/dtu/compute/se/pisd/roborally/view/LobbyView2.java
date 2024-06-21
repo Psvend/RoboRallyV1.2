@@ -73,13 +73,15 @@ public class LobbyView2 {
                             player.setSpace(board.getSpace(i % board.width, i));
                         }
 
-
                         gameController = new GameController(board);
                         System.out.println("Starting Game successfully");
                         gameController.startProgrammingPhase();
                         roboRally.createBoardView(gameController);
                     } else {
                         System.out.println("Not enough players to start game");
+                        lobbyStage.close();
+                        LobbyView2 lobbyView2 = new LobbyView2(roboRally);
+                        lobbyView2.show();
                     }
                 });
             }).exceptionally(ex -> {
@@ -90,6 +92,7 @@ public class LobbyView2 {
 
         });
 
+        //updates the list of players in the lobby
         try {
             System.out.println("Current game: " + HttpClientAsynchronousPost.currentGame.getGameId());
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
