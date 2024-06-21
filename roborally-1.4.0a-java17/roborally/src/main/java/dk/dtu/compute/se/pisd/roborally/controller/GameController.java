@@ -932,65 +932,25 @@ public class GameController {
 
     public void activatePitfall(Player player, Space space){
         if(space.getPitfall() instanceof Pitfall) {
-            if(findRespawnPoint().getPlayer() != null){
-                try {
-                    respawnPush(findRespawnPoint().getPlayer());
-                } catch (ImpossibleMoveException e) {
-                   new ImpossibleMoveException(player, space, findRespawnPoint().getRespawnPoint().getHeading());
-                }
-            }
-            player.setSpace(findRespawnPoint());
+            OutOfBoundsHandling(player);
             wasActivated = true;
         }
     }
     
     public void isPossible(@NotNull Player player, @NotNull Heading heading) {
         if (player.getSpace().y == 0 && heading == NORTH) {
-            if(findRespawnPoint().getPlayer()!=null){
-                try {
-                    respawnPush(findRespawnPoint().getPlayer());
-                } catch (ImpossibleMoveException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            player.setSpace(findRespawnPoint());
+            OutOfBoundsHandling(player);
         } 
         if (player.getSpace().y == board.height-1 && heading == SOUTH) {
-            if(findRespawnPoint().getPlayer()!=null){
-                try {
-                    respawnPush(findRespawnPoint().getPlayer());
-                } catch (ImpossibleMoveException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            player.setSpace(findRespawnPoint());
+            OutOfBoundsHandling(player);
         }
         if (player.getSpace().x == 0 && heading == WEST) {
-            if(findRespawnPoint().getPlayer()!=null){
-                try {
-                    respawnPush(findRespawnPoint().getPlayer());
-                } catch (ImpossibleMoveException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            player.setSpace(findRespawnPoint());
+            OutOfBoundsHandling(player);
         }
         if (player.getSpace().x == board.width-1 && heading == EAST) {
-            if(findRespawnPoint().getPlayer()!=null){
-                try {
-                    respawnPush(findRespawnPoint().getPlayer());
-                } catch (ImpossibleMoveException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-            player.setSpace(findRespawnPoint());
-        }
-        else {
-        }    
+            OutOfBoundsHandling(player);
+
+        } 
     }
 
     public boolean isOutside(Space space, @NotNull Heading heading) {
@@ -1072,14 +1032,7 @@ public class GameController {
                 pushPlayer(pushSpace, heading);
             }
             if(isOutside(pushSpace,heading)){
-                if(findRespawnPoint().getPlayer()!=null){
-                    try {
-                        respawnPush(findRespawnPoint().getPlayer());
-                    } catch (ImpossibleMoveException e) {
-                        new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
-                    }
-                }
-                playerBeingPushed.setSpace(findRespawnPoint());
+                OutOfBoundsHandling(playerBeingPushed);
                 return;
             }
             if (playerBeingPushed == null) {
@@ -1145,6 +1098,17 @@ public class GameController {
     public void booleanHandler(Boolean wasActivated, Boolean wasOutside){
         wasActivated = false;
         wasOutside = false;
+    }
+
+    public void OutOfBoundsHandling(Player player){
+        if(findRespawnPoint().getPlayer()!=null){
+            try {
+                respawnPush(findRespawnPoint().getPlayer());
+            } catch (ImpossibleMoveException e) {
+                new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), findRespawnPoint().getRespawnPoint().getHeading());
+            }
+        }
+        player.setSpace(findRespawnPoint());
     }
 
 }
