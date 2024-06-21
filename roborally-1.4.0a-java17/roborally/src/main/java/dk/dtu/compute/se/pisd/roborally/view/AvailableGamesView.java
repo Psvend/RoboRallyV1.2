@@ -39,8 +39,24 @@ public class AvailableGamesView {
         root.add(dialogVbox2,1,0);
 
 
+        //Adds the input box for the player name
+        // Player Names
+        VBox playerNamesVbox = new VBox(5);
+        Label playerNamesLabel = new Label("Player Names:");
+        TextField player1NameField = new TextField();
+        player1NameField.setPromptText("Player 1 Name");
+        playerNamesVbox.getChildren().addAll(playerNamesLabel, player1NameField);
 
 
+        numPlayersField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                numPlayersField.setText(newValue.replaceAll("[^\\d]", ""));
+                return;
+            }
+
+
+
+        //Adds the list of available games
         httpClient.getAvailableGames().thenAccept(games -> {
             availableGames = games;
 
@@ -52,7 +68,6 @@ public class AvailableGamesView {
                 }
             });
 
-            //liste af Ready knapper ud for hvert spil
 
 
         }).exceptionally(ex -> {
