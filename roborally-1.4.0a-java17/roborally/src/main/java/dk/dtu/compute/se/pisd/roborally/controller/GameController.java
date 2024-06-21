@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * ...
  *
@@ -55,6 +54,8 @@ public class GameController {
     public boolean wasActivated = false;
     public boolean wasOutside = false;
     public boolean hasCube = true;
+    public boolean stop = false;
+    public boolean powerCard = false;
     
 
     public GameController(Board board) {
@@ -74,8 +75,6 @@ public class GameController {
         return playerViews.get(player);
     }
 
-
-
     /**
      * @author Daniel
      * @param moveForward
@@ -83,57 +82,50 @@ public class GameController {
      * 
      */
     public void moveForward(@NotNull Player player) {
-        if(wasActivated == true){
+        if(wasActivated){
             wasActivated = false;
         }
-        if(wasOutside == true) {
+        if(wasOutside) {
             wasOutside = false;
         }
-    if (player.board == board) {
-        Space currentSpace = player.getSpace();
-        Heading heading = player.getHeading();
-
-        // Check if there's a wall in front of the player (either on the current space or the neighboring space)
-        if (currentSpace != null && currentSpace instanceof WallSpace) {
-            WallSpace wallSpace = (WallSpace) currentSpace;
-            
-            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                return; // Cannot move forward: Wall detected in the way
-            }
+        if(stop){
+            stop = false;
         }
+        if (player.board == board) {
+            Space currentSpace = player.getSpace();
+            Heading heading = player.getHeading();
 
-        // Get the space in the forward direction using getNeighbour method
-        Space forwardSpace = board.getNeighbour(currentSpace, heading);
+            if (isWallInfront(currentSpace, heading)){
+            return;
+            }
 
-        // Check if the forward space is valid
-        if (forwardSpace != null) {
-        // Check if there's a wall facing the space the player came from
-            Heading backwardHeading = heading.opposite();
+            Space forwardSpace = board.getNeighbour(currentSpace, heading);
 
-                    // Check if there's a wall facing the backward space in the forward space
-                    if (forwardSpace != null && forwardSpace instanceof WallSpace) {
-                        WallSpace forwardWallSpace = (WallSpace) forwardSpace;
-                        
-                        if (forwardWallSpace.getHeading() == backwardHeading && forwardWallSpace.hasWall()) {
-                            return; // Cannot move forward: Wall detected in the opposite direction
-                        }
+            if (forwardSpace != null) {
+                if(isOutside(forwardSpace,player.getHeading())){
+                    if(findRespawnPoint().getPlayer() != null){
+                        pushPlayer(forwardSpace, player.getHeading());
                     }
-
-                    // Move the player to the forward space
-                    if(isOutside(forwardSpace,player.getHeading())){
-                        player.setSpace(findRespawnPoint());
-                        wasOutside = true;
+                    player.setSpace(findRespawnPoint());
+                    wasOutside = true;
+                    return;
+                }
+                if(forwardSpace.getPlayer() != null) {
+                    pushPlayer(forwardSpace, player.getHeading());
+                    if(stop){
+                        stop = false;
                         return;
                     }
                     player.setSpace(forwardSpace);
+                } if(forwardSpace.getPlayer() == null){
+                    player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
+                } else {
+                    return;
+                }
             }
         }
     }
-
-
-
-
 
     /**
      * @author Louise
@@ -144,37 +136,24 @@ public class GameController {
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
-            Heading playerHeading = player.getHeading();
             Heading heading = player.getHeading().opposite();
-            if (space != null && space instanceof WallSpace) {
-                WallSpace wallSpace = (WallSpace) space;
-                
-                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                        return; // Cannot move forward: Wall detected in the way
-                }
+            if(isWallInfront(space, heading)){
+                return;
             }
             
             Space target = board.getNeighbour(space, heading);
 
-            if (target != null) {
-                if (target instanceof WallSpace){
-                    WallSpace targetWallSpace = (WallSpace) target;
-                    if(targetWallSpace.getHeading() == playerHeading && targetWallSpace.hasWall()){
-                        return;
-                    }
-                }
-                
+            if (target != null) {             
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
-                    isPossible(player, player.getHeading());
+                    if(isOutside(target, heading)) {
+                        OutOfBoundsHandling(player);
+                    }
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
                 } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
                 }
             }
         }
@@ -185,21 +164,15 @@ public class GameController {
      * @param player
      * @return none
      */
-
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
     }
-
 
     /**
      * @author Petrine
@@ -210,7 +183,9 @@ public class GameController {
      * 
      */  
     public void powerUp(@NotNull Player player) {
+        powerCard = true;
         addEnergyCube(player, energyBank);
+        powerCard = false;
 
         //her opdateres label views for energy reserve og banken
         getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
@@ -218,24 +193,17 @@ public class GameController {
                     getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
                 }
     }
-
-
     
     /**
      * @author Louise
      * @param player
      * @return none
      */
-
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
@@ -249,12 +217,8 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
-            if(wasActivated == true) {
-                wasActivated = false;
-                break;
-            }
-            if(wasOutside == true) {
-                wasOutside = false;
+            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+                booleanHandler(wasActivated, wasOutside);
                 break;
             }
         }
@@ -307,7 +271,6 @@ public class GameController {
         }
     }
 
-
     
     /**
      * @author Natali
@@ -338,11 +301,6 @@ public class GameController {
             board.setCurrentPlayer(priorityPlayers.get(0));
         }
     }
-
-
-
-
-
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -447,8 +405,6 @@ public class GameController {
     }
 
 
-
-
     /**
      * @author Petrine & Louise
      * Allows a player to have its own energyreserve, that will get updated every time 
@@ -460,14 +416,19 @@ public class GameController {
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
         Space energySpace = player.getSpace();
-        if(energySpace.getEnergyField().hasEnergyCube() && energySpace.getEnergyField()!= null){
-            if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+        if(energySpace.getEnergyField()!= null){
+            if(energySpace.getEnergyField().hasEnergyCube() && energyBank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
                 // TILFØJET AF LOUISE
                 playerBank++;
                 player.setEnergyReserve(playerBank);
                 energyBankStatus--;
                 energyBank.setEnergyBank(energyBankStatus);
             }
+        } else if(powerCard){
+            playerBank++;
+            player.setEnergyReserve(playerBank);
+            energyBankStatus--;
+            energyBank.setEnergyBank(energyBankStatus);
         }
     }
 
@@ -518,12 +479,11 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
-            //TODO label fejl stammer her fra
+            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
         }
         
     }
-
-
 
     private void executeNextStep() {
         if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
@@ -652,7 +612,6 @@ public class GameController {
 
 
                 default:
-                    // DO NOTHING (for now)
             }
         }
     }
@@ -731,8 +690,6 @@ public class GameController {
         }
     }
 
-
-
     
     /**
      * @author Natali
@@ -759,12 +716,7 @@ public class GameController {
 
         return playersTurn;
     }
-
-
-    
-
-
-
+ 
     
  /**
   * @author Natali
@@ -814,25 +766,11 @@ public class GameController {
                         Heading heading = player.getSpace().getConveyorBelt().getHeading();  
                         Space target = null;
 
-                        switch (heading) {
-                            case NORTH:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                            
-                            case SOUTH:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-
-                            case WEST:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                        
-                            case EAST:
-                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                break;
-                            default:
-                                throw new ImpossibleMoveException(player, player.getSpace(), heading);
-                        }
+                        if(heading != null) {
+                            target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+                            }else {
+                                return;
+                            }
                         if (target == null) return;
                         if (target.getConveyorBelt() == null) {
                             if(target.getPlayer() == null) {
@@ -843,12 +781,11 @@ public class GameController {
                             }
                         } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
                             player.setSpace(target);
-                        } else {}
+                        }
                     }
                 }
             }
         }
-
     }
 
 
@@ -926,7 +863,7 @@ public class GameController {
                     } else if(space.getGearSpace().getGearType().equals("RIGHT")){
                         turnRight(player);
                     }
-                } else {}
+                }
             }
         }
     }
@@ -942,56 +879,27 @@ public class GameController {
                         if (board.getStep() == currentRegisters[c]){
                             Heading heading = space.getPushPanel().getHeading();
                             Space target = null;
-                            switch (heading) {
-                                case EAST:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case NORTH:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case SOUTH:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                case WEST:
-                                    target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                                    break;
-                                default:
-                                    throw new ImpossibleMoveException(player, space, heading);
-                            }
+                            if(heading != null) {
+                                target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
+
+                            }else {}
                             if (target == null) {
                                 return;
                             } if(target.getPlayer()==null) {
                                 player.setSpace(target);
                             }
-                        } else {}
+                        }
                     }
-                } else {}
+                }
             }
         }
     }
 
     public void activatePitfall(Player player, Space space){
         if(space.getPitfall() instanceof Pitfall) {
-            player.setSpace(findRespawnPoint());
+            OutOfBoundsHandling(player);
             wasActivated = true;
         }
-    }
-    
-    public void isPossible(@NotNull Player player, @NotNull Heading heading) {
-        if (player.getSpace().y == 0 && heading == NORTH) {
-            player.setSpace(findRespawnPoint());
-        } 
-        if (player.getSpace().y == board.height-1 && heading == SOUTH) {
-            player.setSpace(findRespawnPoint());
-        }
-        if (player.getSpace().x == 0 && heading == WEST) {
-            player.setSpace(findRespawnPoint());
-        }
-        if (player.getSpace().x == board.width-1 && heading == EAST) {
-            player.setSpace(findRespawnPoint());
-        }
-        else {
-        }    
     }
 
     public boolean isOutside(Space space, @NotNull Heading heading) {
@@ -1019,7 +927,7 @@ public class GameController {
                 respawnPoint = board.getSpace(i, j);
                 if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
                     return respawnPoint;
-                } else {}
+                }
             }
         }
         return respawnPoint = board.getSpace(0, 0);
@@ -1033,7 +941,7 @@ public class GameController {
                 checkpoint = board.getSpace(i, j);
                 if (checkpoint.getCheckpoint() instanceof Checkpoint){
                     totalCheckpoints = totalCheckpoints+1;
-                } else {}
+                }
             }
         }
         return totalCheckpoints;
@@ -1049,18 +957,106 @@ public class GameController {
                         if(!energyField.getEnergyField().hasEnergyCube()){
                             energyField.getEnergyField().setEnergyCube(false);
                         }
-                    } else {}
+                    }
                 }
             }
         }
     }
 
+    public void pushPlayer(Space space, Heading heading) {
+        booleanHandler(wasActivated, wasOutside);
+
+        Player playerBeingPushed = space.getPlayer();
+
+        if(isWallInfront(space, heading)){
+            stop = true;
+            return;
+        }
+
+        Space pushSpace = board.getNeighbour(space, heading);
+
+        if (pushSpace != null) {
+            Heading backwardHeading = heading.opposite();
+            if(pushSpace.getPlayer() != null){
+                pushPlayer(pushSpace, heading);
+            }
+            if(isOutside(pushSpace,heading)){
+                OutOfBoundsHandling(playerBeingPushed);
+                return;
+            }
+            if (playerBeingPushed == null) {
+                try {
+                    respawnPush(findRespawnPoint().getPlayer());
+                } catch (ImpossibleMoveException e) {
+                    new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), backwardHeading);
+                }
+                return;
+            }
+            if (stop) {
+                return;
+            }
+            playerBeingPushed.setSpace(pushSpace);
+            activatePitfall(playerBeingPushed, playerBeingPushed.getSpace());
+            wasActivated = false;
+        }
+    }
+    
+    public void respawnPush(@NotNull Player player) throws ImpossibleMoveException{
+        Heading respawnHeading = findRespawnPoint().getRespawnPoint().getHeading();
+        Space respawnSpace = player.getSpace();
+        Space target = null;
+
+        if(respawnHeading != null) {
+            target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
+        } else {
+            return;
+        }
+        if (target.equals(null)){
+            return;
+        }
+        if (target.getPlayer() != null){
+            respawnPush(target.getPlayer());
+            player.setSpace(target);
+        } else {
+        player.setSpace(target);
+        }
+    }
+
+    public Boolean isWallInfront(@NotNull Space space, @NotNull Heading heading){
+        if (space != null && space instanceof WallSpace) {
+            WallSpace wallSpace = (WallSpace) space;
+                    
+            if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
+                return true;
+            }
+        }
+        Space pushSpace = board.getNeighbour(space, heading);
+
+        if (pushSpace != null && pushSpace instanceof WallSpace) {
+            Heading backwardHeading = heading.opposite();
+            WallSpace wallSpace2 = (WallSpace) pushSpace;
+
+            if(wallSpace2.getHeading() == backwardHeading && wallSpace2.hasWall()){
+                return true;
+            }
+        
+        }
+        return false;
+    }
+
+    public void booleanHandler(Boolean wasActivated, Boolean wasOutside){
+        wasActivated = false;
+        wasOutside = false;
+    }
+
+    public void OutOfBoundsHandling(Player player){
+        if(findRespawnPoint().getPlayer()!=null){
+            try {
+                respawnPush(findRespawnPoint().getPlayer());
+            } catch (ImpossibleMoveException e) {
+                new ImpossibleMoveException(findRespawnPoint().getPlayer(), findRespawnPoint(), findRespawnPoint().getRespawnPoint().getHeading());
+            }
+        }
+        player.setSpace(findRespawnPoint());
+    }
 }
-
-
-
-
-
-
-
-

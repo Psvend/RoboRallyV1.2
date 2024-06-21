@@ -22,15 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import org.jetbrains.annotations.NotNull;
+
 /**
  * ...
  *
  * @author Nikolaj
  * Handles the conveyor belt
  */
-public class ConveyorBelt extends FieldAction {
+public class ConveyorBelt{
 
     private Heading heading;
     private int beltType;
@@ -79,14 +78,4 @@ public class ConveyorBelt extends FieldAction {
     public void setTurnBelt(String turnBelt) {
       this.turnBelt = turnBelt;
     }
-  
-    /**
-     * currently not used. Will be in future iterations.
-     */
-    @Override
-    public boolean doAction(@NotNull GameController gameController, @NotNull Space space) {
-      return true;
-    }
-      
-      
   }
