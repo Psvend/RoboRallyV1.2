@@ -57,6 +57,8 @@ public class RoboRally extends Application {
     private Button joinGameButton;
     private Button exitButton;
 
+    private VBox vbButtons;
+
     private AppController appController;
 
 
@@ -107,13 +109,13 @@ public class RoboRally extends Application {
         stage.sizeToScene();
         stage.show();
 
-        Button createGameButton = new Button("Create Game");
+        createGameButton = new Button("Create Game");
         createGameButton.setId("create-game-button");
 
-        Button joinGameButton = new Button("Join Game");
+        joinGameButton = new Button("Join Game");
         joinGameButton.setId("join-game-button");
 
-        Button exitButton = new Button("Exit");
+        exitButton = new Button("Exit");
         exitButton.setId("exit-button");
 
 
@@ -132,7 +134,7 @@ public class RoboRally extends Application {
         joinGameButton.setMaxWidth(Double.MAX_VALUE);
         exitButton.setMaxWidth(Double.MAX_VALUE);
 
-        VBox vbButtons = new VBox();
+        vbButtons = new VBox();
         vbButtons.setSpacing(10);
         vbButtons.setPadding(new Insets(50, 20, 10, 20));
         vbButtons.getChildren().addAll(createGameButton, joinGameButton, exitButton);
@@ -142,6 +144,9 @@ public class RoboRally extends Application {
 
     }
 
+    private void removeButtons() {
+        vbButtons.getChildren().clear(); // Hide the buttons
+    }
 
     private void createGame() {
         System.out.println("Create Game button clicked");
@@ -172,6 +177,7 @@ public class RoboRally extends Application {
     public void createBoardView(GameController gameController) {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
+        removeButtons();
 
 
         if (gameController != null) {
