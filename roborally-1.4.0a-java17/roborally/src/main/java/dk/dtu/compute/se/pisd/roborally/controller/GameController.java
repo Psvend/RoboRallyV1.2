@@ -129,10 +129,6 @@ public class GameController {
         }
     }
 
-
-
-
-
     /**
      * @author Louise
      * @param player
@@ -142,37 +138,24 @@ public class GameController {
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
-            Heading playerHeading = player.getHeading();
             Heading heading = player.getHeading().opposite();
-            if (space != null && space instanceof WallSpace) {
-                WallSpace wallSpace = (WallSpace) space;
-                
-                if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
-                        return; // Cannot move forward: Wall detected in the way
-                }
+            if(isWallInfront(space, heading)){
+                return;
             }
             
             Space target = board.getNeighbour(space, heading);
 
-            if (target != null) {
-                if (target instanceof WallSpace){
-                    WallSpace targetWallSpace = (WallSpace) target;
-                    if(targetWallSpace.getHeading() == playerHeading && targetWallSpace.hasWall()){
-                        return;
-                    }
-                }
-                
+            if (target != null) {             
                 try {
                     moveToSpace(player, target, heading);
                     activatePitfall(player, player.getSpace());
-                    isPossible(player, player.getHeading());
+                    if(isOutside(target, heading)) {
+                        OutOfBoundsHandling(player);
+                    }
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
                 } catch (ImpossibleMoveException e) {
-                    // we don't do anything here  for now; we just catch the
-                    // exception so that we do no pass it on to the caller
-                    // (which would be very bad style).
                 }
             }
         }
@@ -815,12 +798,11 @@ public class GameController {
                             }
                         } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
                             player.setSpace(target);
-                        } else {}
+                        }
                     }
                 }
             }
         }
-
     }
 
 
@@ -898,7 +880,7 @@ public class GameController {
                     } else if(space.getGearSpace().getGearType().equals("RIGHT")){
                         turnRight(player);
                     }
-                } else {}
+                }
             }
         }
     }
@@ -923,9 +905,9 @@ public class GameController {
                             } if(target.getPlayer()==null) {
                                 player.setSpace(target);
                             }
-                        } else {}
+                        }
                     }
-                } else {}
+                }
             }
         }
     }
@@ -935,22 +917,6 @@ public class GameController {
             OutOfBoundsHandling(player);
             wasActivated = true;
         }
-    }
-    
-    public void isPossible(@NotNull Player player, @NotNull Heading heading) {
-        if (player.getSpace().y == 0 && heading == NORTH) {
-            OutOfBoundsHandling(player);
-        } 
-        if (player.getSpace().y == board.height-1 && heading == SOUTH) {
-            OutOfBoundsHandling(player);
-        }
-        if (player.getSpace().x == 0 && heading == WEST) {
-            OutOfBoundsHandling(player);
-        }
-        if (player.getSpace().x == board.width-1 && heading == EAST) {
-            OutOfBoundsHandling(player);
-
-        } 
     }
 
     public boolean isOutside(Space space, @NotNull Heading heading) {
@@ -1112,11 +1078,3 @@ public class GameController {
     }
 
 }
-
-
-
-
-
-
-
-
