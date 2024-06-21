@@ -1,10 +1,9 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
 
 /**
  * @author Nikolaj
  */
-public class GearSpace extends FieldAction{
+public class GearSpace{
     private String gearType;
 
     /**
@@ -24,13 +23,4 @@ public class GearSpace extends FieldAction{
     public void setGearType(String gearType){
         this.gearType = gearType;
     }
-
-    /**
-     * currently not used. Will be used in future iterations.
-     */
-    @Override
-    public boolean doAction(GameController gameController, Space space) {
-        throw new UnsupportedOperationException("Unimplemented method 'doAction'");
-    }
-    
 }
