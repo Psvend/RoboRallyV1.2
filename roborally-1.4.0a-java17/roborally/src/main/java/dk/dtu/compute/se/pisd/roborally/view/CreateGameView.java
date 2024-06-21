@@ -118,7 +118,7 @@ public class CreateGameView {
                     newGame = game;
                     HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, newGame)).thenAccept(player -> {
                         httpClient.player = player;
-                    });
+
                     System.out.println("Game setup successful!");
 
                     // Use Platform.runLater to update the UI on the JavaFX Application Thread
@@ -128,6 +128,7 @@ public class CreateGameView {
                         LobbyView2 lobby = new LobbyView2(roboRally);
                         lobby.show();
                     });
+                });
                 }).exceptionally(ex -> {
                     ex.printStackTrace();
                     System.out.println("Error setting up game.");

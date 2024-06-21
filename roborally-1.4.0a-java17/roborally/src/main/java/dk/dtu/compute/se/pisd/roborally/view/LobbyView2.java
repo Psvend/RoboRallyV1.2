@@ -74,10 +74,13 @@ public class LobbyView2 {
         });
 
         try {
+            System.out.println("Current game: " + HttpClientAsynchronousPost.currentGame.getGameId());
             HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
+
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers() + " Players out of " + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
+                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers() + " Players out of "
+                            + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
                     dialogVbox.getChildren().add(joinedPlayers);
                     //dialogVbox.getChildren().add(updatePlayerListButton);
                     for (Players player : players) {
@@ -93,19 +96,9 @@ public class LobbyView2 {
             });
         } catch (Exception e) {
             System.out.println("get list of players failed");
+            System.out.println(HttpClientAsynchronousPost.currentGame.getGameId());
         }
     }
-
-    public Object fetchData() {
-        Object object = null;
-        if(HttpClientAsynchronousPost.player !=null){
-            object= HttpClientAsynchronousPost.player;
-        } else if(HttpClientAsynchronousPost.currentGame != null){
-            object = HttpClientAsynchronousPost.currentGame;
-        }
-        return object;
-    }
-
 
 
     public void show() {

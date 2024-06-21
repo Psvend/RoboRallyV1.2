@@ -83,7 +83,7 @@ public class Games {
                 ", playersAmount=" + playersAmount +
                 ", joinedPlayers=" + joinedPlayers +
                 ", gameStatus=" + gameStatus +
-                ", board=" + board +
+                ", board=" + board.toString() +
                 '}';
     }
 }

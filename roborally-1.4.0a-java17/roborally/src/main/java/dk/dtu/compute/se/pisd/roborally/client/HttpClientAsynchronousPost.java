@@ -186,7 +186,7 @@ public class HttpClientAsynchronousPost {
                             ObjectMapper objectMapper = new ObjectMapper();
                             currentGame = objectMapper.readValue(response, Games.class);
                             futureGame.complete(currentGame); // Complete the future when the game is added
-                            System.out.println("Game added: " + currentGame);
+                            System.out.println("Current game is: " + currentGame);
                         } catch (Exception e) {
                             e.printStackTrace();
                             futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
