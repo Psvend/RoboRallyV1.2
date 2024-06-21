@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * ...
  *
@@ -75,8 +74,6 @@ public class GameController {
     public PlayerView getPlayerView(Player player) {
         return playerViews.get(player);
     }
-
-
 
     /**
      * @author Daniel
@@ -167,7 +164,6 @@ public class GameController {
      * @param player
      * @return none
      */
-
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
@@ -177,7 +173,6 @@ public class GameController {
             }
         }
     }
-
 
     /**
      * @author Petrine
@@ -198,15 +193,12 @@ public class GameController {
                     getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
                 }
     }
-
-
     
     /**
      * @author Louise
      * @param player
      * @return none
      */
-
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
@@ -279,7 +271,6 @@ public class GameController {
         }
     }
 
-
     
     /**
      * @author Natali
@@ -310,11 +301,6 @@ public class GameController {
             board.setCurrentPlayer(priorityPlayers.get(0));
         }
     }
-
-
-
-
-
 
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
@@ -419,8 +405,6 @@ public class GameController {
     }
 
 
-
-
     /**
      * @author Petrine & Louise
      * Allows a player to have its own energyreserve, that will get updated every time 
@@ -500,8 +484,6 @@ public class GameController {
         }
         
     }
-
-
 
     private void executeNextStep() {
         if (board.getPhase() == Phase.ACTIVATION && !priorityPlayers.isEmpty()) {
@@ -630,7 +612,6 @@ public class GameController {
 
 
                 default:
-                    // DO NOTHING (for now)
             }
         }
     }
@@ -709,8 +690,6 @@ public class GameController {
         }
     }
 
-
-
     
     /**
      * @author Natali
@@ -737,12 +716,7 @@ public class GameController {
 
         return playersTurn;
     }
-
-
-    
-
-
-
+ 
     
  /**
   * @author Natali
@@ -1085,5 +1059,4 @@ public class GameController {
         }
         player.setSpace(findRespawnPoint());
     }
-
 }
