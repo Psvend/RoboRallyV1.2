@@ -51,7 +51,7 @@ public class LobbyView2 {
         lobbyStage.setScene(lobbyScene);
 
         //Starts the game with the game view
-        Button startGameButton = new Button("Start Game"); // Add a test button
+        Button startGameButton = new Button("Update"); // Add a test button
         dialogVbox.getChildren().add(startGameButton);
 
         //sets action of the startGame button
