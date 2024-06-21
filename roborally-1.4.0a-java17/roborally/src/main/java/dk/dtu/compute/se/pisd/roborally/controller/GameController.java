@@ -56,6 +56,7 @@ public class GameController {
     public boolean wasOutside = false;
     public boolean hasCube = true;
     public boolean stop = false;
+    public boolean powerCard = false;
     
 
     public GameController(Board board) {
@@ -187,7 +188,9 @@ public class GameController {
      * 
      */  
     public void powerUp(@NotNull Player player) {
+        powerCard = true;
         addEnergyCube(player, energyBank);
+        powerCard = false;
 
         //her opdateres label views for energy reserve og banken
         getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
@@ -429,14 +432,19 @@ public class GameController {
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
         Space energySpace = player.getSpace();
-        if(energySpace.getEnergyField().hasEnergyCube() && energySpace.getEnergyField()!= null){
-            if(energyBank.takeEnergyCube() == true) {   //hvis banken er fuld tilføjes en cube til reserven
+        if(energySpace.getEnergyField()!= null){
+            if(energySpace.getEnergyField().hasEnergyCube() && energyBank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
                 // TILFØJET AF LOUISE
                 playerBank++;
                 player.setEnergyReserve(playerBank);
                 energyBankStatus--;
                 energyBank.setEnergyBank(energyBankStatus);
             }
+        } else if(powerCard){
+            playerBank++;
+            player.setEnergyReserve(playerBank);
+            energyBankStatus--;
+            energyBank.setEnergyBank(energyBankStatus);
         }
     }
 
@@ -487,7 +495,8 @@ public class GameController {
         EnergyBank energyBank = board.getEnergyBank();
         for (int i = 0; i < playerNo; i++ )  {
             Player player = board.getPlayer(i);
-            //TODO label fejl stammer her fra
+            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
         }
         
     }
