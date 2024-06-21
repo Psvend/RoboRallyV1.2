@@ -7,6 +7,7 @@ import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -42,7 +43,7 @@ public class LobbyView2 {
         lobbyStage = new Stage();
         this.roboRally = roboRally;
 
-        lobbyStage.setTitle("Lobby " );
+        lobbyStage.setTitle("Lobby " + HttpClientAsynchronousPost.currentGame.getGameName());
         VBox dialogVbox = new VBox(10);
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
@@ -55,22 +56,38 @@ public class LobbyView2 {
 
         //sets action of the startGame button
         startGameButton.setOnAction(e -> {
-            lobbyStage.close();
-            Board board = new Board(8, 8);
-            int amountPlayers = HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers();
-
-            //creates players on the board
-            for (int i = 0; i < amountPlayers ; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
+            HttpClientAsynchronousPost.getAmountOfJoinedPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(joinedPlayers -> {
+                System.out.println("Joined players: " + joinedPlayers);
+                Platform.runLater(() -> {
+                    if(joinedPlayers==HttpClientAsynchronousPost.currentGame.getPlayersAmount()) {
 
 
-            gameController = new GameController(board);
-            System.out.println("Starting Game successfully");
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
+                        lobbyStage.close();
+                        Board board = new Board(8, 8);
+                        int amountPlayers = HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers();
+
+                        //creates players on the board
+                        for (int i = 0; i < amountPlayers; i++) {
+                            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                            board.addPlayer(player);
+                            player.setSpace(board.getSpace(i % board.width, i));
+                        }
+
+
+                        gameController = new GameController(board);
+                        System.out.println("Starting Game successfully");
+                        gameController.startProgrammingPhase();
+                        roboRally.createBoardView(gameController);
+                    } else {
+                        System.out.println("Not enough players to start game");
+                    }
+                });
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
+                System.out.println("Error in lobby.");
+                return null;
+            });
+
         });
 
         try {

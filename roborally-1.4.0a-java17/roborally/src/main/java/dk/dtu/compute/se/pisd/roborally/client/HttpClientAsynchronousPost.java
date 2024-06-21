@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ public class HttpClientAsynchronousPost {
     public static List<Games> availableGames;
     public static Players player;
     public static List<Players> playersList;
+    public static int joinedPlayers;
 
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
@@ -198,6 +200,39 @@ public class HttpClientAsynchronousPost {
         }
 
         return futureGame; // Return the future that will be completed in the future
+    }
+
+    public static CompletableFuture<Integer> getAmountOfJoinedPlayers(int game_id){
+        CompletableFuture<Integer> futureJoined = new CompletableFuture<>();
+
+        try {
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("http://localhost:8080/getJoinedPlayers/"+game_id)) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            joinedPlayers = objectMapper.readValue(response, Integer.class);
+                            futureJoined.complete(joinedPlayers); // Complete the future when the game is added
+                            System.out.println("Current game is: " + joinedPlayers);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureJoined.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureJoined.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureJoined; // Return the future that will be completed in the future
     }
 
 
