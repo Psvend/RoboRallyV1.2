@@ -93,17 +93,17 @@ public class GameController {
         if(stop){
             stop = false;
         }
-    if (player.board == board) {
-        Space currentSpace = player.getSpace();
-        Heading heading = player.getHeading();
+        if (player.board == board) {
+            Space currentSpace = player.getSpace();
+            Heading heading = player.getHeading();
 
-        if (isWallInfront(currentSpace, heading)){
+            if (isWallInfront(currentSpace, heading)){
             return;
-        }
+            }
 
-        Space forwardSpace = board.getNeighbour(currentSpace, heading);
+            Space forwardSpace = board.getNeighbour(currentSpace, heading);
 
-        if (forwardSpace != null) {
+            if (forwardSpace != null) {
                 if(isOutside(forwardSpace,player.getHeading())){
                     if(findRespawnPoint().getPlayer() != null){
                         pushPlayer(forwardSpace, player.getHeading());
