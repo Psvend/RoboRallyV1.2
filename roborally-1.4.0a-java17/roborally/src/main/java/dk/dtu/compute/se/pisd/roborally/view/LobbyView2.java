@@ -54,6 +54,7 @@ public class LobbyView2 {
 
         //sets action of the startGame button
         startGameButton.setOnAction(e -> {
+            lobbyStage.close();
             Board board = new Board(8, 8);
 
             //creates players on the board
