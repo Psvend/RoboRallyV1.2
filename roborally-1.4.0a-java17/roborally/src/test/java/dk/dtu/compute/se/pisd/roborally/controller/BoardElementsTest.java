@@ -38,6 +38,9 @@ public class BoardElementsTest extends ApplicationTest {
 
     @Test
     void Wall_Test(){
+        Board board = gameController.board;
+        Player player = board.getCurrentPlayer();
+        
 
     }
 
