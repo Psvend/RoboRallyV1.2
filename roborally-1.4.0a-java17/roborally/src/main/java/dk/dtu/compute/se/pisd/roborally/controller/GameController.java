@@ -474,15 +474,6 @@ public class GameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-
-        Integer playerNo = board.getPlayersNumber();
-        EnergyBank energyBank = board.getEnergyBank();
-        for (int i = 0; i < playerNo; i++ )  {
-            Player player = board.getPlayer(i);
-            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
-            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
-        }
-        
     }
 
     private void executeNextStep() {
@@ -1058,5 +1049,15 @@ public class GameController {
             }
         }
         player.setSpace(findRespawnPoint());
+    }
+
+    public void updateEnergy(){
+        Integer playerNo = board.getPlayersNumber();
+        EnergyBank energyBank = board.getEnergyBank();
+        for (int i = 0; i < playerNo; i++ )  {
+            Player player = board.getPlayer(i);
+            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
+        }
     }
 }

@@ -34,6 +34,7 @@ public class Activator {
         activatePushPanels();
         activateCheckpoints();
         activateEnergyFields();
+        updateEnergy();
     }
 
     /**
@@ -70,6 +71,10 @@ public class Activator {
 
     private void activateEnergyFields(){
         gameController.isPlayerOnEnergySpace(board.getEnergyBank());
+    }
+
+    private void updateEnergy(){
+        gameController.updateEnergy();
     }
 
 }

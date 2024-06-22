@@ -1,11 +1,18 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
+import static dk.dtu.compute.se.pisd.roborally.model.Phase.ACTIVATION;
+
+import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Command;
+import dk.dtu.compute.se.pisd.roborally.model.CommandCard;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -37,16 +44,97 @@ public class BoardElementsTest extends ApplicationTest {
     }
 
     @Test
-    void Wall_Test(){
+    void Wall_Test1(){
         Board board = gameController.board;
-        Player player = board.getCurrentPlayer();
-        
 
+        //We set Player 1 to face the wall at 1,1 and test if the wall block every movement commandcard going that direction.
+        Player player1 = board.getSpace(0,0).getPlayer();
+        player1.setHeading(SOUTH);
+        player1.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
+        player1.getProgramField(1).setCard(new CommandCard(Command.MOVE_TWO));
+        player1.getProgramField(2).setCard(new CommandCard(Command.MOVE_THREE));
+        player1.getProgramField(3).setCard(new CommandCard(Command.FAST_FORWARD));
+        player1.setEnergyReserve(0);
+
+        //We do the same deal with player2 and try from the other side.
+        Player player2 = board.getSpace(1, 1).getPlayer();
+        player2.setSpace(board.getSpace(0, 1));
+        player2.setHeading(NORTH);
+        player2.getProgramField(0).setCard(new CommandCard(Command.FORWARD));
+        player2.getProgramField(1).setCard(new CommandCard(Command.MOVE_TWO));
+        player2.getProgramField(2).setCard(new CommandCard(Command.MOVE_THREE));
+        player2.getProgramField(3).setCard(new CommandCard(Command.FAST_FORWARD));
+        player2.setEnergyReserve(0);
+
+        //We activate the programming cards.
+        board.setPhase(ACTIVATION);
+        gameController.executeStep();
+
+        Assert.assertEquals(board.getSpace(0, 0), player1.getSpace());
+        Assert.assertEquals(board.getSpace(0, 1), player2.getSpace());
     }
 
     @Test
-    void Pitfall_Test(){
+    void Wall_Test2(){
+        Board board = gameController.board;
 
+        //We set Player 1 to face away from the wall at 1,1 and test if the wall block backwards movement.
+        Player player1 = board.getSpace(0,0).getPlayer();
+        player1.setHeading(NORTH);
+        player1.getProgramField(0).setCard(new CommandCard(Command.BACKWARD));
+        player1.setEnergyReserve(0);
+
+        //We do the same deal with player2 and try from the other side.
+        Player player2 = board.getSpace(1, 1).getPlayer();
+        player2.setSpace(board.getSpace(0, 1));
+        player2.setHeading(SOUTH);
+        player2.getCardField(0).setCard(new CommandCard(Command.BACKWARD));
+        player2.setEnergyReserve(0);
+
+        //We activate the programming cards.
+        board.setPhase(ACTIVATION);
+        gameController.executeStep();
+
+        Assert.assertEquals(board.getSpace(0, 0), player1.getSpace());
+        Assert.assertEquals(board.getSpace(0, 1), player2.getSpace());
+    }
+
+    @Test
+    void Pitfall_Test1(){
+        Board board = gameController.board;
+
+        //We set Player 1 to face away from the pitfall at 0,3
+        //and test, if the pitfall moves the player to respawnPoint, if the player moves backwards.
+        Player player1 = board.getSpace(0,0).getPlayer();
+        player1.setSpace(board.getSpace(0, 2));
+        player1.setHeading(NORTH);
+        player1.getProgramField(0).setCard(new CommandCard(Command.BACKWARD));
+        player1.setEnergyReserve(0);
+
+        //We activate the programming cards.
+        board.setPhase(ACTIVATION);
+        gameController.executeStep();
+
+        Assert.assertEquals(gameController.findRespawnPoint(), player1.getSpace());
+    }
+
+    @Test
+    void Pitfall_Test2(){
+        Board board = gameController.board;
+
+        //We set Player 1 to face towards from the pitfall at 0,3
+        //and test, if the pitfall moves the player to respawnPoint and cancels movement, regardless of how many spaces the player should move.
+        Player player1 = board.getSpace(0,0).getPlayer();
+        player1.setSpace(board.getSpace(0, 4));
+        player1.setHeading(NORTH);
+        player1.getProgramField(0).setCard(new CommandCard(Command.MOVE_THREE));
+        player1.setEnergyReserve(0);
+
+        //We activate the programming cards.
+        board.setPhase(ACTIVATION);
+        gameController.executeStep();
+
+        Assert.assertEquals(gameController.findRespawnPoint(), player1.getSpace());
     }
 
     @Test
