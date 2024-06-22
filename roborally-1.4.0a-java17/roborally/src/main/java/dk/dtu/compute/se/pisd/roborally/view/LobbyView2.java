@@ -60,6 +60,18 @@ public class LobbyView2 {
                 System.out.println("Joined players: " + joinedPlayers);
                 Platform.runLater(() -> {
                     if(joinedPlayers==HttpClientAsynchronousPost.currentGame.getPlayersAmount()) {
+                        try {
+                            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(playersList -> {
+
+                                HttpClientAsynchronousPost.playersList = playersList;
+                            }).exceptionally(ex -> {
+                                ex.printStackTrace();
+                                System.out.println("Error in lobby.");
+                                return null;
+                            });
+                        } catch (Exception ex) {
+                            System.out.println("Error loading players.");
+                        }
                         HttpClientAsynchronousPost.startGame(updateGame(1)).thenAccept(currentGame -> {
                             System.out.println("Game started");
                         }).exceptionally(ex -> {
@@ -70,11 +82,11 @@ public class LobbyView2 {
 
                         lobbyStage.close();
                         Board board = new Board(8, 8);
-                        int amountPlayers = HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers();
+                        int amountPlayers = HttpClientAsynchronousPost.playersList.size();
 
                         //creates players on the board
                         for (int i = 0; i < amountPlayers; i++) {
-                            Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                            Player player = new Player(board, PLAYER_COLORS.get(i), HttpClientAsynchronousPost.playersList.get(i).getPlayerName());
                             board.addPlayer(player);
                             player.setSpace(board.getSpace(i % board.width, i));
                         }
