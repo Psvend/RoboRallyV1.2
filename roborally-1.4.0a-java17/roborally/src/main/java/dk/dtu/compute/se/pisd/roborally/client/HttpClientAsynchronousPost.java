@@ -6,6 +6,7 @@ import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.Data.ProgCards;
 
+import dk.dtu.compute.se.pisd.roborally.client.Data.Register;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
@@ -14,6 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +33,8 @@ public class HttpClientAsynchronousPost {
     public static Players player;
     public static List<Players> playersList;
     public static int joinedPlayers;
+
+    public static ArrayList<Register> registersList;
 
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
@@ -270,6 +274,43 @@ public class HttpClientAsynchronousPost {
         }
 
         return futureGame; // Return the future that will be completed in the future
+    }
+
+    public static CompletableFuture<ArrayList<Register>> addReristers(List<Register> registers) {
+        CompletableFuture<ArrayList<Register>> futureRegisters = new CompletableFuture<>();
+
+        try {
+            // Convert Registers object to JSON string
+            String jsonBody = new ObjectMapper().writeValueAsString(registers);
+
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .uri(URI.create("http://localhost:8080/addRegisters")) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            // Send HTTP POST request asynchronously
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            registersList = objectMapper.readValue(response, new TypeReference<List<Register>>() {
+                            });
+                            futureRegisters.complete(registersList); // Complete the future when the registers are added
+                            System.out.println("Registers added: " + registersList);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureRegisters; // Return the future that will be completed in the future
     }
 
 

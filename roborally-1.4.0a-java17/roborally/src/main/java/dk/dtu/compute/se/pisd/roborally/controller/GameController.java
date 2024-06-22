@@ -21,10 +21,16 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
+import dk.dtu.compute.se.pisd.roborally.client.Data.ProgCards;
+import dk.dtu.compute.se.pisd.roborally.client.Data.Register;
+import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import org.jetbrains.annotations.NotNull;
 
+import static dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost.player;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
@@ -56,6 +62,7 @@ public class GameController {
     public boolean hasCube = true;
     public boolean stop = false;
     public boolean powerCard = false;
+    public ProgCards progCard;
     
 
     public GameController(Board board) {
@@ -63,7 +70,17 @@ public class GameController {
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
-    
+
+
+
+    public Player getVisiblePlayer() {
+        int i=0;
+        while (player.getPlayerId()!=HttpClientAsynchronousPost.playersList.get(i).getPlayerId()){
+            i++;
+        }
+        Player visiblePlayer=board.getPlayer(i);
+        return visiblePlayer;
+    }
 
     // Method to store PlayerView references
    public void setPlayerView(Player player, PlayerView playerView) {
@@ -452,12 +469,33 @@ public class GameController {
         }
     }
 
+  /*  public List<ProgCards> sendProgramCards() {
+        this.progCard = new ProgCards(0, "", "", "");
+        Player player = getVisiblePlayer();
+        ProgCards progCardsInRegister = new ProgCards(0, "", "", "");
+        for(int i=0; i<player.NO_REGISTERS; i++) {
+            CommandCard card = player.getProgramField(i).getCard();
+            if (card != null) {
+                int j = 0;
+                while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
+                    j++;
+                }
+                progCardsInRegister= (new ProgCards(j, "", "Not Executed", card.command.displayName));
+            }
+        }
+        return progCardsInRegister;
+    }*/
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
+        HttpClientAsynchronousPost.addReristers(playerRegisters()).thenAccept(registers -> {
+            System.out.println("Registers added");
+        });
+
     }
 
     public void executePrograms() {
@@ -643,8 +681,9 @@ public class GameController {
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
-            Player player = board.getPlayer(i);
+
+
+            Player player = getVisiblePlayer();
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
                     CommandCardField field = player.getProgramField(j);
@@ -657,7 +696,7 @@ public class GameController {
                     field.setVisible(true);
                 }
             }
-        }
+        //}
     }
 
     private CommandCard generateRandomCommandCard() {
@@ -665,6 +704,10 @@ public class GameController {
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
+
+
+
+
 
     /**
      * A method called when no corresponding controller operation is implemented yet. This
@@ -1058,5 +1101,32 @@ public class GameController {
             }
         }
         player.setSpace(findRespawnPoint());
+    }
+
+    private ArrayList<Register> playerRegisters() {
+        ArrayList<Register> registers = new ArrayList<>();
+
+        // Initialize progCard before using it
+        this.progCard = new ProgCards(0, "", "", "");
+
+        for (int i = 0; i < getVisiblePlayer().NO_REGISTERS; i++) {
+            ProgCards progCardsInRegister = new ProgCards(0, "", "", "");
+            CommandCard card = getVisiblePlayer().getProgramField(i).getCard();
+            if (card != null) {
+                int j = 0;
+                while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
+                    j++;
+                }
+                progCardsInRegister= (new ProgCards(j, "", "Not Executed", card.command.displayName));
+            }
+
+            Register register = new Register();
+            register.setPlayerId(player);
+            register.setCardId(progCardsInRegister);
+            register.setRegisterNumber(i);
+            register.setRegisterStatus(0);
+            registers.add(register);
+        }
+        return registers;
     }
 }
