@@ -34,7 +34,6 @@ public class HttpPostPlayer {
         newGame.setBoard(board);
 
 
-
         // First, POST the game
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI("http://localhost:8080/createGame"))
@@ -64,12 +63,13 @@ public class HttpPostPlayer {
 
             HttpResponse<String> playerResponse = httpClient.send(playerRequest, HttpResponse.BodyHandlers.ofString());
 
-            if (playerResponse.statusCode() == 201) {
+            if (playerResponse.statusCode() == 200) {
                 Players createdPlayer = new ObjectMapper().readValue(playerResponse.body(), Players.class);
                 System.out.println("Player added: " + createdPlayer);
             } else {
                 System.out.println("Failed to add player: " + playerResponse.body());
                 System.out.println(playerResponse.statusCode());
+                System.out.println(newPlayer);
 
             }
         } else {

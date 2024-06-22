@@ -142,7 +142,7 @@ public class CreateGameView {
 
                 // Create game object and send it to the server
                 newGame = createNewGame(gameName, numPlayers);
-
+                System.out.println();
                 try {
                     createFirstPlayer(gameName, numPlayers, player1Name);
                 } catch (URISyntaxException ex) {

@@ -5,28 +5,34 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+
+import static dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost.playersList;
 
 public class HttpGetPlayers {
 
     private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private static List<Players> playersList;
 
+    public static List<String> getPlayerNames(List<Players> players) {
+        return players.stream()
+                .map(Players::getPlayerName)
+                .collect(Collectors.toList());
+    }
 
 
     public static CompletableFuture<List<Players>> getPlayersInLobby(int gameId) throws Exception {
-        CompletableFuture<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>> futureGame = new CompletableFuture<>();
+        CompletableFuture<List<Players>> futurePlayers = new CompletableFuture<>();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8080/availableGames/gameId"))
-                .header("Content-Type", "application/json")
+                .uri(URI.create("http://localhost:8080/findJoinedPlayers/"+gameId))
                 .build();
 
 
@@ -35,21 +41,20 @@ public class HttpGetPlayers {
                 .thenAccept(response -> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
-                        List<dk.dtu.compute.se.pisd.roborally.client.Data.Games> gamesList = objectMapper.readValue(response, new TypeReference<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>>() {
-                        });
-                        futureGame.complete(gamesList);
+                        List<Players> playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {});
 
-                        // Print the games (for demonstration)
-                        /*for (Games game : gamesList) {
-                            System.out.println(game);
-                        }*/
+                        futurePlayers.complete(playersList);
+                        //Print the games (for demonstration)
+                        for (Players player : playersList) {
+                            System.out.println(player);
+                        }
+                        futurePlayers.complete(playersList);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        futureGame.completeExceptionally(e);
                     }
                 })
                 .join(); // Block main thread to wait for completion (for demonstration)
-        return futureGame;
+        return futurePlayers;
     }
 
     public static void main(String[] args) throws Exception {
@@ -74,6 +79,37 @@ public class HttpGetPlayers {
                     }
                 })
                 .join();
+    }
+
+    public static CompletableFuture<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>> getAvailableGames() throws Exception {
+        CompletableFuture<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>> futureGame = new CompletableFuture<>();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("http://localhost:8080/availableGames/0"))
+                .header("Content-Type", "application/json")
+                .build();
+
+
+        httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(HttpResponse::body)
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<dk.dtu.compute.se.pisd.roborally.client.Data.Games> gamesList = objectMapper.readValue(response, new TypeReference<List<dk.dtu.compute.se.pisd.roborally.client.Data.Games>>() {
+                        });
+                        futureGame.complete(gamesList);
+
+                        // Print the games (for demonstration)
+                        /*for (Games game : gamesList) {
+                            System.out.println(game);
+                        }*/
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        futureGame.completeExceptionally(e);
+                    }
+                })
+                .join(); // Block main thread to wait for completion (for demonstration)
+        return futureGame;
     }
 
     // Games class
