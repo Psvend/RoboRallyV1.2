@@ -66,7 +66,7 @@ public class GameController {
     
 
     // Method to store PlayerView references
-    public void setPlayerView(Player player, PlayerView playerView) {
+   public void setPlayerView(Player player, PlayerView playerView) {
         playerViews.put(player, playerView);
     }
 

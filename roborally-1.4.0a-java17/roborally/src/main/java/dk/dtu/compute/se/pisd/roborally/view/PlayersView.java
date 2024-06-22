@@ -22,10 +22,12 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
@@ -35,6 +37,7 @@ import javafx.scene.control.TabPane;
  *
  */
 public class PlayersView extends TabPane implements ViewObserver {
+    private HttpClientAsynchronousPost httpClient = new HttpClientAsynchronousPost();
 
     private Board board;
 
@@ -45,6 +48,7 @@ public class PlayersView extends TabPane implements ViewObserver {
 
         this.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
+
         playerViews = new PlayerView[board.getPlayersNumber()];
         for (int i = 0; i < board.getPlayersNumber();  i++) {
             playerViews[i] = new PlayerView(gameController, board.getPlayer(i));
@@ -54,7 +58,7 @@ public class PlayersView extends TabPane implements ViewObserver {
         update(board);
     }
 
-    @Override
+   /* @Override
     public void updateView(Subject subject) {
         if (subject == board) {
             Player current = board.getCurrentPlayer();
@@ -65,6 +69,34 @@ public class PlayersView extends TabPane implements ViewObserver {
                 this.getTabs().clear();
         }
         }
+    }*/
+
+    //for onlinemode
+    @Override
+    public void updateView(Subject subject) {
+    if (subject == board) {
+        int i=0;
+        while (HttpClientAsynchronousPost.player.getPlayerId()!=HttpClientAsynchronousPost.playersList.get(i).getPlayerId()){
+            i++;
+        }
+
+        Player visiblePlayer=board.getPlayer(i);
+        int currentPlayerIndex = board.getPlayerNumber(visiblePlayer);
+        this.getSelectionModel().select(currentPlayerIndex);
+        Phase phase = board.getPhase();
+        if (phase == Phase.RESULT) {
+            // Clear the tabs in PlayersView
+            this.getTabs().clear();
+        } else {
+            // Disable all tabs
+            for (Tab tab : this.getTabs()) {
+                tab.setDisable(true);
+            }
+            // Enable only the current player's tab
+            this.getTabs().get(currentPlayerIndex).setDisable(false);
+        }
     }
+}
+
 
 }
