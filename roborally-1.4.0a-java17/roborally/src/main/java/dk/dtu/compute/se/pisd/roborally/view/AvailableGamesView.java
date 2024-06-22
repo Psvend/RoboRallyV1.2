@@ -52,8 +52,8 @@ public class AvailableGamesView {
 
 
         //Adds the list of available games
-        HttpClientAsynchronousPost.getAvailableGames().thenAccept(games -> {
-            availableGames = games;
+        HttpClientAsynchronousPost.getAvailableGames().thenAccept(availableGames -> {
+
 
             // Use Platform.runLater to update the UI on the JavaFX Application Thread
             Platform.runLater(() -> {

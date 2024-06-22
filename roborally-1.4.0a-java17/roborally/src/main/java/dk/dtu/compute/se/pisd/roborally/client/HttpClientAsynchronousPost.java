@@ -120,9 +120,9 @@ public class HttpClientAsynchronousPost {
                 .thenAccept(response -> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
-                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
+                        availableGames = objectMapper.readValue(response, new TypeReference<List<Games>>() {
                         });
-                        futureGame.complete(gamesList);
+                        futureGame.complete(availableGames);
 
                         // Print the games (for demonstration)
                         /*for (Games game : gamesList) {
@@ -152,7 +152,7 @@ public class HttpClientAsynchronousPost {
                 .thenAccept(response -> {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                List<Players> playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {
+               playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {
                 });
                 getPlayers.complete(playersList);
                 for (Players player : playersList) {

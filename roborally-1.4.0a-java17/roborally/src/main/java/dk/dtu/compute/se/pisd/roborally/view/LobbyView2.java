@@ -60,7 +60,7 @@ public class LobbyView2 {
                 System.out.println("Joined players: " + joinedPlayers);
                 Platform.runLater(() -> {
                     if(joinedPlayers==HttpClientAsynchronousPost.currentGame.getPlayersAmount()) {
-                        HttpClientAsynchronousPost.startGame(updateGame(1)).thenAccept(game -> {
+                        HttpClientAsynchronousPost.startGame(updateGame(1)).thenAccept(currentGame -> {
                             System.out.println("Game started");
                         }).exceptionally(ex -> {
                             ex.printStackTrace();
@@ -101,7 +101,7 @@ public class LobbyView2 {
         //updates the list of players in the lobby
         try {
             System.out.println("Current game: " + HttpClientAsynchronousPost.currentGame.getGameId());
-            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
+            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(playersList -> {
 
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
@@ -109,7 +109,7 @@ public class LobbyView2 {
                             + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
                     dialogVbox.getChildren().add(joinedPlayers);
                     //dialogVbox.getChildren().add(updatePlayerListButton);
-                    for (Players player : players) {
+                    for (Players player : playersList) {
                         //updates updateButton to get list of players
                         Button updatePlayerListButton = new Button(player.getPlayerName()); // Add a test button
                         dialogVbox.getChildren().add(updatePlayerListButton);
