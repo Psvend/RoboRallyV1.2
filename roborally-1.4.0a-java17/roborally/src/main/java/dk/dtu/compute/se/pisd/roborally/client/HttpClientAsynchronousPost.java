@@ -236,4 +236,41 @@ public class HttpClientAsynchronousPost {
     }
 
 
+    public static CompletableFuture<Games> startGame(Games game) {
+        CompletableFuture<Games> futureGame = new CompletableFuture<>();
+
+        try {
+            // Convert Games object to JSON string
+            String jsonBody = new ObjectMapper().writeValueAsString(game);
+
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .uri(URI.create("http://localhost:8080/startGame")) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            // Send HTTP POST request asynchronously
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            currentGame = objectMapper.readValue(response, Games.class);
+                            futureGame.complete(currentGame); // Complete the future when the game is added
+                            System.out.println("Game added: " + currentGame);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureGame; // Return the future that will be completed in the future
+    }
+
+
 }

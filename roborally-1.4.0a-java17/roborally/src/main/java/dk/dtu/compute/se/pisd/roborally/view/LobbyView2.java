@@ -60,7 +60,13 @@ public class LobbyView2 {
                 System.out.println("Joined players: " + joinedPlayers);
                 Platform.runLater(() -> {
                     if(joinedPlayers==HttpClientAsynchronousPost.currentGame.getPlayersAmount()) {
-
+                        HttpClientAsynchronousPost.startGame(updateGame(1)).thenAccept(game -> {
+                            System.out.println("Game started");
+                        }).exceptionally(ex -> {
+                            ex.printStackTrace();
+                            System.out.println("Error to start game.");
+                            return null;
+                        });
 
                         lobbyStage.close();
                         Board board = new Board(8, 8);
@@ -123,6 +129,13 @@ public class LobbyView2 {
 
     public void show() {
         lobbyStage.show();
+    }
+
+    private Games updateGame(int game_status) {
+        Games updatedGame = new Games();
+        updatedGame.setGameId(HttpClientAsynchronousPost.currentGame.getGameId());
+        updatedGame.setGameStatus(game_status);
+        return updatedGame;
     }
 
 
