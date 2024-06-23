@@ -3,7 +3,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.EAST;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.NORTH;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
-import static dk.dtu.compute.se.pisd.roborally.model.Heading.WEST;
 import static dk.dtu.compute.se.pisd.roborally.model.Phase.ACTIVATION;
 
 import org.junit.Assert;
@@ -159,6 +158,8 @@ public class BoardElementsTest extends ApplicationTest {
     void ConveyorBelt_Test(){
         Board board = gameController.board;
 
+        //There are two types of conveyorBelts. Ones that push you 1 space and ones that push you 2 spaces.
+
         //We set Player 1 on the circular conveyorBelt series at 4,4.
         //We will test whether the different conveyorBelts will push the player as expected test, if every register is executed.
         Player player1 = board.getSpace(0,0).getPlayer();
@@ -192,16 +193,14 @@ public class BoardElementsTest extends ApplicationTest {
     void GearSpace_Test(){
         Board board = gameController.board;
 
-        //We set Player 1 on the circular conveyorBelt series at 4,4.
-        //We will test whether the different conveyorBelts will push the player as expected test, if every register is executed.
+        //We place Player 1 on the gearSpace at 7,0, set the heading to south and expect it to be east after every register is executed.
         Player player1 = board.getSpace(0,0).getPlayer();
         player1.setSpace(board.getSpace(7, 0));
         player1.setColor("red");
         player1.setHeading(SOUTH);
         player1.setEnergyReserve(0);
 
-        //We find Player 2 on the circular conveyorBelt series at 1,1, it is already placed here at the start.
-        //We will test whether the different conveyorBelts will push the player as expected test, if every register is executed.
+        //We place Player 2 on the gearSpace at 7,6, set the heading to north and expect it to be east after every register is executed.
         Player player2 = board.getSpace(1, 1).getPlayer();
         player2.setSpace(board.getSpace(7, 6));
         player2.setColor("green");
@@ -214,10 +213,11 @@ public class BoardElementsTest extends ApplicationTest {
         gameController.setPlayerView(player1, playerView1);
         gameController.setPlayerView(player2, playerView2);
 
-        //We activate the programming cards.
+        //We execute every register
         board.setPhase(ACTIVATION);
         gameController.executePrograms();
 
+        //expectedHeadings. could use the same instead of instantiating 2, but this is easier to follow.
         Heading expectedHeadingPlayer1 = EAST;
         Heading expectedHeadingPlayer2 = EAST;
 
@@ -227,6 +227,35 @@ public class BoardElementsTest extends ApplicationTest {
 
     @Test
     void EnergySpace_Test(){
+        Board board = gameController.board;
 
+        //We place Player 1 on the energySpace at 2,7 and we its energyReserve to 0 and expect it to be 1 after every register is executed.
+        Player player1 = board.getSpace(0,0).getPlayer();
+        player1.setSpace(board.getSpace(2, 7));
+        player1.setColor("red");
+        player1.setEnergyReserve(0);
+
+        //We place Player 2 on the energySpace at 1,6, we set its energyReserve to 1 and expect it to be 2 after every register is executed.
+        Player player2 = board.getSpace(1, 1).getPlayer();
+        player2.setSpace(board.getSpace(1, 6));
+        player2.setColor("green");
+        player2.setEnergyReserve(1);
+
+        //Needed to executePrograms()
+        PlayerView playerView1 = new PlayerView(gameController, player1);
+        PlayerView playerView2 = new PlayerView(gameController, player2);
+        gameController.setPlayerView(player1, playerView1);
+        gameController.setPlayerView(player2, playerView2);
+
+        //We execute every register
+        board.setPhase(ACTIVATION);
+        gameController.executePrograms();
+
+        //expectedValues
+        int expectedReservePlayer1 = 1;
+        int expectedReservePlayer2 = 2;
+
+        Assert.assertEquals(expectedReservePlayer1, player1.getEnergyReserve());
+        Assert.assertEquals(expectedReservePlayer2, player2.getEnergyReserve()); 
     }   
 }
