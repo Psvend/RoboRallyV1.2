@@ -1,10 +1,10 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
-import dk.dtu.compute.se.pisd.roborally.client.Data.Board;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
 import dk.dtu.compute.se.pisd.roborally.client.Data.Players;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
+import dk.dtu.compute.se.pisd.roborally.model.Board;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class CreateGameView {
 
@@ -118,7 +117,7 @@ public class CreateGameView {
                     newGame = game;
                     HttpClientAsynchronousPost.addPlayer(newPlayer(player1Name, newGame)).thenAccept(player -> {
                         httpClient.player = player;
-                    });
+
                     System.out.println("Game setup successful!");
 
                     // Use Platform.runLater to update the UI on the JavaFX Application Thread
@@ -128,6 +127,7 @@ public class CreateGameView {
                         LobbyView2 lobby = new LobbyView2(roboRally);
                         lobby.show();
                     });
+                });
                 }).exceptionally(ex -> {
                     ex.printStackTrace();
                     System.out.println("Error setting up game.");
@@ -156,10 +156,6 @@ public class CreateGameView {
         newGame.setJoinedPlayers(0); // Initially no players joined
         newGame.setGameStatus(0); // Initial game status
 
-        Board board = new Board();
-        board.setBoardId(5);
-        board.setBoardName("Default Board");
-        newGame.setBoard(board);
         return newGame;
     }
 

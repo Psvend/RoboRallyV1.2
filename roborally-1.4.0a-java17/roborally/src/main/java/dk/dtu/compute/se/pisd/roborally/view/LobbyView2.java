@@ -7,6 +7,7 @@ import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -42,7 +43,7 @@ public class LobbyView2 {
         lobbyStage = new Stage();
         this.roboRally = roboRally;
 
-        lobbyStage.setTitle("Lobby " );
+        lobbyStage.setTitle("Lobby " + HttpClientAsynchronousPost.currentGame.getGameName());
         VBox dialogVbox = new VBox(10);
         dialogVbox.setPadding(new Insets(10, 10, 10, 10));
 
@@ -50,37 +51,77 @@ public class LobbyView2 {
         lobbyStage.setScene(lobbyScene);
 
         //Starts the game with the game view
-        Button startGameButton = new Button("Start Game"); // Add a test button
+        Button startGameButton = new Button("Update"); // Add a test button
         dialogVbox.getChildren().add(startGameButton);
 
         //sets action of the startGame button
         startGameButton.setOnAction(e -> {
-            lobbyStage.close();
-            Board board = new Board(8, 8);
-            int amountPlayers = HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers();
+            HttpClientAsynchronousPost.getAmountOfJoinedPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(joinedPlayers -> {
+                System.out.println("Joined players: " + joinedPlayers);
+                Platform.runLater(() -> {
+                    if(joinedPlayers==HttpClientAsynchronousPost.currentGame.getPlayersAmount()) {
+                        try {
+                            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(playersList -> {
 
-            //creates players on the board
-            for (int i = 0; i < amountPlayers ; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
+                                HttpClientAsynchronousPost.playersList = playersList;
+                            }).exceptionally(ex -> {
+                                ex.printStackTrace();
+                                System.out.println("Error in lobby.");
+                                return null;
+                            });
+                        } catch (Exception ex) {
+                            System.out.println("Error loading players.");
+                        }
+                        HttpClientAsynchronousPost.startGame(updateGame(1)).thenAccept(currentGame -> {
+                            System.out.println("Game started");
+                        }).exceptionally(ex -> {
+                            ex.printStackTrace();
+                            System.out.println("Error to start game.");
+                            return null;
+                        });
 
+                        lobbyStage.close();
+                        Board board = new Board(8, 8);
+                        int amountPlayers = HttpClientAsynchronousPost.playersList.size();
 
-            gameController = new GameController(board);
-            System.out.println("Starting Game successfully");
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
+                        //creates players on the board
+                        for (int i = 0; i < amountPlayers; i++) {
+                            Player player = new Player(board, PLAYER_COLORS.get(i), HttpClientAsynchronousPost.playersList.get(i).getPlayerName());
+                            board.addPlayer(player);
+                            player.setSpace(board.getSpace(i % board.width, i));
+                        }
+
+                        gameController = new GameController(board);
+                        System.out.println("Starting Game successfully");
+                        gameController.startProgrammingPhase();
+                        roboRally.createBoardView(gameController);
+                    } else {
+                        System.out.println("Not enough players to start game");
+                        lobbyStage.close();
+                        LobbyView2 lobbyView2 = new LobbyView2(roboRally);
+                        lobbyView2.show();
+                    }
+                });
+            }).exceptionally(ex -> {
+                ex.printStackTrace();
+                System.out.println("Error in lobby.");
+                return null;
+            });
+
         });
 
+        //updates the list of players in the lobby
         try {
-            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(players -> {
+            System.out.println("Current game: " + HttpClientAsynchronousPost.currentGame.getGameId());
+            HttpClientAsynchronousPost.getPlayers(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(playersList -> {
+
                 // Use Platform.runLater to update the UI on the JavaFX Application Thread
                 Platform.runLater(() -> {
-                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers() + " Players out of " + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
+                    Label joinedPlayers = new Label(HttpClientAsynchronousPost.player.getGameID().getJoinedPlayers() + " Players out of "
+                            + HttpClientAsynchronousPost.currentGame.getPlayersAmount());
                     dialogVbox.getChildren().add(joinedPlayers);
                     //dialogVbox.getChildren().add(updatePlayerListButton);
-                    for (Players player : players) {
+                    for (Players player : playersList) {
                         //updates updateButton to get list of players
                         Button updatePlayerListButton = new Button(player.getPlayerName()); // Add a test button
                         dialogVbox.getChildren().add(updatePlayerListButton);
@@ -93,23 +134,20 @@ public class LobbyView2 {
             });
         } catch (Exception e) {
             System.out.println("get list of players failed");
+            System.out.println(HttpClientAsynchronousPost.currentGame.getGameId());
         }
     }
-
-    public Object fetchData() {
-        Object object = null;
-        if(HttpClientAsynchronousPost.player !=null){
-            object= HttpClientAsynchronousPost.player;
-        } else if(HttpClientAsynchronousPost.currentGame != null){
-            object = HttpClientAsynchronousPost.currentGame;
-        }
-        return object;
-    }
-
 
 
     public void show() {
         lobbyStage.show();
+    }
+
+    private Games updateGame(int game_status) {
+        Games updatedGame = new Games();
+        updatedGame.setGameId(HttpClientAsynchronousPost.currentGame.getGameId());
+        updatedGame.setGameStatus(game_status);
+        return updatedGame;
     }
 
 

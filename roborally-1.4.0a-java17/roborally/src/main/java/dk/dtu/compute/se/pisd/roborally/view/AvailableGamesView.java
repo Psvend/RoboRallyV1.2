@@ -45,15 +45,15 @@ public class AvailableGamesView {
 
         //Adds the input box for the player name
         // Player Names
-        TextField player1NameField = new TextField();
-        player1NameField.setPromptText("Player 1 Name");
-        dialogVboxPlayerLobby.getChildren().addAll(player1NameField);
+        TextField playerNameField = new TextField();
+        playerNameField.setPromptText("Player 1 Name");
+        dialogVboxPlayerLobby.getChildren().addAll(playerNameField);
         //httpClient.addPlayer();
 
 
         //Adds the list of available games
-        httpClient.getAvailableGames().thenAccept(games -> {
-            availableGames = games;
+        HttpClientAsynchronousPost.getAvailableGames().thenAccept(availableGames -> {
+
 
             // Use Platform.runLater to update the UI on the JavaFX Application Thread
             Platform.runLater(() -> {
@@ -62,12 +62,18 @@ public class AvailableGamesView {
                     dialogVboxGamesLobby.getChildren().add(gameButton);
                     gameButton.setOnAction(e -> {
                         try {
-                            httpClient.addPlayer(newPlayer(player1NameField.getText(), game)).get();
-                            HttpClientAsynchronousPost.getCurrentGame(game.getGameId());
-                            gamesStage.close();
-                            //links to the new lobby
-                            LobbyView2 lobby = new LobbyView2(roboRally);
-                            lobby.show();
+                            HttpClientAsynchronousPost.addPlayer(newPlayer(playerNameField.getText(), game)).thenAccept(player -> {
+                                System.out.println("Player added: " + player);
+
+                            HttpClientAsynchronousPost.getCurrentGame(game.getGameId()).thenAccept(currentGame -> {
+                                System.out.println("Current game: " + currentGame);
+
+                            Platform.runLater(() -> {
+                                gamesStage.close();
+                                //links to the new lobby
+                                LobbyView2 lobby = new LobbyView2(roboRally);
+                                lobby.show();
+                            });});});
                         } catch (Exception exception) {
                             exception.printStackTrace();
                             System.out.println("Error adding player to game.");

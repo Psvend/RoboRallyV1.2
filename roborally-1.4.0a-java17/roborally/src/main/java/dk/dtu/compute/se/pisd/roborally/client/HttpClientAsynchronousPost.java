@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ public class HttpClientAsynchronousPost {
     public static List<Games> availableGames;
     public static Players player;
     public static List<Players> playersList;
+    public static int joinedPlayers;
 
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
@@ -118,9 +120,9 @@ public class HttpClientAsynchronousPost {
                 .thenAccept(response -> {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
-                        List<Games> gamesList = objectMapper.readValue(response, new TypeReference<List<Games>>() {
+                        availableGames = objectMapper.readValue(response, new TypeReference<List<Games>>() {
                         });
-                        futureGame.complete(gamesList);
+                        futureGame.complete(availableGames);
 
                         // Print the games (for demonstration)
                         /*for (Games game : gamesList) {
@@ -150,7 +152,7 @@ public class HttpClientAsynchronousPost {
                 .thenAccept(response -> {
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                List<Players> playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {
+               playersList = objectMapper.readValue(response, new TypeReference<List<Players>>() {
                 });
                 getPlayers.complete(playersList);
                 for (Players player : playersList) {
@@ -179,6 +181,76 @@ public class HttpClientAsynchronousPost {
                     .build();
 
 
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            currentGame = objectMapper.readValue(response, Games.class);
+                            futureGame.complete(currentGame); // Complete the future when the game is added
+                            System.out.println("Current game is: " + currentGame);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureGame.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureGame; // Return the future that will be completed in the future
+    }
+
+    public static CompletableFuture<Integer> getAmountOfJoinedPlayers(int game_id){
+        CompletableFuture<Integer> futureJoined = new CompletableFuture<>();
+
+        try {
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("http://localhost:8080/getJoinedPlayers/"+game_id)) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            joinedPlayers = objectMapper.readValue(response, Integer.class);
+                            futureJoined.complete(joinedPlayers); // Complete the future when the game is added
+                            System.out.println("Current game is: " + joinedPlayers);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureJoined.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureJoined.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futureJoined; // Return the future that will be completed in the future
+    }
+
+
+    public static CompletableFuture<Games> startGame(Games game) {
+        CompletableFuture<Games> futureGame = new CompletableFuture<>();
+
+        try {
+            // Convert Games object to JSON string
+            String jsonBody = new ObjectMapper().writeValueAsString(game);
+
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .uri(URI.create("http://localhost:8080/startGame")) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+
+            // Send HTTP POST request asynchronously
             httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(HttpResponse::body)
                     .thenAccept(response -> {
