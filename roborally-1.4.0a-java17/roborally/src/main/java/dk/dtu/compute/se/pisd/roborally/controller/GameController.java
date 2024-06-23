@@ -63,27 +63,26 @@ public class GameController {
     public boolean stop = false;
     public boolean powerCard = false;
     public ProgCards progCard;
-    
+
 
     public GameController(Board board) {
         this.board = board;
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
-    
 
 
     public Player getVisiblePlayer() {
-        int i=0;
-        while (player.getPlayerId()!=HttpClientAsynchronousPost.playersList.get(i).getPlayerId()){
+        int i = 0;
+        while (player.getPlayerId() != HttpClientAsynchronousPost.playersList.get(i).getPlayerId()) {
             i++;
         }
-        Player visiblePlayer=board.getPlayer(i);
+        Player visiblePlayer = board.getPlayer(i);
         return visiblePlayer;
     }
 
     // Method to store PlayerView references
-   public void setPlayerView(Player player, PlayerView playerView) {
+    public void setPlayerView(Player player, PlayerView playerView) {
         playerViews.put(player, playerView);
     }
 
@@ -93,48 +92,47 @@ public class GameController {
     }
 
     /**
-     * @author Daniel
      * @param moveForward
-     * 
-     * 
+     * @author Daniel
      */
     public void moveForward(@NotNull Player player) {
-        if(wasActivated){
+        if (wasActivated) {
             wasActivated = false;
         }
-        if(wasOutside) {
+        if (wasOutside) {
             wasOutside = false;
         }
-        if(stop){
+        if (stop) {
             stop = false;
         }
         if (player.board == board) {
             Space currentSpace = player.getSpace();
             Heading heading = player.getHeading();
 
-            if (isWallInfront(currentSpace, heading)){
-            return;
+            if (isWallInfront(currentSpace, heading)) {
+                return;
             }
 
             Space forwardSpace = board.getNeighbour(currentSpace, heading);
 
             if (forwardSpace != null) {
-                if(isOutside(forwardSpace,player.getHeading())){
-                    if(findRespawnPoint().getPlayer() != null){
+                if (isOutside(forwardSpace, player.getHeading())) {
+                    if (findRespawnPoint().getPlayer() != null) {
                         pushPlayer(forwardSpace, player.getHeading());
                     }
                     player.setSpace(findRespawnPoint());
                     wasOutside = true;
                     return;
                 }
-                if(forwardSpace.getPlayer() != null) {
+                if (forwardSpace.getPlayer() != null) {
                     pushPlayer(forwardSpace, player.getHeading());
-                    if(stop){
+                    if (stop) {
                         stop = false;
                         return;
                     }
                     player.setSpace(forwardSpace);
-                } if(forwardSpace.getPlayer() == null){
+                }
+                if (forwardSpace.getPlayer() == null) {
                     player.setSpace(forwardSpace);
                     activatePitfall(player, player.getSpace());
                 } else {
@@ -145,46 +143,46 @@ public class GameController {
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
 
     public void moveBackward(@NotNull Player player) {
         if (player.board == board) {
             Space space = player.getSpace();
             Heading heading = player.getHeading().opposite();
-            if(isWallInfront(space, heading)){
+            if (isWallInfront(space, heading)) {
                 return;
             }
-            
+
             Space target = board.getNeighbour(space, heading);
 
             if (target != null) {
-                    if(target.getPlayer() != null){
+                if (target.getPlayer() != null) {
                     pushPlayer(target, heading);
-                    }
-                    player.setSpace(target);
-                    activatePitfall(player, player.getSpace());
-                    if(isOutside(target, heading)) {
-                        OutOfBoundsHandling(player);
-                    }
-                    if(wasActivated == true) {
+                }
+                player.setSpace(target);
+                activatePitfall(player, player.getSpace());
+                if (isOutside(target, heading)) {
+                    OutOfBoundsHandling(player);
+                }
+                if (wasActivated == true) {
                     wasActivated = false;
-                    }
+                }
             }
         }
     }
-    
+
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void moveTwoForward(@NotNull Player player) {
         for (int i = 0; i < 2; i++) {
             moveForward(player);
-            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+            if ((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
                 booleanHandler(wasActivated, wasOutside);
                 break;
             }
@@ -192,13 +190,12 @@ public class GameController {
     }
 
     /**
-     * @author Petrine
      * @param powerUp
      * @return none
-     * 
+     * <p>
      * Allows a player when power up card gets executed to add an energy cube to its reserve
-     * 
-     */  
+     * @author Petrine
+     */
     public void powerUp(@NotNull Player player) {
         powerCard = true;
         addEnergyCube(player, energyBank);
@@ -206,20 +203,20 @@ public class GameController {
 
         //her opdateres label views for energy reserve og banken
         getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
-                for (int i = 0; i < board.getPlayersNumber(); i++ ) {
-                    getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
-                }
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
+        }
     }
-    
+
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void moveThreeForward(@NotNull Player player) {
         for (int i = 0; i < 3; i++) {
             moveForward(player);
-            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+            if ((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
                 booleanHandler(wasActivated, wasOutside);
                 break;
             }
@@ -227,14 +224,14 @@ public class GameController {
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void fastForward(@NotNull Player player) {
         for (int i = 0; i < 5; i++) {
             moveForward(player);
-            if((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
+            if ((wasActivated && wasOutside) || (wasActivated || wasOutside)) {
                 booleanHandler(wasActivated, wasOutside);
                 break;
             }
@@ -242,9 +239,9 @@ public class GameController {
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void turnRight(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
@@ -252,9 +249,9 @@ public class GameController {
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void turnLeft(@NotNull Player player) {
         Heading playerHeading = player.getHeading();
@@ -262,24 +259,24 @@ public class GameController {
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
     public void uTurn(@NotNull Player player) {
-        for (int i = 1; i <= 2; i++){
+        for (int i = 1; i <= 2; i++) {
             turnLeft(player);
         }
     }
 
     /**
-     * @author Louise
      * @param player
      * @return none
+     * @author Louise
      */
-    public void again(@NotNull Player player){
+    public void again(@NotNull Player player) {
         int step = board.getStep();
-        if (step > 0 ) {
+        if (step > 0) {
             CommandCard card = player.getProgramField(step - 1).getCard();
             if (card != null) {
                 Command command = card.command;
@@ -288,11 +285,11 @@ public class GameController {
         }
     }
 
-    
+
     /**
-     * @author Natali
      * @param player,command
      * @return none
+     * @author Natali
      */
     public void leftOrRight(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
@@ -322,7 +319,7 @@ public class GameController {
     void moveToSpace(@NotNull Player player, @NotNull Space space, @NotNull Heading heading) throws ImpossibleMoveException {
         assert board.getNeighbour(player.getSpace(), heading) == space; // make sure the move to here is possible in principle
         Player other = space.getPlayer();
-        if (other != null){
+        if (other != null) {
             Space target = board.getNeighbour(space, heading);
             if (target != null) {
                 // XXX Note that there might be additional problems with
@@ -341,21 +338,21 @@ public class GameController {
         player.setSpace(space);
 
         //tester om doAction er kaldet i gameControlleren 
-        for(FieldAction action : space.getActions()) {
+        for (FieldAction action : space.getActions()) {
             action.doAction(this, space);
         }
     }
 
     public void moveCurrentPlayerToSpace(Space space) {
-        Player currentPlayer =board.getCurrentPlayer();
+        Player currentPlayer = board.getCurrentPlayer();
         int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
         int step = board.getStep();
         space.setPlayer(currentPlayer);
         step++;
-        if(nextPlayerNumber < board.getPlayersNumber()) {
+        if (nextPlayerNumber < board.getPlayersNumber()) {
             board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
             board.setStep(step);
-        }else{
+        } else {
             board.setStep(step);
             board.setCurrentPlayer(board.getPlayer(0));
         }
@@ -363,31 +360,28 @@ public class GameController {
 
 
     /**
+     * @param energyBank Checks if a player is on an energy space.
+     *                   If the that is the case, a cube is added to the players reserve by addEnergyCube(),
+     *                   and the labels showing the reserve and bank
      * @author Petrine & Louise
-     * @param energyBank
-     * 
-     * 
-     * Checks if a player is on an energy space. 
-     * If the that is the case, a cube is added to the players reserve by addEnergyCube(), 
-     * and the labels showing the reserve and bank 
-     * 
      */
     public void isPlayerOnEnergySpace(EnergyBank energyBank) {
-        for(int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
-            if(space != null) {
-                if(space.getEnergyField() != null){
-                    if(space.getEnergyField().hasEnergyCube()){
-                        if(energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
+            if (space != null) {
+                if (space.getEnergyField() != null) {
+                    if (space.getEnergyField().hasEnergyCube()) {
+                        if (energyBank.getBankStatus() > 0) {    //tjekker om banken er fuld
                             addEnergyCube(player, energyBank);      //tilføjer en cube til en spillers reserve
                             getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
                             getPlayerView(board.getPlayer(i)).updateBankLabel(energyBank.getBankStatus());
                         }
                         hasCube = true;
                         space.getEnergyField().setEnergyCube(hasCube);
-                    }            
-                } else {}
+                    }
+                } else {
+                }
             }
         }
         restockEnergyField();
@@ -395,14 +389,14 @@ public class GameController {
 
 
     public void activateCheckpointSpace() {
-        for(int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
-            if(space != null) {
-                if(space.getCheckpoint() != null){
-                    if(player.getTokens().contains(space.getCheckpoint().getNumber())){
-                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
-                            board.setWinner(board.getPlayerNumber(player)+1);
+            if (space != null) {
+                if (space.getCheckpoint() != null) {
+                    if (player.getTokens().contains(space.getCheckpoint().getNumber())) {
+                        if (board.getStep() == 5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setWinner(board.getPlayerNumber(player) + 1);
                             board.setPhase(Phase.RESULT);
                         }
                     } else {
@@ -411,8 +405,8 @@ public class GameController {
                         playerTokens.add(checkpointToken);
                         player.setTokens(playerTokens);
                         getPlayerView(player).updateCheckPointTokensLabel(playerTokens);
-                        if(board.getStep()==5 && player.getTokens().size() == findTotalCheckpoints()) {
-                            board.setWinner(board.getPlayerNumber(player)+1);
+                        if (board.getStep() == 5 && player.getTokens().size() == findTotalCheckpoints()) {
+                            board.setWinner(board.getPlayerNumber(player) + 1);
                             board.setPhase(Phase.RESULT);
                         }
                     }
@@ -424,24 +418,23 @@ public class GameController {
 
     /**
      * @author Petrine & Louise
-     * Allows a player to have its own energyreserve, that will get updated every time 
-     * a cube gets added to it. 
-     * 
+     * Allows a player to have its own energyreserve, that will get updated every time
+     * a cube gets added to it.
      */
     public void addEnergyCube(Player player, EnergyBank energyBank) {   //tilføjelse af en cube hvis ønsket. Kaldes når robot lander på energy space el. trækker power up kort        
         Integer playerBank = player.getEnergyReserve();
         energyBank = board.getEnergyBank();
         Integer energyBankStatus = energyBank.getBankStatus();
         Space energySpace = player.getSpace();
-        if(energySpace.getEnergyField()!= null){
-            if(energySpace.getEnergyField().hasEnergyCube() && energyBank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
+        if (energySpace.getEnergyField() != null) {
+            if (energySpace.getEnergyField().hasEnergyCube() && energyBank.takeEnergyCube()) {   //hvis banken er fuld tilføjes en cube til reserven
                 // TILFØJET AF LOUISE
                 playerBank++;
                 player.setEnergyReserve(playerBank);
                 energyBankStatus--;
                 energyBank.setEnergyBank(energyBankStatus);
             }
-        } else if(powerCard){
+        } else if (powerCard) {
             playerBank++;
             player.setEnergyReserve(playerBank);
             energyBankStatus--;
@@ -476,11 +469,23 @@ public class GameController {
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
         HttpClientAsynchronousPost.addReristers(playerRegisters());
+        HttpClientAsynchronousPost.changePlayerPhaseStatus(updatePlayer(1)).thenAccept(
+                player -> {
+                    System.out.println("Player phase status changed:" + player);
+                }
+        );
+
         System.out.println("Registers added:" + playerRegisters());
 
     }
 
     public void executePrograms() {
+        HttpClientAsynchronousPost.getPlayersRegisters(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
+                registers -> {
+                    System.out.println("Registers received:" + registers);
+                }
+        );
+
         board.setStepMode(false);
         continuePrograms();
     }
@@ -515,7 +520,7 @@ public class GameController {
                     }
                 }
 
-                    priorityPlayers.remove(0); // remove the current player from the priority list
+                priorityPlayers.remove(0); // remove the current player from the priority list
 
                 if (priorityPlayers.isEmpty()) { // if the priority list is empty
                     step++; // go to the next card
@@ -545,79 +550,79 @@ public class GameController {
     }
 
 
-        /**
-     * @author Louise
+    /**
      * @param player
      * @return none
+     * @author Louise
      */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             switch (command) {
-                
-               case FORWARD:
-                    this.moveForward(player);                
-                    moves = moves +1;
+
+                case FORWARD:
+                    this.moveForward(player);
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case RIGHT:
                     this.turnRight(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case LEFT:
                     this.turnLeft(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case FAST_FORWARD:
                     this.fastForward(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
-                    
+
                 case MOVE_TWO:
                     this.moveTwoForward(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case MOVE_THREE:
                     this.moveThreeForward(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case U_TURN:
                     this.uTurn(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case BACKWARD:
                     this.moveBackward(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case AGAIN:
                     this.again(player);
-                    moves = moves +1;
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
-                
+
                 case POWERUP:
                     this.powerUp(player);
-                    moves = moves + 1;   
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
                 case OPTION_LEFT_RIGHT:
                     //board.setPhase(Phase.PLAYER_INTERACTION);
                     this.command = command;
-                    moves = moves + 1;   
+                    moves = moves + 1;
                     board.setMoves(moves);
                     break;
 
@@ -655,20 +660,19 @@ public class GameController {
         board.setStep(0);
 
 
-
-            Player player = getVisiblePlayer();
-            if (player != null) {
-                for (int j = 0; j < Player.NO_REGISTERS; j++) {
-                    CommandCardField field = player.getProgramField(j);
-                    field.setCard(null);
-                    field.setVisible(true);
-                }
-                for (int j = 0; j < Player.NO_CARDS; j++) {
-                    CommandCardField field = player.getCardField(j);
-                    field.setCard(generateRandomCommandCard());
-                    field.setVisible(true);
-                }
+        Player player = getVisiblePlayer();
+        if (player != null) {
+            for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                CommandCardField field = player.getProgramField(j);
+                field.setCard(null);
+                field.setVisible(true);
             }
+            for (int j = 0; j < Player.NO_CARDS; j++) {
+                CommandCardField field = player.getCardField(j);
+                field.setCard(generateRandomCommandCard());
+                field.setVisible(true);
+            }
+        }
         //}
     }
 
@@ -702,14 +706,13 @@ public class GameController {
         }
     }
 
-    
+
     /**
-     * @author Natali
-     *
      * @return playersTurn
+     * @author Natali
      */
 
-    public ArrayList<Player> determiningPriority(){
+    public ArrayList<Player> determiningPriority() {
         ArrayList<Player> playersTurn = new ArrayList<>();
         HashMap<Player, Integer> playerDistances = new HashMap<>();
 
@@ -728,25 +731,25 @@ public class GameController {
 
         return playersTurn;
     }
- 
-    
- /**
-  * @author Natali
-  * @param player
-  * @return distance
-*/
-    public int distanceToPriorityAntenna(@NotNull Player player){
+
+
+    /**
+     * @param player
+     * @return distance
+     * @author Natali
+     */
+    public int distanceToPriorityAntenna(@NotNull Player player) {
         int spaceX = player.getSpace().x;
         int spaceY = player.getSpace().y;
         int antennaX = board.getPriorityAntenna().x;
         int antennaY = board.getPriorityAntenna().y;
         int distance = 0;
-        if(spaceX < antennaX){
+        if (spaceX < antennaX) {
             distance = antennaX - spaceX;
-            } else {
+        } else {
             distance = spaceX - antennaX;
         }
-        if(spaceY < antennaY){
+        if (spaceY < antennaY) {
             distance = distance + (antennaY - spaceY);
         } else {
             distance = distance + (spaceY - antennaY);
@@ -755,43 +758,42 @@ public class GameController {
     }
 
     /**
+     * @throws ImpossibleMoveException activates conveyor belts and moves players standing on them. Uses manipulateSpace() to determine next space to move the player to. Uses setSpace() to move the player.
      * @author Nikolaj
-     * @throws ImpossibleMoveException
-     * activates conveyor belts and moves players standing on them. Uses manipulateSpace() to determine next space to move the player to. Uses setSpace() to move the player.
      */
-    public void activateConveyorBelt() throws ImpossibleMoveException{
-        for(int i = 0; i < board.getPlayersNumber(); i++) {
+    public void activateConveyorBelt() throws ImpossibleMoveException {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             int moveAmount;
-            if(player.getSpace() != null){
-                if (player.getSpace().getConveyorBelt()!=null){
-                    
-                    if (player.getSpace().getConveyorBelt().getBeltType()==1){
+            if (player.getSpace() != null) {
+                if (player.getSpace().getConveyorBelt() != null) {
+
+                    if (player.getSpace().getConveyorBelt().getBeltType() == 1) {
                         moveAmount = 1;
-                    } else if(player.getSpace().getConveyorBelt().getBeltType()==2){
+                    } else if (player.getSpace().getConveyorBelt().getBeltType() == 2) {
                         moveAmount = 2;
-                    } else{
+                    } else {
                         moveAmount = 0;
                     }
-                    
-                    for(int c = moveAmount; c > 0; c--){
-                        Heading heading = player.getSpace().getConveyorBelt().getHeading();  
+
+                    for (int c = moveAmount; c > 0; c--) {
+                        Heading heading = player.getSpace().getConveyorBelt().getHeading();
                         Space target = null;
 
-                        if(heading != null) {
+                        if (heading != null) {
                             target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
-                            }else {
-                                return;
-                            }
+                        } else {
+                            return;
+                        }
                         if (target == null) return;
                         if (target.getConveyorBelt() == null) {
-                            if(target.getPlayer() == null) {
+                            if (target.getPlayer() == null) {
                                 player.setSpace(target);
                                 moveAmount = 0;
                             } else {
                                 moveAmount = 0;
                             }
-                        } else if (target.getConveyorBelt().getBeltType() ==1 || target.getConveyorBelt().getBeltType() == 2) {
+                        } else if (target.getConveyorBelt().getBeltType() == 1 || target.getConveyorBelt().getBeltType() == 2) {
                             player.setSpace(target);
                         }
                     }
@@ -802,77 +804,76 @@ public class GameController {
 
 
     /**
-     * @author Nikolaj
      * @param OFFSET
      * @param heading
      * @param x
      * @param y
      * @return
-     * @throws ImpossibleMoveException
-     * Used for manipulating spaces without using the players heading. Which is a big advantage in many cases.
+     * @throws ImpossibleMoveException Used for manipulating spaces without using the players heading. Which is a big advantage in many cases.
+     * @author Nikolaj
      */
-    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException{
+    protected Space manipulateSpace(int OFFSET, Heading heading, int x, int y) throws ImpossibleMoveException {
         Space space = null;
-            switch (heading) {
-                case NORTH:
-                    if (OFFSET < 0 && y < board.height - 1) {
-                        space = board.getSpace(x, y + Math.abs(OFFSET));
-                    } else if (y >=  OFFSET && OFFSET > 0){
-                        space = board.getSpace(x, y - OFFSET);
-                    } else {
-                        throw new ImpossibleMoveException(null, space, heading);
-                    }
+        switch (heading) {
+            case NORTH:
+                if (OFFSET < 0 && y < board.height - 1) {
+                    space = board.getSpace(x, y + Math.abs(OFFSET));
+                } else if (y >= OFFSET && OFFSET > 0) {
+                    space = board.getSpace(x, y - OFFSET);
+                } else {
+                    throw new ImpossibleMoveException(null, space, heading);
+                }
                 break;
 
-                case SOUTH:
-                    if (OFFSET < 0 && y > 0) {
-                        space = board.getSpace(x, y - Math.abs(OFFSET));
-                    } else if (y < board.height - OFFSET && OFFSET >= 0) {
-                        space = board.getSpace(x, y + OFFSET);
-                    } else {
-                        throw new ImpossibleMoveException(null, space, heading);
-                    }
+            case SOUTH:
+                if (OFFSET < 0 && y > 0) {
+                    space = board.getSpace(x, y - Math.abs(OFFSET));
+                } else if (y < board.height - OFFSET && OFFSET >= 0) {
+                    space = board.getSpace(x, y + OFFSET);
+                } else {
+                    throw new ImpossibleMoveException(null, space, heading);
+                }
                 break;
 
-                case EAST:
-                    if (OFFSET < 0 && x > 0) {
-                        space = board.getSpace(x - Math.abs(OFFSET), y);
-                    } else if (x < board.width - OFFSET && OFFSET >= 0) {
-                        space = board.getSpace(x + OFFSET, y);
-                    } else {
-                        throw new ImpossibleMoveException(null, space, heading);
-                    }
+            case EAST:
+                if (OFFSET < 0 && x > 0) {
+                    space = board.getSpace(x - Math.abs(OFFSET), y);
+                } else if (x < board.width - OFFSET && OFFSET >= 0) {
+                    space = board.getSpace(x + OFFSET, y);
+                } else {
+                    throw new ImpossibleMoveException(null, space, heading);
+                }
                 break;
 
-                case WEST:
-                    if (OFFSET < 0 && x < board.width -1) {
-                        space = board.getSpace(x + Math.abs(OFFSET), y);
-                    } else if (x >= OFFSET && OFFSET > 0) {
-                        space = board.getSpace(x - OFFSET, y);
-                    } else {
-                        throw new ImpossibleMoveException(null, space, heading);
-                    }
+            case WEST:
+                if (OFFSET < 0 && x < board.width - 1) {
+                    space = board.getSpace(x + Math.abs(OFFSET), y);
+                } else if (x >= OFFSET && OFFSET > 0) {
+                    space = board.getSpace(x - OFFSET, y);
+                } else {
+                    throw new ImpossibleMoveException(null, space, heading);
+                }
                 break;
         }
-            if(space == null) {
-                throw new ImpossibleMoveException(null, space, heading);
-            }
+        if (space == null) {
+            throw new ImpossibleMoveException(null, space, heading);
+        }
         return space;
     }
 
-/**
- * @author Nikolaj
- * activates gear spaces and turns every player standing on them.
- */
+    /**
+     * @author Nikolaj
+     * activates gear spaces and turns every player standing on them.
+     */
     public void activateGearSpaces() {
-        for(int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
-            if(space != null) {
-                if(space.getGearSpace() != null){
-                    if(space.getGearSpace().getGearType().equals("LEFT")){
+            if (space != null) {
+                if (space.getGearSpace() != null) {
+                    if (space.getGearSpace().getGearType().equals("LEFT")) {
                         turnLeft(player);
-                    } else if(space.getGearSpace().getGearType().equals("RIGHT")){
+                    } else if (space.getGearSpace().getGearType().equals("RIGHT")) {
                         turnRight(player);
                     }
                 }
@@ -880,24 +881,26 @@ public class GameController {
         }
     }
 
-    public void activatePushPanels() throws ImpossibleMoveException{
-        for(int i = 0; i < board.getPlayersNumber(); i++) {
+    public void activatePushPanels() throws ImpossibleMoveException {
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
             Space space = player.getSpace();
-            if(space != null) {
-                if(space.getPushPanel() != null){
-                    int [] currentRegisters = space.getPushPanel().getRegisters();
-                    for (int c = 0; c <= currentRegisters.length -1; c++){
-                        if (board.getStep() == currentRegisters[c]){
+            if (space != null) {
+                if (space.getPushPanel() != null) {
+                    int[] currentRegisters = space.getPushPanel().getRegisters();
+                    for (int c = 0; c <= currentRegisters.length - 1; c++) {
+                        if (board.getStep() == currentRegisters[c]) {
                             Heading heading = space.getPushPanel().getHeading();
                             Space target = null;
-                            if(heading != null) {
+                            if (heading != null) {
                                 target = manipulateSpace(1, heading, player.getSpace().x, player.getSpace().y);
 
-                            }else {}
+                            } else {
+                            }
                             if (target == null) {
                                 return;
-                            } if(target.getPlayer()==null) {
+                            }
+                            if (target.getPlayer() == null) {
                                 player.setSpace(target);
                             }
                         }
@@ -907,8 +910,8 @@ public class GameController {
         }
     }
 
-    public void activatePitfall(Player player, Space space){
-        if(space.getPitfall() instanceof Pitfall) {
+    public void activatePitfall(Player player, Space space) {
+        if (space.getPitfall() instanceof Pitfall) {
             OutOfBoundsHandling(player);
             wasActivated = true;
         }
@@ -917,27 +920,26 @@ public class GameController {
     public boolean isOutside(Space space, @NotNull Heading heading) {
         if (space.y == 0 && heading == SOUTH) {
             return true;
-        } 
-        if (space.y == board.height-1 && heading == NORTH) {
+        }
+        if (space.y == board.height - 1 && heading == NORTH) {
             return true;
         }
         if (space.x == 0 && heading == EAST) {
             return true;
         }
-        if (space.x == board.width-1 && heading == WEST) {
+        if (space.x == board.width - 1 && heading == WEST) {
             return true;
-        }
-        else {
+        } else {
             return false;
-        }    
+        }
     }
 
-    public Space findRespawnPoint(){
+    public Space findRespawnPoint() {
         Space respawnPoint;
-        for(int i = 0; i <= board.width-1; i++) {
-            for (int j = 0; j <= board.height-1; j++) {
+        for (int i = 0; i <= board.width - 1; i++) {
+            for (int j = 0; j <= board.height - 1; j++) {
                 respawnPoint = board.getSpace(i, j);
-                if (respawnPoint.getRespawnPoint() instanceof RespawnPoint){
+                if (respawnPoint.getRespawnPoint() instanceof RespawnPoint) {
                     return respawnPoint;
                 }
             }
@@ -945,28 +947,28 @@ public class GameController {
         return respawnPoint = board.getSpace(0, 0);
     }
 
-    public int findTotalCheckpoints(){
+    public int findTotalCheckpoints() {
         Space checkpoint;
         int totalCheckpoints = 0;
-        for(int i = 0; i <= board.width-1; i++) {
-            for (int j = 0; j <= board.height-1; j++) {
+        for (int i = 0; i <= board.width - 1; i++) {
+            for (int j = 0; j <= board.height - 1; j++) {
                 checkpoint = board.getSpace(i, j);
-                if (checkpoint.getCheckpoint() instanceof Checkpoint){
-                    totalCheckpoints = totalCheckpoints+1;
+                if (checkpoint.getCheckpoint() instanceof Checkpoint) {
+                    totalCheckpoints = totalCheckpoints + 1;
                 }
             }
         }
         return totalCheckpoints;
     }
 
-    public void restockEnergyField(){
+    public void restockEnergyField() {
         Space energyField;
-        if(board.getStep() == 5){
-            for(int i = 0; i <= board.width-1; i++) {
-                for (int j = 0; j <= board.height-1; j++) {
+        if (board.getStep() == 5) {
+            for (int i = 0; i <= board.width - 1; i++) {
+                for (int j = 0; j <= board.height - 1; j++) {
                     energyField = board.getSpace(i, j);
-                    if (energyField.getEnergyField() instanceof EnergyField){
-                        if(!energyField.getEnergyField().hasEnergyCube()){
+                    if (energyField.getEnergyField() instanceof EnergyField) {
+                        if (!energyField.getEnergyField().hasEnergyCube()) {
                             energyField.getEnergyField().setEnergyCube(false);
                         }
                     }
@@ -980,7 +982,7 @@ public class GameController {
 
         Player playerBeingPushed = space.getPlayer();
 
-        if(isWallInfront(space, heading)){
+        if (isWallInfront(space, heading)) {
             stop = true;
             return;
         }
@@ -989,10 +991,10 @@ public class GameController {
 
         if (pushSpace != null) {
             Heading backwardHeading = heading.opposite();
-            if(pushSpace.getPlayer() != null){
+            if (pushSpace.getPlayer() != null) {
                 pushPlayer(pushSpace, heading);
             }
-            if(isOutside(pushSpace,heading)){
+            if (isOutside(pushSpace, heading)) {
                 OutOfBoundsHandling(playerBeingPushed);
                 return;
             }
@@ -1012,32 +1014,32 @@ public class GameController {
             wasActivated = false;
         }
     }
-    
-    public void respawnPush(@NotNull Player player) throws ImpossibleMoveException{
+
+    public void respawnPush(@NotNull Player player) throws ImpossibleMoveException {
         Heading respawnHeading = findRespawnPoint().getRespawnPoint().getHeading();
         Space respawnSpace = player.getSpace();
         Space target = null;
 
-        if(respawnHeading != null) {
+        if (respawnHeading != null) {
             target = manipulateSpace(1, respawnHeading, respawnSpace.x, respawnSpace.y);
         } else {
             return;
         }
-        if (target.equals(null)){
+        if (target.equals(null)) {
             return;
         }
-        if (target.getPlayer() != null){
+        if (target.getPlayer() != null) {
             respawnPush(target.getPlayer());
             player.setSpace(target);
         } else {
-        player.setSpace(target);
+            player.setSpace(target);
         }
     }
 
-    public Boolean isWallInfront(@NotNull Space space, @NotNull Heading heading){
+    public Boolean isWallInfront(@NotNull Space space, @NotNull Heading heading) {
         if (space != null && space instanceof WallSpace) {
             WallSpace wallSpace = (WallSpace) space;
-                    
+
             if (wallSpace.getHeading() == heading && wallSpace.hasWall()) {
                 return true;
             }
@@ -1048,21 +1050,21 @@ public class GameController {
             Heading backwardHeading = heading.opposite();
             WallSpace wallSpace2 = (WallSpace) pushSpace;
 
-            if(wallSpace2.getHeading() == backwardHeading && wallSpace2.hasWall()){
+            if (wallSpace2.getHeading() == backwardHeading && wallSpace2.hasWall()) {
                 return true;
             }
-        
+
         }
         return false;
     }
 
-    public void booleanHandler(Boolean wasActivated, Boolean wasOutside){
+    public void booleanHandler(Boolean wasActivated, Boolean wasOutside) {
         wasActivated = false;
         wasOutside = false;
     }
 
-    public void OutOfBoundsHandling(Player player){
-        if(findRespawnPoint().getPlayer()!=null){
+    public void OutOfBoundsHandling(Player player) {
+        if (findRespawnPoint().getPlayer() != null) {
             try {
                 respawnPush(findRespawnPoint().getPlayer());
             } catch (ImpossibleMoveException e) {
@@ -1072,10 +1074,10 @@ public class GameController {
         player.setSpace(findRespawnPoint());
     }
 
-    public void updateEnergy(){
+    public void updateEnergy() {
         Integer playerNo = board.getPlayersNumber();
         EnergyBank energyBank = board.getEnergyBank();
-        for (int i = 0; i < playerNo; i++ )  {
+        for (int i = 0; i < playerNo; i++) {
             Player player = board.getPlayer(i);
             getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
             getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
@@ -1083,7 +1085,7 @@ public class GameController {
     }
 
     private List<Register> playerRegisters() {
-        List<Register> registers= new ArrayList<>();
+        List<Register> registers = new ArrayList<>();
 
         // Initialize progCard before using it
         this.progCard = new ProgCards(0, "", "", "");
@@ -1092,7 +1094,7 @@ public class GameController {
             ProgCards progCardsInRegister = new ProgCards(0, "", "", "");
             CommandCard card = getVisiblePlayer().getProgramField(i).getCard();
             if (card != null) {
-                int j=0;
+                int j = 0;
                 if (j < progCard.progCardsList().size()) {
                     while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
                         j++;
@@ -1101,7 +1103,7 @@ public class GameController {
                         }
                     }
                 }
-                progCardsInRegister= (new ProgCards(progCardsInRegister.progCardsList().get(j).getCardId(), "", "Not Executed", card.command.displayName));
+                progCardsInRegister = (new ProgCards(progCardsInRegister.progCardsList().get(j).getCardId(), "", "Not Executed", card.command.displayName));
             }
 
             Register register = new Register();
@@ -1113,4 +1115,14 @@ public class GameController {
         }
         return registers;
     }
+
+    private Players updatePlayer(int phase_status) {
+        Players updatedPlayer = new Players();
+        updatedPlayer.setPlayerId(player.getPlayerId());
+        updatedPlayer.setPhaseStatus(phase_status);
+        return updatedPlayer;
+    }
+
+
+
 }

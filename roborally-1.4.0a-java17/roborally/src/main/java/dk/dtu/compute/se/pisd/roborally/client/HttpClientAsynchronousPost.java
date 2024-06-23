@@ -36,6 +36,8 @@ public class HttpClientAsynchronousPost {
 
     public static ArrayList<Register> registersList;
 
+    public static ArrayList<Register> playersRegisters;
+
     public static CompletableFuture<Games> addGame(Games game) {
         CompletableFuture<Games> futureGame = new CompletableFuture<>();
 
@@ -309,8 +311,71 @@ public class HttpClientAsynchronousPost {
             e.printStackTrace();
             futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
         }
+    }
 
+    public static CompletableFuture<Players> changePlayerPhaseStatus(Players putPlayer) {
+        CompletableFuture<Players> futurePlayer = new CompletableFuture<>();
+
+        try {
+            // Convert Games object to JSON string
+            String jsonBody = new ObjectMapper().writeValueAsString(putPlayer);
+
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .PUT(HttpRequest.BodyPublishers.ofString(jsonBody))
+                    .uri(URI.create("http://localhost:8080/changePhase")) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            player = objectMapper.readValue(response, Players.class);
+                            futurePlayer.complete(player); // Complete the future when the player is added
+                            System.out.println("Player added: " + player);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futurePlayer.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+
+        return futurePlayer; // Return the future that will be completed in the future
     }
 
 
+    public static CompletableFuture<ArrayList<Register>> getPlayersRegisters(int game_id){
+        CompletableFuture<ArrayList<Register>> futureRegisters = new CompletableFuture<>();
+
+        try {
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("http://localhost:8080/registerGet/"+game_id)) // Replace with your endpoint
+                    .header("Content-Type", "application/json")
+                    .build();
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            playersRegisters = objectMapper.readValue(response, new TypeReference<List<Register>>() {
+                            });
+                            futureRegisters.complete(playersRegisters); // Complete the future when the registers are added
+                            System.out.println("Registers added: " + playersRegisters);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+        return futureRegisters;
+    }
 }
