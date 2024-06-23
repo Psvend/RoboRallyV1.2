@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.roborally.client.Data.Register;
 import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
+import javafx.application.Platform;
 import org.jetbrains.annotations.NotNull;
 
 import static dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost.player;
@@ -480,14 +481,27 @@ public class GameController {
     }
 
     public void executePrograms() {
-        HttpClientAsynchronousPost.getPlayersRegisters(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
-                registers -> {
-                    System.out.println("Registers received:" + registers);
+        HttpClientAsynchronousPost.countPlayersWithPhaseStatusOne(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
+                amount -> {
+                    if (HttpClientAsynchronousPost.phaseDone == player.getGameID().getPlayersAmount()) {
+                        HttpClientAsynchronousPost.getPlayersRegisters(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
+                                registers -> {
+                                    System.out.println("Registers received:" + registers);
+                                }
+                        );
+                        board.setStepMode(false);
+                        continuePrograms();
+                        HttpClientAsynchronousPost.changePlayerPhaseStatus(updatePlayer(0)).thenAccept(
+                                status -> {
+                                    System.out.println("Player phase status changed:" + status);
+                                }
+                        );
+                    } else {
+                        System.out.println("Not all players are done");
+                    }
                 }
-        );
+       );
 
-        board.setStepMode(false);
-        continuePrograms();
     }
 
     public void executeStep() {

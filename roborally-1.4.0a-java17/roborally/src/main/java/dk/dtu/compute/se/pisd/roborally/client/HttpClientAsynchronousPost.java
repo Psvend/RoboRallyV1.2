@@ -34,6 +34,8 @@ public class HttpClientAsynchronousPost {
     public static List<Players> playersList;
     public static int joinedPlayers;
 
+    public static int phaseDone;
+
     public static ArrayList<Register> registersList;
 
     public static ArrayList<Register> playersRegisters;
@@ -347,6 +349,37 @@ public class HttpClientAsynchronousPost {
         return futurePlayer; // Return the future that will be completed in the future
     }
 
+
+
+    public static CompletableFuture<Integer> countPlayersWithPhaseStatusOne(int game_id){
+        CompletableFuture<Integer> futurePlayers = new CompletableFuture<>();
+
+        try {
+            // Prepare HTTP POST request
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("http://localhost:8080/countPlayersWithPhaseStatusOne/"+game_id))
+                    .header("Content-Type", "application/json")
+                    .build();
+            httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenAccept(response -> {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            phaseDone = objectMapper.readValue(response, Integer.class);
+                            futurePlayers.complete(phaseDone); // Complete the future when the registers are added
+                            System.out.println("Registers added: " + phaseDone);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            futurePlayers.completeExceptionally(e); // Complete the future exceptionally if there was an error
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+            futurePlayers.completeExceptionally(e); // Complete the future exceptionally if there was an error
+        }
+        return futurePlayers;
+    }
 
     public static CompletableFuture<ArrayList<Register>> getPlayersRegisters(int game_id){
         CompletableFuture<ArrayList<Register>> futureRegisters = new CompletableFuture<>();
