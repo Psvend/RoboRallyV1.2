@@ -493,6 +493,7 @@ public class GameController {
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
         HttpClientAsynchronousPost.addReristers(playerRegisters());
+        System.out.println("Registers added:" + playerRegisters());
 
     }
 
@@ -1120,7 +1121,7 @@ public class GameController {
                         }
                     }
                 }
-                progCardsInRegister= (new ProgCards(j, "", "Not Executed", card.command.displayName));
+                progCardsInRegister= (new ProgCards(progCardsInRegister.progCardsList().get(j).getCardId(), "", "Not Executed", card.command.displayName));
             }
 
             Register register = new Register();
