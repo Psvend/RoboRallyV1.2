@@ -62,6 +62,7 @@ public class GameController {
     public boolean hasCube = true;
     public boolean stop = false;
     public boolean powerCard = false;
+    public ProgCards progCard;
     
 
     public GameController(Board board) {
