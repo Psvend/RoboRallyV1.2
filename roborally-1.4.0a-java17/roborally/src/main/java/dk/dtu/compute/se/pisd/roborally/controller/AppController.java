@@ -80,8 +80,6 @@ public class AppController implements Observer {
                 }
             }
 
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
             gameController = new GameController(board);
             int no = result.get();
@@ -104,7 +102,6 @@ public class AppController implements Observer {
      * The method saveGame is used to save the current game. it opens a dialog where player can decide the name of the save file.
      */
     public void saveGame() {
-        // XXX needs to be implemented eventually
         TextInputDialog dialog = new TextInputDialog("default");
         dialog.setTitle("Save Game");
         dialog.setHeaderText("Enter the name of the save file:");
@@ -118,8 +115,6 @@ public class AppController implements Observer {
     }
 
     public void loadGame() {
-        // XXX needs to be implemented eventually
-        // for now, we just create a new game
         if (gameController == null) {
             newGame();
         }
@@ -152,8 +147,6 @@ public class AppController implements Observer {
                 }
             }
 
-            // XXX the board should eventually be created programmatically or loaded from a file
-            //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
             gameController = new GameController(board);
             int no = result.get();
@@ -245,7 +238,6 @@ public class AppController implements Observer {
 
     @Override
     public void update(Subject subject) {
-        // XXX do nothing for now
     }
 
 }

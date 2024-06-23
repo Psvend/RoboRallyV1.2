@@ -57,7 +57,6 @@ public class LoadBoard {
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
-            // TODO these constants should be defined somewhere
             return new Board(8,8);
         }
 
@@ -125,9 +124,7 @@ public class LoadBoard {
                     if (space.getEnergyField() instanceof EnergyField) {
                         EnergyField energySpace = (EnergyField) space.getEnergyField();
                         EnergyFieldTemplate energySpaceTemplate = new EnergyFieldTemplate();
-                        //TODO energySpaceTemplate.setHasEnergyCube(hasEnergyCube);
 
-                        // Assign the EnergySpaceTemplate to the energySpace field of the SpaceTemplate
                         spaceTemplate.energySpace = energySpaceTemplate;
                     }
                     if (space instanceof PriorityAntenna) {
@@ -154,7 +151,6 @@ public class LoadBoard {
                     if(space.getCheckpoint() instanceof Checkpoint){
                         Checkpoint checkpointSpace = (Checkpoint) space.getCheckpoint();
                         CheckPointSpaceTemplate checkpointSpaceTemplate = new CheckPointSpaceTemplate();
-                        //TODO skal ligne ConveyorBelt
                         checkpointSpaceTemplate.setCheckPointNumber(i);
                         // Assign the CheckpointSpaceTemplate to the checkpointSpace field of the SpaceTemplate
                         spaceTemplate.checkpoint = checkpointSpaceTemplate;
