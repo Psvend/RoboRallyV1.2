@@ -143,9 +143,11 @@ public class GameController {
             
             Space target = board.getNeighbour(space, heading);
 
-            if (target != null) {             
-                try {
-                    moveToSpace(player, target, heading);
+            if (target != null) {
+                    if(target.getPlayer() != null){
+                    pushPlayer(target, heading);
+                    }
+                    player.setSpace(target);
                     activatePitfall(player, player.getSpace());
                     if(isOutside(target, heading)) {
                         OutOfBoundsHandling(player);
@@ -153,8 +155,6 @@ public class GameController {
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
-                } catch (ImpossibleMoveException e) {
-                }
             }
         }
     }
