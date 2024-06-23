@@ -492,9 +492,7 @@ public class GameController {
         board.setPhase(Phase.ACTIVATION);
         board.setCurrentPlayer(priorityPlayers.get(0));
         board.setStep(0);
-        HttpClientAsynchronousPost.addReristers(playerRegisters()).thenAccept(registers -> {
-            System.out.println("Registers added");
-        });
+        HttpClientAsynchronousPost.addReristers(playerRegisters());
 
     }
 
@@ -1103,8 +1101,8 @@ public class GameController {
         player.setSpace(findRespawnPoint());
     }
 
-    private ArrayList<Register> playerRegisters() {
-        ArrayList<Register> registers = new ArrayList<>();
+    private List<Register> playerRegisters() {
+        List<Register> registers= new ArrayList<>();
 
         // Initialize progCard before using it
         this.progCard = new ProgCards(0, "", "", "");
@@ -1113,9 +1111,14 @@ public class GameController {
             ProgCards progCardsInRegister = new ProgCards(0, "", "", "");
             CommandCard card = getVisiblePlayer().getProgramField(i).getCard();
             if (card != null) {
-                int j = 0;
-                while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
-                    j++;
+                int j=0;
+                if (j < progCard.progCardsList().size()) {
+                    while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
+                        j++;
+                        if (j >= progCard.progCardsList().size()) {
+                            break;
+                        }
+                    }
                 }
                 progCardsInRegister= (new ProgCards(j, "", "Not Executed", card.command.displayName));
             }

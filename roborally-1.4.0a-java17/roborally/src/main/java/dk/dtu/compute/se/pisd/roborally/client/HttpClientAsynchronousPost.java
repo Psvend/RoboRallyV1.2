@@ -276,7 +276,7 @@ public class HttpClientAsynchronousPost {
         return futureGame; // Return the future that will be completed in the future
     }
 
-    public static CompletableFuture<ArrayList<Register>> addReristers(List<Register> registers) {
+    public static void addReristers(List<Register> registers) {
         CompletableFuture<ArrayList<Register>> futureRegisters = new CompletableFuture<>();
 
         try {
@@ -310,7 +310,6 @@ public class HttpClientAsynchronousPost {
             futureRegisters.completeExceptionally(e); // Complete the future exceptionally if there was an error
         }
 
-        return futureRegisters; // Return the future that will be completed in the future
     }
 
 
