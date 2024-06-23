@@ -88,18 +88,12 @@ public class Priority extends ApplicationTest {
 
         gameController.priorityPlayers.addAll(gameController.determiningPriority());
 
-
-
+        
         // Then the players should have the following priority: player3, player4, player2, player1
         //assertEquals(player3, board.getCurrentPlayer(), "Player 3 should be the current player now");
         assertEquals(player3.getName(), gameController.priorityPlayers.get(1).getName(), "Player 3 should have the highest priority");
-        assertEquals(player4, gameController.priorityPlayers.get(1), "Player 4 should have the second highest priority");
-        assertEquals(player2, gameController.priorityPlayers.get(2), "Player 2 should have the third highest priority");
-        assertEquals(player1, gameController.priorityPlayers.get(3), "Player 1 should have the lowest priority");
-
-
-
+        assertEquals(player4, gameController.priorityPlayers.get(2), "Player 4 should have the second highest priority");
+        assertEquals(player2, gameController.priorityPlayers.get(3), "Player 2 should have the third highest priority");
+        assertEquals(player1, gameController.priorityPlayers.get(4), "Player 1 should have the lowest priority");
     }
-
-
 }

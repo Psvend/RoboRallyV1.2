@@ -66,6 +66,7 @@ public class PlayerInteractionTest extends ApplicationTest {
         //gameController.command = commandCard.command;
         player.getProgramField(0).setCard(commandCard);
         player.setSpace(board.getSpace(0, 0));
+        player.setColor("red");
         player.setHeading(Heading.SOUTH);
         board.setPhase(Phase.ACTIVATION);
 
@@ -100,18 +101,22 @@ public class PlayerInteractionTest extends ApplicationTest {
         player1.getProgramField(0).setCard(interactiveCard);
         player1.getProgramField(1).setCard(new CommandCard(Command.FORWARD));
         player1.getProgramField(2).setCard(new CommandCard(Command.RIGHT));
-
+        player1.setColor("Green");
+        player1.setEnergyReserve(0);
         player1.setSpace(board.getSpace(2, 3));
         player1.setHeading(Heading.SOUTH);
         board.setPhase(Phase.ACTIVATION);
+        PlayerView playerView = new PlayerView(gameController, player1);
+        gameController.setPlayerView(player1, playerView);
+
+        Player player2 = board.getSpace(1, 1).getPlayer();
+        player2.setColor("Brown");
+        PlayerView playerView2 = new PlayerView(gameController, player2);
+        gameController.setPlayerView(player2, playerView2);
+
 
         //When the player presses the button "Execute Program" and chooses the first(Turn Left) option
         gameController.executePrograms();
-
-
-
-
-
 
         //Then the game phase changes to PROGRAMMING and player should be at position "3,3" facing South
         assertEquals(Phase.PROGRAMMING, board.getPhase(), "Game phase should change to PROGRAMMING");
@@ -136,9 +141,15 @@ public class PlayerInteractionTest extends ApplicationTest {
         player.getProgramField(1).setCard(new CommandCard(Command.FORWARD));
         player.getProgramField(2).setCard(new CommandCard(Command.RIGHT));
         player.setSpace(board.getSpace(2, 3));
+        player.setColor("yellow");
         player.setHeading(Heading.SOUTH);
 
         PlayerView playerView = new PlayerView(gameController, player);
+        gameController.setPlayerView(player, playerView);
+        Player player2 = board.getSpace(1, 1).getPlayer();
+        player2.setColor("Brown");
+        PlayerView playerView2 = new PlayerView(gameController, player2);
+        gameController.setPlayerView(player2, playerView2);
         board.setPhase(Phase.ACTIVATION);
 
         //When Player clicks on button "Execute Program"
@@ -151,6 +162,5 @@ public class PlayerInteractionTest extends ApplicationTest {
         assertEquals(Heading.SOUTH, player.getHeading());
         assertFalse(board.isStepMode());
     }
-
 
 }

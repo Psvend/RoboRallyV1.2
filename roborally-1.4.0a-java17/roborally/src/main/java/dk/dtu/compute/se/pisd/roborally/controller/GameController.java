@@ -62,7 +62,6 @@ public class GameController {
     public boolean hasCube = true;
     public boolean stop = false;
     public boolean powerCard = false;
-    public ProgCards progCard;
     
 
     public GameController(Board board) {
@@ -70,7 +69,7 @@ public class GameController {
         this.energyBank = board.getEnergyBank();
         this.playerViews = new HashMap<>();
     }
-
+    
 
 
     public Player getVisiblePlayer() {
@@ -160,9 +159,11 @@ public class GameController {
             
             Space target = board.getNeighbour(space, heading);
 
-            if (target != null) {             
-                try {
-                    moveToSpace(player, target, heading);
+            if (target != null) {
+                    if(target.getPlayer() != null){
+                    pushPlayer(target, heading);
+                    }
+                    player.setSpace(target);
                     activatePitfall(player, player.getSpace());
                     if(isOutside(target, heading)) {
                         OutOfBoundsHandling(player);
@@ -170,8 +171,6 @@ public class GameController {
                     if(wasActivated == true) {
                     wasActivated = false;
                     }
-                } catch (ImpossibleMoveException e) {
-                }
             }
         }
     }
@@ -469,23 +468,6 @@ public class GameController {
         }
     }
 
-  /*  public List<ProgCards> sendProgramCards() {
-        this.progCard = new ProgCards(0, "", "", "");
-        Player player = getVisiblePlayer();
-        ProgCards progCardsInRegister = new ProgCards(0, "", "", "");
-        for(int i=0; i<player.NO_REGISTERS; i++) {
-            CommandCard card = player.getProgramField(i).getCard();
-            if (card != null) {
-                int j = 0;
-                while (!progCard.progCardsList().get(j).getCardType().equals(card.command.displayName)) {
-                    j++;
-                }
-                progCardsInRegister= (new ProgCards(j, "", "Not Executed", card.command.displayName));
-            }
-        }
-        return progCardsInRegister;
-    }*/
-
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -511,15 +493,6 @@ public class GameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-
-        Integer playerNo = board.getPlayersNumber();
-        EnergyBank energyBank = board.getEnergyBank();
-        for (int i = 0; i < playerNo; i++ )  {
-            Player player = board.getPlayer(i);
-            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
-            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
-        }
-        
     }
 
     private void executeNextStep() {
@@ -703,10 +676,6 @@ public class GameController {
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
-
-
-
-
 
     /**
      * A method called when no corresponding controller operation is implemented yet. This
@@ -1100,6 +1069,16 @@ public class GameController {
             }
         }
         player.setSpace(findRespawnPoint());
+    }
+
+    public void updateEnergy(){
+        Integer playerNo = board.getPlayersNumber();
+        EnergyBank energyBank = board.getEnergyBank();
+        for (int i = 0; i < playerNo; i++ )  {
+            Player player = board.getPlayer(i);
+            getPlayerView(player).updateEnergyReserveLabel(player.getEnergyReserve());
+            getPlayerView(player).updateBankLabel(energyBank.getBankStatus());
+        }
     }
 
     private List<Register> playerRegisters() {
