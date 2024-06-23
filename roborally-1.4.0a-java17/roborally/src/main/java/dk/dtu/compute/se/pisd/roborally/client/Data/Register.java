@@ -80,6 +80,4 @@ public class Register {
                 ", registerStatus=" + registerStatus +
                 '}';
     }
-
-
 }

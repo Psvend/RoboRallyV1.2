@@ -483,24 +483,23 @@ public class GameController {
     public void executePrograms() {
         HttpClientAsynchronousPost.countPlayersWithPhaseStatusOne(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
                 amount -> {
-                    if (HttpClientAsynchronousPost.phaseDone == player.getGameID().getPlayersAmount()) {
-                        HttpClientAsynchronousPost.getPlayersRegisters(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
-                                registers -> {
-                                    System.out.println("Registers received:" + registers);
-                                }
-                        );
-                        board.setStepMode(false);
-                        continuePrograms();
-                        HttpClientAsynchronousPost.changePlayerPhaseStatus(updatePlayer(0)).thenAccept(
-                                status -> {
-                                    System.out.println("Player phase status changed:" + status);
-                                }
-                        );
-                    } else {
-                        System.out.println("Not all players are done");
-                    }
+                    Platform.runLater(() -> {
+                        if (HttpClientAsynchronousPost.phaseDone == player.getGameID().getPlayersAmount()) {
+                            HttpClientAsynchronousPost.getPlayersRegisters(HttpClientAsynchronousPost.currentGame.getGameId()).thenAccept(
+                                    registers -> {
+                                        System.out.println("Registers received:" + registers);
+                                    }
+                            );
+                            board.setStepMode(false);
+                            continuePrograms();
+                        } else {
+                            System.out.println("Not all players are done");
+                            System.out.println("Amount of players done:" + HttpClientAsynchronousPost.phaseDone);
+                            System.out.println("Amount of players in game:" + player.getGameID().getPlayersAmount());
+                        }
+                    });
                 }
-       );
+        );
 
     }
 
