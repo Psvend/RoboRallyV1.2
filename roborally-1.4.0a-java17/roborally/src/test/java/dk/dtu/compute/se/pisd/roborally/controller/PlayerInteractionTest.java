@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import dk.dtu.compute.se.pisd.roborally.client.Data.Games;
+import dk.dtu.compute.se.pisd.roborally.client.HttpClientAsynchronousPost;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import dk.dtu.compute.se.pisd.roborally.view.PlayerView;
 import javafx.scene.control.Button;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class PlayerInteractionTest extends ApplicationTest {
     private final int TEST_WIDTH = 8;
@@ -132,6 +136,14 @@ public class PlayerInteractionTest extends ApplicationTest {
 
     @Test
     void Execute_Program(){
+        // Create a mock of the Game class
+        Games mockGame = mock(Games.class);
+
+        // Define its behavior
+        when(mockGame.getGameId()).thenReturn(123);
+        // Initialize HttpClientAsynchronousPost.currentGame
+        HttpClientAsynchronousPost.currentGame = mockGame;
+
         // Player has finished programming phase with
         // 3 command cards "Turn Left", "Move Forward", "Turn Right"
         //And Player is at position "2,3" facing South
@@ -161,6 +173,9 @@ public class PlayerInteractionTest extends ApplicationTest {
 
         assertEquals(Heading.SOUTH, player.getHeading());
         assertFalse(board.isStepMode());
-    }
+
+        // Now, whenever getGameId() is called on mockGame, "mockGameId" will be returned
+        assertEquals("mockGameId", mockGame.getGameId());
+        }
 
 }
